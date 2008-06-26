@@ -79,6 +79,17 @@ def makeMonthList(year,startMonth,endMonth):
          monthList.append(date)
      return monthList
 
+def getLogoImagesList():
+    logoImagesList = []
+    directory = os.path.dirname(__file__)
+    path = os.path.normpath(os.path.join(directory, 'images/logo/'))
+    files = os.listdir(path)
+    for file in files:
+        (shortname, extension) = os.path.splitext(file)
+        if extension.lower() == ".gif":
+            logoImagesList.append(file)
+    return logoImagesList
+
 
 
 
@@ -104,7 +115,7 @@ class BaseRequestHandler(webapp.RequestHandler):
     else:
       url = users.create_login_url(self.request.uri)
       url_linktext = 'Sign in'
-    logoImages = ("logo1.gif","logo2.gif")
+    logoImages = getLogoImagesList()
     values = {
       'request': self.request,
       'user': users.GetCurrentUser(),

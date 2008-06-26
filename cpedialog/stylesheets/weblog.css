@@ -1,4 +1,4 @@
-body {  color: #333333;  background: #739EC6;  margin: 0;  padding: 0;}
+body {  color: #333333;  margin: 0;  padding: 0;}
 table {  border: none;  margin: 0 0 15px 0;}
 tr {  margin: 0;  padding: 0;}
 td.header {  font: 12px verdana;  background: #aaaec7;  border: 1px #000000 solid;  margin: 0;  padding-top: 1px;  padding-right: 5px;  padding-bottom: 1px;  padding-left: 5px;}
@@ -20,12 +20,12 @@ a.white {  font: 11px verdana;  color: #efefef;  font-weight: 600;  text-decorat
 a:hover {  text-decoration: underline;}
 h1 {  background: #efefef;  border: 1px dashed #000000;  font: 11px verdana;  margin: 0;  padding: 0;}
 #menu_top {  font: 11px verdana;   background: #efefef;  border: 1px #000000 solid;  text-align: right;   height: 70px;  padding: 5px;}
-#menu_right {  background: #739EC6;  border: none; padding: 0;}
+#menu_right {    border: none; padding: 0;}
 #logo {  font: 11px verdana; background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
 #weblog_navigation {  font: 11px verdana;  color: #333333;  height: 15px;  text-align: center;  padding: 0;}
-#main {  background: #739EC6;   padding: 0;}
-#weblog { background: #739EC6;  padding: 0;}
-#weblog_album {   background: #739EC6;  padding: 0;}
+#main { padding: 0;}
+#weblog { padding: 0;}
+#weblog_album { padding: 0;}
 #banner {  font: 10px verdana;   background: #efefef;  border: 1px #000000 solid; height: 550px;  text-align: center;  padding: 2px;  visibility: hidden;}
 TABLE.calendar {	BORDER-RIGHT: 0; BORDER-TOP: 0; BORDER-LEFT: 0; BORDER-BOTTOM: 0;}
 TABLE.calendar TD {  TEXT-ALIGN: center;  font: 11px verdana;}
