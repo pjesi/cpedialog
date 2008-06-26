@@ -1,0 +1,98 @@
+<DIV id=menu_right>
+
+            {% block webloglist %}
+            {% endblock %}
+
+            {% block loginmenu %}
+
+            <table cellspacing=0 cellpadding=0 width=100%>
+                <tr>
+                    <td class='menu_right_header'>
+                        <b>Login</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='menu_right'>
+                        <a href='/viewBlog?blogId=709'>Anything is possible!</a><br><br>
+                        {% if user %}
+                        Welcome,<br>
+                        <b>{{ user.email }}</b> <br> <br>
+                        {% if administrator %}
+                        <a href='/addBlog'>Admin/Add blog</a><br>
+                        <a href='http://appengine.google.com/a/cpedia.com'>Admin/Manage site</a><br>
+                        <br>
+                        {% endif %}
+                        {% endif %}
+                        <a href="{{ url }}">{{ url_linktext }}</a>
+                        <br>
+                    </td>
+                </tr>
+            </table>
+            {% endblock %}
+
+
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                <TBODY>
+                    <TR>
+                        <TD class=menu_right_header style="PADDING-LEFT: 1px"
+                            width="100%"><B>Recent comments</B></TD>
+                    </TR>
+                    <TR>
+                        <TD class=menu_right>
+                            {% for reactioin in  recentReactions %}
+                            {{reactioin.date|date:"m/d/y"}} <A href="/viewBlog?blogId={{reactioin.weblog.key.id}}#reactions"> {{reactioin.weblog.title}}</A>
+                                 <br>
+                            {% endfor %}
+                        </TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                <TBODY>
+                    <TR>
+                        <TD class=menu_right_header style="PADDING-LEFT: 1px"
+                            width="100%"><B>Archives</B></TD>
+                    </TR>
+                    <TR>
+                        <TD class=menu_right>
+                          {% for month_ in  datetimeList reversed %}
+                            <a href='/{{month_|date:"Y"}}/{{month_|date:"m"}}'>{{month_|date:"F Y"}}</a><br>
+                          {% endfor %}
+                        </TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+
+
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                <TBODY>
+                    <TR>
+                        <TD class=menu_right_header style="PADDING-LEFT: 1px"><B>Links &amp;
+                            Info</B></TD>
+                    </TR>
+                    <TR>
+                        <TD class=menu_right><B>link</B><BR><BR><B>Support RSS:</B><A
+                                href="http://www.cpedia.com/blog/rss.php" target=_blank><IMG
+                                src="/images/xml.gif" border=0></A>
+                            <br><br>
+                            <A
+                                    href="http://my.cpedia.com/" target=_blank>CPEDIA's Zone</A><BR><A
+                                href="http://www.wormwang.net/" target=_blank>wormwang</A><BR><A
+                                href="http://www.loveunix.com/" target=_blank>LoveUNIX</A><BR><A
+                                href="http://hedong.3322.org/" target=_blank>hedong</A><BR><A
+                                href="http://keygen.ru/" target=_blank>keygen.ru</A><BR><A
+                                href="http://mtv.happy8.cn/" target=_blank>happy8 MTV</A><BR><A
+                                href="http://www.devscripts.com/category.php?stId=253"
+                                target=_blank>devscripts.com</A><BR><A href="http://www.stargeek.com/"
+                                                                       target=_blank>stargeek.com</A><BR><A
+                                href="http://lead2me.net/"
+                                target=_blank>Lead2me</A><BR><A href="http://hiwaw.com/"
+                                                                target=_blank>Hiwa</A><BR><A
+                                href="http://elsespace.com/"
+                                target=_blank>elsespace</A><BR><A
+                                href="http://cnbaby.info/"
+                                target=_blank>cnbaby</A><BR><BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            </DIV>

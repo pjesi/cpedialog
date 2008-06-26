@@ -1,0 +1,30 @@
+application: pchen
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /stylesheets
+  static_dir: stylesheets
+
+- url: /cert
+  static_dir: cert
+
+- url: /images
+  static_dir: images
+
+- url: /album
+  static_dir: album
+
+- url: /jscripts
+  static_dir: jscripts
+
+- url: /favicon.ico
+  static_files: images/favicon.ico
+  upload: /images/favicon.ico
+
+- url: /static
+  static_dir: static
+
+- url: /.*
+  script: main.py

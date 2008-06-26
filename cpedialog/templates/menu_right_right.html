@@ -1,0 +1,295 @@
+<DIV id=menu_right>
+
+            {% block webloglist %}
+            {% endblock %}
+
+            {% block loginmenu %}
+
+            <table cellspacing=0 cellpadding=0 width=100%>
+                <tr>
+                    <td class='menu_right_header'>
+                        <b>Login</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class='menu_right'>
+                        <a href='/viewBlog?blogId=709'>Anything is possible!</a><br><br>
+
+                        {% if user %}
+                        Welcome,<br>
+                        <b>{{ user.email }}</b> <br> <br>
+                        {% if administrator %}
+                        <a href='/addBlog'>Admin/Add blog</a><br>
+                        <a href='http://appengine.google.com/a/cpedia.com'>Admin/Manage site</a><br>
+
+                        <br>
+                        {% endif %}
+                        {% endif %}
+                        <a href="{{ url }}">{{ url_linktext }}</a>
+                        <br>
+                    </td>
+                </tr>
+            </table>
+            {% endblock %}
+
+
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+            <TBODY>
+            <TR>
+                <TD class=menu_right_header style="PADDING-LEFT: 1px"
+                    width="100%"><B>Favourite Sites</B></TD>
+            </TR>
+            <TR>
+                <TD class=menu_right>
+                    <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                        <TBODY>
+                            <TR>
+                                <TD class=favourite_link colSpan=2>Open Source:</TD>
+                            </TR>
+                            <TR>
+                                <TD width="3%">&nbsp;</TD>
+                                <TD width="97%"><A href="http://www.java-source.net/"
+                                                   target=_blank>Java-source.net</A></TD>
+                            </TR>
+                            <TR>
+                                <TD height=14>&nbsp;</TD>
+                                <TD><A href="http://www.sourceforge.net/"
+                                       target=_blank>Souceforge.net</A></TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD><A href="http://www.huihoo.com/"
+                                       target=_blank>Huihoo.com</A></TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD><A href="http://www.jdocs.com/" target=_blank>Open Docs
+                                </A></TD>
+                            </TR>
+                            <TR>
+                                <TD class=favourite_link colSpan=2>Intellij IDEA</TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD><A href="http://www.jetbrains.com/"
+                                       target=_blank>JetBrains.com</A></TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD><A href="http://www.jetmaven.net/"
+                                       target=_blank>JetMaven.net</A></TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD><A href="http://www.intellij.net/forums/index.jsp?cat=8"
+                                       target=_blank>Intellij.net</A></TD>
+                            </TR>
+                            <TR>
+                                <TD class=favourite_link colSpan=2>J2EE</TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD><A href="http://www.theserverside.com/"
+                                       target=_blank>TheServerSide</A></TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD><A href="http://www.onjava.com/"
+                                       target=_blank>ONJava.com</A></TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD><A href="http://www.javarss.com/"
+                                       target=_blank>JavaRss</A></TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD><A href="http://www.javaeye.com/"
+                                       target=_blank>JavaEye</A></TD>
+                            </TR>
+                            <TR>
+                                <TD class=favourite_link colSpan=2>App FrameWork</TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD><A href="https://appfuse.dev.java.net/"
+                                       target=_blank>Appfuse</A> <A
+                                        href="https://equinox.dev.java.net/">[equinox]</A></TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD><A href="http://www.springframework.org/"
+                                       target=_blank>SpringFramework</A> <A
+                                        href="http://spring.jactiongroup.net/">JActionGroup</A></TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD><A href="http://www.hibernate.org/" target=_blank>Hibernate</A>
+                                    <A href="http://forum.javaeye.com/">JavaEye</A></TD>
+                            </TR>
+                            <TR>
+                                <TD class=favourite_link colSpan=2>Blog &amp; Wiki</TD>
+                            </TR>
+                            <TR>
+                                <TD>&nbsp;</TD>
+                                <TD>&nbsp;</TD>
+                            </TR>
+                        </TBODY>
+                    </TABLE>
+                </TD>
+            </TR>
+            </TBODY>
+            </TABLE>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+            <TBODY>
+            <TR>
+                <TD class=menu_right_header style="PADDING-LEFT: 1px"
+                    width="100%"><B>Favourite e-Books</B></TD>
+            </TR>
+            <TR>
+            <TD class=menu_right>
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+            <TBODY>
+            <TR>
+                <TD class=favourite_link colSpan=2>Agile &amp; Open Source:</TD>
+            </TR>
+            <TR>
+                <TD width="3%">&nbsp;</TD>
+                <TD class=favourite_book width="97%">JUnit In Action<A
+                        href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/Essential%20Skills%20for%20Agile%20Development.pdf"
+                        target="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/JUnit In Action.pdf"><IMG
+                        height=16 src="/images/pdf.gif" width=16
+                        border=0></A></TD>
+            </TR>
+            <TR>
+                <TD>&nbsp;</TD>
+                <TD class=favourite_book>XDoclet In Action<A
+                        href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/XDoclet%20In%20Action.pdf"><IMG
+                        height=16 src="/images/pdf.gif" width=16
+                        border=0></A></TD>
+            </TR>
+            <TR>
+                <TD>&nbsp;</TD>
+                <TD class=favourite_book>Spring In Action <A
+                        href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/Spring%20In%20Action.pdf"><IMG
+                        height=16 src="/images/pdf.gif" width=16
+                        border=0></A></TD>
+            </TR>
+            <TR>
+                <TD>&nbsp;</TD>
+                <TD class=favourite_book>Hibernate In Action<A
+                        href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/Hibernate%20In%20Action.pdf"><IMG
+                        height=16 src="/images/pdf.gif" width=16
+                        border=0></A></TD>
+            </TR>
+            <TR>
+                <TD>&nbsp;</TD>
+                <TD class=favourite_book>Struts In Action<A
+                        href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/Struts%20In%20Action.pdf"><IMG
+                        height=16 src="/images/pdf.gif" width=16
+                        border=0></A></TD>
+            </TR>
+            <TR>
+                <TD>&nbsp;</TD>
+                <TD class=favourite_book>Java Development With ANT<A
+                        href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/Java%20Development%20With%20ANT.pdf"><IMG
+                        height=16 src="/images/pdf.gif" width=16
+                        border=0></A></TD>
+            </TR>
+            <TR>
+                <TD>&nbsp;</TD>
+                <TD class=favourite_book>Essential Skills for Agile Dev<A
+                        href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/Essential%20Skills%20for%20Agile%20Development.pdf"><IMG
+                        height=16 src="/images/pdf.gif" width=16
+                        border=0></A></TD>
+            </TR>
+            <TR>
+                <TD class=favourite_link colSpan=2><BR>Java &amp; J2EE</TD>
+            </TR>
+            <TR>
+                <TD>&nbsp;</TD>
+                <TD class=favourite_book>Java 2 Complete Reference (5th Ed)<A
+                        href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/McGraw-HIll%20-%20Java%202%20Complete%20Reference%20(5th%20Ed).pdf"><IMG
+                        height=16 src="/images/pdf.gif" width=16
+                        border=0></A></TD>
+            </TR>
+            <TR>
+                <TD>&nbsp;</TD>
+                <TD class=favourite_book>J2EE Developer's Handbook<A
+                        href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/j2ee.pdf"><IMG
+                        height=16 src="/images/pdf.gif" width=16
+                        border=0></A></TD>
+            </TR>
+            <TR>
+                <TD class=favourite_link colSpan=2><BR>My Article</TD>
+            </TR>
+            <TR>
+                <TD>&nbsp;</TD>
+                <TD class=favourite_book>JUnit Practice <A
+                        href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/Junit???????.pdf"><IMG
+                        height=16 src="/images/doc.gif" width=16 border=0></A>
+                    <A
+                            href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/JUnit?????????.ppt"><IMG
+                            height=16 src="/images/ppt.gif" width=16
+                            border=0></A></TD>
+            </TR>
+            <TR>
+                <TD>&nbsp;</TD>
+                <TD class=favourite_book>Oscache Guide<A
+                        href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/???OSCache???Survey??????.doc"><IMG
+                        height=16 src="/images/doc.gif" width=16 border=0></A>
+                    <A
+                            href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/survey????????????.doc"><IMG
+                            height=16 src="/images/doc.gif" width=16
+                            border=0></A></TD>
+            </TR>
+            <TR>
+                <TD>&nbsp;</TD>
+                <TD class=favourite_book>Rule Engine<A
+                        href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/????????.doc"><IMG
+                        height=16 src="/images/doc.gif" width=16 border=0></A>
+                    <A
+                            href="ftp://chenping:123abc@219.239.245.202/tarenauser/chenping/public_html/ebooks/???????????.ppt"><IMG
+                            height=16 src="/images/ppt.gif" width=16
+                            border=0></A></TD>
+            </TR>
+            </TBODY>
+            </TABLE>
+            </TD>
+            </TR>
+            </TBODY>
+            </TABLE>
+
+
+            <TABLE cellSpacing=0 cellPadding=0 width="100%">
+                <TBODY>
+                    <TR>
+                        <TD class=menu_right_header style="PADDING-LEFT: 1px"><B>Links &amp;
+                            Info</B></TD>
+                    </TR>
+                    <TR>
+                        <TD class=menu_right><B>link</B><BR><BR><B>Support RSS:</B><A
+                                href="http://www.cpedia.com/blog/rss.php" target=_blank><IMG
+                                src="/images/xml.gif" border=0></A>
+                            <br><br>
+                            <A
+                                    href="http://my.cpedia.com/" target=_blank>CPEDIA's Zone</A><BR><A
+                                href="http://www.wormwang.net/" target=_blank>wormwang</A><BR><A
+                                href="http://www.loveunix.com/" target=_blank>LoveUNIX</A><BR><A
+                                href="http://hedong.3322.org/" target=_blank>hedong</A><BR><A
+                                href="http://keygen.ru/" target=_blank>keygen.ru</A><BR><A
+                                href="http://mtv.happy8.cn/" target=_blank>happy8 MTV</A><BR><A
+                                href="http://www.devscripts.com/category.php?stId=253"
+                                target=_blank>devscripts.com</A><BR><A href="http://www.stargeek.com/"
+                                                                       target=_blank>stargeek.com</A><BR><A
+                                href="http://lead2me.net/"
+                                target=_blank>Lead2me</A><BR><A href="http://hiwaw.com/"
+                                                                target=_blank>Hiwa</A><BR><A
+                                href="http://elsespace.com/"
+                                target=_blank>elsespace</A><BR><A
+                                href="http://cnbaby.info/"
+                                target=_blank>cnbaby</A><BR><BR></TD>
+                    </TR>
+                </TBODY>
+            </TABLE>
+            </DIV>

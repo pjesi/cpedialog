@@ -1,0 +1,100 @@
+{% extends "main.html" %}
+
+{% block title %}CPEDIA's Blog - {{blog.title}}{% endblock %}
+
+{% block blogcontainer %}
+
+    <div class="yui-g">
+
+    <table cellspacing=0 cellpadding=0 width=100%>
+        <tr>
+            <td class='header'>
+                <b>{{blog.title}}</b>
+            </td>
+        </tr>
+        <tr>
+            <td class='weblog'>
+                <b>{{ blog.date|date:"Y-m-d H:i" }}</b> posted by <a href='index.php?user=pm&action=send&to=1'>{{blog.author}}</a>
+                <hr>
+
+                <font color="red">Blog permalink genareted sucessfully! The link is <a href="/{{permalink}}">permalink</a> </font><br>  <br>
+               
+
+                {{blog.content}}
+
+                {% ifequal administrator 1 %}
+                <p style='text-align: right;'>:<a href='/editBlog?blogId={{blog.key.id}}'>edit</a>: :
+                    <a href='/deleteBlog?blogId={{blog.key.id}}'>delete</a>:</p>
+                {% endifequal %}
+
+                {% ifnotequal reaction.lastModifiedDate  Null %}
+                Edited at {{blog.lastModifiedDate}} by {{blog.lastModifiedBy}}.
+                {% endifnotequal %}
+            </td>
+        </tr>
+    </table>
+  {% ifnotequal reactions.count 0 %}
+    <table cellspacing=0 cellpadding=0 width=100%>
+        <tr>
+            <td class='header'>
+                <a name='#reactions'></a><b>Reactions</b>
+            </td>
+        </tr>
+        <tr>
+            <td class='weblog'>
+                {% for reaction in reactions %}
+
+                <a name=260><h1><b>{{reaction.user}}</b> {{reaction.date|date:"Y-m-d H:i"}}
+                    &nbsp;&nbsp;
+                    {% ifnotequal reaction.userIp  Null %}
+                    <i><b>IP Address</b>:{{reaction.userIp}}</i>
+                    {% endifnotequal %}
+                </h1></a>
+
+                {{reaction.content}}
+
+                {% ifequal administrator 1 %}
+                <p style='text-align: right;'>:<a href='/editBlogReaction?reactionId={{reaction.key.id}}'>edit</a>: :
+                    <a href='/deleteBlogReaction?reactionId={{reaction.key.id}}'>delete</a>:</p>
+                {% endifequal %}
+
+                {% ifnotequal reaction.lastModifiedDate  Null %}
+                Edited at {{reaction.lastModifiedDate}} by {{reaction.lastModifiedBy}}.
+                {% endifnotequal %}
+                <br>
+                {% endfor %}
+            </td>
+        </tr>
+    </table>
+    {% endifnotequal %}
+
+    <table cellspacing=0 cellpadding=0 width=100%>
+        <tr>
+            <td class='header'>
+                <a name='#addreaction'></a><b>Add a reaction</b>
+            </td>
+        </tr>
+        <tr>
+            <td class='weblog'>
+                <form method=post action='/addBlogReaction?blogId={{blog.key.id}}'>
+                    <table>
+                        <tr>
+                            <td class='form'>name:</td>
+                            <td class='form'><input name='name_input' value=''  size=80  maxlength=25></td>
+                        </tr>
+                        <tr>
+                            <td class='form'>&nbsp; </td>
+                            <td class='form'> </td>
+                        </tr>
+                        <tr>
+                            <td class='form'>text:</td>
+                            <td class='form'><textarea name='text_input' style="height:250px; width:550px"></textarea></td>
+                        </tr>
+                    </table>
+                    <input name=submit_addreply type=submit value=submit>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

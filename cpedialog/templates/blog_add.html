@@ -1,0 +1,120 @@
+{% extends "main.html" %}
+
+{% block title %}CPEDIA's Blog -  {% ifequal action "addBlog" %}
+Add item
+{% endifequal %}
+{% ifequal action "editBlog" %}
+Edit item
+{% endifequal %}
+{% ifequal action "editBlogReaction" %}
+Edit reaction
+{% endifequal %}
+{% endblock %}
+
+{% block blog %}
+    <script type="text/javascript">
+        function parseBlogContent(){
+            var content = window.frames[0].document.getElementById('tinymce').innerHTML;
+            document.getElementById("text_input").value = content;
+            return true;
+        }
+    </script>
+    <form method=post action='/{{action}}?preview=1' onsubmit="return parseBlogContent()">
+        <table cellspacing=0 cellpadding=0 width=100%>
+            <tr>
+                <td class='header'>
+                    <b>
+                        {% ifequal action "addBlog" %}
+                        Add item
+                        {% endifequal %}
+                        {% ifequal action "editBlog" %}
+                        Edit item
+                        {% endifequal %}
+                        {% ifequal action "editBlogReaction" %}
+                        Edit reaction
+                        {% endifequal %}
+                    </b>
+                </td>
+            </tr>
+            <tr>
+                <td class='weblog'>
+                    <table>
+                        {% ifnotequal action "editBlogReaction" %}
+                        <tr>
+                            <td class='form'>
+                                Title:
+                            </td>
+                            <td class='form'>
+                                <input name=title_input type=text value='{% if blog %}{{blog.title}}{% endif %}{% if title_review %}{{title_review}}{% endif %}'
+                                       size=60  maxlength=25>
+                            </td>
+                        </tr>
+                        {% endifnotequal %}
+                        <tr>
+                            <td class='form'>
+                                Blog:
+                            </td>
+                            <td class='form'>
+                                <textarea id="WYSIWYG"  style="height:200px; width:450px">{% if blog %}{{blog.content}}{% endif %}{% if
+                                    blogReaction %}{{blogReaction.content}}{% endif %}{% if content_review %}{{content_review}}{% endif %}</textarea>
+                            </td>
+                        </tr>
+                    </table>
+                    {% if blog %} <input name="blogId" type="hidden" value="{{blog.key.id}}">{% endif %}
+
+                    {% if blogReaction %}
+                    <input name="blogReactionId" type="hidden" value="{{blogReaction.key.id}}">
+                    {% endif %}
+
+                    {% ifequal action "addBlog" %}
+                    <input name=submit_preview type=submit value=preview>
+                    {% endifequal %}
+
+                    {% ifequal action "editBlog" %}
+                    <input name=submit_edit type=submit value=submit>
+                    {% endifequal %}
+
+                    {% ifequal action "editBlogReaction" %}
+                    <input name=submit_edit type=submit value=submit>
+                    {% endifequal %}
+
+                    <input name=text_input type="hidden"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    {% ifequal preview '1' %}
+    {% ifnotequal submitted '1' %}
+    <script type="text/javascript">
+        function parseConfirmContent(){
+            var content = document.getElementById('blogcontent').innerHTML;
+            document.forms["submitForm"]["text_input"].value = content;
+            document.getElementById("submitted").value = "1";
+            return true;
+        }
+    </script>
+    <form method=post action='/addBlog' onsubmit="return parseConfirmContent()" id="submitForm">
+        <table cellspacing=0 cellpadding=0 width=100%>
+            <tr>
+                <td class='header'>
+                    <b>{{title_review}}</b>
+                </td>
+            </tr>
+            <tr>
+                <td class='weblog'>
+                    <b>{% now "Y-m-d H:i" %}</b> posted by <b>{{user}}</b>
+                    <hr>
+                    <div id="blogcontent">
+                    {{content_review}}</div>
+                    <br><br>
+                    <input name=title_input type=hidden value="{{title_review}}">
+                    <input name=text_input type="hidden"/>
+                    <input name=submitted type=hidden value='0'>
+                    <input name=submit_add type=submit value=submit>
+                </td>
+            </tr>
+        </table>
+    </form>
+    {% endifnotequal%}
+    {% endifequal%}
+{% endblock %}

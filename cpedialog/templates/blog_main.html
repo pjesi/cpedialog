@@ -1,0 +1,45 @@
+{% extends "main.html" %}
+
+{% block title %}CPEDIA's Blog{% endblock %}
+
+
+{% block blog %}
+    {% if page %}
+      {% for entry in page.object_list %}
+    <TABLE cellSpacing=0 cellPadding=0 width="100%">
+        <TBODY>
+            <TR>
+                <TD class=header><B>
+                    <A
+                            href="/viewBlog?blogId={{ entry.key.id }}">{{entry.title}}</A></B></TD>
+            </TR>
+            <TR>
+                <TD class=weblog><B>{{entry.date|date:"Y-m-d H:i"}}</B> posted by
+                    <A href="#">{{entry.author}}</A>
+
+                    <HR>
+                    <!--<div class='weblog_summary'>-->
+                    {{entry.content}}
+                    <!--</div>-->
+                    <!--...-->
+                    <br>
+                    
+                    <H1>:<A href="/viewBlog?blogId={{entry.key.id}}">open</A>: -
+                        :{% if entry.weblogreactions_set.count %}<b><A
+                            href="/viewBlog?blogId={{entry.key.id}}#reactions">{{entry.weblogreactions_set.count}}
+                        reactions</A></b>
+                        {% else %}no reactions{% endif %}: - :<A
+                            href="/viewBlog?blogId={{entry.key.id}}#addreaction">add
+                        reaction</A>:</H1>
+                </TD>
+            </TR>
+        </TBODY>
+    </TABLE>
+        {% endfor %}
+     {% endif %}
+
+    {% include "paginator.html" %}
+
+        
+{% endblock %}
+

@@ -1,0 +1,53 @@
+<html>
+<head>
+
+</head>
+<body>
+<pre name="code" class="c-sharp">
+using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+
+public partial class SubMain : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        Control hdrCtl = null;
+        try
+        {
+            // Load the specified page.
+            hdrCtl = LoadControl("~/controls/" + Request.QueryString["section"] + "/" + Request.QueryString["page"] + ".ascx");
+            // Add the Control to the page.
+            PlaceHolder1.Controls.Add(hdrCtl);
+            // Set the page title based on the selected page [Control]
+            this.Title = Resources.Resource.ResourceManager.GetString(Request.QueryString["page"]);
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteException(ex);
+            // In case the link is broken then forword to the Defualt page.
+            // this also will avoid the exception of dynamically loading controls
+            // from different trees.
+            Response.Redirect("~/Default.mitc");
+        }
+
+    }
+}
+</pre>
+<link type="text/css" rel="stylesheet" href="Styles/SyntaxHighlighter.css"></link>
+<script language="javascript" src="Scripts/shCore.js"></script>
+<script language="javascript" src="Scripts/shBrushCSharp.js"></script>
+<script language="javascript" src="Scripts/shBrushXml.js"></script>
+<script language="javascript">
+dp.SyntaxHighlighter.ClipboardSwf = '/flash/clipboard.swf';
+dp.SyntaxHighlighter.HighlightAll('code');
+</script>
+</body>
+</html>

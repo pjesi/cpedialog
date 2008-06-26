@@ -1,0 +1,45 @@
+body {color: #333; background: #FFF;}
+
+
+.menuhd {
+    BACKGROUND-IMAGE: url( http://l.yimg.com/a/i/ww/thm/1/grd-1px_1.4.gif ); BACKGROUND-REPEAT: repeat-x
+}
+
+.menuhd {
+    BORDER-RIGHT: #b0bec7 1px solid; BACKGROUND-POSITION: 0px -916px; BORDER-TOP: #b0bec7 1px solid; BORDER-LEFT: #b0bec7 1px solid; COLOR: #18397c; BORDER-BOTTOM: #93a6b4 1px solid; BACKGROUND-COLOR: #fff; MARGIN: -1px -1px 0px; POSITION: relative
+}
+
+.menuhd H2 {PADDING-RIGHT: 11px; PADDING-LEFT: 11px; PADDING-BOTTOM: 1px; FONT: bold 100% arial; PADDING-TOP: 1px; BORDER-BOTTOM: #fff 1px solid; POSITION: relative}
+
+.menu {
+    BORDER-RIGHT: #b0bec7 1px solid; BORDER-TOP: #b0bec7 1px solid;  BORDER-LEFT: #b0bec7 1px solid;  BORDER-BOTTOM: #b0bec7 1px solid
+}
+
+H2 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+
+.menubd {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 8px; PADDING-TOP: 8px
+}
+
+
+
+#weblog .title {font: 1.8em Georgia, Times, serif; margin-bottom: 0.5em;}
+.title {text-transform: none; letter-spacing: 1px;}
+.title a:link, .title a:visited {color: #333;}
+.title a:hover {color: #000;}
+.byline {font: italic 1.1em Times, serif; letter-spacing: 1px; margin: 0 0 1.5em;}
+.byline a:link, .byline a:visited {font: bold 0.85em Verdana, sans-serif;
+  text-transform: uppercase; letter-spacing: 2px;
+  margin-left: 0.25em;}
+
+#weblog h1 {margin-bottom: 0;}
+#weblog h2 {margin-top: 1.5em; margin-bottom: 0; font: 1em Verdana, sans-serif; letter-spacing: 2px;}
+#weblog h2 a {font-weight: bold; text-transform: uppercase;}
+#weblog .item {border-bottom: 1px dashed #B2B2B2;}
+#paginator .item {border-bottom: 1px dashed #B2B2B2;}
+#weblog h3.title {margin: 1em 0 0;}
+#weblog h4.byline {margin: 0.25em 0 0.5em;}
+
+#weblog em {font-weight: normal; text-transform: lowercase; font-style: italic; letter-spacing: 0;}
