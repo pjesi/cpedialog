@@ -28,7 +28,7 @@ import config
 
 # Functions to generate permalinks
 def get_permalink(date,title):
-     return str(date.year) + "/" + str(date.month) + "/" + get_friendly_url(title)
+    return str(date.year) + "/" + str(datetime.datetime.strftime(date,'%m')) + "/" + get_friendly_url(title)
 
 # Module methods to handle incoming data
 def get_datetime(time_string):
