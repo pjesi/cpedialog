@@ -1,5 +1,5 @@
 body {  color: #333333;  margin: 0;  padding: 0;}
-table {  border: none;  margin: 0 0 15px 0;}
+table { border: none;  margin: 0 0 15px 0;}
 tr {  margin: 0;  padding: 0;}
 td.header {  font: 12px verdana;  background: #aaaec7;  border: 1px #000000 solid;  margin: 0;  padding-top: 1px;  padding-right: 5px;  padding-bottom: 1px;  padding-left: 5px;}
 td.weblog {  font: 11px verdana;  background: #e4e7ef;  border-right: 1px #000000 solid;  border-bottom: 1px #000000 solid;  border-left: 1px #000000 solid;  margin: 0;  padding-top: 5px;  padding-right: 5px;  padding-bottom: 2px;  padding-left: 5px;}
@@ -20,33 +20,33 @@ a.white {  font: 11px verdana;  color: #efefef;  font-weight: 600;  text-decorat
 a:hover {  text-decoration: underline;}
 h1 {  background: #efefef;  border: 1px dashed #000000;  font: 11px verdana;  margin: 0;  padding: 0;}
 #menu_top {  font: 11px verdana;   background: #efefef;  border: 1px #000000 solid;  text-align: right;   height: 70px;  padding: 5px;}
-#menu_right {    border: none; padding: 0;}
+#menu_right {  border: none; padding: 0;}
 #logo {  font: 11px verdana; background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
 #weblog_navigation {  font: 11px verdana;  color: #333333;  height: 15px;  text-align: center;  padding: 0;}
 #main { padding: 0;}
 #weblog { padding: 0;}
 #weblog_album { padding: 0;}
 #banner {  font: 10px verdana;   background: #efefef;  border: 1px #000000 solid; height: 550px;  text-align: center;  padding: 2px;  visibility: hidden;}
-TABLE.calendar {	BORDER-RIGHT: 0; BORDER-TOP: 0; BORDER-LEFT: 0; BORDER-BOTTOM: 0;}
-TABLE.calendar TD {  TEXT-ALIGN: center;  font: 11px verdana;}
-TH {	BORDER-RIGHT: 0; BORDER-TOP: 0; BORDER-LEFT: 0; BORDER-BOTTOM: 0; TEXT-ALIGN: center;}
-TABLE.calendar TH {	 HEIGHT: 10px;}
-TABLE.calendar TD {	 WIDTH: 19px; HEIGHT: 10px;}
-TABLE.calendar .month {  TEXT-ALIGN: center;    font: 12px verdana;}
-TABLE.calendar .month A {	TEXT-DECORATION: none;}
-TABLE.calendar TH.dayofweek {	COLOR: green; TEXT-ALIGN: center;  font: 11px verdana;}
-TABLE.calendar TD.linked-day {	FONT-SIZE: 11pt;}
-td#headmenu a{	background-color: #e4e7ef;	color: #000000;	font-size: 10px;	display: block;	padding: 8px;}
-td#headmenu a:hover{	background-color: #aaaec7;	color: #000000;}
-td#headmenu a.menuHead{	font-size: 10px;}
-#submenu A:link {	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; MARGIN: 0; COLOR: #5176b5; PADDING-TOP: 5px; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none}
-#submenu A:visited {	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; MARGIN: 0; COLOR: #5176b5; PADDING-TOP: 5px; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none}
-#submenu A:active {	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; MARGIN: 0; COLOR: #5176b5; PADDING-TOP: 5px; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none}
-#submenu A:hover {	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; MARGIN: 0; COLOR: #222; PADDING-TOP: 5px; BACKGROUND-COLOR: #dfe6ef; TEXT-DECORATION: none}
+TABLE.calendar {BORDER-RIGHT: 0; BORDER-TOP: 0; BORDER-LEFT: 0; BORDER-BOTTOM: 0;}
+TABLE.calendar TD {TEXT-ALIGN: center;  font: 11px verdana;}
+TH {BORDER-RIGHT: 0; BORDER-TOP: 0; BORDER-LEFT: 0; BORDER-BOTTOM: 0; TEXT-ALIGN: center;}
+TABLE.calendar TH {HEIGHT: 10px;}
+TABLE.calendar TD {WIDTH: 19px; HEIGHT: 10px;}
+TABLE.calendar .month {TEXT-ALIGN: center;    font: 12px verdana;}
+TABLE.calendar .month A {TEXT-DECORATION: none;}
+TABLE.calendar TH.dayofweek {COLOR: green; TEXT-ALIGN: center;  font: 11px verdana;}
+TABLE.calendar TD.linked-day {FONT-SIZE: 11pt;}
+td#headmenu a{background-color: #e4e7ef;	color: #000000;	font-size: 10px;	display: block;	padding: 8px;}
+td#headmenu a:hover{background-color: #aaaec7;	color: #000000;}
+td#headmenu a.menuHead{font-size: 10px;}
+#submenu A:link {PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; MARGIN: 0; COLOR: #5176b5; PADDING-TOP: 5px; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none}
+#submenu A:visited {PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; MARGIN: 0; COLOR: #5176b5; PADDING-TOP: 5px; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none}
+#submenu A:active {PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; MARGIN: 0; COLOR: #5176b5; PADDING-TOP: 5px; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none}
+#submenu A:hover {PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; MARGIN: 0; COLOR: #222; PADDING-TOP: 5px; BACKGROUND-COLOR: #dfe6ef; TEXT-DECORATION: none}
 #submenu {margin: 0 10px 0 0;	BORDER-RIGHT: #072a66 1px solid; PADDING-RIGHT: 0; BORDER-TOP: #072a66 1px solid; PADDING-LEFT: 0; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 0;  BORDER-LEFT: #072a66 1px solid; COLOR: #5176b5; PADDING-TOP: 0; BORDER-BOTTOM: #072a66 1px solid; BACKGROUND-COLOR: #f9f9f9}
 #submenu_right {margin: 0 0 0 -10px;	BORDER-RIGHT: #072a66 1px solid; PADDING-RIGHT: 0; BORDER-TOP: #072a66 1px solid; PADDING-LEFT: 0; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 0;  BORDER-LEFT: #072a66 1px solid; COLOR: #5176b5; PADDING-TOP: 0; BORDER-BOTTOM: #072a66 1px solid; BACKGROUND-COLOR: #f9f9f9}
-td.favourite_link {	font-size: 13px;	font-style: italic;	font-weight: normal;}
-td.favourite_book {	font-size: 10px;}
+td.favourite_link {font-size: 13px;	font-style: italic;	font-weight: normal;}
+td.favourite_book {font-size: 10px;}
 .p_bar {
 	clear: both;
 	margin: 1px 0;
@@ -117,15 +117,8 @@ a.p_curpage {
 	color: #000;
 }
 
-#bgImages0 {
-       background-image: url(/images/logo4.gif);
-} 
-
-#bgImages1 {
-       background-image: url(/images/tile_back.gif);
-} 
-#bgImages2 {
-       background-image: url(/images/logobg.gif);
-}
+#bgImages0 { background-image: url(/images/logo4.gif); }
+#bgImages1 { background-image: url(/images/tile_back.gif); }
+#bgImages2 { background-image: url(/images/logobg.gif); }
 
 .weblog_summary{  border: 0;  overflow: hidden;  height: 240px;  text-ovrflow: ellipsis;}
