@@ -10,9 +10,13 @@
     
     <link type="text/css" rel="stylesheet" href="/stylesheets/weblog.css"/>
 
+<!--
+    <link rel="stylesheet" type="text/css" href="/stylesheets/print.css" media="print" />
+    <link rel="stylesheet" href="/stylesheets/home.css" type="text/css" media="all" />
+-->
+
     <!-- yui -->
-    <link rel="stylesheet" type="text/css"
-          href="http://yui.yahooapis.com/2.5.2/build/reset-fonts-grids/reset-fonts-grids.css">
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/grids/grids-min.css">
     <!--<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/base/base-min.css">-->
 
 
@@ -74,7 +78,7 @@
             <div class="yui-u first">
                 {% block blog %}
                 {% endblock %}
-            </div>
+             </div>
 
             <div class="yui-u">
               {% include "menu_right.html" %}            

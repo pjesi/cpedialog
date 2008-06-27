@@ -1,41 +1,358 @@
-body {  color: #333333;  margin: 0;  padding: 0;}
+body {
+    background: #ffffff;
+    margin: 0;
+    color: #333333;
+    font: x-small Georgia Serif;
+    font-size /* */: /**/ small;
+    font-size: /**/ small;
+    text-align: center;
+}
+
+a:link {
+    color: #5588aa;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #999999;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #cc6600;
+    text-decoration: underline;
+}
+
+a img {
+    border-width: 0;
+}
+
+/* Header
+-----------------------------------------------
+*/
+#header-wrapper {
+    width: 660px;
+    margin: 0 auto 10px;
+    border: 1px solid #cccccc;
+}
+
+#header-inner {
+    background-position: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#header {
+    margin: 5px;
+    border: 1px solid #cccccc;
+    text-align: center;
+    color: #666666;
+}
+
+#header h1 {
+    margin: 5px 5px 0;
+    padding: 15px 20px .25em;
+    line-height: 1.2em;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    font: normal normal 200% Georgia, Serif;
+}
+
+#header a {
+    color: #666666;
+    text-decoration: none;
+}
+
+#header a:hover {
+    color: #666666;
+}
+
+#header .description {
+    margin: 0 5px 5px;
+    padding: 0 20px 15px;
+    max-width: 700px;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    line-height: 1.4em;
+    font: normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif;
+    color: #999999;
+}
+
+#header img {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Outer-Wrapper
+----------------------------------------------- */
+#outer-wrapper {
+    width: 660px;
+    margin: 0 auto;
+    padding: 10px;
+    text-align: left;
+    font: normal normal 100% Georgia, Serif;
+}
+
+#main-wrapper {
+    width: 410px;
+    float: left;
+    word-wrap: break-word; /* fix for long text breaking sidebar float in IE */
+    overflow: hidden; /* fix for long non-text content breaking IE sidebar float */
+}
+
+#sidebar-wrapper {
+    width: 220px;
+    float: right;
+    word-wrap: break-word; /* fix for long text breaking sidebar float in IE */
+    overflow: hidden; /* fix for long non-text content breaking IE sidebar float */
+}
+
+/* Headings
+----------------------------------------------- */
+h2 {
+    margin: 1.5em 0 .75em;
+    font: normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif;
+    line-height: 1.4em;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    color: #999999;
+}
+
+/* Posts
+-----------------------------------------------
+*/
+h2.date-header {
+    margin: 1.5em 0 .5em;
+}
+
+.post {
+    margin: .5em 0 1.5em;
+    border-bottom: 1px dotted #cccccc;
+    padding-bottom: 1.5em;
+}
+
+.post h3 {
+    margin: .25em 0 0;
+    padding: 0 0 4px;
+    font-size: 140%;
+    font-weight: normal;
+    line-height: 1.4em;
+    color: #cc6600;
+}
+
+.post h3 a, .post h3 a:visited, .post h3 strong {
+    display: block;
+    text-decoration: none;
+    color: #cc6600;
+    font-weight: normal;
+}
+
+.post h3 strong, .post h3 a:hover {
+    color: #333333;
+}
+
+.post-body {
+    margin: 0 0 .75em;
+    line-height: 1.6em;
+}
+
+.post-body blockquote {
+    line-height: 1.3em;
+}
+
+.post-footer {
+    margin: .75em 0;
+    color: #999999;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font: normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif;
+    line-height: 1.4em;
+}
+
+.comment-link {
+    margin-left: .6em;
+}
+
+.post img {
+    padding: 4px;
+    border: 1px solid #cccccc;
+}
+
+.post blockquote {
+    margin: 1em 20px;
+}
+
+.post blockquote p {
+    margin: .75em 0;
+}
+
+/* Comments
+----------------------------------------------- */
+#comments h4 {
+    margin: 1em 0;
+    font-weight: bold;
+    line-height: 1.4em;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    color: #999999;
+}
+
+#comments-block {
+    margin: 1em 0 1.5em;
+    line-height: 1.6em;
+}
+
+#comments-block .comment-author {
+    margin: .5em 0;
+}
+
+#comments-block .comment-body {
+    margin: .25em 0 0;
+}
+
+#comments-block .comment-footer {
+    margin: -.25em 0 2em;
+    line-height: 1.4em;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+}
+
+#comments-block .comment-body p {
+    margin: 0 0 .75em;
+}
+
+.deleted-comment {
+    font-style: italic;
+    color: gray;
+}
+
+#blog-pager-newer-link {
+    float: left;
+}
+
+#blog-pager-older-link {
+    float: right;
+}
+
+#blog-pager {
+    text-align: center;
+}
+
+.feed-links {
+    clear: both;
+    line-height: 2.5em;
+}
+
+/* Sidebar Content
+----------------------------------------------- */
+.sidebar {
+    color: #666666;
+    line-height: 1.5em;
+}
+
+.sidebar ul {
+    list-style: none;
+    margin: 0 0 0;
+    padding: 0 0 0;
+}
+
+.sidebar li {
+    margin: 0;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: .25em;
+    padding-left: 15px;
+    text-indent: -15px;
+    line-height: 1.5em;
+}
+
+.sidebar .widget, .main .widget {
+    border-bottom: 1px dotted #cccccc;
+    margin: 0 0 1.5em;
+    padding: 0 0 1.5em;
+}
+
+.main .Blog {
+    border-bottom-width: 0;
+}
+
+/* Profile
+----------------------------------------------- */
+.profile-img {
+    float: left;
+    margin-top: 0;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 0;
+    padding: 4px;
+    border: 1px solid #cccccc;
+}
+
+.profile-data {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font: normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif;
+    color: #999999;
+    font-weight: bold;
+    line-height: 1.6em;
+}
+
+.profile-datablock {
+    margin: .5em 0 .5em;
+}
+
+.profile-textblock {
+    margin: 0.5em 0;
+    line-height: 1.6em;
+}
+
+.profile-link {
+    font: normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+}
+
+/* Footer
+----------------------------------------------- */
+#footer {
+    width: 660px;
+    clear: both;
+    margin: 0 auto;
+    padding-top: 15px;
+    line-height: 1.6em;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    text-align: center;
+}
+
+
+
+#bloglist{ background: url(/images/blog/threecolbg.gif) right repeat-y;}
+#menu_right_right{ background: url(/images/blog/threecolbg.gif) left repeat-y; height:100%}
+
+
+
+
+
 table { border: none;  margin: 0 0 15px 0;}
 tr {  margin: 0;  padding: 0;}
-td.header {  font: 12px verdana;  background: #aaaec7;  border: 1px #000000 solid;  margin: 0;  padding-top: 1px;  padding-right: 5px;  padding-bottom: 1px;  padding-left: 5px;}
-td.weblog {  font: 11px verdana;  background: #e4e7ef;  border-right: 1px #000000 solid;  border-bottom: 1px #000000 solid;  border-left: 1px #000000 solid;  margin: 0;  padding-top: 5px;  padding-right: 5px;  padding-bottom: 2px;  padding-left: 5px;}
-td.menu_right_header {  font: 12px verdana;  background: #aaaec7;  border: 1px #000000 solid;  margin: 0;  padding-top: 1px;  padding-right: 5px;  padding-bottom: 1px;  padding-left: 1px;}
-td.menu_right {  font: 11px verdana;  background: #e4e7ef;  border-right: 1px #000000 solid;  border-bottom: 1px #000000 solid;  border-left: 1px #000000 solid;  margin: 0;  padding-top: 1px;  padding-right: 2px;  padding-bottom: 1px;  padding-left: 2px;}
-td.menu_right_right { font: 11px verdana;  background: #e4e7ef; border-top: 1px #000000 solid; border-right: 1px #000000 solid;  border-bottom: 1px #000000 solid;  border-left: 1px #000000 solid;  margin: 0;  padding-top: 1px;  padding-right: 2px;  padding-bottom: 1px;  padding-left: 2px;}
-td.form {  font: 11px verdana;  background: #e4e7ef;  border: none;  margin: 0;  padding: 0;}
-form {  margin: 0;}
-input {  font: 11px verdana;  color: #000000;  background-color: #efefef;  border: 1px solid #000000;  height: 18px;}
-input.poll {  font: 11px verdana;  color: #000000;  background-color: #e4e7ef;  border: 1px solid #e4e7ef;  height: 15px;}
-textarea {  font: 11px verdana;  background: #efefef;  border: 1px solid #000000;  scrollbar-darkshadow-color: #ffffff; height: 120px;}
-select {  font: 11px verdana;  background: #efefef;  border: 1px solid #000000;  scrollbar-darkshadow-color: #ffffff;}
-hr {  color: #000000;  height: 1px;}
-p {  margin: 0;}
-a {  font: 11px verdana;  color: #444444;  font-weight: 600;  text-decoration: none;}
-a.gray {  font: 11px verdana;  color: #666666;  font-weight: 600;  text-decoration: none;}
-a.white {  font: 11px verdana;  color: #efefef;  font-weight: 600;  text-decoration: none;}
-a:hover {  text-decoration: underline;}
-h1 {  background: #efefef;  border: 1px dashed #000000;  font: 11px verdana;  margin: 0;  padding: 0;}
-#menu_top {  font: 11px verdana;   background: #efefef;  border: 1px #000000 solid;  text-align: right;   height: 70px;  padding: 5px;}
+td.header {    border: 1px #000000 solid;  margin: 0;  padding-top: 1px;  padding-right: 5px;  padding-bottom: 1px;  padding-left: 5px;}
+td.weblog {    border-right: 1px #000000 solid;  border-bottom: 1px #000000 solid;  border-left: 1px #000000 solid;  margin: 0;  padding-top: 5px;  padding-right: 5px;  padding-bottom: 2px;  padding-left: 5px;}
+td.menu_right_header {   border: 1px #000000 solid;  margin: 0;  padding-top: 1px;  padding-right: 5px;  padding-bottom: 1px;  padding-left: 1px;}
+td.menu_right {    border-right: 1px #000000 solid;  border-bottom: 1px #000000 solid;  border-left: 1px #000000 solid;  margin: 0;  padding-top: 1px;  padding-right: 2px;  padding-bottom: 1px;  padding-left: 2px;}
+td.menu_right_right {   border-top: 1px #000000 solid; border-right: 1px #000000 solid;  border-bottom: 1px #000000 solid;  border-left: 1px #000000 solid;  margin: 0;  padding-top: 1px;  padding-right: 2px;  padding-bottom: 1px;  padding-left: 2px;}
+td.form {    border: none;  margin: 0;  padding: 0;}
+
+#menu_top {  background: #efefef;  border: 1px #000000 solid;  text-align: right;   height: 70px;  padding: 5px;}
 #menu_right {  border: none; padding: 0;}
-#logo {  font: 11px verdana; background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
-#weblog_navigation {  font: 11px verdana;  color: #333333;  height: 15px;  text-align: center;  padding: 0;}
+#logo {background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
+#weblog_navigation { color: #333333;  height: 15px;  text-align: center;  padding: 0;}
 #main { padding: 0;}
 #weblog { padding: 0;}
 #weblog_album { padding: 0;}
-#banner {  font: 10px verdana;   background: #efefef;  border: 1px #000000 solid; height: 550px;  text-align: center;  padding: 2px;  visibility: hidden;}
-TABLE.calendar {BORDER-RIGHT: 0; BORDER-TOP: 0; BORDER-LEFT: 0; BORDER-BOTTOM: 0;}
-TABLE.calendar TD {TEXT-ALIGN: center;  font: 11px verdana;}
-TH {BORDER-RIGHT: 0; BORDER-TOP: 0; BORDER-LEFT: 0; BORDER-BOTTOM: 0; TEXT-ALIGN: center;}
-TABLE.calendar TH {HEIGHT: 10px;}
-TABLE.calendar TD {WIDTH: 19px; HEIGHT: 10px;}
-TABLE.calendar .month {TEXT-ALIGN: center;    font: 12px verdana;}
-TABLE.calendar .month A {TEXT-DECORATION: none;}
-TABLE.calendar TH.dayofweek {COLOR: green; TEXT-ALIGN: center;  font: 11px verdana;}
-TABLE.calendar TD.linked-day {FONT-SIZE: 11pt;}
+#banner {   background: #efefef;  border: 1px #000000 solid; height: 550px;  text-align: center;  padding: 2px;  visibility: hidden;}
+
 td#headmenu a{background-color: #e4e7ef;	color: #000000;	font-size: 10px;	display: block;	padding: 8px;}
 td#headmenu a:hover{background-color: #aaaec7;	color: #000000;}
 td#headmenu a.menuHead{font-size: 10px;}

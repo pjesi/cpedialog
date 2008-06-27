@@ -4,42 +4,36 @@
 
 
 {% block blog %}
+    <div id=bloglist>
+    
     {% if page %}
       {% for entry in page.object_list %}
-    <TABLE cellSpacing=0 cellPadding=0 width="100%">
-        <TBODY>
-            <TR>
-                <TD class=header><B>
-                    <A
-                            href="/viewBlog?blogId={{ entry.key.id }}">{{entry.title}}</A></B></TD>
-            </TR>
-            <TR>
-                <TD class=weblog><B>{{entry.date|date:"Y-m-d H:i"}}</B> posted by
-                    <A href="#">{{entry.author}}</A>
-
-                    <HR>
-                    <!--<div class='weblog_summary'>-->
-                    {{entry.content}}
-                    <!--</div>-->
-                    <!--...-->
-                    <br>
-                    
-                    <H1>:<A href="/viewBlog?blogId={{entry.key.id}}">open</A>: -
-                        :{% if entry.weblogreactions_set.count %}<b><A
-                            href="/viewBlog?blogId={{entry.key.id}}#reactions">{{entry.weblogreactions_set.count}}
-                        reactions</A></b>
-                        {% else %}no reactions{% endif %}: - :<A
-                            href="/viewBlog?blogId={{entry.key.id}}#addreaction">add
-                        reaction</A>:</H1>
-                </TD>
-            </TR>
-        </TBODY>
-    </TABLE>
+        <H2 class=date-header> {{entry.date|date:"l, F m, Y"}} </H2>
+        <DIV class="post">
+        <H3 class=post-title>
+            <a href="/viewBlog?blogId={{ entry.key.id }}">{{entry.title}}</a>
+        </H3>
+        <DIV class=post-body>
+         {{entry.content}}
+         </DIV>
+        <DIV class=post-footer>
+            <P>
+                <SPAN class=post-author>Posted by {{entry.author}} </SPAN>
+                <SPAN class=post-timestamp>at <A  class=timestamp-link href="{{entity.permalink}}">{{entry.date|date:"H:i A"}}</A> </SPAN>
+                <SPAN class=post-comment-link>
+                    {% if entry.weblogreactions_set.count %}
+                    <A class=comment-link href="/viewBlog?blogId={{entry.key.id}}#reactions">{{entry.weblogreactions_set.count}} comments</A>
+                    {% else %}<A class=comment-link href="/viewBlog?blogId={{entry.key.id}}#addreaction">no comments</A>{% endif %}
+                </SPAN>
+            </P>
+         </DIV>
+        </DIV>
         {% endfor %}
      {% endif %}
 
-    {% include "paginator.html" %}
 
+    {% include "paginator.html" %}
+    </div>
         
 {% endblock %}
 
