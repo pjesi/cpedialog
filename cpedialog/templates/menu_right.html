@@ -1,28 +1,29 @@
 <DIV id=menu_right>
 
-            {% block webloglist %}
-            {% endblock %}
+    {% block webloglist %}
+    {% endblock %}
 
-            <div id="comments">
-              <h3>Recent comments</h3>
-              <ul>
-                  {% for reactioin in  recentReactions %}
-                     <li> {{reactioin.date|date:"m/d/y"}} <A href="/viewBlog?blogId={{reactioin.weblog.key.id}}#reactions"> {{reactioin.weblog.title}}</A> </li>
+    <div id="comments" class="sidebar">
+        <h2>Recent comments</h2>
+        <ul>
+            {% for reactioin in recentReactions %}
+            <li> {{reactioin.date|date:"m/d/y"}} <A href="/viewBlog?blogId={{reactioin.weblog.key.id}}#reactions">
+                {{reactioin.weblog.title}}</A></li>
 
-                  {% endfor %}                  
-              </ul>
+            {% endfor %}
+        </ul>
 
-            </div>
+    </div>
 
-            <div id="archives">
-              <h3>Archives</h3>
-              <ul>
-                  {% for month_ in  datetimeList reversed %}
-                     <li> <a href='/{{month_|date:"Y"}}/{{month_|date:"m"}}'>{{month_|date:"F Y"}}</a></li>
-                  {% endfor %}
-              </ul>
+    <div id="archives" class="sidebar">
+        <h2>Archives</h2>
+        <ul>
+            {% for month_ in datetimeList reversed %}
+            <li><a href='/{{month_|date:"Y"}}/{{month_|date:"m"}}'>{{month_|date:"F Y"}}</a></li>
+            {% endfor %}
+        </ul>
 
-            </div>
+    </div>
 
 
-            </DIV>
+</DIV>

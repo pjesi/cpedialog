@@ -329,7 +329,6 @@ h2.date-header {
 
 
 #bloglist{ background: url(/images/blog/threecolbg.gif) right repeat-y;}
-#menu_right_right{ background: url(/images/blog/threecolbg.gif) left repeat-y; height:100%}
 
 
 
@@ -345,7 +344,6 @@ td.menu_right_right {   border-top: 1px #000000 solid; border-right: 1px #000000
 td.form {    border: none;  margin: 0;  padding: 0;}
 
 #menu_top {  background: #efefef;  border: 1px #000000 solid;  text-align: right;   height: 70px;  padding: 5px;}
-#menu_right {  border: none; padding: 0;}
 #logo {background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
 #weblog_navigation { color: #333333;  height: 15px;  text-align: center;  padding: 0;}
 #main { padding: 0;}
