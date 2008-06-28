@@ -82,7 +82,7 @@ def makeMonthList(year,startMonth,endMonth):
 def getLogoImagesList():
     logoImagesList = []
     directory = os.path.dirname(__file__)
-    path = os.path.normpath(os.path.join(directory, 'images/logo/'))
+    path = os.path.normpath(os.path.join(directory, 'img/logo/'))
     files = os.listdir(path)
     for file in files:
         (shortname, extension) = os.path.splitext(file)

@@ -327,7 +327,7 @@ h2.date-header {
 }
 
 
-#bloglist{ background: url(/images/blog/threecolbg.gif) right repeat-y; padding-right:10px;padding-left:10px}
+#bloglist{ background: url(/img/blog/threecolbg.gif) right repeat-y; padding-right:10px;padding-left:10px}
 #blogcontainer{border: 1px #000000 solid;}
 
 
@@ -432,8 +432,8 @@ a.p_curpage {
 	color: #000;
 }
 
-#bgImages0 { background-image: url(/images/logo4.gif); }
-#bgImages1 { background-image: url(/images/tile_back.gif); }
-#bgImages2 { background-image: url(/images/logobg.gif); }
+#bgImages0 { background-image: url(/img/logo4.gif); }
+#bgImages1 { background-image: url(/img/tile_back.gif); }
+#bgImages2 { background-image: url(/img/logobg.gif); }
 
 .weblog_summary{  border: 0;  overflow: hidden;  height: 240px;  text-ovrflow: ellipsis;}
