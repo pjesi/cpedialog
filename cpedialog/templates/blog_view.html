@@ -4,97 +4,97 @@
 
 {% block blogcontainer %}
 
-    <div class="yui-g">
+<div class="yui-g">
+     <div id="blogview">
+        <H2 class=date-header> {{blog.date|date:"l, F m, Y"}} </H2>
+        <DIV class="post">
+            <H3 class=post-title>
+                {%if blog.permalink %}
+                <a href="/{{blog.permalink}}">{{blog.title}}</a>
+                {% else %}
+                <a href="/viewBlog?blogId={{ blog.key.id }}">{{blog.title}}</a>
+                {% endif %}
+            </H3>
 
-    <table cellspacing=0 cellpadding=0 width=100%>
-        <tr>
-            <td class='header'>
-                <b>{{blog.title}}</b>
-            </td>
-        </tr>
-        <tr>
-            <td class='weblog'>
-                <b>{{ blog.date|date:"Y-m-d H:i" }}</b> posted by <a href='index.php?user=pm&action=send&to=1'>{{blog.author}}</a>
-                <hr>
-
+            <DIV class=post-body>
                 <!--<font color="red">Blog permalink genareted sucessfully! The link is <a href="/{{permalink}}">permalink</a> </font><br>  <br>-->
-               
-
                 {{blog.content}}
+            </DIV>
+            <DIV class=post-footer>
+                <P>
+                    <SPAN class=post-author>Posted by {{blog.author}} </SPAN>
+                    <SPAN class=post-timestamp>at
+                        <A class=timestamp-link href="{{blog.permalink}}">{{blog.date|date:"H:i A"}}</A>
+                    </SPAN>
+                </P>
 
-                {% ifequal administrator 1 %}
+                <P>
+                    {% ifequal administrator 1 %}
+
                 <p style='text-align: right;'>:<a href='/editBlog?blogId={{blog.key.id}}'>edit</a>: :
                     <a href='/deleteBlog?blogId={{blog.key.id}}'>delete</a>:</p>
                 {% endifequal %}
 
-                {% ifnotequal reaction.lastModifiedDate  Null %}
+                {% ifnotequal reaction.lastModifiedDate Null %}
                 Edited at {{blog.lastModifiedDate}} by {{blog.lastModifiedBy}}.
                 {% endifnotequal %}
-            </td>
-        </tr>
-    </table>
-  {% ifnotequal reactions.count 0 %}
-    <table cellspacing=0 cellpadding=0 width=100%>
-        <tr>
-            <td class='header'>
-                <a name='#reactions'></a><b>Reactions</b>
-            </td>
-        </tr>
-        <tr>
-            <td class='weblog'>
-                {% for reaction in reactions %}
+            </DIV>
 
-                <a name=260><h1><b>{{reaction.user}}</b> {{reaction.date|date:"Y-m-d H:i"}}
+        {% ifnotequal reactions.count 0 %}
+             <h4> Reactions
+            </h4>
+            {% for reaction in reactions %}
+            <dl id='comments-block'>
+                <dt class='comment-author blogger-comment-icon'>
+                    <b>{{reaction.user}}</b> {{reaction.date|date:"Y-m-d H:i"}}
                     &nbsp;&nbsp;
-                    {% ifnotequal reaction.userIp  Null %}
+                    {% ifnotequal reaction.userIp Null %}
                     <i><b>IP Address</b>:{{reaction.userIp}}</i>
                     {% endifnotequal %}
-                </h1></a>
+                </dt>
+                <dd class='comment-body'>
+                    <p>{{reaction.content}}</p>
+                </dd>
+                <dd class='comment-footer'>
+                    <span class='comment-timestamp'>
+                        {% ifequal administrator 1 %}
+                        <p style='text-align: right;'>:<a
+                                href='/editBlogReaction?reactionId={{reaction.key.id}}'>edit</a>: :
+                            <a href='/deleteBlogReaction?reactionId={{reaction.key.id}}'>delete</a>:</p>
+                        {% endifequal %}
 
-                {{reaction.content}}
+                        {% ifnotequal reaction.lastModifiedDate Null %}
+                        Edited at {{reaction.lastModifiedDate}} by {{reaction.lastModifiedBy}}.
+                        {% endifnotequal %}
+                    </span>
+                </dd>
+            </dl>
 
-                {% ifequal administrator 1 %}
-                <p style='text-align: right;'>:<a href='/editBlogReaction?reactionId={{reaction.key.id}}'>edit</a>: :
-                    <a href='/deleteBlogReaction?reactionId={{reaction.key.id}}'>delete</a>:</p>
-                {% endifequal %}
+            {% endfor %}
 
-                {% ifnotequal reaction.lastModifiedDate  Null %}
-                Edited at {{reaction.lastModifiedDate}} by {{reaction.lastModifiedBy}}.
-                {% endifnotequal %}
-                <br>
-                {% endfor %}
-            </td>
-        </tr>
-    </table>
-    {% endifnotequal %}
+        {% endifnotequal %}
 
-    <table cellspacing=0 cellpadding=0 width=100%>
-        <tr>
-            <td class='header'>
-                <a name='#addreaction'></a><b>Add a reaction</b>
-            </td>
-        </tr>
-        <tr>
-            <td class='weblog'>
-                <form method=post action='/addBlogReaction?blogId={{blog.key.id}}'>
-                    <table>
-                        <tr>
-                            <td class='form'>name:</td>
-                            <td class='form'><input name='name_input' value=''  size=80  maxlength=25></td>
-                        </tr>
-                        <tr>
-                            <td class='form'>&nbsp; </td>
-                            <td class='form'> </td>
-                        </tr>
-                        <tr>
-                            <td class='form'>text:</td>
-                            <td class='form'><textarea name='text_input' style="height:250px; width:550px"></textarea></td>
-                        </tr>
-                    </table>
-                    <input name=submit_addreply type=submit value=submit>
-                </form>
-            </td>
-        </tr>
-    </table>
+           <h4> Add a reaction
+            </h4>
+
+            <form method=post action='/addBlogReaction?blogId={{blog.key.id}}'>
+                <table>
+                    <tr>
+                        <td class='form'>name:</td>
+                        <td class='form'><input name='name_input' value='' size=80 maxlength=25></td>
+                    </tr>
+                    <tr>
+                        <td class='form'>&nbsp; </td>
+                        <td class='form'></td>
+                    </tr>
+                    <tr>
+                        <td class='form'>text:</td>
+                        <td class='form'><textarea name='text_input' style="height:250px; width:550px"></textarea></td>
+                    </tr>
+                </table>
+                <input name=submit_addreply type=submit value=submit>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}

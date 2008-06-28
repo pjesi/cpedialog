@@ -11,7 +11,8 @@ Edit reaction
 {% endifequal %}
 {% endblock %}
 
-{% block blog %}
+{% block blogcontainer %}
+<div class="yui-g">
     <script type="text/javascript">
         function parseBlogContent(){
             var content = window.frames[0].document.getElementById('tinymce').innerHTML;
@@ -117,4 +118,5 @@ Edit reaction
     </form>
     {% endifnotequal%}
     {% endifequal%}
+</div>
 {% endblock %}

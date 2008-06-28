@@ -2,9 +2,6 @@ body {
     background: #ffffff;
     margin: 0;
     color: #333333;
-    font: x-small Georgia Serif;
-    font-size /* */: /**/ small;
-    font-size: /**/ small;
     text-align: center;
 }
 
@@ -27,85 +24,6 @@ a img {
     border-width: 0;
 }
 
-/* Header
------------------------------------------------
-*/
-#header-wrapper {
-    width: 660px;
-    margin: 0 auto 10px;
-    border: 1px solid #cccccc;
-}
-
-#header-inner {
-    background-position: center;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#header {
-    margin: 5px;
-    border: 1px solid #cccccc;
-    text-align: center;
-    color: #666666;
-}
-
-#header h1 {
-    margin: 5px 5px 0;
-    padding: 15px 20px .25em;
-    line-height: 1.2em;
-    text-transform: uppercase;
-    letter-spacing: .2em;
-    font: normal normal 200% Georgia, Serif;
-}
-
-#header a {
-    color: #666666;
-    text-decoration: none;
-}
-
-#header a:hover {
-    color: #666666;
-}
-
-#header .description {
-    margin: 0 5px 5px;
-    padding: 0 20px 15px;
-    max-width: 700px;
-    text-transform: uppercase;
-    letter-spacing: .2em;
-    line-height: 1.4em;
-    font: normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif;
-    color: #999999;
-}
-
-#header img {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Outer-Wrapper
------------------------------------------------ */
-#outer-wrapper {
-    width: 660px;
-    margin: 0 auto;
-    padding: 10px;
-    text-align: left;
-    font: normal normal 100% Georgia, Serif;
-}
-
-#main-wrapper {
-    width: 410px;
-    float: left;
-    word-wrap: break-word; /* fix for long text breaking sidebar float in IE */
-    overflow: hidden; /* fix for long non-text content breaking IE sidebar float */
-}
-
-#sidebar-wrapper {
-    width: 220px;
-    float: right;
-    word-wrap: break-word; /* fix for long text breaking sidebar float in IE */
-    overflow: hidden; /* fix for long non-text content breaking IE sidebar float */
-}
 
 /* Headings
 ----------------------------------------------- */
@@ -221,27 +139,6 @@ h2.date-header {
     margin: 0 0 .75em;
 }
 
-.deleted-comment {
-    font-style: italic;
-    color: gray;
-}
-
-#blog-pager-newer-link {
-    float: left;
-}
-
-#blog-pager-older-link {
-    float: right;
-}
-
-#blog-pager {
-    text-align: center;
-}
-
-.feed-links {
-    clear: both;
-    line-height: 2.5em;
-}
 
 /* Sidebar Content
 ----------------------------------------------- */
@@ -276,42 +173,6 @@ h2.date-header {
     border-bottom-width: 0;
 }
 
-/* Profile
------------------------------------------------ */
-.profile-img {
-    float: left;
-    margin-top: 0;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    margin-left: 0;
-    padding: 4px;
-    border: 1px solid #cccccc;
-}
-
-.profile-data {
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-    font: normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif;
-    color: #999999;
-    font-weight: bold;
-    line-height: 1.6em;
-}
-
-.profile-datablock {
-    margin: .5em 0 .5em;
-}
-
-.profile-textblock {
-    margin: 0.5em 0;
-    line-height: 1.6em;
-}
-
-.profile-link {
-    font: normal normal 78% 'Trebuchet MS', Trebuchet, Arial, Verdana, Sans-serif;
-    text-transform: uppercase;
-    letter-spacing: .1em;
-}
 
 /* Footer
 ----------------------------------------------- */
@@ -328,6 +189,7 @@ h2.date-header {
 
 
 #bloglist{ background: url(/img/blog/threecolbg.gif) right repeat-y; padding-right:10px;padding-left:10px}
+#blogview{ padding-right:10px;padding-left:10px;border: 1px #000000 solid;}
 #blogcontainer{border: 1px #000000 solid;}
 
 
