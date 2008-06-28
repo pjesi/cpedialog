@@ -11,10 +11,13 @@ handlers:
   static_dir: cert
 
 - url: /images
-  static_dir: images
+  static_dir: images_cpedia
+
+- url: /img
+  static_dir: img
 
 - url: /album
-  static_dir: album
+  static_dir: album_cpedia
 
 - url: /jscripts
   static_dir: jscripts
