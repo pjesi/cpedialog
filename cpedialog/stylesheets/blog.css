@@ -1,45 +1,47 @@
-body {color: #333; background: #FFF;}
+body {font: 0.8125em Verdana, sans-serif; line-height: 1; color: #333; background: #FFF;}
+a {text-decoration: none;}
+a img {border: none;}
+a:link, a:visited {color: #555; border-bottom: 1px solid #555;}
+html body a:hover {color: #000; background-color: #F4F2E4;
+  border-bottom: 1px solid #9A8E51;}
+#sidebar a:link,.post-title a:link, .post-title a:visited, .byline a:link, .byline a:visited {border-bottom-width: 0;}
+#sidebar a:hover,.post-title a:hover, .byline a:hover {border-bottom-width: 1px;}
+
+h2 {font: 1.5em Georgia, "Times New Roman", serif; letter-spacing: 1px;}
+h3 {font: bold 1em Verdana, Arial, sans-serif; letter-spacing: 2px;
+  text-transform: uppercase;}
+h4 {font: bold 1.1em Georgia, "Times New Roman", serif; letter-spacing: 1px;}
+
+ul, ol {list-style: none;}
+dt {font:bold}
 
 
-.menuhd {
-    BACKGROUND-IMAGE: url( http://l.yimg.com/a/i/ww/thm/1/grd-1px_1.4.gif ); BACKGROUND-REPEAT: repeat-x
-}
+.post {PADDING-RIGHT: 10px; PADDING-LEFT: 10px; margin-bottom:10px;border-bottom: 1px dotted #cccccc;}
+.post-title {font: 1.6em Georgia, Times, serif;MARGIN: 1em 0px 0.25em;text-transform: none; letter-spacing: 1px;}
+.post-title a {text-decoration: none;}
+.post-title a:link, .post-title a:visited {color: #333;}
+.post-title a:hover {color: #000;}
 
-.menuhd {
-    BORDER-RIGHT: #b0bec7 1px solid; BACKGROUND-POSITION: 0px -916px; BORDER-TOP: #b0bec7 1px solid; BORDER-LEFT: #b0bec7 1px solid; COLOR: #18397c; BORDER-BOTTOM: #93a6b4 1px solid; BACKGROUND-COLOR: #fff; MARGIN: -1px -1px 0px; POSITION: relative
-}
+.post-body {text-align: left; line-height: 1.8em;margin: 0 0 1em;}
 
-.menuhd H2 {PADDING-RIGHT: 11px; PADDING-LEFT: 11px; PADDING-BOTTOM: 1px; FONT: bold 100% arial; PADDING-TOP: 1px; BORDER-BOTTOM: #fff 1px solid; POSITION: relative}
-
-.menu {
-    BORDER-RIGHT: #b0bec7 1px solid; BORDER-TOP: #b0bec7 1px solid;  BORDER-LEFT: #b0bec7 1px solid;  BORDER-BOTTOM: #b0bec7 1px solid
-}
-
-H2 {
-	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
-}
-
-.menubd {
-	PADDING-RIGHT: 5px; PADDING-LEFT: 5px; PADDING-BOTTOM: 8px; PADDING-TOP: 8px
-}
-
-
-
-#weblog .title {font: 1.8em Georgia, Times, serif; margin-bottom: 0.5em;}
-.title {text-transform: none; letter-spacing: 1px;}
-.title a:link, .title a:visited {color: #333;}
-.title a:hover {color: #000;}
-.byline {font: italic 1.1em Times, serif; letter-spacing: 1px; margin: 0 0 1.5em;}
+.byline {font: italic 0.9em Times, serif; letter-spacing: 1px; margin: 0 0 1.5em;}
 .byline a:link, .byline a:visited {font: bold 0.85em Verdana, sans-serif;
   text-transform: uppercase; letter-spacing: 2px;
   margin-left: 0.25em;}
 
-#weblog h1 {margin-bottom: 0;}
-#weblog h2 {margin-top: 1.5em; margin-bottom: 0; font: 1em Verdana, sans-serif; letter-spacing: 2px;}
-#weblog h2 a {font-weight: bold; text-transform: uppercase;}
-#weblog .item {border-bottom: 1px dashed #B2B2B2;}
-#paginator .item {border-bottom: 1px dashed #B2B2B2;}
-#weblog h3.title {margin: 1em 0 0;}
-#weblog h4.byline {margin: 0.25em 0 0.5em;}
+#sidebar h3 {font: 1.5em Georgia, Times, serif; letter-spacing: 0; text-transform: none;
+  margin-bottom: 0.25em; color: #333;}
+#sidebar div {border-bottom: 1px dashed #B2B2B2; padding: 10px 0.5em;}
+#sidebar div.login {padding-top: 0;}
+#sidebar li {padding: 0.5em 0 0.5em;}
+#sidebar li a:link, #sidebar li a:visited {padding-left: 12px;}
+#sidebar p {font-size: 0.85em; margin-top: 0.25em;}
 
-#weblog em {font-weight: normal; text-transform: lowercase; font-style: italic; letter-spacing: 0;}
+
+
+#logo {background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
+#bloglist{ background: url(/img/blog/threecolbg.gif) right repeat-y; padding-right:10px;padding-left:10px}
+#blogview{ padding-right:10px;padding-left:10px;border: 1px #000000 solid;}
+#blogcontainer{border: 1px #000000 solid;}
+
+#sidebar{border: 1px #000000 solid;}
