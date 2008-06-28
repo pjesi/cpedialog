@@ -328,7 +328,8 @@ h2.date-header {
 
 
 
-#bloglist{ background: url(/images/blog/threecolbg.gif) right repeat-y;}
+#bloglist{ background: url(/images/blog/threecolbg.gif) right repeat-y; padding-right:10px;padding-left:10px}
+#blogcontainer{border: 1px #000000 solid;}
 
 
 
