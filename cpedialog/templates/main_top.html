@@ -1,28 +1,16 @@
 <div class="menu_top">
-    <TABLE id=submenu cellSpacing=0 cellPadding=0>
-        <TR class=menu_head_header>
-            <TD style="BORDER-BOTTOM: #072a66 1px solid" align=left colSpan=2><A
-                    href="/">Blog</A> <A
-                    href="http://www.cpedia.com/blog/index.php?weblog=resume">Resume</A> <A
-                    href="http://www.cpedia.com/blog/index.php?weblog=bookshelf">My
-                Bookshelf</A> <A
-                    href="http://www.cpedia.com/blog/index.php?weblog=toolbox">My ToolBox</A>
-                <A href="http://www.cpedia.com/blog/index.php?weblog=album">Album</A></TD>
-            <TD style="BORDER-BOTTOM: #072a66 1px solid" align=right colSpan=2><A
-                    href="http://www.cpedia.com/blog/index.php?weblog=archive">Archive</A><A
-                    href="http://www.cpedia.com/blog/rss.php" target=_blank><IMG
-                    src="/img/rss.gif" border=0></A> <A
-                    href="http://www.cpedia.com/blog/index.php?weblog=search">Search</A> <A
-                    href="http://www.cpedia.com/blog/index.php?user=overview">Member</A>
-            </TD>
-        </TR>
-        <TR>
-            <TD style="BACKGROUND-IMAGE: url(/img/logo4.gif)" width=212 height=52>&nbsp; </TD>
-            <TD style="BACKGROUND-IMAGE: url(/img/tile_back.gif)" vAlign=center width=180>
-                <DIV align=right></DIV>
-            </TD>
-            <TD style="BACKGROUND-IMAGE: url(/img/tile_back.gif)" width=207></TD>
-            <TD style="BACKGROUND-IMAGE: url(/img/logobg.gif)" width=112>&nbsp;</TD>
-        </TR>
-    </TABLE>
+    <div id="userinfo">
+        {% if user %}
+        <strong>{{ user.email }}</strong> |
+        {% if administrator %}
+        <a href='/addBlog'>Admin/Add blog</a> |
+        <a href='http://appengine.google.com/a/cpedia.com'>Admin/Manage site</a> |
+        {% endif %}
+        {% endif %}
+        <a href="https://www.google.com/accounts/ManageAccount">My Account</a> |
+        <A href="{{ url }}">{{ url_linktext }}</A>
+    </div>
+    <div id="navbar">
+        <font size="9em">CPEDIA's ZONE</font>
+    </div>
 </div>

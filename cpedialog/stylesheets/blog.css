@@ -31,12 +31,22 @@ dt {font:bold}
 
 #sidebar h3 {font: 1.5em Georgia, Times, serif; letter-spacing: 0; text-transform: none;
   margin-bottom: 0.25em; color: #333;}
+#sidebar H2 {
+	MARGIN: 0px 0px 8px; FONT: italic 12px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none
+}
 #sidebar div {border-bottom: 1px dashed #B2B2B2; padding: 10px 0.5em;}
 #sidebar div.login {padding-top: 0;}
-#sidebar li {padding: 0.5em 0 0.5em;}
+#sidebar li {padding: 0.4em 0 0.5em;}
+#sidebar li a{text-decoration:none}
 #sidebar li a:link, #sidebar li a:visited {padding-left: 12px;}
 #sidebar p {font-size: 0.85em; margin-top: 0.25em;}
 
+#sidebar UL {MARGIN: 0px 0px 1.5em; LIST-STYLE-TYPE: none}
+#sidebar UL LI {PADDING-RIGHT: 0px; PADDING-LEFT: 10px; BACKGROUND: url(/i/presentation/bullet.gif) no-repeat 0px 0.5em; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0.5em; PADDING-TOP: 0px}
+#sidebar LI.current {FONT-WEIGHT: bold; BACKGROUND: url(/i/presentation/bullet_current.gif) no-repeat 0px 0.5em}
+#sidebar DL {MARGIN: 0px 0px 3em}
+
+#userinfo {TEXT-ALIGN: right}
 
 
 #logo {background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
