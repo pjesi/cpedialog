@@ -20,12 +20,10 @@ Edit reaction
             return true;
         }
     </script>
+    <div id="blogview">
     <form method=post action='/{{action}}?preview=1' onsubmit="return parseBlogContent()">
-        <table cellspacing=0 cellpadding=0 width=100%>
-            <tr>
-                <td class='header'>
-                    <b>
-                        {% ifequal action "addBlog" %}
+         <h4>
+             {% ifequal action "addBlog" %}
                         Add item
                         {% endifequal %}
                         {% ifequal action "editBlog" %}
@@ -34,12 +32,8 @@ Edit reaction
                         {% ifequal action "editBlogReaction" %}
                         Edit reaction
                         {% endifequal %}
-                    </b>
-                </td>
-            </tr>
-            <tr>
-                <td class='weblog'>
-                    <table>
+          </h4>
+                      <table>
                         {% ifnotequal action "editBlogReaction" %}
                         <tr>
                             <td class='form'>
@@ -80,10 +74,7 @@ Edit reaction
                     {% endifequal %}
 
                     <input name=text_input type="hidden"/>
-                </td>
-            </tr>
-        </table>
-    </form>
+     </form>
     {% ifequal preview '1' %}
     {% ifnotequal submitted '1' %}
     <script type="text/javascript">
@@ -118,5 +109,6 @@ Edit reaction
     </form>
     {% endifnotequal%}
     {% endifequal%}
+</div>
 </div>
 {% endblock %}

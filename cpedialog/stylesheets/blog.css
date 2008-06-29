@@ -18,7 +18,7 @@ dt {font:bold}
 
 .post {PADDING-RIGHT: 10px; PADDING-LEFT: 10px; margin-bottom:10px;border-bottom: 1px dotted #cccccc;}
 .post-title {font: 1.6em Georgia, Times, serif;MARGIN: 1em 0px 0.25em;text-transform: none; letter-spacing: 1px;}
-.post-title a {text-decoration: none;}
+.post-title a {text-decoration: none;color:cadetblue !important;}
 .post-title a:link, .post-title a:visited {color: #333;}
 .post-title a:hover {color: #000;}
 
@@ -29,6 +29,7 @@ dt {font:bold}
   text-transform: uppercase; letter-spacing: 2px;
   margin-left: 0.25em;}
 
+#sidebar{border: 1px #000000 solid;PADDING-RIGHT: 10px; PADDING-LEFT: 10px;}
 #sidebar h3 {font: 1.5em Georgia, Times, serif; letter-spacing: 0; text-transform: none;
   margin-bottom: 0.25em; color: #333;}
 #sidebar H2 {
@@ -36,22 +37,28 @@ dt {font:bold}
 }
 #sidebar div {border-bottom: 1px dashed #B2B2B2; padding: 10px 0.5em;}
 #sidebar div.login {padding-top: 0;}
-#sidebar li {padding: 0.4em 0 0.5em;}
-#sidebar li a{text-decoration:none}
+#sidebar li a{text-decoration:none !important;}
 #sidebar li a:link, #sidebar li a:visited {padding-left: 12px;}
 #sidebar p {font-size: 0.85em; margin-top: 0.25em;}
 
 #sidebar UL {MARGIN: 0px 0px 1.5em; LIST-STYLE-TYPE: none}
-#sidebar UL LI {PADDING-RIGHT: 0px; PADDING-LEFT: 10px; BACKGROUND: url(/i/presentation/bullet.gif) no-repeat 0px 0.5em; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0.5em; PADDING-TOP: 0px}
-#sidebar LI.current {FONT-WEIGHT: bold; BACKGROUND: url(/i/presentation/bullet_current.gif) no-repeat 0px 0.5em}
-#sidebar DL {MARGIN: 0px 0px 3em}
+#sidebar UL LI {PADDING-RIGHT: 0px; PADDING-LEFT: 10px; BACKGROUND: url(/img/bullet.gif) no-repeat 0px 0.5em; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0.5em; PADDING-TOP: 0px}
+#sidebar LI.current {FONT-WEIGHT: bold; BACKGROUND: url(/img/bullet_current.gif) no-repeat 0px 0.5em}
+#sidebar DL {MARGIN: 0px 0px 1em}
 
 #userinfo {TEXT-ALIGN: right}
 
+#menu_right{PADDING-RIGHT: 10px; PADDING-LEFT: 10px;}
+#menu_right UL {MARGIN: 0px 0px 1.5em; LIST-STYLE-TYPE: none}
+#menu_right UL LI {PADDING-RIGHT: 0px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0.5em; PADDING-TOP: 0px}
+#menu_right LI.current {FONT-WEIGHT: bold;}
+#menu_right H2 {MARGIN: 0px 0px 8px; FONT: italic 12px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none}
+
+#comments{border-bottom: 1px dotted #cccccc;}
+#archives{border-bottom: 1px dotted #cccccc;padding-top:10px}
 
 #logo {background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
 #bloglist{ background: url(/img/blog/threecolbg.gif) right repeat-y; padding-right:10px;padding-left:10px}
 #blogview{ padding-right:10px;padding-left:10px;border: 1px #000000 solid;}
-#blogcontainer{border: 1px #000000 solid;}
+#blogcontainer{border: 1px #000000 solid;padding-bottom: 10px; padding-top: 10px;}
 
-#sidebar{border: 1px #000000 solid;}

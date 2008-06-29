@@ -3,7 +3,7 @@
     {% block webloglist %}
     {% endblock %}
 
-    <div id="comments" class="sidebar">
+    <div id="comments">
         <h2>Recent comments</h2>
         <ul>
             {% for reactioin in recentReactions %}
@@ -15,9 +15,7 @@
 
     </div>
 
-    <div style="border-bottom: 1px dotted #cccccc;">&nbsp;</div>
-
-    <div id="archives" class="sidebar">
+    <div id="archives">
         <h2>Archives</h2>
         <ul>
             {% for month_ in datetimeList reversed %}
