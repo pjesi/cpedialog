@@ -2,14 +2,12 @@ body {font: 0.8125em Verdana, sans-serif; line-height: 1; color: #333; backgroun
 a {text-decoration: none;}
 a img {border: none;}
 a:link, a:visited {color: #555; border-bottom: 1px solid #555;}
-html body a:hover {color: #000; background-color: #F4F2E4;
-  border-bottom: 1px solid #9A8E51;}
+html body a:hover {color: #000; background-color: #F4F2E4; border-bottom: 1px solid #9A8E51;}
 #sidebar a:link,.post-title a:link, .post-title a:visited, .byline a:link, .byline a:visited {border-bottom-width: 0;}
 #sidebar a:hover,.post-title a:hover, .byline a:hover {border-bottom-width: 1px;}
 
 h2 {font: 1.5em Georgia, "Times New Roman", serif; letter-spacing: 1px;}
-h3 {font: bold 1em Verdana, Arial, sans-serif; letter-spacing: 2px;
-  text-transform: uppercase;}
+h3 {font: bold 1em Verdana, Arial, sans-serif; letter-spacing: 2px; text-transform: uppercase;}
 h4 {font: bold 1.1em Georgia, "Times New Roman", serif; letter-spacing: 1px;}
 
 ul, ol {list-style: none;}
@@ -38,7 +36,7 @@ dt {font:bold}
 #sidebar div {border-bottom: 1px dashed #B2B2B2; padding: 10px 0.5em;}
 #sidebar div.login {padding-top: 0;}
 #sidebar li a{text-decoration:none !important;}
-#sidebar li a:link, #sidebar li a:visited {padding-left: 12px;}
+#sidebar li a:link, #sidebar li a:visited {padding-left: 12px;border-bottom:none}
 #sidebar p {font-size: 0.85em; margin-top: 0.25em;}
 
 #sidebar UL {MARGIN: 0px 0px 1.5em; LIST-STYLE-TYPE: none}
