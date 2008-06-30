@@ -4,6 +4,7 @@ import wsgiref.handlers
 from google.appengine.ext import webapp
 
 import blog
+import album
 import logging
 import config
 
@@ -22,13 +23,14 @@ def main():
                                         ('/deleteAllBlogReaction', blog.DeleteAllBlogReaction),
                                         ('/loadBlogReactionBulk', blog.LoadBlogReactionBulk),
                                         ('/loadBlogBulk', blog.LoadBlogBulk),
-                                        ('/setBlogPermalinks', blog.SetBlogPermalinks),
 
                                         ('/*$', blog.MainPage),
                                         ('/403.html', blog.UnauthorizedHandler),
                                         ('/404.html', blog.NotFoundHandler),
                                         ('/([12]\d\d\d)/(\d|[01]\d)/*$', blog.MonthHandler),
                                         ('/([12]\d\d\d)/(\d|[01]\d)/([-\w]+)/*$', blog.ArticleHandler),
+
+                                        ('/albums/*$', album.MainPage),
                                        ],
                                        debug=config._DEBUG)
     wsgiref.handlers.CGIHandler().run(application)

@@ -6,7 +6,6 @@ from google.appengine.ext import search
 import logging
 
 
-
 class Weblog(db.Model):
   permalink = db.StringProperty()
   title = db.StringProperty()
@@ -58,4 +57,5 @@ class WeblogReactions(db.Model):
   lastModifiedDate = db.DateTimeProperty()
   lastModifiedBy = db.UserProperty()
   _weblogReactionId = db.IntegerProperty()   ##for data migration from the mysql system
+
 

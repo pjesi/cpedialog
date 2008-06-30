@@ -2,7 +2,7 @@
     <div id="userinfo">
         {% if user %}
         <b>{{ user.email }}</b> |
-        {% if administrator %}
+        {% if user_is_admin %}
         <a href='/addBlog'>Admin/Add blog</a> |
         <a href='http://appengine.google.com/a/cpedia.com'>Admin/Manage site</a> |
         {% endif %}

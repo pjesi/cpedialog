@@ -27,6 +27,7 @@ class ViewPage(object):
             url = handler.request.uri
             scheme, netloc, path, query, fragment = urlparse.urlsplit(url)
             template_params = {
+                "title": config.blog['title'],
                 "current_url": url,
                 "user": users.get_current_user(),
                 "user_is_admin": users.is_current_user_admin(),

@@ -1,0 +1,26 @@
+{% extends "main.html" %}
+
+{% block title %}{{title}} - {{blog.title}}{% endblock %}
+
+{% block blogcontainer %}
+
+<div class="yui-g">
+    <div id="album">
+        <H3>Albums</H3>
+
+        <p>
+            {% for album in albums%}
+
+        <!--<div style="background-image:url('/img/album_background.gif');background-repeat:no-repeat;">
+            {% for thumbnail in album.media.thumbnail%}
+            --><!--{% if forloop.first %}--><!--
+            --><!--<img src="{{thumbnail.url}}"/>--><!--
+            --><!--{% endif %}--><!--
+            {% endfor %}
+            <b>{{album.media.title}} </b>({{album.numphotos.text}})
+            --><!--{{album.timestamp.text|date:"m/d/y"}}--><!--
+        </div>-->
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
