@@ -33,6 +33,7 @@ def main():
 
                                         ('/albums/*$', album.MainPage),
                                         ('/albums/(.*)/(.*)', album.AlbumHandler),
+                                        ('/albums/(.*)/(.*)/photo#(.*)', album.PhotoHandler),
                                        ],
                                        debug=config._DEBUG)
     wsgiref.handlers.CGIHandler().run(application)

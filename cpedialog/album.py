@@ -95,3 +95,18 @@ class AlbumHandler(BaseRequestHandler):
           'album_name':album_name,
           }
         self.generate('album_view.html',template_values)
+
+
+class PhotoHandler(BaseRequestHandler):
+    def get(self, username, album_name, photoId):
+        logging.debug("AlbumHandler#get for username %s, album_name %s and photoId %s", username, album_name, photoId)
+        gd_client = gdata.photos.service.PhotosService()
+        feed = gd_client.GetFeed(
+            '/data/feed/api/user/%s/album/%s?kind=photo' % (
+                username, album_name))
+        template_values = {
+          'photos': feed.entry,
+          'username':username,
+          'album_name':album_name,
+          }
+        self.generate('album_photo_view.html',template_values)

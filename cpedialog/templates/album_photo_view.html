@@ -1,0 +1,19 @@
+{% extends "main.html" %}
+
+{% block title %}{{title}} - {{blog.title}}{% endblock %}
+
+{% block blogcontainer %}
+
+<div class="yui-g" id="albumsdiv">
+        <H3>Albums</H3>
+        <p>
+    <div id="albums">
+        {% for photo in photos %}
+          <div class="album_thumbnail">
+             <a href="/albums/{{username}}/{{album_name}}/photo#{{photo.gphoto_id.text}}">
+                <img src="{{photo.content.src}}"/></a>
+          </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
