@@ -71,11 +71,27 @@ class BaseRequestHandler(webapp.RequestHandler):
 
 class MainPage(BaseRequestHandler):
   def get(self):
-    username = 'cpedia'
+    username =config.album['username']
     gd_client = gdata.photos.service.PhotosService()
     feed = gd_client.GetUserFeed(user=username)
 
     template_values = {
+      'username':username,
       'albums':feed.entry,
        }
     self.generate('album_main.html',template_values)
+
+
+class AlbumHandler(BaseRequestHandler):
+    def get(self, username, album_name):
+        logging.debug("AlbumHandler#get for username %s and album_name %s", username, album_name)
+        gd_client = gdata.photos.service.PhotosService()
+        feed = gd_client.GetFeed(
+            '/data/feed/api/user/%s/album/%s?kind=photo' % (
+                username, album_name))
+        template_values = {
+          'photos': feed.entry,
+          'username':username,
+          'album_name':album_name,
+          }
+        self.generate('album_view.html',template_values)

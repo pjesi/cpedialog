@@ -19,6 +19,7 @@ def main():
                                         ('/deleteBlog', blog.DeleteBlog),
                                         ('/editBlogReaction', blog.EditBlogReaction),
                                         ('/deleteBlogReaction', blog.DeleteBlogReaction),
+                                        
                                         ('/deleteAllBlog', blog.DeleteAllBlog),
                                         ('/deleteAllBlogReaction', blog.DeleteAllBlogReaction),
                                         ('/loadBlogReactionBulk', blog.LoadBlogReactionBulk),
@@ -31,6 +32,7 @@ def main():
                                         ('/([12]\d\d\d)/(\d|[01]\d)/([-\w]+)/*$', blog.ArticleHandler),
 
                                         ('/albums/*$', album.MainPage),
+                                        ('/albums/(.*)/(.*)', album.AlbumHandler),
                                        ],
                                        debug=config._DEBUG)
     wsgiref.handlers.CGIHandler().run(application)

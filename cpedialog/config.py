@@ -8,6 +8,10 @@ blog = {
     "cache_time": 0,      # You can override this default for each page through a handler's call to view.ViewPage(cache_time=...)
 }
 
+album ={
+    "username":"cpedia"
+}
+
 # Set to true if we want to have our webapp print stack traces, etc
 _DEBUG = True
 
