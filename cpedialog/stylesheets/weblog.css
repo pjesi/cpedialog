@@ -1,14 +1,3 @@
-table { border: none;  margin: 0 0 15px 0;}
-
-td#headmenu a{background-color: #e4e7ef; font-size: 10px;	display: block;	padding: 8px;}
-td#headmenu a:hover{background-color: #aaaec7; }
-td#headmenu a.menuHead{font-size: 10px;}
-#submenu A:link {PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; MARGIN: 0;  PADDING-TOP: 5px; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none}
-#submenu A:visited {PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; MARGIN: 0;   PADDING-TOP: 5px; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none}
-#submenu A:active {PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; MARGIN: 0;  PADDING-TOP: 5px; BACKGROUND-COLOR: transparent; TEXT-DECORATION: none}
-#submenu A:hover {PADDING-RIGHT: 5px; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 5px; MARGIN: 0;   PADDING-TOP: 5px; BACKGROUND-COLOR: #dfe6ef; TEXT-DECORATION: none}
-#submenu {margin: 0 10px 0 0;	BORDER-RIGHT: #072a66 1px solid; PADDING-RIGHT: 0; BORDER-TOP: #072a66 1px solid; PADDING-LEFT: 0; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 0;  BORDER-LEFT: #072a66 1px solid;   PADDING-TOP: 0; BORDER-BOTTOM: #072a66 1px solid; BACKGROUND-COLOR: #f9f9f9}
-#submenu_right {margin: 0 0 0 -10px;	BORDER-RIGHT: #072a66 1px solid; PADDING-RIGHT: 0; BORDER-TOP: #072a66 1px solid; PADDING-LEFT: 0; FONT-WEIGHT: bold; FONT-SIZE: 11px; PADDING-BOTTOM: 0;  BORDER-LEFT: #072a66 1px solid;  PADDING-TOP: 0; BORDER-BOTTOM: #072a66 1px solid; BACKGROUND-COLOR: #f9f9f9}
 .p_bar {
 	clear: both;
 	margin: 1px 0;
@@ -64,8 +53,3 @@ a:hover .p_redirect {
 	vertical-align: middle;
 }
 
-#bgImages0 { background-image: url(/img/logo4.gif); }
-#bgImages1 { background-image: url(/img/tile_back.gif); }
-#bgImages2 { background-image: url(/img/logobg.gif); }
-
-.weblog_summary{  border: 0;  overflow: hidden;  height: 240px;  text-ovrflow: ellipsis;}

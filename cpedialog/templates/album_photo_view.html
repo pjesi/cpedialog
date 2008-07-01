@@ -4,16 +4,20 @@
 
 {% block blogcontainer %}
 
+<!-- Dependencies -->
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/yahoo-dom-event/yahoo-dom-event.js" ></script>
+<!-- Drag and Drop source file -->
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/dragdrop/dragdrop-min.js" ></script>
+
 <div class="yui-g" id="albumsdiv">
         <H3>Albums</H3>
         <p>
     <div id="albums">
-        {% for photo in photos %}
-          <div class="album_thumbnail">
-             <a href="/albums/{{username}}/{{album_name}}/photo#{{photo.gphoto_id.text}}">
-                <img src="{{photo.content.src}}"/></a>
+         <div class="album_thumbnail">
+             {% if cur_photo %}
+                 <img src="{{cur_photo.content.src}}"/> 
+             {% endif %}
           </div>
-        {% endfor %}
-    </div>
+     </div>
 </div>
 {% endblock %}

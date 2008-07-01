@@ -62,12 +62,15 @@ dt {font:bold}
 #albumsdiv{border: 1px #000000 solid;padding-bottom: 40px; padding-top: 10px;}
 
 #albums{margin:auto;text-align:center;}
-.album_thumbnail{width:180px;height:200px;margin:20px}
-* html .album_thumbnail {display:inline}/* for ie*/
+.album_thumbnail{width:180px;height:200px;margin:20px;}
+.photo_thumbnail{margin:10px;padding:0;width:144px}
+* html .album_thumbnail, * html .photo_thumbnail {display:inline}/* for ie*/
 html>body #albums {display:table}/*for mozilla */
-html>body .album_thumbnail {display:table;float:left}/*for mozilla */
+html>body .album_thumbnail{display:table;float:left}/*for mozilla */
+html>body .photo_thumbnail{display:table;float:left}/*for mozilla */
 @media all and (min-width: 0px){/* opera 7 styles */
-   html>body .album_thumbnail {display:inline-block;float:none;}
+   html>body .album_thumbnail{display:inline-block;float:none;}
+   html>body .photo_thumbnail{display:inline-block;float:none;}
 }
 .album_thumbnail_img{background-image:url('/img/album_background.gif');background-repeat:no-repeat;
     padding-top:15px;padding-bottom:10px;padding-left:5px;padding-right:10px;width:180px;height:170px}

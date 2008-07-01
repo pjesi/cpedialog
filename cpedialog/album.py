@@ -104,8 +104,23 @@ class PhotoHandler(BaseRequestHandler):
         feed = gd_client.GetFeed(
             '/data/feed/api/user/%s/album/%s?kind=photo' % (
                 username, album_name))
+        i=0
+        for photo in feed.entry:
+            if photo.gphoto_id.text == photoId:
+                exit
+            i=i+1
+        cur_photo = feed.entry[i]
+        if(i==1):
+            next_photo = feed.entry[i+1]
+            pre_photo = None
+        else:
+            if i==len(feed.entry):
+               pre_photo = feed.entry[i-1]
+               next_photo = None
         template_values = {
-          'photos': feed.entry,
+          'cur_photo': cur_photo,
+          'pre_photo': pre_photo,
+          'next_photo': next_photo,
           'username':username,
           'album_name':album_name,
           }

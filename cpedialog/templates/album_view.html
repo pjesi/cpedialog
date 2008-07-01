@@ -9,10 +9,15 @@
         <p>
     <div id="albums">
         {% for photo in photos %}
-          <div class="album_thumbnail">
-             <a href="/albums/{{username}}/{{album_name}}/photo#{{photo.gphoto_id.text}}">
-                <img src="{{photo.content.src}}"/></a>
-          </div>
+             {% for thumbnail in photo.media.thumbnail%}
+             {% ifequal forloop.counter 2 %}
+        <div class="photo_thumbnail" width="{{thumbnail.width}}" height="{{thumbnail.height}}">
+            <a href="/albums/{{username}}/{{album_name}}/photo/{{photo.gphoto_id.text}}">
+                <img src="{{thumbnail.url}}" style="border:1px #000000 solid;"/>
+            </a>
+        </div>
+    {% endifequal %}
+             {% endfor %}
         {% endfor %}
     </div>
 </div>
