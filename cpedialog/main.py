@@ -32,8 +32,8 @@ def main():
                                         ('/([12]\d\d\d)/(\d|[01]\d)/([-\w]+)/*$', blog.ArticleHandler),
 
                                         ('/albums/*$', album.MainPage),
-                                        ('/albums/(.*)/(.*)', album.AlbumHandler),
-                                        ('/albums/(.*)/(.*)/photo/(.*)', album.PhotoHandler),
+                                        ('/albums/([-\w]+)/([-\w]+)/*$', album.AlbumHandler),
+                                        ('/albums/([-\w]+)/([-\w]+)/([\d]+)/*$', album.PhotoHandler),
                                        ],
                                        debug=config._DEBUG)
     wsgiref.handlers.CGIHandler().run(application)

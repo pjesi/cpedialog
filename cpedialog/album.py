@@ -47,10 +47,10 @@ class BaseRequestHandler(webapp.RequestHandler):
       url_linktext = 'Sign out'
       useremail = users.get_current_user().email()
       if users.is_current_user_admin():
-         administrator = True
+        administrator = True
       else:
-         if useremail == 'ping.chen@cpedia.com':
-              administrator = True
+        if useremail == 'ping.chen@cpedia.com':
+          administrator = True
     else:
       url = users.create_login_url(self.request.uri)
       url_linktext = 'Sign in'
@@ -107,16 +107,19 @@ class PhotoHandler(BaseRequestHandler):
         i=0
         for photo in feed.entry:
             if photo.gphoto_id.text == photoId:
-                exit
+                break
             i=i+1
         cur_photo = feed.entry[i]
-        if(i==1):
+        if(i==0):
             next_photo = feed.entry[i+1]
             pre_photo = None
         else:
-            if i==len(feed.entry):
-               pre_photo = feed.entry[i-1]
-               next_photo = None
+          pre_photo = feed.entry[i-1]
+          if i==len(feed.entry)-1:
+              next_photo = None
+          else:
+              next_photo = feed.entry[i+1]
+            
         template_values = {
           'cur_photo': cur_photo,
           'pre_photo': pre_photo,
