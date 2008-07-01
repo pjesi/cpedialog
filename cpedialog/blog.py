@@ -15,6 +15,7 @@ from google.appengine.ext.webapp import template
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext import db
+from google.appengine.ext import search
 
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
@@ -317,7 +318,28 @@ class ArticleHandler(BaseRequestHandler):
           }
         self.generate('blog_view.html',template_values)
 
+class SearchHandler(BaseRequestHandler):
+    def get(self):
+        pageStr = self.request.get('page')
+        if pageStr:
+            page = int(pageStr)
+        else:
+            page = 1;
+        search_term = self.request.get("q")  
+        query = search.SearchableQuery('Weblog')
+        query.Search(search_term)
+        result = query.Run()
+        try:
+            obj_page  =  Paginator(result,config._NUM_PER_PAGE)
+        except InvalidPage:
+            self.redirect('/')
 
+        recentReactions = WeblogReactions.all().order('-date').fetch(20)
+        template_values = {
+          'page':obj_page,
+          'recentReactions':recentReactions,
+          }
+        self.generate('blog_main.html',template_values)
 
 
 #The method below just for blog data maintance.   

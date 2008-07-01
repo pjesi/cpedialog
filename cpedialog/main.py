@@ -30,6 +30,7 @@ def main():
                                         ('/404.html', blog.NotFoundHandler),
                                         ('/([12]\d\d\d)/(\d|[01]\d)/*$', blog.MonthHandler),
                                         ('/([12]\d\d\d)/(\d|[01]\d)/([-\w]+)/*$', blog.ArticleHandler),
+                                        ('/search', blog.SearchHandler),
 
                                         ('/albums/*$', album.MainPage),
                                         ('/albums/([-\w]+)/([-\w]+)/*$', album.AlbumHandler),
