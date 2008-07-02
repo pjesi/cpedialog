@@ -63,7 +63,8 @@ dt {font:bold}
 #albums{margin:auto;text-align:center;}
 .album_thumbnail{width:180px;height:200px;margin:20px;}
 .photo_thumbnail{margin:10px;padding:0;width:144px}
-#photo{z-index:-1}
+#photo{ width:400px}
+#photocontainer{width:800px;height:600px}
 * html .album_thumbnail, * html .photo_thumbnail {display:inline}/* for ie*/
 html>body #albums {display:table}/*for mozilla */
 html>body .album_thumbnail{display:table;float:left}/*for mozilla */

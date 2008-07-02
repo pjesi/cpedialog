@@ -3,6 +3,11 @@
 {% block title %}{{title}} - {{blog.title}}{% endblock %}
 
 {% block blogcontainer %}
+        
+<script type="text/javascript" src="/jscripts/lightbox2.04/js/prototype.js"></script>
+<script type="text/javascript" src="/jscripts/lightbox2.04/js/scriptaculous.js?load=effects,builder"></script>
+<script type="text/javascript" src="/jscripts/lightbox2.04/js/lightbox.js"></script>
+<link rel="stylesheet" href="/jscripts/lightbox2.04/css/lightbox.css" type="text/css" media="screen" />
 
 <div class="yui-g" id="albumsdiv">
         <H3>Albums</H3>
@@ -12,7 +17,8 @@
              {% for thumbnail in photo.media.thumbnail%}
              {% ifequal forloop.counter 2 %}
         <div class="photo_thumbnail" width="{{thumbnail.width}}" height="{{thumbnail.height}}">
-            <a href="/albums/{{username}}/{{album_name}}/{{photo.gphoto_id.text}}">
+            {#<!--<a href="/albums/{{username}}/{{album_name}}/{{photo.gphoto_id.text}}">-->#}
+            <a href="{{photo.content.src}}?imgmax=600" rel="lightbox[roadtrip]">
                 <img src="{{thumbnail.url}}" style="border:1px #000000 solid;"/>
             </a>
         </div>
