@@ -161,7 +161,7 @@ class AddBlogReaction(BaseRequestHandler):
     blogReaction.authorEmail = user.email()
     blogReaction.userIp = clientIp 
     blogReaction.put()
-    memcache.delete("blog_recentReactions")
+    util.flushRecentReactions()
     self.redirect('/viewBlog?blogId='+blogId_)
 
 
