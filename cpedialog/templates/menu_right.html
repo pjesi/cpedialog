@@ -7,9 +7,13 @@
         <h2>Recent comments</h2>
         <ul>
             {% for reactioin in recentReactions %}
-            <li> {{reactioin.date|date:"m/d/y"}} <A href="/viewBlog?blogId={{reactioin.weblog.key.id}}#reactions">
-                {{reactioin.weblog.title}}</A></li>
-
+            <li> {{reactioin.date|date:"m/d/y"}}
+                {%if reactioin.weblog.permalink %}
+                <a href="/{{reactioin.weblog.permalink}}#reactions"> {{reactioin.weblog.title}}</A>
+                {% else %}
+                <A href="/viewBlog?blogId={{reactioin.weblog.key.id}}#reactions">  {{reactioin.weblog.title}}</A>
+                 {% endif %}
+           </li>               
             {% endfor %}
         </ul>
 

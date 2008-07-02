@@ -15,6 +15,7 @@ from google.appengine.ext.webapp import template
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext import db
+from google.appengine.api import memcache
 from google.appengine.ext import search
 
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
@@ -26,7 +27,6 @@ import authorized
 import view
 import config
 import util
-
 
 
 class BaseRequestHandler(webapp.RequestHandler):
@@ -44,10 +44,7 @@ class BaseRequestHandler(webapp.RequestHandler):
       url_linktext = 'Sign out'
       useremail = users.get_current_user().email()
       if users.is_current_user_admin():
-         administrator = True
-      else:
-         if useremail == 'ping.chen@cpedia.com':
-              administrator = True        
+        administrator = True
     else:
       url = users.create_login_url(self.request.uri)
       url_linktext = 'Sign in'
@@ -64,6 +61,7 @@ class BaseRequestHandler(webapp.RequestHandler):
     directory = os.path.dirname(__file__)
     path = os.path.join(directory, os.path.join('templates', template_name))
     view.ViewPage(cache_time=0).render(self, template_name,values)
+
 
 class NotFoundHandler(webapp.RequestHandler):
     def get(self):
@@ -82,16 +80,23 @@ class MainPage(BaseRequestHandler):
         page = int(pageStr)
     else:
         page = 1;
-    blogs_query = Weblog.all().order('-date')
-    #blogs = blogs_query.fetch(5,(page-1)*5)
-    try:
-        obj_page  =  GqlQueryPaginator(blogs_query,page,config._NUM_PER_PAGE).page()
-    except InvalidPage:
-        self.redirect('/')
 
-    recentReactions = WeblogReactions.all().order('-date').fetch(20)
+    key = config.blog["blog_pages_memcache_key"]
+    obj_pages = memcache.get(key)
+    if not obj_pages or not obj_pages[page]:
+        blogs_query = Weblog.all().order('-date')
+        #blogs = blogs_query.fetch(5,(page-1)*5)
+        try:
+            obj_page  =  GqlQueryPaginator(blogs_query,page,config._NUM_PER_PAGE).page()
+            if not obj_pages:
+                obj_pages = {}
+            obj_pages[page] = obj_page
+            memcache.add(key=key, value=obj_pages, time=3600)
+        except InvalidPage:
+            self.redirect('/')
+    recentReactions = util.getRecentReactions()
     template_values = {
-      'page':obj_page,
+      'page':obj_pages[page],
       'recentReactions':recentReactions,
       }
     self.generate('blog_main.html',template_values)
@@ -109,12 +114,9 @@ class AddBlog(BaseRequestHandler):
   def post(self):
     title_review = self.request.get('title_input')
     content_review = self.request.get('text_input')
-
     preview = self.request.get('preview')
     submitted = self.request.get('submitted')
-
     user = users.get_current_user()
-
     template_values = {
       'title_review': title_review,
       'content_review': content_review,
@@ -122,7 +124,6 @@ class AddBlog(BaseRequestHandler):
       'submitted': submitted,
       'action': "addBlog",
       }
-
     if preview == '1' and submitted !='1':
         self.generate('blog_add.html',template_values)
     else:
@@ -133,6 +134,8 @@ class AddBlog(BaseRequestHandler):
         blog.author = user
         blog.authorEmail = user.email()
         blog.put()
+        util.flushBlogMonthCache(blog)
+        util.flushBlogPagesCache()
         self.redirect('/')
 
 class AddBlogReaction(BaseRequestHandler):
@@ -158,6 +161,7 @@ class AddBlogReaction(BaseRequestHandler):
     blogReaction.authorEmail = user.email()
     blogReaction.userIp = clientIp 
     blogReaction.put()
+    memcache.delete("blog_recentReactions")
     self.redirect('/viewBlog?blogId='+blogId_)
 
 
@@ -186,6 +190,8 @@ class EditBlog(BaseRequestHandler):
         blog.lastModifiedDate = datetime.datetime.now()
         blog.lastModifiedBy = user
         blog.put()
+        util.flushBlogMonthCache(blog)
+        util.flushBlogPagesCache()
         self.redirect('/viewBlog?blogId='+blogId_)
 
 class DeleteBlog(BaseRequestHandler):
@@ -208,6 +214,8 @@ class DeleteBlog(BaseRequestHandler):
         for reaction in blogReactions:
             reaction.delete()
         blog.delete()
+        util.flushBlogMonthCache(blog)
+        util.flushBlogPagesCache()
     self.redirect('/')
 
 class EditBlogReaction(BaseRequestHandler):
@@ -256,6 +264,7 @@ class DeleteBlogReaction(BaseRequestHandler):
 
     if(blogReaction is not None):
         db.delete(blogReaction)
+        memcache.delete("blog_recentReactions")
     self.redirect('/')
 
 
@@ -283,27 +292,22 @@ class ViewBlog(BaseRequestHandler):
 class MonthHandler(BaseRequestHandler):
     def get(self, year, month):
         logging.debug("MonthHandler#get for year %s, month %s", year, month)
-        pageStr = self.request.get('page')
-        if pageStr:
-            page = int(pageStr)
-        else:
-            page = 1;
         year_ =  string.atoi(year)
         month_ =  string.atoi(month)
-        start_date = datetime.datetime(year_, month_, 1)
-        end_date = datetime.datetime(year_, month_, calendar.monthrange(year_, month_)[1], 23, 59, 59)
-        blogs_query = db.Query(Weblog).order('-date').filter('date >=', start_date).filter('date <=', end_date)
-        try:
-            obj_page  =  GqlQueryPaginator(blogs_query,page,config._NUM_PER_PAGE).page()
-        except InvalidPage:
-            self.redirect('/')
-
-        recentReactions = WeblogReactions.all().order('-date').fetch(20)
+        key= "blog_year_month_"+str(year_)+"_"+str(month_)
+        blogs = memcache.get(key)
+        if not blogs:
+            start_date = datetime.datetime(year_, month_, 1)
+            end_date = datetime.datetime(year_, month_, calendar.monthrange(year_, month_)[1], 23, 59, 59)
+            blogs_query = db.Query(Weblog).order('-date').filter('date >=', start_date).filter('date <=', end_date)
+            blogs = blogs_query.fetch(1000)
+            memcache.add(key=key, value=blogs, time=3600)
+        recentReactions = util.getRecentReactions()
         template_values = {
-          'page':obj_page,
+          'blogs':blogs,
           'recentReactions':recentReactions,
           }
-        self.generate('blog_main.html',template_values)
+        self.generate('blog_main_month.html',template_values)
 
 class ArticleHandler(BaseRequestHandler):
     def get(self, year, month, perm_stem):

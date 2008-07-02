@@ -49,9 +49,6 @@ class BaseRequestHandler(webapp.RequestHandler):
       useremail = users.get_current_user().email()
       if users.is_current_user_admin():
         administrator = True
-      else:
-        if useremail == 'ping.chen@cpedia.com':
-          administrator = True
     else:
       url = users.create_login_url(self.request.uri)
       url_linktext = 'Sign in'
@@ -62,7 +59,6 @@ class BaseRequestHandler(webapp.RequestHandler):
       'url_linktext': url_linktext,
       'administrator': administrator,
       'logoImages': util.getLogoImagesList(),
-      'datetimeList': util.getDatetimeList(),
     }
     values.update(template_values)
     directory = os.path.dirname(__file__)
@@ -104,7 +100,7 @@ class AlbumHandler(BaseRequestHandler):
           }
         self.generate('album_view.html',template_values)
 
-
+#deprecated
 class PhotoHandler(BaseRequestHandler):
     def get(self, username, album_name, photoId):
         logging.debug("AlbumHandler#get for username %s, album_name %s and photoId %s", username, album_name, photoId)
