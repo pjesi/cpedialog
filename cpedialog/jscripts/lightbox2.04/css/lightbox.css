@@ -1,3 +1,5 @@
+#lightbox a, #lightbox a:hover, #lightbox a:link, #lightbox a:visited {border-bottom:none !important;background-color: inherit!important;}
+
 #lightbox{	position: absolute;	left: 0; width: 100%; z-index: 100; text-align: center; line-height: 0;}
 #lightbox img{ width: auto; height: auto;}
 #lightbox a img{ border: none; }

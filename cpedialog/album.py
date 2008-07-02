@@ -21,6 +21,7 @@ from google.appengine.ext.webapp import template
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext import db
+from google.appengine.api import memcache
 
 import authorized
 import view
@@ -72,9 +73,12 @@ class BaseRequestHandler(webapp.RequestHandler):
 class MainPage(BaseRequestHandler):
   def get(self):
     username =config.album['username']
-    gd_client = gdata.photos.service.PhotosService()
-    feed = gd_client.GetUserFeed(user=username)
-
+    key = "albums_"+username
+    feed = memcache.get(key)
+    if not feed:
+        gd_client = gdata.photos.service.PhotosService()
+        feed = gd_client.GetUserFeed(user=username)
+        memcache.add(key=key, value=feed, time=3600)
     template_values = {
       'username':username,
       'albums':feed.entry,
@@ -85,10 +89,14 @@ class MainPage(BaseRequestHandler):
 class AlbumHandler(BaseRequestHandler):
     def get(self, username, album_name):
         logging.debug("AlbumHandler#get for username %s and album_name %s", username, album_name)
-        gd_client = gdata.photos.service.PhotosService()
-        feed = gd_client.GetFeed(
-            '/data/feed/api/user/%s/album/%s?kind=photo' % (
-                username, album_name))
+        key = "albums_"+username+"_"+album_name
+        feed = memcache.get(key)
+        if not feed:
+            gd_client = gdata.photos.service.PhotosService()
+            feed = gd_client.GetFeed(
+                '/data/feed/api/user/%s/album/%s?kind=photo' % (
+                    username, album_name))
+            memcache.add(key=key, value=feed, time=3600)
         template_values = {
           'photos': feed.entry,
           'username':username,

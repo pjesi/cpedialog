@@ -60,11 +60,10 @@ dt {font:bold}
 #blogcontainer{border: 1px #000000 solid;padding-bottom: 10px; padding-top: 10px;}
 #albumsdiv{border: 1px #000000 solid;padding-bottom: 40px; padding-top: 10px;}
 
-#albums{margin:auto;text-align:center;}
+#albums{margin:auto;text-align:center;padding-left:20px}
+#albums a, #albums a:hover, #albums a:link, #albums a:visited {border-bottom:none !important;background-color: inherit!important;}
 .album_thumbnail{width:180px;height:200px;margin:20px;}
 .photo_thumbnail{margin:10px;padding:0;width:144px}
-#photo{ width:400px}
-#photocontainer{width:800px;height:600px}
 * html .album_thumbnail, * html .photo_thumbnail {display:inline}/* for ie*/
 html>body #albums {display:table}/*for mozilla */
 html>body .album_thumbnail{display:table;float:left}/*for mozilla */
