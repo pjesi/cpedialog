@@ -28,7 +28,12 @@
         </H4>
         </DIV>
         {% endfor %}
-     {% endif %}
+    {% else %}
+       <div>
+       No articles!
+       </div>
+    {% endif %}
+
 
 
     {% include "paginator.html" %}

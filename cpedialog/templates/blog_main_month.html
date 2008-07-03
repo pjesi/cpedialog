@@ -6,7 +6,7 @@
 {% block blog %}
     <div id=bloglist>
     
-    {% if page %}
+    {% if blogs %}
       {% for blog in blogs %}
         <H2 class=date-header> {{blog.date|date:"l, F m, Y"}} </H2>
         <DIV class="post">
@@ -28,8 +28,11 @@
         </H4>
         </DIV>
         {% endfor %}
+     {% else %}
+        <div>
+        No articles!
+        </div>
      {% endif %}
-
 
     </div>
         

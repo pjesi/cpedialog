@@ -6,7 +6,6 @@ blog = {
     "description": "CPEDIA's Blog powered by Google AppEngine.",
     "root_url": "http://blog.cpedia.com",
     "cache_time": 0,      # You can override this default for each page through a handler's call to view.ViewPage(cache_time=...)
-    "blog_pages_memcache_key": "blog_pages_memcache_key",   #key for blog pages, the value for the key is a dictionary.
 }
 
 album ={

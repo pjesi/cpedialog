@@ -81,22 +81,14 @@ class MainPage(BaseRequestHandler):
     else:
         page = 1;
 
-    key = config.blog["blog_pages_memcache_key"]
-    obj_pages = memcache.get(key)
-    if not obj_pages or not obj_pages[page]:
-        blogs_query = Weblog.all().order('-date')
-        #blogs = blogs_query.fetch(5,(page-1)*5)
-        try:
-            obj_page  =  GqlQueryPaginator(blogs_query,page,config._NUM_PER_PAGE).page()
-            if not obj_pages:
-                obj_pages = {}
-            obj_pages[page] = obj_page
-            memcache.add(key=key, value=obj_pages, time=3600)
-        except InvalidPage:
-            self.redirect('/')
+    #get blog pagination from cache.
+    obj_page = util.getBlogPagination(page)
+    if obj_page is None:
+        self.redirect('/')
+
     recentReactions = util.getRecentReactions()
     template_values = {
-      'page':obj_pages[page],
+      'page':obj_page,
       'recentReactions':recentReactions,
       }
     self.generate('blog_main.html',template_values)
@@ -264,7 +256,7 @@ class DeleteBlogReaction(BaseRequestHandler):
 
     if(blogReaction is not None):
         db.delete(blogReaction)
-        memcache.delete("blog_recentReactions")
+        util.flushRecentReactions()
     self.redirect('/')
 
 
@@ -291,17 +283,12 @@ class ViewBlog(BaseRequestHandler):
 
 class MonthHandler(BaseRequestHandler):
     def get(self, year, month):
-        logging.debug("MonthHandler#get for year %s, month %s", year, month)
         year_ =  string.atoi(year)
         month_ =  string.atoi(month)
-        key= "blog_year_month_"+str(year_)+"_"+str(month_)
-        blogs = memcache.get(key)
-        if not blogs:
-            start_date = datetime.datetime(year_, month_, 1)
-            end_date = datetime.datetime(year_, month_, calendar.monthrange(year_, month_)[1], 23, 59, 59)
-            blogs_query = db.Query(Weblog).order('-date').filter('date >=', start_date).filter('date <=', end_date)
-            blogs = blogs_query.fetch(1000)
-            memcache.add(key=key, value=blogs, time=3600)
+
+        #get blogs in month from cache.
+        blogs = util.getMonthBlog(year_,month_)
+
         recentReactions = util.getRecentReactions()
         template_values = {
           'blogs':blogs,
@@ -309,9 +296,9 @@ class MonthHandler(BaseRequestHandler):
           }
         self.generate('blog_main_month.html',template_values)
 
+
 class ArticleHandler(BaseRequestHandler):
     def get(self, year, month, perm_stem):
-        logging.debug("ArticleHandler#get for year %s, month %s, and perm_link %s", year, month, perm_stem)
         blog = db.Query(Weblog).filter('permalink =', year + '/' + month + '/' + perm_stem).get()
         if(blog is None):
             self.redirect('/')
@@ -338,7 +325,7 @@ class SearchHandler(BaseRequestHandler):
         except InvalidPage:
             self.redirect('/')
 
-        recentReactions = WeblogReactions.all().order('-date').fetch(20)
+        recentReactions = util.getRecentReactions()
         template_values = {
           'page':obj_page,
           'recentReactions':recentReactions,
