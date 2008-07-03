@@ -104,14 +104,18 @@ class AddBlog(BaseRequestHandler):
 
   @authorized.role("admin")
   def post(self):
-    title_review = self.request.get('title_input')
-    content_review = self.request.get('text_input')
     preview = self.request.get('preview')
     submitted = self.request.get('submitted')
     user = users.get_current_user()
+
+    blog = Weblog()
+    blog.title = self.request.get('title_input')
+    blog.content = self.request.get('text_input')
+    blog.author = user
+    blog.authorEmail = user.email()
+    blog.tags_commas = self.request.get('tags')
     template_values = {
-      'title_review': title_review,
-      'content_review': content_review,
+      'blog': blog,
       'preview': preview,
       'submitted': submitted,
       'action': "addBlog",
@@ -120,11 +124,6 @@ class AddBlog(BaseRequestHandler):
         self.generate('blog_add.html',template_values)
     else:
       if submitted =='1':
-        blog = Weblog()
-        blog.title = title_review
-        blog.content = content_review
-        blog.author = user
-        blog.authorEmail = user.email()
         blog.put()
         util.flushBlogMonthCache(blog)
         util.flushBlogPagesCache()
@@ -316,7 +315,7 @@ class SearchHandler(BaseRequestHandler):
             page = int(pageStr)
         else:
             page = 1;
-        search_term = self.request.get("q")  
+        search_term = self.request.get("q")
         query = search.SearchableQuery('Weblog')
         query.Search(search_term)
         result = query.Run()
@@ -333,6 +332,21 @@ class SearchHandler(BaseRequestHandler):
         self.generate('blog_main.html',template_values)
 
 
+class TagHandler(BaseRequestHandler):
+    def get(self, encoded_tag):
+        tag =  re.sub('(%25|%)(\d\d)', lambda cmatch: chr(string.atoi(cmatch.group(2), 16)), encoded_tag)   # No urllib.unquote in AppEngine?         
+        blogs_query = db.Query(Weblog).filter('tags =', tag).order('-date')
+        blogs = blogs_query.fetch(1000)
+        recentReactions = util.getRecentReactions()
+        template_values = {
+          'blogs':blogs,
+          'tag':tag,
+          'recentReactions':recentReactions,
+          }
+        self.generate('tag.html',template_values)
+        
+
+        
 #The method below just for blog data maintance.   
 class DeleteAllBlog(BaseRequestHandler):
   @authorized.role("admin")

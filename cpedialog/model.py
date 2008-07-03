@@ -26,6 +26,19 @@ class Weblog(db.Model):
       else:
           return self.date.strftime('%Y/%m/')+str(self.key().id())
 
+  def get_tags(self):
+      '''comma delimted list of tags'''
+      return ','.join([tag for tag in self.tags])
+
+  def set_tags(self, tags):
+      if tags:
+          tagstemp = [db.Category(tag.strip()) for tag in tags.split(',')]
+          self.tagsnew = [tag for tag in tagstemp if not tag in self.tags]
+          self.tags = tagstemp
+
+  tags_commas = property(get_tags,set_tags)
+
+
   # Serialize data that we'd like to store with this article.
   # Examples include relevant (per article) links and associated Amazon items.
   def set_associated_data(self, data):
@@ -33,12 +46,6 @@ class Weblog(db.Model):
 
   def get_associated_data(self):
       return pickle.loads(self.assoc_dict)
-
-  def rfc3339_published(self):
-      return self.date.strftime('%Y-%m-%dT%H:%M:%SZ')
-
-  def rfc3339_updated(self):
-      return self.lastModifiedDate.strftime('%Y-%m-%dT%H:%M:%SZ')
 
   def is_big(self):
       if len(self.content) > 2000 or '<img' in self.content or '<code>' in self.content or '<pre>' in self.content:

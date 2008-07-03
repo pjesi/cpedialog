@@ -31,6 +31,7 @@ def main():
                                         ('/([12]\d\d\d)/(\d|[01]\d)/*$', blog.MonthHandler),
                                         ('/([12]\d\d\d)/(\d|[01]\d)/([-\w]+)/*$', blog.ArticleHandler),
                                         ('/search', blog.SearchHandler),
+                                        ('/tag/(.*)', blog.TagHandler),
 
                                         ('/albums/*$', album.MainPage),
                                         ('/albums/([-\w]+)/([-\w]+)/*$', album.AlbumHandler),

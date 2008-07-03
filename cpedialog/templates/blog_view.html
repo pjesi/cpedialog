@@ -17,10 +17,17 @@
             </H3>
 
             <DIV class=post-body>
-                <!--<font color="red">Blog permalink genareted sucessfully! The link is <a href="/{{permalink}}">permalink</a> </font><br>  <br>-->
                 {{blog.content}}
             </DIV>
             <DIV class=post-footer>
+                {% if blog.tags %}
+                <p>
+                  Tags:
+                {% for tag in blog.tags %}
+                    <a href="/tag/{{ tag|urlencode }}">{{ tag }}</a>
+                {% endfor %}
+                 </p>
+                {% endif %}
                 <P>
                     <SPAN class=post-author>Posted by {{blog.author}} </SPAN>
                     <SPAN class=post-timestamp>at

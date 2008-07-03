@@ -5,7 +5,7 @@
 
 {% block blog %}
     <div id=bloglist>
-    
+
     {% if blogs %}
       {% for blog in blogs %}
         <H2 class=date-header> {{blog.date|date:"l, F m, Y"}} </H2>
@@ -20,7 +20,7 @@
         <DIV class=post-body>
          {{blog.content}}
          </DIV>
-        <H4 class=byline> Posted by {{blog.author}} at 
+        <H4 class=byline> Posted by {{blog.author}} at
            <A  class=timestamp-link href="{{entity.permalink}}">{{blog.date|date:"H:i A"}}</A>
                      {% if blog.weblogreactions_set.count %}
                     <A class=comment-link href="/viewBlog?blogId={{blog.key.id}}#reactions">{{blog.weblogreactions_set.count}} comments</A>
@@ -29,12 +29,17 @@
         </DIV>
         {% endfor %}
      {% else %}
-        <div>
-        No articles in the month!
+        <div class="post">
+            <div class="post-title">No Matches</div>
+            <h2>No articles tagged with '{{ tag }}'</h2>
+            <div class="post-body">
+                <p>It's possible that an article with the tag was removed.</p>
+                <p>Please try another tag or use the full-text search.</p>
+            </div>
         </div>
      {% endif %}
 
     </div>
-        
+
 {% endblock %}
 
