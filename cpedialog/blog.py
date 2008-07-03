@@ -141,19 +141,23 @@ class AddBlogReaction(BaseRequestHandler):
         self.redirect('/')
     blogReaction = WeblogReactions()
     blogReaction.weblog = blog
-    blogReaction.user = self.request.get('name_input')
     blogReaction.content = self.request.get('text_input')
+    blogReaction.authorWebsite = self.request.get('website')
+    
     user = users.get_current_user()
-    clientIp = self.request.remote_addr  
-    if not user:
-      user  = users.User("Anonymous@"+clientIp)
+    clientIp = self.request.remote_addr
 
-    blogReaction.author = user
-    blogReaction.authorEmail = user.email()
-    blogReaction.userIp = clientIp 
+    if user is not None:
+        blogReaction.author = user
+        blogReaction.authorEmail = str(user.email)
+        blogReaction.user = user.nickname
+    else:
+        blogReaction.authorEmail = self.request.get('mail')
+        blogReaction.user = self.request.get('name_input')
+    blogReaction.userIp = clientIp
     blogReaction.put()
     util.flushRecentReactions()
-    self.redirect('/viewBlog?blogId='+blogId_)
+    self.redirect('/'+blog.permalink)
 
 
 class EditBlog(BaseRequestHandler):
@@ -183,7 +187,7 @@ class EditBlog(BaseRequestHandler):
         blog.put()
         util.flushBlogMonthCache(blog)
         util.flushBlogPagesCache()
-        self.redirect('/viewBlog?blogId='+blogId_)
+        self.redirect('/'+blog.permalink)
 
 class DeleteBlog(BaseRequestHandler):
   @authorized.role("admin")
@@ -229,12 +233,17 @@ class EditBlogReaction(BaseRequestHandler):
             self.redirect('/')
 
         blogReaction.content = self.request.get('text_input')
+        blogReaction.authorWebsite = self.request.get('website')
         user = users.get_current_user()
+        if user is not None:
+            blogReaction.lastModifiedBy = user
+        else:
+            blogReaction.authorEmail = self.request.get('mail')
+            blogReaction.user = self.request.get('name_input')
 
-        blogReaction.lastModifiedBy = user
         blogReaction.lastModifiedDate = datetime.datetime.now()
         blogReaction.put()
-        self.redirect('/viewBlog?blogId='+str(blogReaction.weblog.key().id()))
+        self.redirect('/'+blogReaction.weblog.permalink)
 
 
 class DeleteBlogReaction(BaseRequestHandler):
@@ -243,7 +252,7 @@ class DeleteBlogReaction(BaseRequestHandler):
       reactionId_ = self.request.get('reactionId')
       blogReaction = WeblogReactions.get_by_id(int(reactionId_))
       template_values = {
-      'blogReaction': blogReaction,
+      'reaction': blogReaction,
       'action': "deleteBlogReaction",
       }
       self.generate('blog_delete.html',template_values)
@@ -256,7 +265,7 @@ class DeleteBlogReaction(BaseRequestHandler):
     if(blogReaction is not None):
         db.delete(blogReaction)
         util.flushRecentReactions()
-    self.redirect('/')
+    self.redirect('/'+blogReaction.weblog.permalink)
 
 
 class ViewBlog(BaseRequestHandler):

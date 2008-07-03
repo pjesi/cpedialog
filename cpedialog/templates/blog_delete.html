@@ -4,40 +4,58 @@
 
 {% block blogcontainer %}
 <div class="yui-g">
-    <table cellspacing=0 cellpadding=0 width=100%>
-    <tr>
-    <td class='header'>
-    <b>
+<div id="blogview">
+    <h4>
         {% ifequal action "deleteBlog" %}
         Delete item
         {% endifequal %}
         {% ifequal action "deleteBlogReaction" %}
         Delete reaction
         {% endifequal %}
-    </b>
-    </td>
-    </tr>
-    <tr>
-    <td class='weblog'>
-        {% ifequal action "deleteBlog" %}
+    </h4>
+       <div>
+         {% ifequal action "deleteBlog" %}
             Delete item <b>{{blog.title}}</b> and all of it's comments? 
         {% endifequal %}
         {% ifequal action "deleteBlogReaction" %}
-        <b> {{blogReaction.user}}   <br />
-            {{blogReaction.content}} </b>
-        {% endifequal %}
+            {% if reaction.author%}
+                {% ifequal reaction.author reaction.weblog.author%}
+               <div class='author comment'>
+                {% else %}
+               <div class='comment'>
+                {% endifequal %}
+            {% else %}
+           <div class='comment'>
+             {% endif %}
+              <p> {% if reaction.authorWebsite %}
+                  <a href="{{reaction.authorWebsite}}">
+                 {% endif%}
+                <b>{{reaction.user}}</b>
+                 {% if reaction.authorWebsite %}
+                  </a>
+                 {% endif%}
+                {{reaction.date|date:"Y-m-d H:i"}}
+                &nbsp;&nbsp;
+                {% ifnotequal reaction.userIp Null %}
+                <i><b>IP Address</b>:{{reaction.userIp}}</i>
+                {% endifnotequal %}
+              </p>
+             <DIV class=post-body>
+                <p>{{reaction.content}}</p>
+            </DIV>
+            </div>
+               {% endifequal %}
         <br><br>
+        </div>
     <form method=post action='/{{action}}?submitted=1'>
         {% if blog %} <input name="blogId" type="hidden" value="{{blog.key.id}}">{% endif %}
 
-        {% if blogReaction %}
-        <input name="blogReactionId" type="hidden" value="{{blogReaction.key.id}}">
+        {% if reaction %}
+        <input name="blogReactionId" type="hidden" value="{{reaction.key.id}}">
         {% endif %}
 
      <input type=submit value=delete>
     </form>
-    </td>
-    </tr>
-    </table>
+</div>
 </div>
 {% endblock %}

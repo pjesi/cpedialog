@@ -10,8 +10,11 @@ h3 {font: bold 1em Verdana, Arial, sans-serif; letter-spacing: 2px; text-transfo
 h4 {font: bold 1.1em Georgia, "Times New Roman", serif; letter-spacing: 1px;}
 
 ul, ol {list-style: none;}
+ul, ol {list-style-image:none;list-style-position:outside;list-style-type:none;}
 dt {font:bold}
 
+#navbar {font-family:Georgia,Times,serif;font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;line-height:normal;}
+#navbar li a { color:#000000;display:block;padding:0.75em 0pt 0.25em;text-transform:uppercase;}
 
 .post {PADDING-RIGHT: 10px; PADDING-LEFT: 10px; margin-bottom:10px;border-bottom: 1px dotted #cccccc;}
 .post-title {font: 1.6em Georgia, Times, serif;MARGIN: 1em 0px 0.25em;text-transform: none; letter-spacing: 1px;}
@@ -56,7 +59,13 @@ dt {font:bold}
 
 #logo {background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
 #bloglist{ background: url(/img/blog/threecolbg.gif) right repeat-y; padding-right:10px;padding-left:10px}
-#blogview{ padding-right:10px;padding-left:10px;border: 1px #000000 solid;}
+#blogview{ padding-right:10px;padding-left:10px;border: 1px #000000 solid;line-height: 1;}
+#blogview h4 {MARGIN: 0px 0px 8px; FONT: 14px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none}
+
+.author, .editorial {background:#F8F7EF none repeat scroll 0% 0%;border-style:none none none solid;border-width:medium medium medium 6px;margin:10px 0pt;}
+.comment { margin-bottom:-1px;padding:15px 10px 1px;border-bottom: 1px dotted #cccccc;padding-top:10px}
+
+
 #blogcontainer{border: 1px #000000 solid;padding-bottom: 10px; padding-top: 10px;}
 #albumsdiv{border: 1px #000000 solid;padding-bottom: 40px; padding-top: 10px;}
 

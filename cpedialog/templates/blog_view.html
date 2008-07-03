@@ -4,10 +4,19 @@
 
 {% block blogcontainer %}
 
+<script language="javascript" type="text/javascript" src="/jscripts/tiny_mce/tiny_mce.js"></script>
+<script language="javascript" type="text/javascript">
+    tinyMCE.init({
+        mode : "textareas",
+        theme : "simple"
+    });
+</script>
+
 <div class="yui-g">
-     <div id="blogview">
-        <H2 class=date-header> {{blog.date|date:"l, F m, Y"}} </H2>
-        <DIV class="post">
+    <div id="blogview">
+        <div>
+            <H2 class=date-header> {{blog.date|date:"l, F m, Y"}} </H2>
+
             <H3 class=post-title>
                 {%if blog.permalink %}
                 <a href="/{{blog.permalink}}">{{blog.title}}</a>
@@ -22,14 +31,14 @@
             <DIV class=post-footer>
                 {% if blog.tags %}
                 <p>
-                  Tags:
-                {% for tag in blog.tags %}
+                    Tags:
+                    {% for tag in blog.tags %}
                     <a href="/tag/{{ tag|urlencode }}">{{ tag }}</a>
-                {% endfor %}
-                 </p>
+                    {% endfor %}
+                </p>
                 {% endif %}
                 <P>
-                    <SPAN class=post-author>Posted by {{blog.author}} </SPAN>
+                    <SPAN class=post-author>Posted by {{blog.author.nickname}} </SPAN>
                     <SPAN class=post-timestamp>at
                         <A class=timestamp-link href="{{blog.permalink}}">{{blog.date|date:"H:i A"}}</A>
                     </SPAN>
@@ -48,21 +57,36 @@
             </DIV>
 
         {% ifnotequal reactions.count 0 %}
-             <h4> Reactions
-            </h4>
-            {% for reaction in reactions %}
-            <dl id='comments-block'>
-                <dt class='comment-author blogger-comment-icon'>
-                    <b>{{reaction.user}}</b> {{reaction.date|date:"Y-m-d H:i"}}
-                    &nbsp;&nbsp;
-                    {% ifnotequal reaction.userIp Null %}
-                    <i><b>IP Address</b>:{{reaction.userIp}}</i>
-                    {% endifnotequal %}
-                </dt>
-                <dd class='comment-body'>
-                    <p>{{reaction.content}}</p>
-                </dd>
-                <dd class='comment-footer'>
+        <br> <br>
+        <h4> Reactions
+        </h4>
+        {% for reaction in reactions %}
+            {% if reaction.author%}
+                {% ifequal reaction.author reaction.weblog.author%}
+               <div class='author comment'>
+                {% else %}
+               <div class='comment'>                   
+                {% endifequal %}
+            {% else %}
+           <div class='comment'>
+             {% endif %}
+              <p> {% if reaction.authorWebsite %}
+                  <a href="{{reaction.authorWebsite}}">
+                 {% endif%}
+                <b>{{reaction.user}}</b>
+                 {% if reaction.authorWebsite %}
+                  </a>
+                 {% endif%}
+                {{reaction.date|date:"Y-m-d H:i"}}
+                &nbsp;&nbsp;
+                {% ifnotequal reaction.userIp Null %}
+                <i><b>IP Address</b>:{{reaction.userIp}}</i>
+                {% endifnotequal %}
+              </p>
+             <DIV class=post-body>
+                <p>{{reaction.content}}</p>
+            </DIV>
+            <DIV class=post-footer>
                     <span class='comment-timestamp'>
                         {% ifequal administrator 1 %}
                         <p style='text-align: right;'>:<a
@@ -74,34 +98,40 @@
                         Edited at {{reaction.lastModifiedDate}} by {{reaction.lastModifiedBy}}.
                         {% endifnotequal %}
                     </span>
-                </dd>
-            </dl>
-            {% endfor %}
-        {% endifnotequal %}
-           </DIV>
-
-         <div>
-           <h4> Add a reaction
-            </h4>
-
-            <form method=post action='/addBlogReaction?blogId={{blog.key.id}}'>
-                <table>
-                    <tr>
-                        <td class='form'>name:</td>
-                        <td class='form'><input name='name_input' value='' size=80 maxlength=25></td>
-                    </tr>
-                    <tr>
-                        <td class='form'>&nbsp; </td>
-                        <td class='form'></td>
-                    </tr>
-                    <tr>
-                        <td class='form'>text:</td>
-                        <td class='form'><textarea name='text_input' style="height:250px; width:550px"></textarea></td>
-                    </tr>
-                </table>
-                <input name=submit_addreply type=submit value=submit>
-            </form>
+            </DIV>
         </div>
+            <br>
+        {% endfor %}
+        {% endifnotequal %}
+        <br> <br> <br>
+        <h4> Add a reaction
+        </h4>
+
+        <form method=post action='/addBlogReaction?blogId={{blog.key.id}}'>
+            <h2 class="comments-post">About You</h2>
+            <div>
+                <input id="name_input" name='name_input' type=text size="60" value="{% if user %}{{user.nickname}}{%endif%}"
+                        {% if user %}readonly{%endif%}>
+
+                <label for="name_input"><b>Name</b> (required)</label>
+            </div>
+            <div>
+                <input id="mail" name="mail" type=text size="60" value="{% if user %}{{user.email}}{%endif%}"
+                        {% if user %}readonly{%endif%}>
+                <label for="mail"><b>Mail</b> (required)</label>
+            </div>
+            <div>
+                <input id="website" name="website" type=text size="60">
+                <label for="website"><b>Website</b></label>
+            </div>
+            <h2 class="comments-post">Comment</h2>
+            <div>
+                <textarea id="text_input" name="text_input" rows="12" cols="60"></textarea>
+            </div>
+            <br>
+            <input name=submit_addreply type=submit value=submit>  <br> <br>
+        </form>
+     </div>
     </div>
 </div>
 {% endblock %}

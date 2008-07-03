@@ -124,7 +124,7 @@ def getBlogPagination(page):
         obj_pages = memcache.get(key_)
     except Exception:
         obj_pages = None
-    if obj_pages is None or obj_pages[page] is None:
+    if obj_pages is None or page not in obj_pages:
         blogs_query = Weblog.all().order('-date')
         try:
             obj_page  =  GqlQueryPaginator(blogs_query,page,config._NUM_PER_PAGE).page()

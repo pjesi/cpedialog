@@ -53,21 +53,38 @@ Edit reaction
             Edit reaction
             {% endifequal %}
         </h4>
+
         {% ifnotequal action "editBlogReaction" %}
         <div id="blogtitle">
-        <label for="title_input">Title:</label>
-        <input name=title_input id="title_input" type=text
+         <input name=title_input id="title_input" type=text size="60"
                value='{% if blog %}{{blog.title}}{% endif %}'>
+            <label for="title_input"><b>Title</b>(required)</label>
         </div>
 
         <div id="blogtags">
-        <label for="tags">Tags:</label>
-        <input type="text" size="100" id="tags" name="tags" value="{% if blog %}{{blog.tags_commas}}{% endif %}">
+         <input type=text size="60" id="tags" name="tags" value="{% if blog %}{{blog.tags_commas}}{% endif %}">
+         <label for="tags"><b>Tags</b>(required)</label>
         </div>
         {% endifnotequal %}
 
+        {% ifequal action "editBlogReaction" %}
+        <h2 class="comments-post">About the author</h2>
+        <div>
+            <input id="name_input" name='name_input' type=text size="60" value="{% if blogReaction %}{{blogReaction.user}}{% endif %}">
+            <label for="name_input"><b>Name</b> (required)</label>
+        </div>
+        <div>
+            <input id="mail" name="mail" type=text size="60" value="{% if blogReaction %}{{blogReaction.authorEmail}}{% endif %}">
+            <label for="mail"><b>Mail</b> (required)</label>
+        </div>
+        <div>
+            <input id="website" name="website" type=text size="60" value="{% if blogReaction %}{{blogReaction.authorWebsite}}{% endif %}">
+            <label for="website"><b>Website</b></label>
+        </div>
+        {% endifequal %}
+
         <div id="blogpost">
-        <label for="editor">Post:</label>
+        <h2 class="comments-post">Content</h2>
         <textarea id="editor" name="editor" rows="20" cols="75">
             {% if blog %}{{blog.content}}{% endif %}
             {% if blogReaction %}{{blogReaction.content}}{% endif %}
@@ -85,14 +102,13 @@ Edit reaction
         <input name="blogReactionId" type="hidden" value="{{blogReaction.key.id}}">
         {% endif %}
         {% endifequal %}
-
+        <br>
         {% ifequal action "addBlog" %}
         <input name=submit_preview type=submit value=preview>
         {% else %}
         <input name=submit_edit type=submit value=submit>
         {% endifequal %}
-
-        <input name=text_input type="hidden"/>
+         <input name=text_input type="hidden"/><br><br>
     </form>
     </div>
     {% ifequal preview '1' %}
@@ -136,7 +152,7 @@ Edit reaction
 
         </DIV>
 
-        <input name=title_input type=hidden value="{{title_review}}">
+        <input name=title_input type=hidden value="{{blog.title}}">
         <input name=text_input type="hidden"/>
         <input name=submitted type=hidden value='0'>
         <input name=submit_add type=submit value=submit>

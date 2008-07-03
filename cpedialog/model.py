@@ -59,6 +59,7 @@ class WeblogReactions(db.Model):
   date = db.DateTimeProperty(auto_now_add=True)
   author = db.UserProperty()
   authorEmail = db.EmailProperty()
+  authorWebsite = db.StringProperty()
   userIp = db.StringProperty()
   content = db.TextProperty()
   lastModifiedDate = db.DateTimeProperty()
