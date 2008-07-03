@@ -40,6 +40,7 @@ Edit reaction
     }
 </script>
 <div id="blogview">
+    <div>
     <form method=post action='/{{action}}?preview=1' onsubmit="return parseBlogContent()" id="previewForm">
         <h4>
             {% ifequal action "addBlog" %}
@@ -61,7 +62,7 @@ Edit reaction
 
         <div id="blogtags">
         <label for="tags">Tags:</label>
-        <input type="text" size="100" id="tags" name="tags" value="{% if blog %}{{ blog.tags }}{% endif %}">
+        <input type="text" size="100" id="tags" name="tags" value="{% if blog %}{{blog.tags_commas}}{% endif %}">
         </div>
         {% endifnotequal %}
 
@@ -93,17 +94,18 @@ Edit reaction
 
         <input name=text_input type="hidden"/>
     </form>
-
+    </div>
     {% ifequal preview '1' %}
     {% ifnotequal submitted '1' %}
     <script type="text/javascript">
         function parseConfirmContent() {
             var content = document.getElementById('blogcontent').innerHTML;
             document.forms["submitForm"]["text_input"].value = content;
-            document.getElementById("submitted").value = "1";
+            document.forms["submitForm"]["submitted"].value = "1";
             return true;
         }
     </script>
+    <div>
     <form method=post action='/addBlog' onsubmit="return parseConfirmContent()" id="submitForm">
         <H2 class=date-header>{{blog.date|date:"l, F m, Y"}}</H2>
 
@@ -112,7 +114,7 @@ Edit reaction
                 <a href="#">{{blog.title}}</a>
             </H3>
 
-            <DIV class=post-body>
+            <DIV class=post-body id="blogcontent">
                 {{blog.content}}
             </DIV>
             <DIV class=post-footer>
@@ -140,6 +142,7 @@ Edit reaction
         <input name=submit_add type=submit value=submit>
 
     </form>
+    </div>
     {% endifnotequal%}
     {% endifequal%}
 </div>
