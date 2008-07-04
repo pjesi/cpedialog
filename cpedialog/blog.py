@@ -124,6 +124,19 @@ class AddBlog(BaseRequestHandler):
         self.generate('blog_add.html',template_values)
     else:
       if submitted =='1':
+        try:
+            permalink =  util.get_permalink(blog.date,translate.translate('zh-CN','en', util.u(blog.title,'utf-8')))
+            if not permalink:
+                raise Exception
+        except Exception:
+            #todo: notice user that the permalink genereted error.
+            self.generate('blog_add.html',template_values)
+            return
+        #check the permalink duplication problem.
+        maxpermalinkBlog = db.GqlQuery("select * from Weblog where permalink >= :1 and permalink < :2 order by permalink desc",permalink, permalink+u"\xEF\xBF\xBD").get()
+        if maxpermalinkBlog is not None:
+            permalink = maxpermalinkBlog.permalink+"1"
+        blog.permalink =  permalink
         blog.put()
         util.flushBlogMonthCache(blog)
         util.flushBlogPagesCache()
