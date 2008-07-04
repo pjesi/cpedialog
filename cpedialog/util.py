@@ -28,7 +28,12 @@ def get_datetime(time_string):
     return datetime.datetime.now()
 
 def get_friendly_url(title):
-    return re.sub('-+', '-', re.sub('[^\w-]', '', re.sub('\s+', '-', title.strip()))).lower()
+    return re.sub('-+', '-', re.sub('[^\w-]', '', re.sub('\s+', '-', removepunctuation(title).strip()))).lower()
+
+def removepunctuation(str):
+    punctuation = re.compile(r'[.?!,":;]')
+    str = punctuation.sub("", str)
+    return str
 
 def u(s, encoding):
     if isinstance(s, unicode):
