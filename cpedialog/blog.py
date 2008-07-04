@@ -130,6 +130,7 @@ class AddBlog(BaseRequestHandler):
                 raise Exception
         except Exception:
             #todo: notice user that the permalink genereted error.
+            template_values.update({'error':'Generate permanent link for blog error, please retry it.'})
             self.generate('blog_add.html',template_values)
             return
         #check the permalink duplication problem.
@@ -163,7 +164,7 @@ class AddBlogReaction(BaseRequestHandler):
     if user is not None:
         blogReaction.author = user
         blogReaction.authorEmail = str(user.email)
-        blogReaction.user = user.nickname
+        blogReaction.user = str(user.nickname)
     else:
         blogReaction.authorEmail = self.request.get('mail')
         blogReaction.user = self.request.get('name_input')

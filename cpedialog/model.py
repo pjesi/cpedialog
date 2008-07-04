@@ -8,7 +8,7 @@ import logging
 
 class Weblog(db.Model):
   permalink = db.StringProperty()
-  title = db.StringProperty(required=True)
+  title = db.StringProperty()
   content = db.TextProperty()
   date = db.DateTimeProperty(auto_now_add=True)
   author = db.UserProperty()

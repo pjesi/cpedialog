@@ -13,6 +13,9 @@ ul, ol {list-style: none;}
 ul, ol {list-style-image:none;list-style-position:outside;list-style-type:none;}
 dt {font:bold}
 
+.error{background:#F8F7EF none repeat scroll 0% 0%;border-color:red;border-style:none none none solid;border-width:medium medium medium 4px;margin:10px 0pt;
+    padding-bottom:10px;padding-left:10px;font-weight:bold;}
+
 #navbar {font-family:Georgia,Times,serif;font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;line-height:normal;}
 #navbar li a { color:#000000;display:block;padding:0.75em 0pt 0.25em;text-transform:uppercase;}
 
@@ -22,8 +25,9 @@ dt {font:bold}
 .post-title a:link, .post-title a:visited {color: #333;}
 .post-title a:hover {color: #000;}
 
-.post-body {text-align: left; line-height: 1.8em;margin: 0 0 1em;}
-
+.post-body {text-align: left; line-height: 1.8em;margin: 0 0 1em;padding-top:5px}
+.post-body a {text-decoration:none!important;font-weight:bold;}
+ 
 .byline {font: italic 0.9em Times, serif; letter-spacing: 1px; margin: 0 0 1.5em;}
 .byline a:link, .byline a:visited {font: bold 0.85em Verdana, sans-serif;
   text-transform: uppercase; letter-spacing: 2px;
@@ -59,10 +63,11 @@ dt {font:bold}
 
 #logo {background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
 #bloglist{ background: url(/img/blog/threecolbg.gif) right repeat-y; padding-right:10px;padding-left:10px}
-#blogview{ padding-right:10px;padding-left:10px;border: 1px #000000 solid;line-height: 1;}
-#blogview h4 {MARGIN: 0px 0px 8px; FONT: 14px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none}
 
-.author, .editorial {background:#F8F7EF none repeat scroll 0% 0%;border-style:none none none solid;border-width:medium medium medium 6px;margin:10px 0pt;}
+#blogview{padding-top:10px; padding-right:10px;padding-left:10px;border: 1px #000000 solid;line-height: 1;}
+.commentlabel h4 {MARGIN: 0px 0px 8px; FONT: 14px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none}
+
+.author{background:#F8F7EF none repeat scroll 0% 0%;border-style:none none none solid;border-width:medium medium medium 6px;margin:10px 0pt;}
 .comment { margin-bottom:-1px;padding:15px 10px 1px;border-bottom: 1px dotted #cccccc;padding-top:10px}
 
 

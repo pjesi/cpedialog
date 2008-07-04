@@ -28,6 +28,7 @@
             <DIV class=post-body>
                 {{blog.content}}
             </DIV>
+            
             <DIV class=post-footer>
                 {% if blog.tags %}
                 <p>
@@ -58,8 +59,9 @@
 
         {% ifnotequal reactions.count 0 %}
         <br> <br>
-        <h4> Reactions
-        </h4>
+        <div class="commentlabel">
+        <h4> Reactions</h4>
+        </div>
         {% for reaction in reactions %}
             {% if reaction.author%}
                 {% ifequal reaction.author reaction.weblog.author%}
@@ -104,8 +106,10 @@
         {% endfor %}
         {% endifnotequal %}
         <br> <br> <br>
-        <h4> Add a reaction
-        </h4>
+
+        <div class="commentlabel">
+        <h4> Add a reaction </h4>
+        </div>
 
         <form method=post action='/addBlogReaction?blogId={{blog.key.id}}'>
             <h2 class="comments-post">About You</h2>
@@ -131,6 +135,7 @@
             <br>
             <input name=submit_addreply type=submit value=submit>  <br> <br>
         </form>
+
      </div>
     </div>
 </div>

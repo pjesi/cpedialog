@@ -22,9 +22,9 @@ Edit reaction
         auto_resize:false,
         extended_valid_elements: "textarea[name|class|cols|rows]",
         remove_linebreaks : false,
-        plugins : 'style,emotions,preview',
+        plugins : 'emotions',
         theme_advanced_toolbar_align : "left",
-        theme_advanced_buttons1_add : "emotions,preview",
+        theme_advanced_buttons1_add : "emotions",
         theme_advanced_buttons2_add : "separator,forecolor,backcolor",
         theme_advanced_buttons3_add_before : "fontselect,fontsizeselect,zoom",
         tab_focus : ':prev,:next'
@@ -40,6 +40,13 @@ Edit reaction
     }
 </script>
 <div id="blogview">
+    
+     {% if error %}
+    <div class="error">
+        {{error}}
+    </div>
+     {% endif %}
+
     <div>
     <form method=post action='/{{action}}?preview=1' onsubmit="return parseBlogContent()" id="previewForm">
         <h4>
