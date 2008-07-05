@@ -8,6 +8,9 @@ import album
 import logging
 import config
 
+from google.appengine.ext.webapp import template
+template.register_template_library('cpedia.filter.replace')
+
 
 def main():
 
@@ -24,11 +27,12 @@ def main():
                                         ('/deleteAllBlogReaction', blog.DeleteAllBlogReaction),
                                         ('/loadBlogReactionBulk', blog.LoadBlogReactionBulk),
                                         ('/loadBlogBulk', blog.LoadBlogBulk),
+                                        ('/updateArchive', blog.UpdateArchive),
 
                                         ('/*$', blog.MainPage),
                                         ('/403.html', blog.UnauthorizedHandler),
                                         ('/404.html', blog.NotFoundHandler),
-                                        ('/([12]\d\d\d)/(\d|[01]\d)/*$', blog.MonthHandler),
+                                        ('/archive/(.*)/*$', blog.ArchiveHandler),
                                         ('/([12]\d\d\d)/(\d|[01]\d)/([-\w]+)/*$', blog.ArticleHandler),
                                         ('/search', blog.SearchHandler),
                                         ('/tag/(.*)', blog.TagHandler),

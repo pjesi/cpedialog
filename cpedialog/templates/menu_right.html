@@ -6,14 +6,14 @@
     <div id="comments">
         <h2>Recent comments</h2>
         <ul>
-            {% for reactioin in recentReactions %}
-            <li> {{reactioin.date|date:"m/d/y"}}
-                {%if reactioin.weblog.permalink %}
-                <a href="/{{reactioin.weblog.permalink}}#reactions"> {{reactioin.weblog.title}}</A>
+            {% for blog in recentReactions %}
+            <li> {{blog.date|date:"m/d/y"}}
+                {%if blog.permalink %}
+                <a href="/{{blog.permalink}}#reactions"> {{blog.title}}</A>
                 {% else %}
-                <A href="/viewBlog?blogId={{reactioin.weblog.key.id}}#reactions">  {{reactioin.weblog.title}}</A>
+                <A href="/viewBlog?blogId={{blog.key.id}}#reactions">  {{blog.title}}</A>
                  {% endif %}
-           </li>               
+            </li>               
             {% endfor %}
         </ul>
 
@@ -22,8 +22,8 @@
     <div id="archives">
         <h2>Archives</h2>
         <ul>
-            {% for month_ in datetimeList reversed %}
-            <li><a href='/{{month_|date:"Y"}}/{{month_|date:"m"}}'>{{month_|date:"F Y"}}</a></li>
+            {% for archive in  archiveList %}
+            <li><a href='/archive/{{archive.monthyear|replace:" -"}}'>{{ archive.monthyear }}</a></li>
             {% endfor %}
         </ul>
 

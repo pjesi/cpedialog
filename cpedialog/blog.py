@@ -8,6 +8,7 @@ import datetime
 import calendar
 import logging
 import string
+import urllib
 
 from xml.etree import ElementTree
 
@@ -55,7 +56,7 @@ class BaseRequestHandler(webapp.RequestHandler):
       'url_linktext': url_linktext,
       'administrator': administrator,
       'logoImages': util.getLogoImagesList(),
-      'datetimeList': util.getDatetimeList(),
+      'archiveList': util.getArchiveList(),
     }
     values.update(template_values)
     directory = os.path.dirname(__file__)
@@ -113,7 +114,7 @@ class AddBlog(BaseRequestHandler):
     blog.content = self.request.get('text_input')
     blog.author = user
     blog.authorEmail = user.email()
-    blog.tags_commas = self.request.get('tags')
+    blog.tags_commas = urllib.urlencode(self.request.get('tags'))
     template_values = {
       'blog': blog,
       'preview': preview,
@@ -129,7 +130,6 @@ class AddBlog(BaseRequestHandler):
             if not permalink:
                 raise Exception
         except Exception:
-            #todo: notice user that the permalink genereted error.
             template_values.update({'error':'Generate permanent link for blog error, please retry it.'})
             self.generate('blog_add.html',template_values)
             return
@@ -138,7 +138,7 @@ class AddBlog(BaseRequestHandler):
         if maxpermalinkBlog is not None:
             permalink = maxpermalinkBlog.permalink+"1"
         blog.permalink =  permalink
-        blog.put()
+        blog.save()
         util.flushBlogMonthCache(blog)
         util.flushBlogPagesCache()
         self.redirect('/')
@@ -169,7 +169,7 @@ class AddBlogReaction(BaseRequestHandler):
         blogReaction.authorEmail = self.request.get('mail')
         blogReaction.user = self.request.get('name_input')
     blogReaction.userIp = clientIp
-    blogReaction.put()
+    blogReaction.save()
     util.flushRecentReactions()
     self.redirect('/'+blog.permalink)
 
@@ -195,6 +195,7 @@ class EditBlog(BaseRequestHandler):
 
         blog.title = self.request.get('title_input')
         blog.content = self.request.get('text_input')
+        blog.tags_commas = urllib.urlencode(self.request.get('tags'))
         user = users.get_current_user()
         blog.lastModifiedDate = datetime.datetime.now()
         blog.lastModifiedBy = user
@@ -303,14 +304,10 @@ class ViewBlog(BaseRequestHandler):
       }
     self.generate('blog_view.html',template_values)
 
-class MonthHandler(BaseRequestHandler):
-    def get(self, year, month):
-        year_ =  string.atoi(year)
-        month_ =  string.atoi(month)
-
-        #get blogs in month from cache.
-        blogs = util.getMonthBlog(year_,month_)
-
+class ArchiveHandler(BaseRequestHandler):
+    def get(self, monthyear): 
+        #get blogs in month from cache.        
+        blogs = util.getArchiveBlog(monthyear)
         recentReactions = util.getRecentReactions()
         template_values = {
           'blogs':blogs,
@@ -358,8 +355,7 @@ class SearchHandler(BaseRequestHandler):
 class TagHandler(BaseRequestHandler):
     def get(self, encoded_tag):
         tag =  re.sub('(%25|%)(\d\d)', lambda cmatch: chr(string.atoi(cmatch.group(2), 16)), encoded_tag)   # No urllib.unquote in AppEngine?         
-        blogs_query = db.Query(Weblog).filter('tags =', tag).order('-date')
-        blogs = blogs_query.fetch(1000)
+        blogs = Weblog.all().filter('tags', tag).order('-date')
         recentReactions = util.getRecentReactions()
         template_values = {
           'blogs':blogs,
@@ -369,13 +365,25 @@ class TagHandler(BaseRequestHandler):
         self.generate('tag.html',template_values)
         
 
-        
-#The method below just for blog data maintance.   
+##############################################
+#The method below just for blog data maintance.
+##############################################
+#update the archive.
+class UpdateArchive(BaseRequestHandler):
+    @authorized.role("admin")
+    def get(self):
+      user = users.get_current_user()
+      weblogs = Weblog.all()
+      for blog in weblogs:
+          blog.update_archive()
+      self.response.out.write("success!")
+    
+#delete all the blog data
 class DeleteAllBlog(BaseRequestHandler):
   @authorized.role("admin")
   def get(self):
     user = users.get_current_user()
-    weblogs = Weblog.all().fetch(1000)
+    weblogs = Weblog.all()
     for blog in weblogs:
         blogReactions = blog.weblogreactions_set
         for reaction in blogReactions:
@@ -383,15 +391,17 @@ class DeleteAllBlog(BaseRequestHandler):
         blog.delete()
     self.response.out.write("success!")
 
+#delete all the blog reaction data
 class DeleteAllBlogReaction(BaseRequestHandler):
   @authorized.role("admin")
   def get(self):
     user = users.get_current_user()
-    blogreactions = WeblogReactions.all().fetch(1000)
+    blogreactions = WeblogReactions.all()
     for reaction in blogreactions:
         reaction.delete()         
     self.response.out.write("success!")
 
+#load bulk blog data from xml exported by phpmyadmin
 class LoadBlogBulk(BaseRequestHandler):
   @authorized.role("admin")
   def get(self):
@@ -409,6 +419,7 @@ class LoadBlogBulk(BaseRequestHandler):
         blog.put()
     self.response.out.write("success!")
 
+#load bulk blog reaction data from xml exported by phpmyadmin
 class LoadBlogReactionBulk(BaseRequestHandler):
   @authorized.role("admin")
   def get(self):

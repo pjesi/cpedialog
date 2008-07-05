@@ -13,7 +13,7 @@ from google.appengine.api import memcache
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
 
-from model import Weblog,WeblogReactions
+from model import Archive, Weblog,WeblogReactions
 import config
 
 
@@ -43,46 +43,19 @@ def u(s, encoding):
 
 
 #get the archive monthe list. Cached.
-def getDatetimeList():
-    key_ = "blog_datetimeList_key"
+def getArchiveList():
+    key_ = "blog_monthyear_key"
     try:
         monthlist = memcache.get(key_)
     except Exception:
         monthlist = None
     if monthlist is None:
-        weblog = Weblog.all().order('date').get()
-        monthlist = []
-        if weblog:
-            startDate = weblog.date
-            startYear = int(datetime.datetime.strftime(startDate,'%Y'))
-            startMonth = int(datetime.datetime.strftime(startDate,'%m'))
-            #endDate = int(datetime.datetime.strftime(datetime.datetime.now(),'%Y%m%d'))
-            endDate =  datetime.datetime.now()
-            endYear = int(datetime.datetime.strftime(endDate,'%Y'))
-            endMonth = int(datetime.datetime.strftime(endDate,'%m'))
-            for year in range(startYear,endYear+1):
-                if year == startYear:
-                    if startYear == endYear:
-                        monthlist.extend(makeMonthList(year,startMonth,endMonth+1))
-                    else:
-                        monthlist.extend(makeMonthList(year,startMonth,12+1))
-                else:
-                    if year ==endYear:
-                        monthlist.extend(makeMonthList(year,1,endMonth+1))
-                    else:
-                        monthlist.extend(makeMonthList(year,1,12+1))
+        monthlist = Archive.all().order('-date') 
         memcache.add(key=key_, value=monthlist, time=3600)
     else:
-        logging.debug("getDatetimeList from cache. ")
+        logging.debug("getMonthYearList from cache. ")
     return monthlist
 
-def makeMonthList(year,startMonth,endMonth):
-    day = 1
-    monthList = []
-    for month in range(startMonth,endMonth):
-        date = datetime.date(year,month,day)
-        monthList.append(date)
-    return monthList
 
 
 #get log images list. Cached.
@@ -114,7 +87,7 @@ def getRecentReactions():
     except Exception:
         recentReactions = None
     if recentReactions is None:
-        recentReactions = WeblogReactions.all().order('-date').fetch(20)
+        recentReactions = Weblog.all().order('-lastCommentedDate').fetch(10)
         memcache.add(key=key_, value=recentReactions, time=3600)
     else:
         logging.debug("getRecentReactions from cache. ")
@@ -145,22 +118,31 @@ def getBlogPagination(page):
     return obj_pages[page]
 
 #get blogs in some month. Cached.
-def getMonthBlog(year,month):
-    key_= "blog_year_month_"+str(year)+"_"+str(month)+"_key"
+def getArchiveBlog(monthyear):
+    monthyear1 = re.sub( "-", "_", monthyear )
+    key_= "blog_archive_"+monthyear1+"_key"
+    monthyearTmp = re.sub( "-", " ", monthyear )
     try:
         blogs = memcache.get(key_)
     except Exception:
         blogs = None    
     if blogs is None:
-        start_date = datetime.datetime(year, month, 1)
-        end_date = datetime.datetime(year, month, calendar.monthrange(year, month)[1], 23, 59, 59)
-        blogs_query = db.Query(Weblog).order('-date').filter('date >=', start_date).filter('date <=', end_date)
-        blogs = blogs_query.fetch(1000)
+        blogs = Weblog.all().filter('monthyear', monthyearTmp).order('-date') 
         memcache.add(key=key_, value=blogs, time=3600)
     else:
         logging.debug("getMonthBlog from cache. ")
     return blogs
 
+
+#flush MonthYear list.
+def flushArchiveList():
+    memcache.delete("blog_monthyear_key")
+
+#flush MonthYear list.
+def flushArchiveBlog(monthyear):
+    monthyear1 = re.sub( "-", "_", monthyear )
+    key_= "blog_archive_"+monthyear1+"_key"
+    memcache.delete(key_)
 
 #flush recent comments.
 def flushRecentReactions():
