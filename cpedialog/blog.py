@@ -283,6 +283,7 @@ class DeleteBlogReaction(BaseRequestHandler):
     self.redirect('/'+blogReaction.weblog.permalink)
 
 
+#for the data migration.
 class ViewBlog(BaseRequestHandler):
   def get(self):
     blogId_ = self.request.get('blogId')
@@ -294,7 +295,7 @@ class ViewBlog(BaseRequestHandler):
     if not blog.permalink:
           permalink =  util.get_permalink(blog.date,translate.translate('zh-CN','en', util.u(blog.title,'utf-8')))
           blog.permalink =  permalink.lower()
-          blog.put()
+          blog.save()
 
     reactions = db.GqlQuery("select * from WeblogReactions where weblog =:1  order by date", blog) 
     template_values = {
@@ -328,6 +329,20 @@ class ArticleHandler(BaseRequestHandler):
           }
         self.generate('blog_view.html',template_values)
 
+        
+class TagHandler(BaseRequestHandler):
+    def get(self, encoded_tag):
+        tag =  re.sub('(%25|%)(\d\d)', lambda cmatch: chr(string.atoi(cmatch.group(2), 16)), encoded_tag)   # No urllib.unquote in AppEngine?
+        blogs = Weblog.all().filter('tags', tag).order('-date')
+        recentReactions = util.getRecentReactions()
+        template_values = {
+          'blogs':blogs,
+          'tag':tag,
+          'recentReactions':recentReactions,
+          }
+        self.generate('tag.html',template_values)
+
+        
 class SearchHandler(BaseRequestHandler):
     def get(self):
         pageStr = self.request.get('page')
@@ -351,19 +366,6 @@ class SearchHandler(BaseRequestHandler):
           }
         self.generate('blog_main.html',template_values)
 
-
-class TagHandler(BaseRequestHandler):
-    def get(self, encoded_tag):
-        tag =  re.sub('(%25|%)(\d\d)', lambda cmatch: chr(string.atoi(cmatch.group(2), 16)), encoded_tag)   # No urllib.unquote in AppEngine?         
-        blogs = Weblog.all().filter('tags', tag).order('-date')
-        recentReactions = util.getRecentReactions()
-        template_values = {
-          'blogs':blogs,
-          'tag':tag,
-          'recentReactions':recentReactions,
-          }
-        self.generate('tag.html',template_values)
-        
 
 ##############################################
 #The method below just for blog data maintance.

@@ -23,7 +23,7 @@
         <h2>Archives</h2>
         <ul>
             {% for archive in  archiveList %}
-            <li><a href='/archive/{{archive.monthyear|replace:" -"}}'>{{ archive.monthyear }}</a></li>
+            <li><a href='/archive/{{archive.monthyear|replace:" -"}}'>{{ archive.monthyear }} ({{archive.weblogcount}})</a></li>
             {% endfor %}
         </ul>
 

@@ -69,10 +69,9 @@ class Weblog(db.Model):
             archive[0].weblogcount += 1
             archive[0].put()
 
-    def save():
+    def save(self):
         my = self.date.strftime('%B %Y') # July 2008
         self.monthyear = my
-        # todo: util.flushBlog(self)
         self.put()
   
   
