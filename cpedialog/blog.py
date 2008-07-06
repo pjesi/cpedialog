@@ -114,7 +114,7 @@ class AddBlog(BaseRequestHandler):
     blog.content = self.request.get('text_input')
     blog.author = user
     blog.authorEmail = user.email()
-    blog.tags_commas = urllib.urlencode(self.request.get('tags'))
+    blog.tags_commas = self.request.get('tags')
     template_values = {
       'blog': blog,
       'preview': preview,
@@ -195,7 +195,7 @@ class EditBlog(BaseRequestHandler):
 
         blog.title = self.request.get('title_input')
         blog.content = self.request.get('text_input')
-        blog.tags_commas = urllib.urlencode(self.request.get('tags'))
+        blog.tags_commas = self.request.get('tags')
         user = users.get_current_user()
         blog.lastModifiedDate = datetime.datetime.now()
         blog.lastModifiedBy = user

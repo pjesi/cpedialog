@@ -16,16 +16,17 @@ dt {font:bold}
 .error{background:#F8F7EF none repeat scroll 0% 0%;border-color:red;border-style:none none none solid;border-width:medium medium medium 4px;margin:10px 0pt;
     padding-bottom:10px;padding-left:10px;font-weight:bold;}
 
-#navbar {height: 2.4em;
-  padding: 0 0 0 215px;
+#navbar {height: 2.0em;
+  padding: 0 0 3px 215px;
   background: #FBFAF4;
-  border-top: 5px solid #333;
-  font: 18px Georgia, Times, serif; overflow: hidden;
+  border-bottom:1px dashed #B2B2B2;
+  border-top:1px dashed #B2B2B2;
+  font: 16px Georgia, Times, serif; overflow: hidden;
   min-width: 750px;}
 #navbar li {float: left; padding: 0 23px 0 13px; margin-right: 5px;
   background: url(/img/diamond-black.gif) 100% 66% no-repeat;}
-#navbar li a {display: block; padding: 0.75em 0 0.25em;
-  text-transform: uppercase; color: #000;}
+#navbar li a {display: block; padding: 0.5em 0 0.25em;
+  text-transform: uppercase; color: #000;border-bottom:none !important;}
 #navbar a:hover,
   .articles #navbar #articles a,
   .topics #navbar #topics a,
@@ -80,7 +81,7 @@ dt {font:bold}
 #archives{border-bottom: 1px dotted #cccccc;padding-top:10px}
 
 #logo {background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
-#bloglist{ background: url(/img/blog/threecolbg.gif) right repeat-y; padding-right:10px;padding-left:10px}
+#bloglist{ background: url(/img/threecolbg.gif) right repeat-y; padding-right:10px;padding-left:10px}
 
 #blogview{padding-top:10px; padding-right:10px;padding-left:10px;border: 1px #000000 solid;line-height: 1;}
 .commentlabel h4 {MARGIN: 0px 0px 8px; FONT: 14px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none}
@@ -97,13 +98,10 @@ dt {font:bold}
 .album_thumbnail{width:180px;height:200px;margin:20px;}
 .photo_thumbnail{margin:10px;padding:0;width:144px}
 * html .album_thumbnail, * html .photo_thumbnail {display:inline}/* for ie*/
-html>body #albums {display:table}/*for mozilla */
+html>body #albums {display:table} /*for mozilla */
 html>body .album_thumbnail{display:table;float:left}/*for mozilla */
 html>body .photo_thumbnail{display:table;float:left}/*for mozilla */
-@media all and (min-width: 0px){/* opera 7 styles */
-   html>body .album_thumbnail{display:inline-block;float:none;}
-   html>body .photo_thumbnail{display:inline-block;float:none;}
-}
+
 .album_thumbnail_img{background-image:url('/img/album_background.gif');background-repeat:no-repeat;
     padding-top:15px;padding-bottom:10px;padding-left:5px;padding-right:10px;width:180px;height:170px}
 .album_thumbnail_title{width:170px;height:30px}

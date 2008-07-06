@@ -87,7 +87,7 @@ def getRecentReactions():
     except Exception:
         recentReactions = None
     if recentReactions is None:
-        recentReactions = Weblog.all().filter('lastCommentedDate!=','None').order('-lastCommentedDate').fetch(10)
+        recentReactions = db.GqlQuery('select * from Weblog order by lastCommentedDate desc').fetch(10)
         memcache.add(key=key_, value=recentReactions, time=3600)
     else:
         logging.debug("getRecentReactions from cache. ")

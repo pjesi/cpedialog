@@ -5,6 +5,7 @@ from google.appengine.ext import db
 from google.appengine.ext import search
 import logging
 import datetime
+import urllib
 
 
 class Archive(db.Model):
@@ -26,10 +27,10 @@ class Weblog(db.Model):
     author = db.UserProperty()
     authorEmail = db.EmailProperty()
     catalog = db.StringProperty()
-    lastModifiedDate = db.DateTimeProperty()
-    lastModifiedBy = db.UserProperty()
     lastCommentedDate = db.DateTimeProperty()
     commentcount = db.IntegerProperty(default=0)
+    lastModifiedDate = db.DateTimeProperty()
+    lastModifiedBy = db.UserProperty()
     tags = db.ListProperty(db.Category)
     monthyear = db.StringProperty(multiline=False)
     _weblogId = db.IntegerProperty()   ##for data migration from the mysql system
@@ -43,11 +44,11 @@ class Weblog(db.Model):
   
     def get_tags(self):
         '''comma delimted list of tags'''
-        return ','.join([tag for tag in self.tags])
+        return ','.join([urllib.unquote(tag) for tag in self.tags])
   
     def set_tags(self, tags):
         if tags:
-            tagstemp = [db.Category(tag.strip()) for tag in tags.split(',')]
+            tagstemp = [db.Category(urllib.quote(tag.strip().encode('utf8'))) for tag in tags.split(',')]
             self.tagsnew = [tag for tag in tagstemp if not tag in self.tags]
             self.tags = tagstemp
   
@@ -111,3 +112,8 @@ class WeblogReactions(db.Model):
             self.weblog.put()
 
 
+def u(s, encoding):
+    if isinstance(s, unicode):
+        return s
+    else:
+        return unicode(s, encoding)

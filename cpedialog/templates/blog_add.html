@@ -145,9 +145,9 @@ Edit reaction
                 <p>
                     Tags:
                     {% for tag in blog.tags %}
-                    <a href="/tag/{{ tag|urlencode }}">{{ tag }}</a>
+                    <a href="/tag/{{ tag|urlencode }}">{{ tag }}</a> {% if not forloop.last %},{% endif %}
                     {% endfor %}
-                </p>
+                </p><br>
                 {% endif %}
                 <P>
                     <SPAN class=post-author>Posted by {{blog.author}} </SPAN>
