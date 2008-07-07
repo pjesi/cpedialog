@@ -28,6 +28,7 @@ def main():
                                         ('/loadBlogReactionBulk', blog.LoadBlogReactionBulk),
                                         ('/loadBlogBulk', blog.LoadBlogBulk),
                                         ('/updateArchive', blog.UpdateArchive),
+                                        ('/updateReaction', blog.UpdateReaction),
 
                                         ('/*$', blog.MainPage),
                                         ('/403.html', blog.UnauthorizedHandler),

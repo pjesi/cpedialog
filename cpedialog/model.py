@@ -63,6 +63,7 @@ class Weblog(db.Model):
         if archive == []:
             archive = Archive(monthyear=my,date=self.date)
             self.monthyear = my
+            self.lastCommentedDate = datetime.datetime(1970, 1, 1) #for data migration.
             self.put()
             archive.put()
         else:

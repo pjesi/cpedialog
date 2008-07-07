@@ -379,7 +379,16 @@ class UpdateArchive(BaseRequestHandler):
       for blog in weblogs:
           blog.update_archive()
       self.response.out.write("success!")
-    
+
+class UpdateReaction(BaseRequestHandler):
+    @authorized.role("admin")
+    def get(self):
+      user = users.get_current_user()
+      weblogReactions = WeblogReactions.all()
+      for reaction in weblogReactions:
+          reaction.save()
+      self.response.out.write("success!")
+
 #delete all the blog data
 class DeleteAllBlog(BaseRequestHandler):
   @authorized.role("admin")
