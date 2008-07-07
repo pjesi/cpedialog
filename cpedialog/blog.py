@@ -342,7 +342,20 @@ class TagHandler(BaseRequestHandler):
           }
         self.generate('tag.html',template_values)
 
-        
+
+class FeedHandler(BaseRequestHandler):
+    def get(self,tags=None):
+        blogs = Weblog.all().filter('entrytype =','post').order('-date').fetch(10)
+        last_updated = datetime.datetime.now()
+        if blogs and blogs[0]:
+            last_updated = blogs[0].date
+            last_updated = last_updated.strftime("%Y-%m-%dT%H:%M:%SZ")
+        for blog in blogs:
+            blog.formatted_date = blog.date.strftime("%Y-%m-%dT%H:%M:%SZ")
+        self.response.headers['Content-Type'] = 'application/atom+xml'
+        self.generate('atom.xml',{'blogs':blogs,'last_updated':last_updated})
+    
+
 class SearchHandler(BaseRequestHandler):
     def get(self):
         pageStr = self.request.get('page')
@@ -367,9 +380,7 @@ class SearchHandler(BaseRequestHandler):
         self.generate('blog_main.html',template_values)
 
 
-##############################################
 #The method below just for blog data maintance.
-##############################################
 #update the archive.
 class UpdateArchive(BaseRequestHandler):
     @authorized.role("admin")
@@ -377,76 +388,15 @@ class UpdateArchive(BaseRequestHandler):
       user = users.get_current_user()
       weblogs = Weblog.all()
       for blog in weblogs:
-          blog.update_archive()
+          blog.save()
+
       self.response.out.write("success!")
 
 class UpdateReaction(BaseRequestHandler):
     @authorized.role("admin")
     def get(self):
       user = users.get_current_user()
-      weblogReactions = WeblogReactions.all()
+      weblogReactions = WeblogReactions.all().order('date')
       for reaction in weblogReactions:
           reaction.save()
       self.response.out.write("success!")
-
-#delete all the blog data
-class DeleteAllBlog(BaseRequestHandler):
-  @authorized.role("admin")
-  def get(self):
-    user = users.get_current_user()
-    weblogs = Weblog.all()
-    for blog in weblogs:
-        blogReactions = blog.weblogreactions_set
-        for reaction in blogReactions:
-            reaction.delete()
-        blog.delete()
-    self.response.out.write("success!")
-
-#delete all the blog reaction data
-class DeleteAllBlogReaction(BaseRequestHandler):
-  @authorized.role("admin")
-  def get(self):
-    user = users.get_current_user()
-    blogreactions = WeblogReactions.all()
-    for reaction in blogreactions:
-        reaction.delete()         
-    self.response.out.write("success!")
-
-#load bulk blog data from xml exported by phpmyadmin
-class LoadBlogBulk(BaseRequestHandler):
-  @authorized.role("admin")
-  def get(self):
-    user = users.get_current_user()
-    file = self.request.get('file')
-    root = ElementTree.parse(file+'.xml').getroot()
-    for element in root.findall('weblog'):
-        blog = Weblog()
-        blog._weblogId = int(element.findtext('id'))
-        blog.title = element.findtext('title')
-        blog.content = element.findtext('text')
-        blog.date = datetime.datetime.strptime(str(element.findtext('date')),'%Y%m%d%H%M')
-        blog.author = user
-        blog.authorEmail = user.email()
-        blog.put()
-    self.response.out.write("success!")
-
-#load bulk blog reaction data from xml exported by phpmyadmin
-class LoadBlogReactionBulk(BaseRequestHandler):
-  @authorized.role("admin")
-  def get(self):
-    user = users.get_current_user()
-    file = self.request.get('file')
-    root = ElementTree.parse(file+'.xml').getroot()
-    for element in root.findall('weblog_reactions'):
-        blogreaction = WeblogReactions()
-        weblogId =  int(element.findtext('weblog'))
-        blog = Weblog.gql("where _weblogId =:1",weblogId).get()
-        if blog:
-            blogreaction.weblog = blog
-            blogreaction._weblogReactionId = int(element.findtext('id'))
-            blogreaction.user =  element.findtext('user')
-            blogreaction.content = element.findtext('text')
-            blogreaction.userIp = element.findtext('ip')
-            blogreaction.date = datetime.datetime.strptime(str(element.findtext('date')),'%Y%m%d%H%M')
-            blogreaction.put()
-    self.response.out.write("success!")

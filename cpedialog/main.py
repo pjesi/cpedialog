@@ -23,10 +23,6 @@ def main():
                                         ('/editBlogReaction', blog.EditBlogReaction),
                                         ('/deleteBlogReaction', blog.DeleteBlogReaction),
                                         
-                                        ('/deleteAllBlog', blog.DeleteAllBlog),
-                                        ('/deleteAllBlogReaction', blog.DeleteAllBlogReaction),
-                                        ('/loadBlogReactionBulk', blog.LoadBlogReactionBulk),
-                                        ('/loadBlogBulk', blog.LoadBlogBulk),
                                         ('/updateArchive', blog.UpdateArchive),
                                         ('/updateReaction', blog.UpdateReaction),
 
@@ -37,6 +33,7 @@ def main():
                                         ('/([12]\d\d\d)/(\d|[01]\d)/([-\w]+)/*$', blog.ArticleHandler),
                                         ('/search', blog.SearchHandler),
                                         ('/tag/(.*)', blog.TagHandler),
+                                        ('/atom/*$', blog.FeedHandler),
 
                                         ('/albums/*$', album.MainPage),
                                         ('/albums/([-\w]+)/([-\w]+)/*$', album.AlbumHandler),

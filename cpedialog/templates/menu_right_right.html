@@ -1,120 +1,28 @@
 <DIV id=sidebar>
 
-            {% block webloglist %}
-            {% endblock %}
+    {% block webloglist %}
+    {% endblock %}
 
-            {% block loginmenu %}
-            <DIV id=login>
-                <H3>Login</H3>
-                <UL>
-                       <LI><a href='/viewBlog?blogId=709'>Anything is possible!</a>
-                        {% if user %}
-                       <LI> Welcome, <b>{{ user.email }}</b>
-                         {% if administrator %}
-                       <LI><a href='/addBlog'>Admin/Add blog</a>
-                       <LI><a href='http://appengine.google.com/a/cpedia.com'>Admin/Manage site</a>
-                         {% endif %}
-                        {% endif %}
-                       <LI><a href="{{ url }}">{{ url_linktext }}</a>
-                    </LI>
-                </UL>
-            </DIV>
-            {% endblock %}
+    {% block loginmenu %}
+    <DIV id=login>
+        <H3>Login</H3>
+        <UL>
+            <LI><a href='/viewBlog?blogId=709'>Anything is possible!</a>
+                {% if user %}
+            <LI> Welcome, <b>{{ user.email }}</b>
+                {% if administrator %}
+            <LI><a href='/addBlog'>Admin/Add blog</a>
+            <LI><a href='http://appengine.google.com/a/cpedia.com'>Admin/Manage site</a>
+                {% endif %}
+                {% endif %}
+            <LI><a href="{{ url }}">{{ url_linktext }}</a>
+            </LI>
+        </UL>
+    </DIV>
+    {% endblock %}
 
-            
-            <!--todo:To persist the follow content-->
-            <DIV id=favourite_site>
-                <H3>Favourite Sites</H3>
-                <dl>
-                    <dt>Open Source:</dt>
-                    <dd><UL>
-                       <LI><A href="http://www.java-source.net/">Java-source.net</A>
-                    <LI><A href="http://www.sourceforge.net/">Souceforge.net</A>
-                    <LI><A href="http://www.huihoo.com/">Huihoo.com</A>
-                    <LI><A href="http://www.jdocs.com/">Open Docs</A>
-                    </LI></UL></dd>
-                    <dt>Intellij IDEA</dt>
-                    <dd><UL>
-                       <LI><A href="http://www.jetbrains.com/">JetBrains.com</A>
-                    <LI><A href="http://www.jetmaven.net/">JetMaven.net</A>
-                    <LI><A href="http://www.intellij.net/forums/index.jsp?cat=8">Intellij.net</A>
-                    </LI></UL></dd>
-                    <dt>J2EE</dt>
-                    <dd><UL>
-                       <LI><A href="http://www.theserverside.com/">TheServerSide</A>
-                    <LI><A href="http://www.onjava.com/">ONJava.com</A>
-                    <LI><A href="http://www.javarss.com/">JavaRss</A>
-                    <LI><A href="http://www.javaeye.com/">JavaEye</A>
-                    </LI></UL></dd>
-                    <dt>App FrameWork</dt>
-                    <dd><UL>
-                       <LI><A href="https://appfuse.dev.java.net/">Appfuse</A>
-                    <LI><A href="http://www.springframework.org/">SpringFramework</A>
-                    <LI><A href="http://www.hibernate.org/">Hibernate</A>
-                    </LI></UL></dd>
-                    <dt>Blog &amp; Wiki</dt>
-                    <dd> </dd>
-                </dl>
-            </DIV>
+    {% include "module_plugin/favourite_site.html" %}
 
-            <DIV id=favourite_ebook>
-                <H3>Favourite e-Books</H3>
-                <dl>
-                    <dt>Agile &amp; Open Source:</dt>
-                    <dd><UL>
-                       <LI><A href="">JUnit In Action</A><IMG  src="/img/pdf.gif" border=0>
-                    <LI><A href="">XDoclet In Action</A><IMG  src="/img/pdf.gif" border=0>
-                    <LI><A href="">Spring In Action </A><IMG  src="/img/pdf.gif" border=0>
-                    <LI><A href="">Hibernate In Action </A><IMG  src="/img/pdf.gif" border=0>
-                    <LI><A href="">Struts In Action </A><IMG  src="/img/pdf.gif" border=0>
-                    <LI><A href="">Struts In Action </A><IMG  src="/img/pdf.gif" border=0>
-                    <LI><A href="">Java Development With ANT </A><IMG  src="/img/pdf.gif" border=0>
-                    <LI><A href="">Essential Skills for Agile Dev </A><IMG  src="/img/pdf.gif" border=0>
-                    </LI></UL></dd>
-                    <dt>Java &amp; J2EE</dt>
-                    <dd><UL>
-                       <LI><A href="">Java 2 Complete Reference (5th Ed)</A><IMG  src="/img/pdf.gif" border=0>
-                    <LI><A href="">J2EE Developer's Handbook</A><IMG  src="/img/pdf.gif" border=0>
-                    </LI></UL></dd>
-                    <dt>My Article</dt>
-                    <dd><UL>
-                       <LI><A href="">JUnit Practice</A><IMG src="/img/doc.gif" border=0><IMG src="/img/ppt.gif" border=0>
-                       <LI><A href="">Oscache Guide</A><IMG src="/img/doc.gif" border=0><IMG src="/img/doc.gif" border=0>
-                       <LI><A href="">Rule Engine</A><IMG src="/img/doc.gif" border=0><IMG src="/img/ppt.gif" border=0>
-                    </LI></UL></dd>
-                </dl>
-            </DIV>
+    {% include "module_plugin/favourite_ebook.html" %}
 
-            
-            <TABLE cellSpacing=0 cellPadding=0 width="100%" border="0">
-                <TBODY>
-                    <TR>
-                        <TD class=menu_right_header style="PADDING-LEFT: 1px"><B>Links &amp;
-                            Info</B></TD>
-                    </TR>
-                    <TR>
-                        <TD class=menu_right><B>link</B><BR><BR><B>Support RSS:</B><A
-                                href="http://www.cpedia.com/blog/rss.php" target=_blank><IMG
-                                src="/img/xml.gif" border=0></A>
-                            <br><br>
-                            <A
-                                    href="http://my.cpedia.com/" target=_blank>CPEDIA's Zone</A><BR><A
-                                href="http://www.wormwang.net/" target=_blank>wormwang</A><BR><A
-                                href="http://www.loveunix.com/" target=_blank>LoveUNIX</A><BR><A
-                                href="http://hedong.3322.org/" target=_blank>hedong</A><BR><A
-                                href="http://keygen.ru/" target=_blank>keygen.ru</A><BR><A
-                                href="http://mtv.happy8.cn/" target=_blank>happy8 MTV</A><BR><A
-                                href="http://www.devscripts.com/category.php?stId=253"
-                                target=_blank>devscripts.com</A><BR><A href="http://www.stargeek.com/"
-                                                                       target=_blank>stargeek.com</A><BR><A
-                                href="http://lead2me.net/"
-                                target=_blank>Lead2me</A><BR><A href="http://hiwaw.com/"
-                                                                target=_blank>Hiwa</A><BR><A
-                                href="http://elsespace.com/"
-                                target=_blank>elsespace</A><BR><A
-                                href="http://cnbaby.info/"
-                                target=_blank>cnbaby</A><BR><BR></TD>
-                    </TR>
-                </TBODY>
-            </TABLE>
-            </DIV>
+</DIV>

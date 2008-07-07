@@ -6,6 +6,7 @@ from google.appengine.ext import search
 import logging
 import datetime
 import urllib
+import config
 
 
 class Archive(db.Model):
@@ -33,6 +34,8 @@ class Weblog(db.Model):
     lastModifiedBy = db.UserProperty()
     tags = db.ListProperty(db.Category)
     monthyear = db.StringProperty(multiline=False)
+    entrytype = db.StringProperty(multiline=False,default='post',choices=[
+        'post','page'])
     _weblogId = db.IntegerProperty()   ##for data migration from the mysql system
     assoc_dict = db.BlobProperty()     # Pickled dict for sidelinks, associated Amazon items, etc.
   
@@ -41,7 +44,10 @@ class Weblog(db.Model):
             return permalink
         else:
             return self.date.strftime('%Y/%m/')+str(self.key().id())
-  
+
+    def full_permalink(self):
+        return config.blog['root_url'] + '/' + self.permalink
+
     def get_tags(self):
         '''comma delimted list of tags'''
         return ','.join([urllib.unquote(tag) for tag in self.tags])
@@ -59,12 +65,9 @@ class Weblog(db.Model):
         """Checks to see if there is a month-year entry for the
         month of current blog, if not creates it and increments count"""
         my = self.date.strftime('%B %Y') # July 2008
-        archive = Archive.all().filter('monthyear',my).fetch(100)
+        archive = Archive.all().filter('monthyear',my).fetch(10)
         if archive == []:
-            archive = Archive(monthyear=my,date=self.date)
-            self.monthyear = my
-            self.lastCommentedDate = datetime.datetime(1970, 1, 1) #for data migration.
-            self.put()
+            archive = Archive(monthyear=my,date=self.date,weblogcount=1)
             archive.put()
         else:
             # ratchet up the count
@@ -72,8 +75,11 @@ class Weblog(db.Model):
             archive[0].put()
 
     def save(self):
+        self.update_archive()
         my = self.date.strftime('%B %Y') # July 2008
         self.monthyear = my
+        self.lastCommentedDate = datetime.datetime(1980, 1, 1, 23, 59, 59) #for data migration.
+        self.entrytype = 'post'
         self.put()
   
   
@@ -108,7 +114,7 @@ class WeblogReactions(db.Model):
     def save(self):
         self.put()
         if self.weblog is not None:
-            self.weblog.lastCommentedDate = datetime.datetime.now()
+            self.weblog.lastCommentedDate = self.date
             self.weblog.commentcount += 1
             self.weblog.put()
 
