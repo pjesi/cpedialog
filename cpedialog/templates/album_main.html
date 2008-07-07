@@ -15,7 +15,7 @@
            <div class="album_thumbnail_img">
                 {% for thumbnail in album.media.thumbnail%}
                 {% if forloop.first %}
-                   <a href="/albums/{{username}}/{{album.name.text}}"><img src="{{thumbnail.url}}"/></a>
+                   <a href="/albums/{{username}}/{{album.name.text}}" onFocus='this.blur()'><img src="{{thumbnail.url}}"/></a>
                 {% endif %}
                 {% endfor %}
            </div>

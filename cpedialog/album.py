@@ -85,14 +85,14 @@ class MainPage(BaseRequestHandler):
 class AlbumHandler(BaseRequestHandler):
     def get(self, username, album_name):
         logging.debug("AlbumHandler#get for username %s and album_name %s", username, album_name)
-        key = "albums_"+username+"_"+album_name
-        feed = memcache.get(key)
+        key_ = "albums_"+username+"_"+album_name
+        feed = memcache.get(key_)
         if not feed:
             gd_client = gdata.photos.service.PhotosService()
             feed = gd_client.GetFeed(
                 '/data/feed/api/user/%s/album/%s?kind=photo' % (
                     username, album_name))
-            memcache.add(key=key, value=feed, time=3600)
+            memcache.add(key=key_, value=feed, time=3600)
         template_values = {
           'photos': feed.entry,
           'username':username,
