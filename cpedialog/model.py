@@ -119,8 +119,11 @@ class WeblogReactions(db.Model):
             self.weblog.put()
 
 
-def u(s, encoding):
-    if isinstance(s, unicode):
-        return s
-    else:
-        return unicode(s, encoding)
+class AuthSubStoredToken(db.Model):
+  user_email = db.StringProperty(required=True)
+  target_service = db.StringProperty(multiline=False,default='base',choices=[
+        'apps','base','blogger','calendar','codesearch','contacts','docs',
+        'exif','geo','media','photos','spreadsheet','youtube'])
+  session_token = db.StringProperty(required=True)
+  target_url = db.StringProperty(required=True)
+            
