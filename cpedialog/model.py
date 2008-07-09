@@ -123,7 +123,7 @@ class AuthSubStoredToken(db.Model):
   user_email = db.StringProperty(required=True)
   target_service = db.StringProperty(multiline=False,default='base',choices=[
         'apps','base','blogger','calendar','codesearch','contacts','docs',
-        'exif','geo','media','photos','spreadsheet','youtube'])
+        'albums','spreadsheet','youtube'])
   session_token = db.StringProperty(required=True)
   target_url = db.StringProperty(required=True)
             

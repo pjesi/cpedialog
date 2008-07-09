@@ -56,18 +56,48 @@ def authSub(service):
                     self.redirect(users.create_login_url(self.request.uri))
             else:
                 client = gdata.service.GDataService()
-                token = client.GetAuthSubToken()
+                token =  LookupToken(client, user.email(),service)
                 if token is Null:
                     next = self.request.uri
-                    auth_sub_url = gdata.service.GDataService().GenerateAuthSubURL(next, self.feed_url,
+                    query = {"service":service}
+                    next += next.count('?') and '&amp;' or '?'+urllib.urlencode(query)                    
+                    auth_sub_url = gdata.service.GDataService().GenerateAuthSubURL(next, scope[service],
                         secure=False, session=True)
+                    self.redirect(auth_sub_url)
                 else:
+                    for param in self.request.query.split('&'):
+                      # Get the token scope variable we specified when generating the URL
+                      if param.startswith('token_scope'):
+                        token_scope = urllib.unquote_plus(param.split('=')[1])
+                      # Google Data will return a token, get that
+                      elif param.startswith('token'):
+                        token = param.split('=')[1]
+                      # Find out what the target URL is that we should attempt to fetch.
+                      elif param.startswith('feed_url'):
+                        feed_url = urllib.unquote_plus(param.split('=')[1])
+
+                      # If we received a token for a specific feed_url and not a more general
+                      # scope, then use the exact feed_url in this request as the scope for the
+                      # token.
+                      if token and feed_url and not token_scope:
+                        token_scope = feed_url
+
                     #update the token into db.
 
-
-                    handler_method(self, *args, **kwargs)
-
-
+                    try:
+                        handler_method(self, *args, **kwargs)
+                    except gdata.service.RequestError, request_error:
+                      # If fetching fails, then tell the user that they need to login to
+                      # authorize this app by logging in at the following URL.
+                      if request_error[0]['status'] == 401:
+                        # Get the URL of the current page so that our AuthSub request will
+                        # send the user back to here.
+                        next = self.request.uri
+                        auth_sub_url = client.GenerateAuthSubURL(next, feed_url,
+                            secure=False, session=True)
+                        self.redirect(users.create_login_url(auth_sub_url))
+                      else:
+                        self.error(403)
 
 
 
@@ -113,7 +143,6 @@ def authSub(service):
         return check_authSub
     return wrapper
 
-
 def ManageAuth(self):
   self.client = gdata.service.GDataService()
   if self.token:
@@ -131,11 +160,26 @@ def UpgradeAndStoreToken(self):
         target_url=self.token_scope)
     new_token.put()
 
-def LookupToken(service):
-  if self.feed_url and self.current_user:
-    stored_tokens = StoredToken.gql('WHERE user_email = :1 and target_service = :2',
-        self.current_user.email(), service)
+def LookupToken(client, email, service):
+    #todo:get the cached token.
+    stored_tokens = AuthSubStoredToken.gql('WHERE user_email = :1 and target_service = :2',
+        email, service)
     for token in stored_tokens:
       if self.feed_url.startswith(token.target_url):
-        self.client.SetAuthSubToken(token.session_token)
+        client.SetAuthSubToken(token.session_token)
         return
+
+
+scope = {
+    "calendar":"http://www.google.com/calendar/feeds/",
+    "docs":"http://docs.google.com/feeds/",
+    "albums":"http://picasaweb.google.com/data/feed/",
+    "blogger":"http://www.blogger.com/feeds/",
+    "base":"http://www.google.com/base/feeds/",
+    "site":"https://www.google.com/webmasters/tools/feeds/",
+    "spreadsheets":"http://spreadsheets.google.com/feeds/",
+    "codesearch":"http://www.google.com/codesearch/feeds/",
+    "finance":"http://finance.google.com/finance/feeds/",
+    "contacts":"http://www.google.com/m8/feeds/",
+    "youtube":"http://gdata.youtube.com/feeds/",
+}
