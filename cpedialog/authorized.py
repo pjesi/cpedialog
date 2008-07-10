@@ -94,6 +94,7 @@ def authSub(service):
                     except gdata.service.RequestError, request_error:
                         #remove the invalid session token.
                         DeleteUnvalidToken(user.email(),service)
+                        
                         # If fetching fails, then tell the user that they need to login to
                         # authorize this app by logging in at the following URL.
                         if request_error[0]['status'] == 401:

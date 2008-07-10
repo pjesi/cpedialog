@@ -9,7 +9,7 @@ blog = {
 }
 
 album ={
-    "username":"cpedia"
+    "username":["cpedia","blablabla1991","chou.hoytt","pegina8"]
 }
 
 # Set to true if we want to have our webapp print stack traces, etc

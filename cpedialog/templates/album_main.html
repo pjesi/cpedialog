@@ -4,11 +4,25 @@
 
 {% block blogcontainer %}
 
+<script type="text/javascript">
+    function showAlbumByUser(obj){
+        var username = obj[obj.selectedIndex].value;
+        window.location.href = "/albums/"+username;
+    }
+</script>
 <div class="yui-g" id="albumsdiv">
 
         <H3>Albums</H3>
 
-        <p>
+        <div>Please select a picasaweb user to show the albums.
+             <select id="username" onchange="showAlbumByUser(this)">
+                 {% for username_ in usernames %}
+                 <option {%ifequal username_ username %} selected {%endifequal%} value={{username_}}>{{username_}}</option>
+                 {% endfor %}
+              </select>
+        </div>
+    <p>
+    Here are the album list of user {{username}}:
     <div id="albums">
         {% for album in albums %}
           <div class="album_thumbnail">

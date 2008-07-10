@@ -36,6 +36,7 @@ def main():
                                         ('/atom/*$', blog.FeedHandler),
 
                                         ('/albums/*$', album.MainPage),
+                                        ('/albums/([-\w]+)/*$', album.UserHandler),
                                         ('/albums/([-\w]+)/([-\w]+)/*$', album.AlbumHandler),
                                         ('/albums/([-\w]+)/([-\w]+)/([\d]+)/*$', album.PhotoHandler),
                                        ],
