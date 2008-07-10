@@ -1,4 +1,4 @@
-body {font: 0.8125em Verdana, sans-serif; line-height: 1; color: #333; background: #FFF;}
+body {font: 0.8125em Verdana, sans-serif; color: #333; background: #FFF;}
 a {text-decoration: none;}
 a:link, a:visited {color: #555; border-bottom: 1px solid #555;}
 html body a:hover {color: #000; background-color: #F4F2E4; border-bottom: 1px solid #9A8E51;}
