@@ -125,5 +125,3 @@ class AuthSubStoredToken(db.Model):
         'apps','base','blogger','calendar','codesearch','contacts','docs',
         'albums','spreadsheet','youtube'])
   session_token = db.StringProperty(required=True)
-  target_url = db.StringProperty(required=True)
-            

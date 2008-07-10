@@ -83,6 +83,7 @@ class MainPage(BaseRequestHandler):
 
 
 class AlbumHandler(BaseRequestHandler):
+    @authorized.authSub('albums')
     def get(self, username, album_name):
         logging.debug("AlbumHandler#get for username %s and album_name %s", username, album_name)
         key_ = "albums_"+username+"_"+album_name

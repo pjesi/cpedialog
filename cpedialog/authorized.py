@@ -3,6 +3,7 @@ __author__ = 'Ping Chen'
 
 from google.appengine.api import users
 from google.appengine.ext import db
+import gdata.service
 
 import urllib
 
@@ -46,6 +47,14 @@ def role(role):
 
 
 def authSub(service):
+    """A decorator to make sure the user have granted access to the specified service by Google.'.
+
+    To use it, decorate your handler methods like this:
+
+    import authorized
+    @authorized.authSub("albums")
+    def get(self):
+    """
     def wrapper(handler_method):
         def check_authSub(self, *args, **kwargs):
             user = users.get_current_user()
@@ -56,119 +65,81 @@ def authSub(service):
                     self.redirect(users.create_login_url(self.request.uri))
             else:
                 client = gdata.service.GDataService()
-                token =  LookupToken(client, user.email(),service)
-                if token is Null:
+                token = None
+                #store or update the session token if the url come from the "Grant access" page.
+                service_ = None
+                token_ = None
+                for param in self.request.query.split('&'):
+                    if param:
+                        # Get the service variable we specified when generating the URL
+                        if param.startswith('service'):
+                            service_ = urllib.unquote_plus(param.split('=')[1])
+                        elif param.startswith('token'):
+                            token_ = param.split('=')[1]
+                if service_ is not None and token_ is not None :
+                    token = UpgradeAndStoreToken(client, user.email(), service_, token_)
+
+                if token is None:
+                    token =  LookupToken(user.email(),service)
+                if token is None:
                     next = self.request.uri
                     query = {"service":service}
-                    next += next.count('?') and '&amp;' or '?'+urllib.urlencode(query)                    
+                    next += (next.count('?') and '&amp;' or '?')+urllib.urlencode(query)
                     auth_sub_url = gdata.service.GDataService().GenerateAuthSubURL(next, scope[service],
                         secure=False, session=True)
                     self.redirect(auth_sub_url)
                 else:
-                    for param in self.request.query.split('&'):
-                      # Get the token scope variable we specified when generating the URL
-                      if param.startswith('token_scope'):
-                        token_scope = urllib.unquote_plus(param.split('=')[1])
-                      # Google Data will return a token, get that
-                      elif param.startswith('token'):
-                        token = param.split('=')[1]
-                      # Find out what the target URL is that we should attempt to fetch.
-                      elif param.startswith('feed_url'):
-                        feed_url = urllib.unquote_plus(param.split('=')[1])
-
-                      # If we received a token for a specific feed_url and not a more general
-                      # scope, then use the exact feed_url in this request as the scope for the
-                      # token.
-                      if token and feed_url and not token_scope:
-                        token_scope = feed_url
-
-                    #update the token into db.
-
                     try:
                         handler_method(self, *args, **kwargs)
                     except gdata.service.RequestError, request_error:
-                      # If fetching fails, then tell the user that they need to login to
-                      # authorize this app by logging in at the following URL.
-                      if request_error[0]['status'] == 401:
-                        # Get the URL of the current page so that our AuthSub request will
-                        # send the user back to here.
-                        next = self.request.uri
-                        auth_sub_url = client.GenerateAuthSubURL(next, feed_url,
-                            secure=False, session=True)
-                        self.redirect(users.create_login_url(auth_sub_url))
-                      else:
-                        self.error(403)
-
-
-
-                # Stores the page's current user
-                current_user = None
-                # Stores the token_scope information
-                token_scope = None
-                # Stores the Google Data Client
-                client = None
-                # The one time use token value from the URL after the AuthSub redirect.
-                token = None
-                # Feed URL which should be fetched by the gdata client.
-                feed_url = None
-
-                for param in self.request.query.split('&'):
-                  # Get the token scope variable we specified when generating the URL
-                  if param.startswith('token_scope'):
-                    token_scope = urllib.unquote_plus(param.split('=')[1])
-                  # Google Data will return a token, get that
-                  elif param.startswith('token'):
-                    token = param.split('=')[1]
-                  # Find out what the target URL is that we should attempt to fetch.
-                  elif param.startswith('feed_url'):
-                    feed_url = urllib.unquote_plus(param.split('=')[1])
-
-                  # If we received a token for a specific feed_url and not a more general
-                  # scope, then use the exact feed_url in this request as the scope for the
-                  # token.
-                  if token and feed_url and not token_scope:
-                    token_scope = feed_url
-
-                  # Manage our Authentication for the user
-                  ManageAuth()
-                  LookupToken()
-
-
-                next = self.request.uri
-                auth_sub_url = gdata.service.GDataService().GenerateAuthSubURL(next, self.feed_url,
-                    secure=False, session=True)
-
-
-
+                        #remove the invalid session token.
+                        DeleteUnvalidToken(user.email(),service)
+                        # If fetching fails, then tell the user that they need to login to
+                        # authorize this app by logging in at the following URL.
+                        if request_error[0]['status'] == 401:
+                          # Get the URL of the current page so that our AuthSub request will
+                          # send the user back to here.
+                            next = self.request.uri
+                            query = {"service":service}
+                            next += (next.count('?') and '&amp;' or '?')+urllib.urlencode(query)
+                            auth_sub_url = gdata.service.GDataService().GenerateAuthSubURL(next, scope[service],
+                                secure=False, session=True)
+                            self.redirect(auth_sub_url)
+                        else:
+                            self.error(403)
         return check_authSub
     return wrapper
 
-def ManageAuth(self):
-  self.client = gdata.service.GDataService()
-  if self.token:
-    # Upgrade to a session token and store the session token.
-    self.UpgradeAndStoreToken()
 
-def UpgradeAndStoreToken(self):
-  self.client.SetAuthSubToken(self.token)
-  self.client.UpgradeToSessionToken()
-  if self.current_user:
-    # Create a new token object for the data store which associates the
-    # session token with the requested URL and the current user.
-    new_token = StoredToken(user_email=self.current_user.email(),
-        session_token=self.client.GetAuthSubToken(),
-        target_url=self.token_scope)
-    new_token.put()
+def UpgradeAndStoreToken(client,email,service,token):
+    client.SetAuthSubToken(token)
+    client.UpgradeToSessionToken()
+  
+    stored_token = AuthSubStoredToken.gql('WHERE user_email = :1 and target_service = :2',
+        email, service).get()
+    if stored_token:
+        stored_token.session_token = token
+        stored_token.put()
+    else:
+        new_token = AuthSubStoredToken(user_email=email,
+            session_token=client.GetAuthSubToken(),
+            target_service=service)
+        new_token.put()
+    return client.GetAuthSubToken()
 
-def LookupToken(client, email, service):
-    #todo:get the cached token.
-    stored_tokens = AuthSubStoredToken.gql('WHERE user_email = :1 and target_service = :2',
-        email, service)
-    for token in stored_tokens:
-      if self.feed_url.startswith(token.target_url):
-        client.SetAuthSubToken(token.session_token)
-        return
+def LookupToken(email, service):
+    stored_token = AuthSubStoredToken.gql('WHERE user_email = :1 and target_service = :2',
+        email, service).get()
+    if stored_token:
+        return stored_token.session_token
+    else:
+        return None
 
+def DeleteUnvalidToken(email, service):
+    stored_token = AuthSubStoredToken.gql('WHERE user_email = :1 and target_service = :2',
+        email, service).get()
+    if stored_token:
+        return stored_token.delete()
 
 scope = {
     "calendar":"http://www.google.com/calendar/feeds/",
