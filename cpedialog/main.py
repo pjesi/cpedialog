@@ -23,8 +23,8 @@ def main():
                                         ('/editBlogReaction', blog.EditBlogReaction),
                                         ('/deleteBlogReaction', blog.DeleteBlogReaction),
                                         
-                                        ('/updateArchive', blog.UpdateArchive),
-                                        ('/updateReaction', blog.UpdateReaction),
+                                        ('/updateReactionByID', blog.UpdateReactionByID),
+                                        ('/notPermalink', blog.NotPermalink),
 
                                         ('/*$', blog.MainPage),
                                         ('/403.html', blog.UnauthorizedHandler),

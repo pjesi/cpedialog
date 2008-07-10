@@ -23,7 +23,7 @@ from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
 from cpedia.util import translate
 
-from model import Weblog,WeblogReactions
+from model import Archive,Weblog,WeblogReactions
 import authorized
 import view
 import config
@@ -380,22 +380,21 @@ class SearchHandler(BaseRequestHandler):
 
 
 #The method below just for blog data maintance.
-#update the archive.
-class UpdateArchive(BaseRequestHandler):
+
+class UpdateReactionByID(webapp.RequestHandler):
     @authorized.role("admin")
     def get(self):
-      user = users.get_current_user()
-      weblogs = Weblog.all()
-      for blog in weblogs:
-          blog.save()
+      reactionId = self.request.get('reactionId')
+      reaction = WeblogReactions.get_by_id(int(reactionId))
+      reaction.save()
+      self.response.out.write("success!"+reactionId)
 
-      self.response.out.write("success!")
-
-class UpdateReaction(BaseRequestHandler):
+class NotPermalink(webapp.RequestHandler):
     @authorized.role("admin")
     def get(self):
-      user = users.get_current_user()
-      weblogReactions = WeblogReactions.all().order('date')
-      for reaction in weblogReactions:
-          reaction.save()
-      self.response.out.write("success!")
+      blogs = Weblog.gql('where permalink =:1',None)
+      str = "";
+      for blog in blogs:
+           str+="http://blog.cpedia.com/viewBlog?blogId="+str(blog.key().id())+"\n"
+      self.response.out.write(str)
+

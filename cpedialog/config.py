@@ -9,7 +9,7 @@ blog = {
 }
 
 album ={
-    "username":["cpedia","blablabla1991","chou.hoytt","pegina8"]
+    "username":["cpedia","blablabla1991","pegina8"]
 }
 
 logo_images = ["logo1.gif","logo2.gif"]

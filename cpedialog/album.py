@@ -69,12 +69,12 @@ class MainPage(BaseRequestHandler):
   def get(self):
     usernames =config.album['username']
     defaultUsername = usernames[0]
-    key = "albums_"+defaultUsername
-    feed = memcache.get(key)
+    key_ = "albums_"+defaultUsername
+    feed = memcache.get(key_)
     if not feed:
         gd_client = gdata.photos.service.PhotosService()
         feed = gd_client.GetUserFeed(user=defaultUsername)
-        memcache.add(key=key, value=feed, time=3600)
+        memcache.add(key=key_, value=feed, time=3600)
     template_values = {
       'username':defaultUsername,
       'usernames':usernames,
@@ -85,12 +85,12 @@ class MainPage(BaseRequestHandler):
 class UserHandler(BaseRequestHandler):
   def get(self, username):
     usernames =config.album['username'] 
-    key = "albums_"+username
-    feed = memcache.get(key)
+    key_ = "albums_"+username
+    feed = memcache.get(key_)
     if not feed:
         gd_client = gdata.photos.service.PhotosService()
         feed = gd_client.GetUserFeed(user=username)
-        memcache.add(key=key, value=feed, time=3600)
+        memcache.add(key=key_, value=feed, time=3600)
     template_values = {
       'username':username,
       'usernames':usernames,
@@ -112,11 +112,11 @@ class AlbumHandler(BaseRequestHandler):
                     username, album_name))
             memcache.add(key=key_photos, value=feed_photos, time=3600)
 
-        key = "albums_"+ username
-        feed_albums = memcache.get(key)
+        key_albums = "albums_"+ username
+        feed_albums = memcache.get(key_albums)
         if not feed_albums:
             feed_albums = gd_client.GetUserFeed(user=username)
-            memcache.add(key=key, value=feed_albums, time=3600)
+            memcache.add(key=key_albums, value=feed_albums, time=3600)
 
         album = None
         for album_ in feed_albums.entry:
