@@ -58,7 +58,6 @@ class BaseRequestHandler(webapp.RequestHandler):
       'url': url,
       'url_linktext': url_linktext,
       'administrator': administrator,
-      'logoImages': util.getLogoImagesList(),
     }
     values.update(template_values)
     directory = os.path.dirname(__file__)
@@ -74,7 +73,7 @@ class MainPage(BaseRequestHandler):
     feed = memcache.get(key)
     if not feed:
         gd_client = gdata.photos.service.PhotosService()
-        feed = gd_client.GetUserFeed(user=username)
+        feed = gd_client.GetUserFeed(user=defaultUsername)
         memcache.add(key=key, value=feed, time=3600)
     template_values = {
       'username':defaultUsername,

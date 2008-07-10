@@ -1,1 +1,0 @@
-put any .gif format photo in this folder, then it will be shown randomly at the main page of the blog.

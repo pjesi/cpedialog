@@ -55,7 +55,6 @@ class BaseRequestHandler(webapp.RequestHandler):
       'url': url,
       'url_linktext': url_linktext,
       'administrator': administrator,
-      'logoImages': util.getLogoImagesList(),
       'archiveList': util.getArchiveList(),
     }
     values.update(template_values)
