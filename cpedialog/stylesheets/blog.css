@@ -1,7 +1,10 @@
 body {font: 0.8125em Verdana, sans-serif; color: #333; background: #FFF;}
 a {text-decoration: none;}
 a:link, a:visited {color: #555; border-bottom: 1px solid #555;}
+a img, a:hover img, a:link img,a:visited img {border-bottom:none !important;background-color: inherit!important;border-bottom-width: 0!important;}
+
 html body a:hover {color: #000; background-color: #F4F2E4; border-bottom: 1px solid #9A8E51;}
+
 #sidebar a:link,.post-title a:link, .post-title a:visited, .byline a:link, .byline a:visited {border-bottom-width: 0;}
 #sidebar a:hover,.post-title a:hover, .byline a:hover {border-bottom-width: 1px;}
 
@@ -74,12 +77,14 @@ dt {font:bold}
 
 #userinfo {TEXT-ALIGN: right}
 
-#menu_right{PADDING-RIGHT: 10px; PADDING-LEFT: 10px;}
+#menu_right{PADDING-RIGHT: 10px;}
 #menu_right UL {MARGIN: 0px 0px 1.5em; LIST-STYLE-TYPE: none}
 #menu_right UL LI {PADDING-RIGHT: 0px; PADDING-LEFT: 10px; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0.5em; PADDING-TOP: 0px}
 #menu_right LI.current {FONT-WEIGHT: bold;}
 #menu_right H2 {MARGIN: 0px 0px 8px; FONT: italic 12px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none}
 
+#subscribe{padding-bottom:10px;}
+#subscribe a,#subscribe a:hover ,#subscribe a:link ,#subscribe a:visited {border-bottom:none !important;background-color: inherit!important;border-bottom-width: 0!important;}
 #comments{border-bottom: 1px dotted #cccccc;}
 .commenttime{font: 0.7em Georgia, "Times New Roman", serif,italic;}
 #archives{border-bottom: 1px dotted #cccccc;padding-top:10px}
@@ -91,7 +96,8 @@ dt {font:bold}
 .commentlabel h4 {MARGIN: 0px 0px 8px; FONT: 14px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none}
 
 .author{background:#F8F7EF none repeat scroll 0% 0%;border-style:none none none solid;border-width:medium medium medium 6px;margin:10px 0pt;}
-.comment { margin-bottom:-1px;padding:15px 10px 1px;border-bottom: 1px dotted #cccccc;padding-top:10px}
+.comment {background:#F8F7EF none repeat scroll 0% 0%;margin-bottom:-1px;padding:15px 10px 1px;border-bottom: 1px dotted #cccccc;padding-top:10px}
+.comment1 {background:#FBFBF7 none repeat scroll 0% 0%;border-style:none;border-width:medium; margin-bottom:-1px;padding:15px 10px 1px;border-bottom: 1px dotted #cccccc;padding-top:10px}
 
 
 #blogcontainer{border: 1px #000000 solid;padding-bottom: 10px; padding-top: 10px;}

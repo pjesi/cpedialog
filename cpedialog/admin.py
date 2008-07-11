@@ -23,6 +23,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
+from model import Archive,Weblog,WeblogReactions
 import authorized
 import view
 import config
@@ -63,4 +64,10 @@ class BaseRequestHandler(webapp.RequestHandler):
     view.ViewPage(cache_time=0).render(self, template_name,values)
 
 
-      
+class MainPage(BaseRequestHandler):
+  def get(self):
+    pages = Weblog.all().filter('entrytype','page')
+    template_values = {
+      'pages':pages,
+      }
+    self.generate('admin_main.html',template_values)

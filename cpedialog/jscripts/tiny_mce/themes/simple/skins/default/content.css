@@ -1,7 +1,4 @@
-body, td, pre {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-}
+body, td, pre {font: 0.8125em Verdana, sans-serif; color: #333; margin:8px;}
 
 body {
 	background-color: #FFFFFF;

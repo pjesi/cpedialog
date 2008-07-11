@@ -5,6 +5,7 @@ from google.appengine.ext import webapp
 
 import blog
 import album
+import admin
 import logging
 import config
 
@@ -22,10 +23,8 @@ def main():
                                         ('/deleteBlog', blog.DeleteBlog),
                                         ('/editBlogReaction', blog.EditBlogReaction),
                                         ('/deleteBlogReaction', blog.DeleteBlogReaction),
+                                        ('/admin/*$', admin.MainPage),
                                         
-                                        ('/updateReactionByID', blog.UpdateReactionByID),
-                                        ('/notPermalink', blog.NotPermalink),
-
                                         ('/*$', blog.MainPage),
                                         ('/403.html', blog.UnauthorizedHandler),
                                         ('/404.html', blog.NotFoundHandler),

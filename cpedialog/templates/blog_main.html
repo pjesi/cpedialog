@@ -31,10 +31,10 @@
             {% endif %}
 
         <H4 class=byline> Posted by {{blog.author}} at 
-           <A  class=timestamp-link href="/{{entity.permalink}}">{{blog.date|date:"H:i A"}}</A>
+           <A  class=timestamp-link href="/{{blog.permalink}}">{{blog.date|date:"H:i A"}}</A>
                      {% if blog.weblogreactions_set.count %}
-                    <A class=comment-link href="/viewBlog?blogId={{blog.key.id}}#reactions">{{blog.weblogreactions_set.count}} comments</A>
-                    {% else %}<A class=comment-link href="/viewBlog?blogId={{blog.key.id}}#addreaction">no comments</A>{% endif %}
+                    <A class=comment-link href="/{{blog.permalink}}#reactions">{{blog.weblogreactions_set.count}} comments</A>
+                    {% else %}<A class=comment-link href="/{{blog.permalink}}#addreaction">no comments</A>{% endif %}
         </H4>
         </DIV>
         {% endfor %}

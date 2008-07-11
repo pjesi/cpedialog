@@ -9,7 +9,7 @@
         <UL>
             <LI><a href='/viewBlog?blogId=709'>Anything is possible!</a>
                 {% if user %}
-            <LI> Welcome, <b>{{ user.email }}</b>
+            <LI><a href="#"> Welcome, <b>{{ user.email }}</b> </a>
                 {% if administrator %}
             <LI><a href='/addBlog'>Admin/Add blog</a>
             <LI><a href='http://appengine.google.com/a/cpedia.com'>Admin/Manage site</a>

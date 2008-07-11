@@ -38,23 +38,7 @@ class BaseRequestHandler(webapp.RequestHandler):
   in the 'request' variable.
   """
   def generate(self, template_name, template_values={}):
-    administrator = False
-    useremail = ""
-    if users.get_current_user():
-      url = users.create_logout_url(self.request.uri)
-      url_linktext = 'Sign out'
-      useremail = users.get_current_user().email()
-      if users.is_current_user_admin():
-        administrator = True
-    else:
-      url = users.create_login_url(self.request.uri)
-      url_linktext = 'Sign in'
     values = {
-      'request': self.request,
-      'user': users.GetCurrentUser(),
-      'url': url,
-      'url_linktext': url_linktext,
-      'administrator': administrator,
       'archiveList': util.getArchiveList(),
     }
     values.update(template_values)
@@ -377,24 +361,3 @@ class SearchHandler(BaseRequestHandler):
           'recentReactions':recentReactions,
           }
         self.generate('blog_main.html',template_values)
-
-
-#The method below just for blog data maintance.
-
-class UpdateReactionByID(webapp.RequestHandler):
-    @authorized.role("admin")
-    def get(self):
-      reactionId = self.request.get('reactionId')
-      reaction = WeblogReactions.get_by_id(int(reactionId))
-      reaction.save()
-      self.response.out.write("success!"+reactionId)
-
-class NotPermalink(webapp.RequestHandler):
-    @authorized.role("admin")
-    def get(self):
-      blogs = Weblog.gql('where permalink =:1',None)
-      str = "";
-      for blog in blogs:
-           str+="http://blog.cpedia.com/viewBlog?blogId="+str(blog.key().id())+"\n"
-      self.response.out.write(str)
-

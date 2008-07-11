@@ -1,3 +1,5 @@
+__author__ = 'Ping Chen'
+
 
 import pickle
 
@@ -81,21 +83,6 @@ class Weblog(db.Model):
         self.lastCommentedDate = datetime.datetime(1980, 1, 1, 23, 59, 59) #for data migration.
         self.entrytype = 'post'
         self.put()
-  
-  
-    # Serialize data that we'd like to store with this article.
-    # Examples include relevant (per article) links and associated Amazon items.
-    def set_associated_data(self, data):
-        self.assoc_dict = pickle.dumps(data)
-  
-    def get_associated_data(self):
-        return pickle.loads(self.assoc_dict)
-  
-    def is_big(self):
-        if len(self.content) > 2000 or '<img' in self.content or '<code>' in self.content or '<pre>' in self.content:
-            return True
-        else:
-            return False
 
 
 class WeblogReactions(db.Model):
@@ -125,3 +112,20 @@ class AuthSubStoredToken(db.Model):
         'apps','base','blogger','calendar','codesearch','contacts','docs',
         'albums','spreadsheet','youtube'])
   session_token = db.StringProperty(required=True)
+
+
+class CPediaLog(db.Model):
+   title = db.StringProperty()
+   author = db.StringProperty()
+   email = db.StringProperty()
+   description = db.StringProperty()
+   root_url = db.StringProperty()
+   cache_time = db.IntegerProperty(default=0)
+   logo_images = db.ListProperty(db.Category)
+   debug_mode = db.ListProperty(db.Category)
+   num_per_page = db.IntegerProperty(default=8)
+
+class Album(db.Model):
+    username = db.StringProperty()
+    owner = db.UserProperty()
+    date = db.DateTimeProperty(auto_now_add=True)

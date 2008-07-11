@@ -1,5 +1,6 @@
 /* Reset */
 .defaultSimpleSkin table, .defaultSimpleSkin tbody, .defaultSimpleSkin a, .defaultSimpleSkin img, .defaultSimpleSkin tr, .defaultSimpleSkin div, .defaultSimpleSkin td, .defaultSimpleSkin iframe, .defaultSimpleSkin span, .defaultSimpleSkin * {border:0; margin:0; padding:0; background:transparent; white-space:nowrap; text-decoration:none; font-weight:normal; cursor:default; color:#000}
+.defaultSimpleSkin a:hover, .defaultSimpleSkin a:link, .defaultSimpleSkin a:visited, .defaultSimpleSkin a:active {text-decoration:none; font-weight:normal; cursor:default; color:#000}
 
 /* Containers */
 .defaultSimpleSkin {position:relative}

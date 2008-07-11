@@ -67,10 +67,10 @@
                 {% ifequal reaction.author reaction.weblog.author%}
                <div class='author comment'>
                 {% else %}
-               <div class='comment'>                   
+               <div class='{% cycle comment,comment1 %}'>
                 {% endifequal %}
             {% else %}
-           <div class='comment'>
+           <div class='{% cycle comment,comment1 %}'>
              {% endif %}
               <p> {% if reaction.authorWebsite %}
                   <a href="{{reaction.authorWebsite}}">
