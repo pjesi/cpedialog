@@ -81,7 +81,9 @@ class MainPage(BaseRequestHandler):
 class AddBlog(BaseRequestHandler):
   @authorized.role("admin")
   def get(self):
+    entrytype = self.request.get('entrytype')
     template_values = {
+      'entrytype': entrytype,
       'action': "addBlog",
       }
     self.generate('blog_add.html',template_values)
@@ -90,6 +92,7 @@ class AddBlog(BaseRequestHandler):
   def post(self):
     preview = self.request.get('preview')
     submitted = self.request.get('submitted')
+    entrytype = self.request.get('entrytype')
     user = users.get_current_user()
 
     blog = Weblog()
@@ -98,7 +101,10 @@ class AddBlog(BaseRequestHandler):
     blog.author = user
     blog.authorEmail = user.email()
     blog.tags_commas = self.request.get('tags')
+    if entrytype == 'page':
+        blog.entrytype = entrytype
     template_values = {
+      'entrytype': entrytype,
       'blog': blog,
       'preview': preview,
       'submitted': submitted,
@@ -124,7 +130,7 @@ class AddBlog(BaseRequestHandler):
         blog.save()
         util.flushBlogMonthCache(blog)
         util.flushBlogPagesCache()
-        self.redirect('/')
+        self.redirect('/'+permalink)
 
 class AddBlogReaction(BaseRequestHandler):
   def post(self):

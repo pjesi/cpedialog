@@ -12,6 +12,8 @@
             <LI><a href="#"> Welcome, <b>{{ user.email }}</b> </a>
                 {% if administrator %}
             <LI><a href='/addBlog'>Admin/Add blog</a>
+            <LI><a href='/addBlog?entrytype=page'>Admin/Add page</a>
+            <LI><a href='/admin'>Admin/System configuration</a>
             <LI><a href='http://appengine.google.com/a/cpedia.com'>Admin/Manage site</a>
                 {% endif %}
                 {% endif %}

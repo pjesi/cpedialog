@@ -41,6 +41,9 @@ dt {font:bold}
 }
 
 #footer {margin-top:20px;margin-bottom:20px;height: 2.0em; background: #FBFAF4;overflow: hidden;min-width: 750px;}
+#admincontainer{}
+#admincontainer fieldset legend {margin: 0 0 0 0;padding: 0 5px;}
+
 
 .post {PADDING-RIGHT: 10px; PADDING-LEFT: 10px; margin-bottom:10px;border-bottom: 1px dotted #cccccc;}
 .post-title {font: 1.6em Georgia, Times, serif;MARGIN: 1em 0px 0.25em;text-transform: none; letter-spacing: 1px;}
@@ -103,6 +106,7 @@ dt {font:bold}
 #blogcontainer{border: 1px #000000 solid;padding-bottom: 10px; padding-top: 10px;}
 #albumsdiv{border: 1px #000000 solid;padding-bottom: 40px; padding-top: 10px;}
 
+#albuminfo{padding-left:20px}
 #albums{margin:auto;text-align:center;padding-left:20px}
 #albums a, #albums a:hover, #albums a:link, #albums a:visited {border-bottom:none !important;background-color: inherit!important;}
 .album_thumbnail{width:180px;height:200px;margin:20px;}

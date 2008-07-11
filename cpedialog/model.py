@@ -77,11 +77,10 @@ class Weblog(db.Model):
             archive[0].put()
 
     def save(self):
-        self.update_archive()
+        if self.entrytype == "post":
+            self.update_archive()
         my = self.date.strftime('%B %Y') # July 2008
         self.monthyear = my
-        self.lastCommentedDate = datetime.datetime(1980, 1, 1, 23, 59, 59) #for data migration.
-        self.entrytype = 'post'
         self.put()
 
 

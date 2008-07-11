@@ -34,7 +34,34 @@ Edit reaction
 <div class="yui-g">
 <script type="text/javascript">
     function parseBlogContent(){
+        //form validator:
+        {% ifequal action "editBlogReaction" %}
+             var name_input = document.forms["previewForm"]["name_input"];
+             if(name_input.value==""){
+                 alert("Please input your name.");
+                 name_input.focus();
+                 return false;
+             }
+             var mail = document.forms["previewForm"]["mail"];
+             if(mail.value==""){
+                 alert("Please input your email address.");
+                 mail.focus();
+                 return false;
+             }
+        {% else %}
+            var title_input = document.forms["previewForm"]["title_input"];
+            if(title_input.value==""){
+                alert("Please input title of the item.");
+                title_input.focus();
+                return false;
+            }
+        {% endifequal %}
+
         var content = window.frames[0].document.getElementById('tinymce').innerHTML;
+        if(content==""){
+            alert("Please input content of the item.");
+            return false;
+        }        
         document.getElementById("text_input").value = content;
         return true;
     }
@@ -70,7 +97,7 @@ Edit reaction
 
         <div id="blogtags">
          <input type=text size="60" id="tags" name="tags" value="{% if blog %}{{blog.tags_commas}}{% endif %}">
-         <label for="tags"><b>Tags</b>(required)</label>
+         <label for="tags"><b>Tags</b> </label>
         </div>
         {% endifnotequal %}
 
@@ -115,6 +142,7 @@ Edit reaction
         {% else %}
         <input name=submit_edit type=submit value=submit>
         {% endifequal %}
+         <input name=entrytype type="hidden" value="{{entrytype}}"/> 
          <input name=text_input type="hidden"/><br><br>
     </form>
     </div>
@@ -162,6 +190,7 @@ Edit reaction
 
         <input name=title_input type=hidden value="{{blog.title}}">
         <input name=text_input type="hidden"/>
+        <input name=entrytype type="hidden" value="{{blog.entrytype}}"/>
         <input name=submitted type=hidden value='0'>
         <input name=submit_add type=submit value=submit>
 

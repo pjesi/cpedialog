@@ -35,9 +35,9 @@ def main():
                                         ('/atom/*$', blog.FeedHandler),
 
                                         ('/albums/*$', album.MainPage),
-                                        ('/albums/([-\w]+)/*$', album.UserHandler),
-                                        ('/albums/([-\w]+)/([-\w]+)/*$', album.AlbumHandler),
-                                        ('/albums/([-\w]+)/([-\w]+)/([\d]+)/*$', album.PhotoHandler),
+                                        ('/albums/([-\w\.]+)/*$', album.UserHandler),
+                                        ('/albums/([-\w\.]+)/([-\w]+)/*$', album.AlbumHandler),
+                                        ('/albums/([-\w\.]+)/([-\w]+)/([\d]+)/*$', album.PhotoHandler),
                                        ],
                                        debug=config._DEBUG)
     wsgiref.handlers.CGIHandler().run(application)

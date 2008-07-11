@@ -10,12 +10,12 @@
 <link rel="stylesheet" href="/jscripts/lightbox2.04/css/lightbox.css" type="text/css" media="screen" />
 
 <div class="yui-g" id="albumsdiv">
-        <H3>Albums</H3>
         {% if album %}
-        <div id="navpath">
+        <div id="albuminfo">
+            <H3>Albums</H3>
+            <p>
             <a href="/albums">Albums</a> -> <a href="/albums/{{username}}">{{username}}</a> -> <a href="/albums/{{username}}/{{album.name.text}}">{{album.title}}</a>
-        </div>
-        <div>
+            <p>
             Shot at: {{album.datetime|date:"m/d/y"}} <br>
             Photos Num: {{album.numphotos}}
         </div>

@@ -33,30 +33,9 @@ import gdata.urlfetch
 gdata.service.http_request_handler = gdata.urlfetch
 
 class BaseRequestHandler(webapp.RequestHandler):
-  """Supplies a common template generation function.
-
-  When you call generate(), we augment the template variables supplied with
-  the current user in the 'user' variable and the current webapp request
-  in the 'request' variable.
-  """
   def generate(self, template_name, template_values={}):
-    administrator = False
-    useremail = ""
-    if users.get_current_user():
-      url = users.create_logout_url(self.request.uri)
-      url_linktext = 'Sign out'
-      useremail = users.get_current_user().email()
-      if users.is_current_user_admin():
-        administrator = True
-    else:
-      url = users.create_login_url(self.request.uri)
-      url_linktext = 'Sign in'
     values = {
       'request': self.request,
-      'user': users.GetCurrentUser(),
-      'url': url,
-      'url_linktext': url_linktext,
-      'administrator': administrator,
     }
     values.update(template_values)
     directory = os.path.dirname(__file__)
@@ -65,9 +44,16 @@ class BaseRequestHandler(webapp.RequestHandler):
 
 
 class MainPage(BaseRequestHandler):
+  @authorized.role('admin')
   def get(self):
-    pages = Weblog.all().filter('entrytype','page')
-    template_values = {
-      'pages':pages,
-      }
-    self.generate('admin_main.html',template_values)
+        cache_stats = memcache.get_stats()
+        template_values = {
+          'cache_stats':cache_stats,
+          }
+        self.generate('admin_main.html',template_values)
+
+class Flush_all(BaseRequestHandler):
+    @authorized.role('admin')
+    def get(self):
+      status = memcache.flush_all()
+      self.response.out.write(status and "success!" or "failure!")

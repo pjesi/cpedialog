@@ -15,7 +15,7 @@
                 <a href="/{{blog.permalink}}#reactions"> {{blog.title}}</A>
                 {% else %}
                 <A href="/viewBlog?blogId={{blog.key.id}}#reactions">  {{blog.title}}</A>
-                 {% endif %} <span class="commenttime">({{blog.date|date:"m/d/y"}})</span>
+                 {% endif %} <span class="commenttime">({{blog.date|date:"m/d/Y"}})</span>
             </li>               
             {% endfor %}
         </ul>

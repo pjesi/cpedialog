@@ -9,7 +9,7 @@ blog = {
 }
 
 album ={
-    "username":["cpedia","blablabla1991","pegina8"]
+    "username":["cpedia","yeli.piao","pegina8"]
 }
 
 logo_images = ["logo1.gif","logo2.gif"]  #make sure the images located in the folder img/logo.

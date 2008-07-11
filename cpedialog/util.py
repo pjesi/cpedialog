@@ -87,7 +87,7 @@ def getRecentReactions():
     except Exception:
         recentReactions = None
     if recentReactions is None:
-        recentReactions = db.GqlQuery('select * from Weblog order by lastCommentedDate desc').fetch(10)
+        recentReactions = db.GqlQuery("select * from Weblog order by lastCommentedDate desc").fetch(10)
         memcache.add(key=key_, value=recentReactions, time=3600)
     else:
         logging.debug("getRecentReactions from cache. ")
@@ -103,7 +103,7 @@ def getBlogPagination(page):
     except Exception:
         obj_pages = None
     if obj_pages is None or page not in obj_pages:
-        blogs_query = Weblog.all().order('-date')
+        blogs_query = Weblog.all().filter('entrytype','post').order('-date')
         try:
             obj_page  =  GqlQueryPaginator(blogs_query,page,config._NUM_PER_PAGE).page()
             if obj_pages is None:
@@ -127,7 +127,7 @@ def getArchiveBlog(monthyear):
     except Exception:
         blogs = None    
     if blogs is None:
-        blogs = Weblog.all().filter('monthyear', monthyearTmp).order('-date') 
+        blogs = Weblog.all().filter('monthyear', monthyearTmp).filter('entrytype','post').order('-date') 
         memcache.add(key=key_, value=blogs, time=3600)
     else:
         logging.debug("getMonthBlog from cache. ")
