@@ -44,8 +44,10 @@ dt {font:bold}
 .post-title a {text-decoration: none;color:cadetblue !important;}
 .post-title a:link, .post-title a:visited {color: #333;}
 .post-title a:hover {color: #000;}
+.timestamp-link{color: #ff9966!important;font-weight:normal!important;}
+.comment-link{color: #ff9966!important;font-weight:normal!important;padding-left:10px}
 
-.post-body {text-align: left; line-height: 1.8em;margin: 0 0 1em;padding-top:5px}
+.post-body {text-align: left; line-height: 1.6em;margin: 0 0 1em;padding-top:5px}
 .post-body a {text-decoration:none!important;font-weight:bold;}
  
 .byline {font: italic 0.9em Times, serif; letter-spacing: 1px; margin: 0 0 1.5em;}
@@ -79,6 +81,7 @@ dt {font:bold}
 #menu_right H2 {MARGIN: 0px 0px 8px; FONT: italic 12px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none}
 
 #comments{border-bottom: 1px dotted #cccccc;}
+.commenttime{font: 0.7em Georgia, "Times New Roman", serif,italic;}
 #archives{border-bottom: 1px dotted #cccccc;padding-top:10px}
 
 #logo {background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}

@@ -12,7 +12,7 @@ album ={
     "username":["cpedia","blablabla1991","pegina8"]
 }
 
-logo_images = ["logo1.gif","logo2.gif"]
+logo_images = ["logo1.gif","logo2.gif"]  #make sure the images located in the folder img/logo.
 
 # Set to true if we want to have our webapp print stack traces, etc
 _DEBUG = True
