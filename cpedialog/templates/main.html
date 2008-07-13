@@ -2,13 +2,14 @@
 <HTML>
 <HEAD>
     <meta name="verify-v1" content="XR70SJE5JNIWNugeaRSpxdbdQeJ6dUno8MHQRplhv/Y=" />
+    <meta name="msvalidate.01" content="DF4A381369FD44CDBD61C7E9566A74EC" />
     <META http-equiv=Content-Type content="text/html; charset=utf-8">
     <TITLE>
         {% block title %}
         {{title}}
         {% endblock %}
     </TITLE>
-
+    <link rel="alternate" type="application/atom+xml" title="{{ BLOG.title }}" href="{{ BLOG.root_url }}/atom" />
     <link type="text/css" rel="stylesheet" href="/stylesheets/blog.css"/>
     <link type="text/css" rel="stylesheet" href="/stylesheets/weblog.css"/>
 
@@ -16,15 +17,12 @@
     <link rel="stylesheet" type="text/css"
           href="http://yui.yahooapis.com/2.5.2/build/reset-fonts-grids/reset-fonts-grids.css">
 </HEAD>
-
 <body>
 <div id="doc2" class="yui-t5">
-
     <div id="hd">
         {% include "main_top.html" %}
     </div>
     <br>
-
     <div id="bd">
         <div id="yui-main">
             <div class="yui-b">

@@ -2,58 +2,117 @@
 
 {% block title %}CPEDIA's Blog{% endblock %}
 
-
 {% block blogcontainer %}
+
+<!-- Dependency -->
+<script src="http://yui.yahooapis.com/2.5.2/build/yahoo/yahoo-min.js"></script>
+<!-- Used for Custom Events and event listener bindings -->
+<script src="http://yui.yahooapis.com/2.5.2/build/event/event-min.js"></script>
+<!-- Connection Manager -->
+<script src="http://yui.yahooapis.com/2.5.2/build/connection/connection-min.js"></script>
+<!-- JSON Utility -->
+<script src="http://yui.yahooapis.com/2.5.2/build/json/json-min.js"></script>
+
 <div class="yui-g">
     <div id="admincontainer">
         <fieldset>
             <legend>Blog Configuration</legend>
-            <div>
+            <div class="fieldsetdiv">
+                Blog title:
+                Author:
+                Email:
+                Description:
+                Root url:
+                Cache time:
+                Logo images:
+                Debug mode:
+                Num per page:
             </div>
         </fieldset>
 
         <fieldset>
             <legend>Page Admin</legend>
-            <div>
-                <!--page list-->
+            <div class="fieldsetdiv">
+                Page List:
+
             </div>
         </fieldset>
 
         <fieldset>
             <legend>Album Configuration</legend>
-            <div>
+            <div class="fieldsetdiv">
+                Album List:
+
             </div>
         </fieldset>
 
         <fieldset>
             <legend>Session Token Management</legend>
-            <div>
+            <div class="fieldsetdiv">
+                Sesseion Token List:
+
             </div>
         </fieldset>
 
         <fieldset>
             <legend>System Cache Management</legend>
-            <div>
-                <h3>Memcache statistics for this application</h3>
+            <div class="fieldsetdiv">
+                <h2>Memcache statistics for this application:</h2>
 
-                <div>
-                    <p> hits: {{cache_stats.hits}}  Number of cache get requests resulting in a cache hit.
+                <div class="fieldsetdiv">
+                    <p><b>hits </b>: <span id="cache_stats.hits">{{cache_stats.hits}}</span> <span
+                            class="fieldsetcomment">(Number of cache get requests resulting in a cache hit.)</span>
 
-                    <p> misses: Number of cache get requests resulting in a cache miss.
+                    <p><b> misses</b>:<span id="cache_stats.misses">{{cache_stats.misses}}</span> <span
+                            class="fieldsetcomment"> (Number of cache get requests resulting in a cache miss.)</span>
 
-                    <p> byte_hits: Sum of bytes transferred on get requests. Rolls over to zero on overflow.
+                    <p><b>byte_hits</b>: <span id="cache_stats.byte_hits">{{cache_stats.byte_hits}}</span> <span
+                            class="fieldsetcomment">( Sum of bytes transferred on get requests. Rolls over to zero on overflow.)</span>
 
-                    <p> items: Number of key/value pairs in the cache.
+                    <p><b>items</b>:<span id="cache_stats.items">{{cache_stats.items}}</span> <span
+                            class="fieldsetcomment">(Number of key/value pairs in the cache. )</span>
 
-                    <p> bytes: Total size of all items in the cache.
+                    <p><b>bytes</b>:<span id="cache_stats.bytes">{{cache_stats.bytes}}</span> <span
+                            class="fieldsetcomment"> (Total size of all items in the cache. )</span>
 
-                    <p> oldest_item_age: How long in seconds since the oldest item in the cache was accessed.
+                    <p><b> oldest_item_age</b>: <span
+                            id="cache_stats.oldest_item_age">{{cache_stats.oldest_item_age}}</span> <span
+                            class="fieldsetcomment"> (How long in seconds since the oldest item in the cache was accessed.
                         Effectively, this indicates how long a new item will survive in the cache without being
-                        accessed. This is _not_ the amount of time that has elapsed since the item was created.
+                        accessed. This is _not_ the amount of time that has elapsed since the item was created.)</span>
                 </div>
+                <input type="submit" value="Flush All the Memcache" id=flushmemcache onClick="makeRequest('FlushAllMemcache');">
             </div>
         </fieldset>
     </div>
 </div>
+<script>
+    var handleSuccess = function(o) {
+        if (o.responseText !== undefined) {
+            var cache_stats = YAHOO.lang.JSON.parse(o.responseText);
+            document.getElementById("cache_stats.hits").innerHTML = cache_stats.hits;
+            document.getElementById("cache_stats.misses").innerHTML = cache_stats.misses;
+            document.getElementById("cache_stats.byte_hits").innerHTML = cache_stats.byte_hits;
+            document.getElementById("cache_stats.items").innerHTML = cache_stats.items;
+            document.getElementById("cache_stats.bytes").innerHTML = cache_stats.bytes;
+            document.getElementById("cache_stats.oldest_item_age").innerHTML = cache_stats.oldest_item_age;
+            alert("Flush all the memcache successfully.");
+        }
+    }
+    var handleFailure = function(o) {
+        if (o.responseText !== undefined) {
+            alert("Client RPC Request Error, please retry.");
+        }
+    }
+    var callback =
+    {
+        success:handleSuccess,
+        failure:handleFailure
+    };
+    function makeRequest(action) {
+        var sUrl = "/rpc?action="+action+"&time=" + new Date().getTime();
+        var request = YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+    }
+</script>
 {% endblock %}
 

@@ -36,7 +36,7 @@ def role(role):
                 else:
                     self.redirect(users.create_login_url(self.request.uri))
             elif role == "user" or (role == "admin" and users.is_current_user_admin()):
-                handler_method(self, *args, **kwargs)
+                return handler_method(self, *args, **kwargs)
             else:
                 if self.request.method == 'GET':
                     self.redirect("/403.html")
@@ -90,7 +90,7 @@ def authSub(service):
                     self.redirect(auth_sub_url)
                 else:
                     try:
-                        handler_method(self, *args, **kwargs)
+                        return handler_method(self, *args, **kwargs)
                     except gdata.service.RequestError, request_error:
                         #remove the invalid session token.
                         DeleteUnvalidToken(user.email(),service)

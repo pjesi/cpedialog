@@ -1,3 +1,4 @@
+__author__ = 'Ping Chen'
 
 blog = {
     "title": "CPEDIA's Blog",

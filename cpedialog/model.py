@@ -128,3 +128,5 @@ class Album(db.Model):
     username = db.StringProperty()
     owner = db.UserProperty()
     date = db.DateTimeProperty(auto_now_add=True)
+    private = db.BooleanProperty()
+    auth_token = db.ReferenceProperty(AuthSubStoredToken)

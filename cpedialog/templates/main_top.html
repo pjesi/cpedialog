@@ -3,11 +3,11 @@
         {% if user %}
         <b>{{ user.email }}</b> |
         {% if user_is_admin %}
-        <a href='/addBlog'>Admin/Add blog</a> |
-        <a href='http://appengine.google.com/a/cpedia.com'>Admin/Manage site</a> |
+        <a href='/admin'>System configuration</a> |
+        <a href='http://appengine.google.com/a/cpedia.com' target="_blank">Manage site</a> |
         {% endif %}
         {% endif %}
-        <a href="https://www.google.com/accounts/ManageAccount">My Account</a> |
+        <a href="https://www.google.com/accounts/ManageAccount" target="_blank">My Account</a> |
         <A href="{{ url }}">{{ url_linktext }}</A>
     </div>
     <div>

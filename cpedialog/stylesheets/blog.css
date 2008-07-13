@@ -40,10 +40,12 @@ dt {font:bold}
  background: url(/img/navbarlinkbg.gif) top left repeat-x; color: #555;
 }
 
-#footer {margin-top:20px;margin-bottom:20px;height: 2.0em; background: #FBFAF4;overflow: hidden;min-width: 750px;}
-#admincontainer{}
-#admincontainer fieldset legend {margin: 0 0 0 0;padding: 0 5px;}
-
+#footer{margin-top:20px;margin-bottom:20px;height: 2.5em; background: #FBFAF4;overflow: hidden;min-width: 750px;}
+#admincontainer fieldset{margin-bottom:20px!important;padding-bottom:20px;border:1px solid #cccccc!important;}
+#admincontainer fieldset input{margin-top:10px;margin-bottom:10px; border:1px solid #cccccc;background-color:#cccccc;}
+#admincontainer .fieldsetdiv{padding-left:10px;padding-top:5px}
+#admincontainer legend{padding: 2px 6px;font-weight:bold;}
+.fieldsetcomment{font: 0.7em Georgia, "Times New Roman", serif,italic; padding-left:20px}
 
 .post {PADDING-RIGHT: 10px; PADDING-LEFT: 10px; margin-bottom:10px;border-bottom: 1px dotted #cccccc;}
 .post-title {font: 1.6em Georgia, Times, serif;MARGIN: 1em 0px 0.25em;text-transform: none; letter-spacing: 1px;}

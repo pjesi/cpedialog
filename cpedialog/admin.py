@@ -52,8 +52,3 @@ class MainPage(BaseRequestHandler):
           }
         self.generate('admin_main.html',template_values)
 
-class Flush_all(BaseRequestHandler):
-    @authorized.role('admin')
-    def get(self):
-      status = memcache.flush_all()
-      self.response.out.write(status and "success!" or "failure!")
