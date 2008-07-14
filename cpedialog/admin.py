@@ -49,7 +49,9 @@ class MainPage(BaseRequestHandler):
         cache_stats = memcache.get_stats()
         session_tokens = AuthSubStoredToken.all()
         albums = Album.all()
+        pages = Weblog.all().filter('entrytype','page').order('-date')
         template_values = {
+          'pages':pages,
           'session_tokens':session_tokens,
           'albums':albums,
           'cache_stats':cache_stats,

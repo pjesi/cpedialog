@@ -20,15 +20,17 @@
     <fieldset>
         <legend>Blog Configuration</legend>
         <div class="fieldsetdiv">
-            Blog title:
-            Author:
-            Email:
-            Description:
-            Root url:
-            Cache time:
-            Logo images:
-            Debug mode:
-            Num per page:
+            <table>
+                <tr><td>Blog title:</td><td><input type="text" id="title" size="60"></td></tr>
+                <tr><td>Author:</td><td><input type="text" id="author" size="60"></td></tr>
+                <tr><td>Email:</td><td><input type="text" id="email" size="60"></td></tr>
+                <tr><td>Description:</td><td><input type="text" id="description" size="60"></td></tr>
+                <tr><td>Root url:</td><td><input type="text" id="root_url" size="60"></td></tr>
+                <tr><td>Cache time:</td><td><input type="text" id="cache_time" size="60"></td></tr>
+                <tr><td>Logo images:</td><td><input type="text" id="logo_images" size="60"></td></tr>
+                <tr><td>Debug mode:</td><td><input type="text" id="debug" size="60"></td></tr>
+                <tr><td>Blogs amount per page:</td><td><input type="text" id="num_per_page" size="60"></td></tr>
+            </table>
         </div>
     </fieldset>
 
@@ -36,7 +38,29 @@
         <legend>Page Admin</legend>
         <div class="fieldsetdiv">
             Page List:
-
+            <table id="pagetable">
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Date</th>
+                    <th>Permalink</th>
+                    <th> &nbsp;</th>
+                </tr>
+                {% for entry in pages %}
+                <tr>
+                    <td>{{entry.title}}</td>
+                    <td>{{entry.author.email}}</td>
+                    <td>{{entry.date|date:"m/d/Y"}}</td>
+                    <td>
+                        <a href="{{entry.full_permalink}}" target="_blank">{{entry.full_permalink}}</a>
+                    </td>
+                    <td>
+                         <a href='/editBlog?blogId={{entry.key.id}}' target="_blank">edit</a> &nbsp;
+                         <a href='/deleteBlog?blogId={{entry.key.id}}' target="_blank">delete</a>
+                    </td>
+                </tr>
+                {% endfor%}
+            </table>
         </div>
     </fieldset>
 
@@ -44,7 +68,26 @@
         <legend>Album Configuration</legend>
         <div class="fieldsetdiv">
             Album List:
-
+            <table id="albumtable">
+                <tr>
+                    <th>Picasaweb album username</th>
+                    <th>Added by</th>
+                    <th>Added date</th>
+                    <th>Public/Private</th>
+                    <th> &nbsp;</th>
+                </tr>
+                {% for album in albums %}
+                <tr>
+                    <td>{{album.username}}</td>
+                    <td>{{album.owner.email}}</td>
+                    <td>{{album.date|date:"m/d/Y"}}</td>
+                    <td>{{album.private}}</td>
+                    <td>
+                        <a href="javascript:deleteAlbum('{{album.username}}')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor%}
+            </table>
         </div>
     </fieldset>
 
@@ -65,7 +108,7 @@
                     <td>{{token.target_service}}</td>
                     <td>{{token.session_token}}</td>
                     <td>
-                        <a href="javascript:deleteSessionToken('{{token.user_email}}','{{token.target_service}}',this)">Delete</a>
+                        <a href="javascript:deleteSessionToken('{{token.user_email}}','{{token.target_service}}')" id="{{token.user_email}}_{{token.target_service}}">Delete</a>
                     </td>
                 </tr>
                 {% endfor%}
@@ -140,9 +183,16 @@
     }
     var deleteSessionTokenSuccess = function(o) {
         if (o.responseText !== undefined) {
-            var src_obj = o.argument.src_obj;
-            debugger;
-            document.getElementById("tokentable").deleteRow(src_obj.parentElement.rowIndex);
+            var src_obj = document.getElementById(o.argument.user_email+"_"+o.argument.target_service);
+            document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
+            alert("Delete session token successfully.");
+        }
+    }
+    var deleteAlbumSuccess = function(o) {
+        if (o.responseText !== undefined) {
+            var src_obj = document.getElementById(o.argument.user_email+"_"+o.argument.target_service);
+            document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
+            alert("Delete user's album successfully.");
         }
     }
     var handleFailure = function(o) {
@@ -160,13 +210,23 @@
         };
         YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
     }
-    function deleteSessionToken(user_email, target_service,src_obj) {
+    function deleteSessionToken(user_email, target_service) {
         var sUrl = "/rpc?action=DeleteSessionToken&arg0=\"" + user_email + "\"&arg1=\"" + target_service + "\"&time=" + new Date().getTime();
         var callback =
         {
             success:deleteSessionTokenSuccess,
             failure:handleFailure,
-            argument:{user_email:user_email,target_service:target_service,src_obj:src_obj}
+            argument:{user_email:user_email,target_service:target_service}
+        };
+        YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+    }
+    function deleteAlbum(username) {
+        var sUrl = "/rpc?action=DeleteAlbum&arg0=\"" + username + "\"&time=" + new Date().getTime();
+        var callback =
+        {
+            success:deleteAlbumSuccess,
+            failure:handleFailure,
+            argument:{username:username}
         };
         YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
     }
