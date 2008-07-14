@@ -85,7 +85,7 @@ class UserHandler(BaseRequestHandler):
 
 
 class AlbumHandler(BaseRequestHandler):
-    #@authorized.authSub('albums')
+    #@authorized.authSub('blogger')
     def get(self, username, album_name):
         gd_client = gdata.photos.service.PhotosService()
 

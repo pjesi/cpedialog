@@ -9,6 +9,8 @@ from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
 
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album
+
 import authorized
 
 # This handler allows the functions defined in the RPCHandler class to
@@ -31,9 +33,17 @@ class RPCHandler(webapp.RequestHandler):
 # The RPCs exported to JavaScript follow here:
   
   @authorized.role('admin')
-  def FlushAllMemcache(self):
-    status = memcache.flush_all()
+  def FlushAllMemcache(self,flush):
+    if flush:
+        status = memcache.flush_all()
     cache_stats = memcache.get_stats()
     return cache_stats
 
 
+  @authorized.role('admin')
+  def DeleteSessionToken(self,user_email,target_service):
+      stored_token = AuthSubStoredToken.gql('WHERE user_email = :1 and target_service = :2',
+          user_email, target_service).get()
+      #if stored_token:
+          #stored_token.delete()
+      return True    
