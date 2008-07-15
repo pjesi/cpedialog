@@ -12,8 +12,6 @@
 <script src="http://yui.yahooapis.com/2.5.2/build/connection/connection-min.js"></script>
 <!-- JSON Utility -->
 <script src="http://yui.yahooapis.com/2.5.2/build/json/json-min.js"></script>
-<!-- Dom Collection -->
-<script src="http://yui.yahooapis.com/2.5.2/build/dom/dom-min.js"></script>
 
 <div class="yui-g">
 <div id="admincontainer">
@@ -21,23 +19,23 @@
     <legend>Blog Configuration</legend>
     <div class="fieldsetdiv">
         <form id="cpedialogForm">
-            <p><input type="text" id="title" size="60" value="{{BLOG.title}}"> Blog title
+            <p><input type="text" name="title" size="60" value="{{BLOG.title}}"> Blog title
 
-            <p><input type="text" id="author" size="60" value="{{BLOG.author}}"> Author
+            <p><input type="text" name="author" size="60" value="{{BLOG.author}}"> Author
 
-            <p><input type="text" id="email" size="60" value="{{BLOG.email}}"> Email
+            <p><input type="text" name="email" size="60" value="{{BLOG.email}}"> Email
 
-            <p><input type="text" id="description" size="60" value="{{BLOG.description}}"> Description
+            <p><input type="text" name="description" size="60" value="{{BLOG.description}}"> Description
 
-            <p><input type="text" id="root_url" size="60" value="{{BLOG.root_url}}"> Root url
+            <p><input type="text" name="root_url" size="60" value="{{BLOG.root_url}}"> Root url
 
-            <p><input type="text" id="cache_time" size="60" value="{{BLOG.cache_time}}"> Cache time
+            <p><input type="text" name="cache_time" size="60" value="{{BLOG.cache_time}}"> Cache time
 
-            <p><input type="text" id="logo_images" size="60" value="{{BLOG.logo_images}}"> Logo images
+            <p><input type="text" name="logo_images" size="60" value="{{BLOG.logo_images}}"> Logo images
 
-            <p><input type="text" id="debug" size="60" value="{{BLOG.debug}}"> Debug mode
+            <p><input type="text" name="debug" size="60" value="{{BLOG.debug}}"> Debug mode
 
-            <p><input type="text" id="num_per_page" size="60" value="{{BLOG.num_per_page}}"> Blogs amount per page
+            <p><input type="text" name="num_per_page" size="60" value="{{BLOG.num_per_page}}"> Blogs amount per page
 
             <p><input type="button" value="Save" onClick="saveCPediaLog();" class="submit">
         </form>
@@ -130,7 +128,7 @@
 <fieldset>
     <legend>System Cache Management</legend>
     <div class="fieldsetdiv">
-        <h2>Memcache statistics for this application:</h2>
+        Memcache statistics for this application: 
         <table>
             <tr>
                 <th>hits</th>
@@ -227,7 +225,8 @@
         YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
     }
     function deleteSessionToken(user_email, target_service) {
-        var sUrl = "/rpc?action=DeleteSessionToken&arg0=\"" + user_email + "\"&arg1=\"" + target_service + "\"&time=" + new Date().getTime();
+        var sUrl = "/rpc?action=DeleteSessionToken&arg0=\"" + user_email + "\"&arg1=\"" + target_service +
+                   "\"&time=" + new Date().getTime();
         var callback =
         {
             success:deleteSessionTokenSuccess,
@@ -255,7 +254,7 @@
             success:saveCPediaLogSuccess,
             failure:handleFailure
         };
-        YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+        var cObj = YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
     }
 </script>
 {% endblock %}

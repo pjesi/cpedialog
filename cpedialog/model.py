@@ -128,11 +128,11 @@ class CPediaLog(db.Model):
    local = db.BooleanProperty()
 
    def get_logo_images(self):
-       '''comma delimted list of tags'''
+       '''comma delimted list of logo_images'''
        return ','.join([urllib.unquote(logo_image) for logo_image in self.logo_images])
 
    def set_logo_images(self, logo_images):
-       if tags:
+       if logo_images:
            logo_imagestemp = [db.Category(urllib.quote(logo_image.strip().encode('utf8'))) for logo_image in logo_images.split(',')]
            self.logo_imagesnew = [logo_image for logo_image in logo_imagestemp if not logo_image in self.logo_images]
            self.logo_images = logo_imagestemp

@@ -22,7 +22,7 @@ class RPCHandler(webapp.RequestHandler):
   def get(self):
     action = self.request.get('action')
     arg_counter = 0;
-    args = ()
+    args = []
     while True:
       arg = self.request.get('arg' + str(arg_counter))
       arg_counter += 1
@@ -58,17 +58,17 @@ class RPCHandler(webapp.RequestHandler):
       return True
 
   @authorized.role('admin')
-  def UpdateCPediaLog(self,formRequest):
+  def UpdateCPediaLog(self,request):
       cpedialog = CPediaLog()
-      cpedialog.title = formRequest.get('requst')
-      cpedialog.author = formRequest.get('author')
-      cpedialog.email = formRequest.get('email')
-      cpedialog.description = formRequest.get('description')
-      cpedialog.root_url = formRequest.get('root_url')
-      cpedialog.cache_time = int(formRequest.get('cache_time'))
-      cpedialog.logo_images_commas = formRequest.get('logo_images')
-      cpedialog.num_per_page = int(formRequest.get('num_per_page'))
-      cpedialog.hostIp = formRequest.remote_addr
+      cpedialog.title = request.get('title')
+      cpedialog.author = request.get('author')
+      cpedialog.email = request.get('email')
+      cpedialog.description = request.get('description')
+      cpedialog.root_url = request.get('root_url')
+      cpedialog.cache_time = int(request.get('cache_time'))
+      cpedialog.logo_images_commas = request.get('logo_images')
+      cpedialog.num_per_page = int(request.get('num_per_page'))
+      cpedialog.hostIp = request.remote_addr
       cpedialog.local = True
       cpedialog.put()
       return True
