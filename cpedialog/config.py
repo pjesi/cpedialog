@@ -7,6 +7,7 @@ blog = {
     "description": "CPEDIA's Blog powered by Google AppEngine.",
     "root_url": "http://blog.cpedia.com",
     "cache_time": 0,      # You can override this default for each page through a handler's call to view.ViewPage(cache_time=...)
+    "logo_images":["logo1.gif","logo2.gif"]
 }
 
 album ={

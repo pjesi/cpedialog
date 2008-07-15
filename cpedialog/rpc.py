@@ -1,3 +1,6 @@
+__author__ = 'Ping Chen'
+
+
 import os
 import logging
 import datetime
@@ -9,7 +12,7 @@ from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,CPediaLog
 
 import authorized
 
@@ -30,6 +33,12 @@ class RPCHandler(webapp.RequestHandler):
     result = getattr(self, action)(*args)
     self.response.out.write(simplejson.dumps(result))
 
+  def post(self):
+    action = self.request.get('action')
+    formRequest = self.request
+    result = getattr(self, action)(formRequest)
+    self.response.out.write(simplejson.dumps(result))
+
 # The RPCs exported to JavaScript follow here:
   
   @authorized.role('admin')
@@ -44,6 +53,22 @@ class RPCHandler(webapp.RequestHandler):
   def DeleteSessionToken(self,user_email,target_service):
       stored_token = AuthSubStoredToken.gql('WHERE user_email = :1 and target_service = :2',
           user_email, target_service).get()
-      #if stored_token:
-          #stored_token.delete()
-      return True    
+      if stored_token:
+          stored_token.delete()
+      return True
+
+  @authorized.role('admin')
+  def UpdateCPediaLog(self,formRequest):
+      cpedialog = CPediaLog()
+      cpedialog.title = formRequest.get('requst')
+      cpedialog.author = formRequest.get('author')
+      cpedialog.email = formRequest.get('email')
+      cpedialog.description = formRequest.get('description')
+      cpedialog.root_url = formRequest.get('root_url')
+      cpedialog.cache_time = int(formRequest.get('cache_time'))
+      cpedialog.logo_images_commas = formRequest.get('logo_images')
+      cpedialog.num_per_page = int(formRequest.get('num_per_page'))
+      cpedialog.hostIp = formRequest.remote_addr
+      cpedialog.local = True
+      cpedialog.put()
+      return True

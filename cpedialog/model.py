@@ -113,6 +113,7 @@ class AuthSubStoredToken(db.Model):
   session_token = db.StringProperty(required=True)
 
 
+#System configuration.
 class CPediaLog(db.Model):
    title = db.StringProperty()
    author = db.StringProperty()
@@ -121,8 +122,22 @@ class CPediaLog(db.Model):
    root_url = db.StringProperty()
    cache_time = db.IntegerProperty(default=0)
    logo_images = db.ListProperty(db.Category)
-   debug_mode = db.ListProperty(db.Category)
+   debug_mode = db.BooleanProperty()
    num_per_page = db.IntegerProperty(default=8)
+   hostIp = db.StringProperty()    
+   local = db.BooleanProperty()
+
+   def get_logo_images(self):
+       '''comma delimted list of tags'''
+       return ','.join([urllib.unquote(logo_image) for logo_image in self.logo_images])
+
+   def set_logo_images(self, logo_images):
+       if tags:
+           logo_imagestemp = [db.Category(urllib.quote(logo_image.strip().encode('utf8'))) for logo_image in logo_images.split(',')]
+           self.logo_imagesnew = [logo_image for logo_image in logo_imagestemp if not logo_image in self.logo_images]
+           self.logo_images = logo_imagestemp
+  
+   logo_images_commas = property(get_logo_images,set_logo_images)
 
 class Album(db.Model):
     username = db.StringProperty()

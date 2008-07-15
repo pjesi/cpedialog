@@ -17,151 +17,162 @@
 
 <div class="yui-g">
 <div id="admincontainer">
-    <fieldset>
-        <legend>Blog Configuration</legend>
-        <div class="fieldsetdiv">
-            <table>
-                <tr><td>Blog title:</td><td><input type="text" id="title" size="60"></td></tr>
-                <tr><td>Author:</td><td><input type="text" id="author" size="60"></td></tr>
-                <tr><td>Email:</td><td><input type="text" id="email" size="60"></td></tr>
-                <tr><td>Description:</td><td><input type="text" id="description" size="60"></td></tr>
-                <tr><td>Root url:</td><td><input type="text" id="root_url" size="60"></td></tr>
-                <tr><td>Cache time:</td><td><input type="text" id="cache_time" size="60"></td></tr>
-                <tr><td>Logo images:</td><td><input type="text" id="logo_images" size="60"></td></tr>
-                <tr><td>Debug mode:</td><td><input type="text" id="debug" size="60"></td></tr>
-                <tr><td>Blogs amount per page:</td><td><input type="text" id="num_per_page" size="60"></td></tr>
-            </table>
-        </div>
-    </fieldset>
+<fieldset>
+    <legend>Blog Configuration</legend>
+    <div class="fieldsetdiv">
+        <form id="cpedialogForm">
+            <p><input type="text" id="title" size="60" value="{{BLOG.title}}"> Blog title
 
-    <fieldset>
-        <legend>Page Admin</legend>
-        <div class="fieldsetdiv">
-            Page List:
-            <table id="pagetable">
-                <tr>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Date</th>
-                    <th>Permalink</th>
-                    <th> &nbsp;</th>
-                </tr>
-                {% for entry in pages %}
-                <tr>
-                    <td>{{entry.title}}</td>
-                    <td>{{entry.author.email}}</td>
-                    <td>{{entry.date|date:"m/d/Y"}}</td>
-                    <td>
-                        <a href="{{entry.full_permalink}}" target="_blank">{{entry.full_permalink}}</a>
-                    </td>
-                    <td>
-                         <a href='/editBlog?blogId={{entry.key.id}}' target="_blank">edit</a> &nbsp;
-                         <a href='/deleteBlog?blogId={{entry.key.id}}' target="_blank">delete</a>
-                    </td>
-                </tr>
-                {% endfor%}
-            </table>
-        </div>
-    </fieldset>
+            <p><input type="text" id="author" size="60" value="{{BLOG.author}}"> Author
 
-    <fieldset>
-        <legend>Album Configuration</legend>
-        <div class="fieldsetdiv">
-            Album List:
-            <table id="albumtable">
-                <tr>
-                    <th>Picasaweb album username</th>
-                    <th>Added by</th>
-                    <th>Added date</th>
-                    <th>Public/Private</th>
-                    <th> &nbsp;</th>
-                </tr>
-                {% for album in albums %}
-                <tr>
-                    <td>{{album.username}}</td>
-                    <td>{{album.owner.email}}</td>
-                    <td>{{album.date|date:"m/d/Y"}}</td>
-                    <td>{{album.private}}</td>
-                    <td>
-                        <a href="javascript:deleteAlbum('{{album.username}}')">Delete</a>
-                    </td>
-                </tr>
-                {% endfor%}
-            </table>
-        </div>
-    </fieldset>
+            <p><input type="text" id="email" size="60" value="{{BLOG.email}}"> Email
 
-    <fieldset>
-        <legend>Session Token Management</legend>
-        <div class="fieldsetdiv">
-            Sesseion Token List:
-            <table id="tokentable">
-                <tr>
-                    <th>User Email</th>
-                    <th>Target Service</th>
-                    <th>Session Token</th>
-                    <th> &nbsp;</th>
-                </tr>
-                {% for token in session_tokens %}
-                <tr>
-                    <td>{{token.user_email}}</td>
-                    <td>{{token.target_service}}</td>
-                    <td>{{token.session_token}}</td>
-                    <td>
-                        <a href="javascript:deleteSessionToken('{{token.user_email}}','{{token.target_service}}')" id="{{token.user_email}}_{{token.target_service}}">Delete</a>
-                    </td>
-                </tr>
-                {% endfor%}
-            </table>
-        </div>
-    </fieldset>
+            <p><input type="text" id="description" size="60" value="{{BLOG.description}}"> Description
 
-    <fieldset>
-        <legend>System Cache Management</legend>
-        <div class="fieldsetdiv">
-            <h2>Memcache statistics for this application:</h2>
-            <table>
-                <tr>
-                    <th>hits</th>
-                    <td><span id="cache_stats.hits">{{cache_stats.hits}}</span></td>
-                    <td><span class="fieldsetcomment">Number of cache get requests resulting in a cache hit.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>misses</th>
-                    <td><span id="cache_stats.misses">{{cache_stats.misses}}</span></td>
-                    <td><span class="fieldsetcomment">Number of cache get requests resulting in a cache miss.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>byte_hits</th>
-                    <td><span id="cache_stats.byte_hits">{{cache_stats.byte_hits}}</span></td>
-                    <td><span class="fieldsetcomment">Sum of bytes transferred on get requests. Rolls over to zero on overflow.</span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>items</th>
-                    <td><span id="cache_stats.items">{{cache_stats.items}}</span></td>
-                    <td><span class="fieldsetcomment">Number of key/value pairs in the cache. </span></td>
-                </tr>
-                <tr>
-                    <th>bytes</th>
-                    <td><span id="cache_stats.bytes">{{cache_stats.bytes}}</span></td>
-                    <td><span class="fieldsetcomment">Total size of all items in the cache.</span></td>
-                </tr>
-                <tr>
-                    <th>oldest_item_age</th>
-                    <td><span id="cache_stats.oldest_item_age">{{cache_stats.oldest_item_age}}</span></td>
-                    <td><span class="fieldsetcomment">How long in seconds since the oldest item in the cache was accessed.
+            <p><input type="text" id="root_url" size="60" value="{{BLOG.root_url}}"> Root url
+
+            <p><input type="text" id="cache_time" size="60" value="{{BLOG.cache_time}}"> Cache time
+
+            <p><input type="text" id="logo_images" size="60" value="{{BLOG.logo_images}}"> Logo images
+
+            <p><input type="text" id="debug" size="60" value="{{BLOG.debug}}"> Debug mode
+
+            <p><input type="text" id="num_per_page" size="60" value="{{BLOG.num_per_page}}"> Blogs amount per page
+
+            <p><input type="button" value="Save" onClick="saveCPediaLog();" class="submit">
+        </form>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>Page Admin</legend>
+    <div class="fieldsetdiv">
+        Page List:
+        <table id="pagetable">
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Date</th>
+                <th>Permalink</th>
+                <th> &nbsp;</th>
+            </tr>
+            {% for entry in pages %}
+            <tr>
+                <td>{{entry.title}}</td>
+                <td>{{entry.author.email}}</td>
+                <td>{{entry.date|date:"m/d/Y"}}</td>
+                <td>
+                    <a href="{{entry.full_permalink}}" target="_blank">{{entry.full_permalink}}</a>
+                </td>
+                <td>
+                    <a href='/editBlog?blogId={{entry.key.id}}' target="_blank">edit</a> &nbsp;
+                    <a href='/deleteBlog?blogId={{entry.key.id}}' target="_blank">delete</a>
+                </td>
+            </tr>
+            {% endfor%}
+        </table>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>Album Configuration</legend>
+    <div class="fieldsetdiv">
+        Album List:
+        <table id="albumtable">
+            <tr>
+                <th>Picasaweb album username</th>
+                <th>Added by</th>
+                <th>Added date</th>
+                <th>Public/Private</th>
+                <th> &nbsp;</th>
+            </tr>
+            {% for album in albums %}
+            <tr>
+                <td>{{album.username}}</td>
+                <td>{{album.owner.email}}</td>
+                <td>{{album.date|date:"m/d/Y"}}</td>
+                <td>{{album.private}}</td>
+                <td>
+                    <a href="javascript:deleteAlbum('{{album.username}}')">Delete</a>
+                </td>
+            </tr>
+            {% endfor%}
+        </table>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>Session Token Management</legend>
+    <div class="fieldsetdiv">
+        Sesseion Token List:
+        <table id="tokentable">
+            <tr>
+                <th>User Email</th>
+                <th>Target Service</th>
+                <th>Session Token</th>
+                <th> &nbsp;</th>
+            </tr>
+            {% for token in session_tokens %}
+            <tr>
+                <td>{{token.user_email}}</td>
+                <td>{{token.target_service}}</td>
+                <td>{{token.session_token}}</td>
+                <td>
+                    <a href="javascript:deleteSessionToken('{{token.user_email}}','{{token.target_service}}')"
+                       id="{{token.user_email}}_{{token.target_service}}">Delete</a>
+                </td>
+            </tr>
+            {% endfor%}
+        </table>
+    </div>
+</fieldset>
+
+<fieldset>
+    <legend>System Cache Management</legend>
+    <div class="fieldsetdiv">
+        <h2>Memcache statistics for this application:</h2>
+        <table>
+            <tr>
+                <th>hits</th>
+                <td><span id="cache_stats.hits">{{cache_stats.hits}}</span></td>
+                <td><span class="fieldsetcomment">Number of cache get requests resulting in a cache hit.</span>
+                </td>
+            </tr>
+            <tr>
+                <th>misses</th>
+                <td><span id="cache_stats.misses">{{cache_stats.misses}}</span></td>
+                <td><span class="fieldsetcomment">Number of cache get requests resulting in a cache miss.</span>
+                </td>
+            </tr>
+            <tr>
+                <th>byte_hits</th>
+                <td><span id="cache_stats.byte_hits">{{cache_stats.byte_hits}}</span></td>
+                <td><span class="fieldsetcomment">Sum of bytes transferred on get requests. Rolls over to zero on overflow.</span>
+                </td>
+            </tr>
+            <tr>
+                <th>items</th>
+                <td><span id="cache_stats.items">{{cache_stats.items}}</span></td>
+                <td><span class="fieldsetcomment">Number of key/value pairs in the cache. </span></td>
+            </tr>
+            <tr>
+                <th>bytes</th>
+                <td><span id="cache_stats.bytes">{{cache_stats.bytes}}</span></td>
+                <td><span class="fieldsetcomment">Total size of all items in the cache.</span></td>
+            </tr>
+            <tr>
+                <th>oldest_item_age</th>
+                <td><span id="cache_stats.oldest_item_age">{{cache_stats.oldest_item_age}}</span></td>
+                <td><span class="fieldsetcomment">How long in seconds since the oldest item in the cache was accessed.
                         Effectively, this indicates how long a new item will survive in the cache without being
                         accessed. This is _not_ the amount of time that has elapsed since the item was created.</span>
-                    </td>
-                </tr>
-            </table>
-            <input type="submit" value="Refresh Memcache statistics" onClick="flushAllMemcache(false);">
-            <input type="submit" value="Flush All the Memcache" onClick="flushAllMemcache(true);">            
-        </div>
-    </fieldset>
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Refresh Memcache statistics" onClick="flushAllMemcache(false);" class="submit">
+        <input type="submit" value="Flush All the Memcache" onClick="flushAllMemcache(true);" class="submit">
+    </div>
+</fieldset>
 </div>
 </div>
 <script>
@@ -183,16 +194,21 @@
     }
     var deleteSessionTokenSuccess = function(o) {
         if (o.responseText !== undefined) {
-            var src_obj = document.getElementById(o.argument.user_email+"_"+o.argument.target_service);
+            var src_obj = document.getElementById(o.argument.user_email + "_" + o.argument.target_service);
             document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
             alert("Delete session token successfully.");
         }
     }
     var deleteAlbumSuccess = function(o) {
         if (o.responseText !== undefined) {
-            var src_obj = document.getElementById(o.argument.user_email+"_"+o.argument.target_service);
+            var src_obj = document.getElementById(o.argument.user_email + "_" + o.argument.target_service);
             document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
             alert("Delete user's album successfully.");
+        }
+    }
+    var saveCPediaLogSuccess = function(o) {
+        if (o.responseText !== undefined) {
+             alert("successfully.");
         }
     }
     var handleFailure = function(o) {
@@ -227,6 +243,17 @@
             success:deleteAlbumSuccess,
             failure:handleFailure,
             argument:{username:username}
+        };
+        YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+    }
+    function saveCPediaLog() {
+        var formObject = document.getElementById('cpedialogForm');
+        YAHOO.util.Connect.setForm(formObject);
+        var sUrl = "/rpc?action=UpdateCPediaLog&time=" + new Date().getTime();
+        var callback =
+        {
+            success:saveCPediaLogSuccess,
+            failure:handleFailure
         };
         YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
     }
