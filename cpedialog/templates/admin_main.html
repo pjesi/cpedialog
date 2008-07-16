@@ -80,8 +80,7 @@
                     <td>{{entry.target}}</td>
                     <td>{{entry.order}}</td>
                     <td>{{entry.valid}}</td>
-                    <td>
-                    </td>
+                    <td> </td>
                 </tr>
                 {% endfor%}
                 </tbody>
@@ -91,48 +90,18 @@
         </form>
     </div>
     <script>
-        function saveMenu(username) {
-            var sUrl = "/rpc?action=SaveMenu&arg0=\"" + username + "\"&time=" + new Date().getTime();
-            var saveMenuSuccess = function(o) {
-                if (o.responseText !== undefined) {
-                    alert("Update menu successfully.");
-                }
-            }
-            var callback =
-            {
-                success:saveMenuSuccess,
-                failure:handleFailure,
-                argument:{username:username}
-            };
-            YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
-        }
-        function deleteMenu(username) {
-            var sUrl = "/rpc?action=DeleteMenu&arg0=\"" + username + "\"&time=" + new Date().getTime();
-            var deleteMenuSuccess = function(o) {
-                if (o.responseText !== undefined) {
-                    var src_obj = document.getElementById(o.argument.user_email + "_" + o.argument.target_service);
-                    document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
-                    alert("Delete menu successfully.");
-                }
-            }
-            var callback =
-            {
-                success:deleteMenuSuccess,
-                failure:handleFailure,
-                argument:{username:username}
-            };
-            YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
-        }
-
         YAHOO.util.Event.addListener(window, "load", function() {
             EnhanceFromMarkup = new function() {
                 var myColumnDefs = [
                     {key:"title",label:"Title",sortable:true,editor:"textbox"},
-                    {key:"permalink",label:"Permalink",formatter:YAHOO.widget.DataTable.formatLink,sortable:true,editor:"textbox"},
+                    {key:"permalink",label:"Permalink",formatter:YAHOO.widget.DataTable.formatLink,sortable:true,editor:"textbox",isPrimaryKey:true},
                     {key:"target",label:"Target",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["_self","_blank","_parent","_top"]}},
                     {key:"order",label:"Order",formatter:YAHOO.widget.DataTable.formatNumber,sortable:true,editor:"textbox",editorOptions:{validator:YAHOO.widget.DataTable.validateNumber}},
                     {key:"valid",label:"Valid",sortable:true,editor:"radio",editorOptions:{radioOptions:["True","False"],disableBtns:true}},
-                    {key:"edit",label:"&nbsp;"}
+                    {key:"delete",label:"&nbsp;",action:'delete',formatter:function(elCell) {
+                        elCell.innerHTML = '<img src="/img/delete.png" title="delete row" />';
+                        elCell.style.cursor = 'pointer';
+                    }}
                 ];
 
                 this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("menutable"));
@@ -140,7 +109,7 @@
                 this.myDataSource.responseSchema = {
                     fields: [{key:"title"},{key:"permalink"},{key:"target"},
                         {key:"order", parser:YAHOO.util.DataSource.parseNumber},
-                        {key:"valid"}, {key:"edit"}
+                        {key:"valid"}, {key:"delete"}
                     ]
                 };
                 this.myDataTable = new YAHOO.widget.DataTable("menudiv", myColumnDefs, this.myDataSource,
@@ -155,7 +124,7 @@
                 };
                 this.myDataTable.subscribe("cellMouseoverEvent", this.highlightEditableCell);
                 this.myDataTable.subscribe("cellMouseoutEvent", this.myDataTable.onEventUnhighlightCell);
-                this.myDataTable.subscribe("cellClickEvent", this.myDataTable.onEventShowCellEditor);
+                //this.myDataTable.subscribe("cellClickEvent", this.myDataTable.onEventShowCellEditor);
 
                 // Hook into custom event to customize save-flow of "radio" editor
                 this.myDataTable.subscribe("editorUpdateEvent", function(oArgs) {
@@ -166,6 +135,47 @@
                 this.myDataTable.subscribe("editorBlurEvent", function(oArgs) {
                     this.cancelCellEditor();
                 });
+
+                var myBuildUrl = function(datatable,record) {
+                    var url = '';
+                    var cols = datatable.getColumnSet().keys;
+                    for (var i = 0; i < cols.length; i++) {
+                        if (cols[i].isPrimaryKey) {
+                            url += '&' + cols[i].key + '=' + escape(record.getData(cols[i].key));
+                        }
+                    }
+                    return url;
+                };
+
+                this.myDataTable.subscribe('cellClickEvent', function(ev) {
+                    var target = YAHOO.util.Event.getTarget(ev);
+                    var column = this.getColumn(target);
+                    if (column.action == 'delete') {
+                        if (confirm('Are you sure?')) {
+                            var record = this.getRecord(target);
+                            YAHOO.util.Connect.asyncRequest(
+                                    'GET',
+                                    '/rpc?action=DeleteMenu' + myBuildUrl(this,record),
+                            {
+                                success: function (o) {
+                                    if (o.responseText == 'Ok') {
+                                        this.deleteRow(target);
+                                    } else {
+                                        alert(o.responseText);
+                                    }
+                                },
+                                failure: function (o) {
+                                    alert(o.statusText);
+                                },
+                                scope:this
+                            }
+                                    );
+                        }
+                    } else {
+                        this.onEventShowCellEditor(ev);
+                    }
+                });
+
 
                 YAHOO.widget.DataTable.prototype.saveCellEditor = function() {
                     // ++++ this is the inner function to handle the several possible failure conditions
@@ -197,13 +207,10 @@
                        // ++++++ from here on I added new, except for the 'success' case pasted in.
                         YAHOO.util.Connect.asyncRequest(
                                 'POST',
-                                'myServer.php?action=update&newData=' + escape(newData) +
-                                '&oldData=' + escape(oldData) + myBuildUrl(this._oCellEditor.record),
+                                '/rpc?action=UpdateMenu&newData=' + escape(newData) +
+                                '&oldData=' + escape(oldData) + myBuildUrl(this,this._oCellEditor.record),
                         {
                             success: function (o) {
-                                var r = parseJSON(o.responseText);
-                                if (r.replyCode == 200) {
-
                                     // --------     on success section
                                     this._oRecordSet.updateKey(this._oCellEditor.record, this._oCellEditor.column.key, newData);
                                     this.formatCell(this._oCellEditor.cell);
@@ -212,10 +219,6 @@
                                     {editor:this._oCellEditor, oldData:oldData, newData:newData}
                                             );
                                     // --------     end of on success section
-
-                                } else {
-                                    onFailure(r.replyText);
-                                }
                             },
                             failure: function(o) {
                                 onFailure(o.statusText);

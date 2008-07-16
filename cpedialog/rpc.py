@@ -12,7 +12,7 @@ from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu
 
 import authorized
 
@@ -56,4 +56,12 @@ class RPCHandler(webapp.RequestHandler):
       if stored_token:
           stored_token.delete()
       return True
+
+  @authorized.role('admin')
+  def UpdateMenu(self,request):
+      menu = Menu()
+        
+  @authorized.role('admin')
+  def DeleteMenu(self,menuId):
+      menu = Menu()
 
