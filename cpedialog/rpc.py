@@ -12,7 +12,7 @@ from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,CPediaLog
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album
 
 import authorized
 
@@ -35,8 +35,8 @@ class RPCHandler(webapp.RequestHandler):
 
   def post(self):
     action = self.request.get('action')
-    formRequest = self.request
-    result = getattr(self, action)(formRequest)
+    request_ = self.request
+    result = getattr(self, action)(request_)
     self.response.out.write(simplejson.dumps(result))
 
 # The RPCs exported to JavaScript follow here:
@@ -57,18 +57,3 @@ class RPCHandler(webapp.RequestHandler):
           stored_token.delete()
       return True
 
-  @authorized.role('admin')
-  def UpdateCPediaLog(self,request):
-      cpedialog = CPediaLog()
-      cpedialog.title = request.get('title')
-      cpedialog.author = request.get('author')
-      cpedialog.email = request.get('email')
-      cpedialog.description = request.get('description')
-      cpedialog.root_url = request.get('root_url')
-      cpedialog.cache_time = int(request.get('cache_time'))
-      cpedialog.logo_images_commas = request.get('logo_images')
-      cpedialog.num_per_page = int(request.get('num_per_page'))
-      cpedialog.hostIp = request.remote_addr
-      cpedialog.local = True
-      cpedialog.put()
-      return True

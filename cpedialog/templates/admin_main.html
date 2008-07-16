@@ -1,6 +1,6 @@
 {% extends "main.html" %}
 
-{% block title %}CPEDIA's Blog{% endblock %}
+{% block title %}{{title}} - System Admin{% endblock %}
 
 {% block blogcontainer %}
 
@@ -15,32 +15,6 @@
 
 <div class="yui-g">
 <div id="admincontainer">
-<fieldset>
-    <legend>Blog Configuration</legend>
-    <div class="fieldsetdiv">
-        <form id="cpedialogForm">
-            <p><input type="text" name="title" size="60" value="{{BLOG.title}}"> Blog title
-
-            <p><input type="text" name="author" size="60" value="{{BLOG.author}}"> Author
-
-            <p><input type="text" name="email" size="60" value="{{BLOG.email}}"> Email
-
-            <p><input type="text" name="description" size="60" value="{{BLOG.description}}"> Description
-
-            <p><input type="text" name="root_url" size="60" value="{{BLOG.root_url}}"> Root url
-
-            <p><input type="text" name="cache_time" size="60" value="{{BLOG.cache_time}}"> Cache time
-
-            <p><input type="text" name="logo_images" size="60" value="{{BLOG.logo_images}}"> Logo images
-
-            <p><input type="text" name="debug" size="60" value="{{BLOG.debug}}"> Debug mode
-
-            <p><input type="text" name="num_per_page" size="60" value="{{BLOG.num_per_page}}"> Blogs amount per page
-
-            <p><input type="button" value="Save" onClick="saveCPediaLog();" class="submit">
-        </form>
-    </div>
-</fieldset>
 
 <fieldset>
     <legend>Page Admin</legend>
@@ -204,11 +178,6 @@
             alert("Delete user's album successfully.");
         }
     }
-    var saveCPediaLogSuccess = function(o) {
-        if (o.responseText !== undefined) {
-             alert("successfully.");
-        }
-    }
     var handleFailure = function(o) {
         if (o.responseText !== undefined) {
             alert("Client RPC Request Error, please retry.");
@@ -244,17 +213,6 @@
             argument:{username:username}
         };
         YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
-    }
-    function saveCPediaLog() {
-        var formObject = document.getElementById('cpedialogForm');
-        YAHOO.util.Connect.setForm(formObject);
-        var sUrl = "/rpc?action=UpdateCPediaLog&time=" + new Date().getTime();
-        var callback =
-        {
-            success:saveCPediaLogSuccess,
-            failure:handleFailure
-        };
-        var cObj = YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
     }
 </script>
 {% endblock %}
