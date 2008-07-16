@@ -13,13 +13,14 @@
 <!-- JSON Utility -->
 <script src="http://yui.yahooapis.com/2.5.2/build/json/json-min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/container/assets/skins/sam/container.css" />
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/utilities/utilities.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/button/button-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/container/container-min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/datatable/assets/skins/sam/datatable.css" />
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/element/element-beta-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datasource/datasource-beta-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datatable/datatable-beta-min.js"></script>
 
 <div class="yui-g">
-<div id="admincontainer">
+<div id="admincontainer" class=" yui-skin-sam">
 <script>
     var handleFailure = function(o) {
         if (o.responseText !== undefined) {
@@ -61,102 +62,35 @@
     <div class="fieldsetdiv">
         Menu List:
         <form id=menuForm>
+            <div id="menudiv">
             <table id="menutable">
-                <tr>
+                <thead><tr>
                     <th>Title</th>
                     <th>Permalink</th>
                     <th>Target</th>
                     <th>Order</th>
                     <th>Valid</th>
-                    <th> &nbsp; </th>
-                </tr>
+                    <th>&nbsp;</th>
+                </tr></thead>
+                <tbody>
                 {% for entry in menus %}
                 <tr id="menu_{{entry.key.id}}">
-                    <td id="menu_title_{{entry.key.id}}">{{entry.title}}</td>
-                    <td id="menu_permalink_{{entry.key.id}}"><a href="{{entry.full_permalink}}" target="_blank">{{entry.full_permalink}}</a></td>
-                    <td id="menu_target_{{entry.key.id}}">{{entry.target}}</td>
-                    <td id="menu_order_{{entry.key.id}}">{{entry.order}}</td>
-                    <td id="menu_valid_{{entry.key.id}}">{{entry.valid}}</td>
+                    <td>{{entry.title}}</td>
+                    <td>{{entry.full_permalink}}</td>
+                    <td>{{entry.target}}</td>
+                    <td>{{entry.order}}</td>
+                    <td>{{entry.valid}}</td>
                     <td>
-                        <span id="editmenu"><a href="javascript:makeMenuEditable('{{entry.key.id}}')">edit</a> &nbsp;</span>
-                        <span id="savemenu" style="display:none"><a href="javascript:saveMenu('{{entry.key.id}}')">save</a> &nbsp;</span>
-                        <a href="javascript:deleteMenu('{{entry.key.id}}')">delete</a>
                     </td>
                 </tr>
                 {% endfor%}
+                </tbody>
             </table>
-            <input type="button" value="Save" onClick="saveMenu();" class="submit">
+            </div>
+            <input type="button" id="addnewmenu" value="Add new menu"  class="submit">
         </form>
     </div>
     <script>
-        YAHOO.namespace("example.container");
-
-        function init() {
-
-            // Define various event handlers for Dialog
-            var handleSubmit = function() {
-                this.submit();
-            };
-            var handleCancel = function() {
-                this.cancel();
-            };
-            var handleSuccess = function(o) {
-                var response = o.responseText;
-                response = response.split("<!")[0];
-                document.getElementById("resp").innerHTML = response;
-            };
-            var handleFailure = function(o) {
-                alert("Submission failed: " + o.status);
-            };
-
-	       // Instantiate the Dialog
-            YAHOO.example.container.dialog1 = new YAHOO.widget.Dialog("dialog1",
-            { width : "30em",
-                fixedcenter : true,
-                visible : false,
-                constraintoviewport : true,
-                buttons : [ { text:"Submit", handler:handleSubmit, isDefault:true },
-                    { text:"Cancel", handler:handleCancel } ]
-            });
-
-	        // Validate the entries in the form to require that both first and last name are entered
-            YAHOO.example.container.dialog1.validate = function() {
-                var data = this.getData();
-                if (data.firstname == "" || data.lastname == "") {
-                    alert("Please enter your first and last names.");
-                    return false;
-                } else {
-                    return true;
-                }
-            };
-
-	        // Wire up the success and failure handlers
-            YAHOO.example.container.dialog1.callback = { success: handleSuccess,
-                failure: handleFailure };
-
-	        // Render the Dialog
-            YAHOO.example.container.dialog1.render();
-
-            YAHOO.util.Event.addListener("show", "click", YAHOO.example.container.dialog1.show, YAHOO.example.container.dialog1, true);
-            YAHOO.util.Event.addListener("hide", "click", YAHOO.example.container.dialog1.hide, YAHOO.example.container.dialog1, true);
-        }
-
-        YAHOO.util.Event.onDOMReady(init);
-
-        function makeMenuEditable(id) {
-            appendInputText("menu_title_" + id, "title", 15);
-            appendInputText("menu_permalink_" + id, "permalink", 30);
-            appendInputText("menu_target_" + id, "target", 10);
-            appendInputText("menu_order_" + id, "order", 5);
-            appendInputText("menu_valid_" + id, "valid");
-            var valid = document.getElementById(id).innerHTML;
-            document.getElementById(id).innerHTML = "<select name=menu_valid_" + id + "><option value=True>True></option><option value=False>False</option>"
-            document.getElementById("editmenu").style.display = "None";
-            document.getElementById("savemenu").style.display = "";
-        }
-        function appendInputText(id, fieldName, size) {
-            document.getElementById(id).innerHTML = "<input type='text' name=" + fieldName + " value='" + document.getElementById(id).innerHTML + "' size=" + size + ">";
-        }
         function saveMenu(username) {
             var sUrl = "/rpc?action=SaveMenu&arg0=\"" + username + "\"&time=" + new Date().getTime();
             var saveMenuSuccess = function(o) {
@@ -189,7 +123,114 @@
             };
             YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
         }
+
+        YAHOO.util.Event.addListener(window, "load", function() {
+            EnhanceFromMarkup = new function() {
+                var myColumnDefs = [
+                    {key:"title",label:"Title",sortable:true,editor:"textbox"},
+                    {key:"permalink",label:"Permalink",formatter:YAHOO.widget.DataTable.formatLink,sortable:true,editor:"textbox"},
+                    {key:"target",label:"Target",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["_self","_blank","_parent","_top"]}},
+                    {key:"order",label:"Order",formatter:YAHOO.widget.DataTable.formatNumber,sortable:true,editor:"textbox",editorOptions:{validator:YAHOO.widget.DataTable.validateNumber}},
+                    {key:"valid",label:"Valid",sortable:true,editor:"radio",editorOptions:{radioOptions:["True","False"],disableBtns:true}},
+                    {key:"edit",label:"&nbsp;"}
+                ];
+
+                this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("menutable"));
+                this.myDataSource.responseType = YAHOO.util.DataSource.TYPE_HTMLTABLE;
+                this.myDataSource.responseSchema = {
+                    fields: [{key:"title"},{key:"permalink"},{key:"target"},
+                        {key:"order", parser:YAHOO.util.DataSource.parseNumber},
+                        {key:"valid"}, {key:"edit"}
+                    ]
+                };
+                this.myDataTable = new YAHOO.widget.DataTable("menudiv", myColumnDefs, this.myDataSource,
+                   { sortedBy:{key:"order",dir:"asc"}});
+
+                // Set up editing flow
+                this.highlightEditableCell = function(oArgs) {
+                    var elCell = oArgs.target;
+                    if (YAHOO.util.Dom.hasClass(elCell, "yui-dt-editable")) {
+                        this.highlightCell(elCell);
+                    }
+                };
+                this.myDataTable.subscribe("cellMouseoverEvent", this.highlightEditableCell);
+                this.myDataTable.subscribe("cellMouseoutEvent", this.myDataTable.onEventUnhighlightCell);
+                this.myDataTable.subscribe("cellClickEvent", this.myDataTable.onEventShowCellEditor);
+
+                // Hook into custom event to customize save-flow of "radio" editor
+                this.myDataTable.subscribe("editorUpdateEvent", function(oArgs) {
+                    if (oArgs.editor.column.key === "valid") {
+                        this.saveCellEditor();
+                    }
+                });
+                this.myDataTable.subscribe("editorBlurEvent", function(oArgs) {
+                    this.cancelCellEditor();
+                });
+
+                YAHOO.widget.DataTable.prototype.saveCellEditor = function() {
+                    // ++++ this is the inner function to handle the several possible failure conditions
+                    var onFailure = function (msg) {
+                        alert(msg);
+
+                        // --------      on failure section
+                        this.resetCellEditor();
+                        this.fireEvent("editorRevertEvent",
+                        {editor:this._oCellEditor, oldData:oldData, newData:newData}
+                                );
+                         // --------      end of on failure section
+
+                    };
+
+                   // +++ this comes from the original except for the part I cut to place in the function above.
+                    if (this._oCellEditor.isActive) {
+                        var newData = this._oCellEditor.value;
+                        var oldData = this._oCellEditor.record.getData(this._oCellEditor.column.key);
+                        if (this._oCellEditor.validator) {
+                            newData = this._oCellEditor.validator.call(this, newData, oldData);
+                            this._oCellEditor.value = newData;
+                            if (newData === null) {
+                                // this is where the contents of the inner function onFailure used to be.
+                                onFailure('validation');
+                                return;
+                            }
+                        }
+                       // ++++++ from here on I added new, except for the 'success' case pasted in.
+                        YAHOO.util.Connect.asyncRequest(
+                                'POST',
+                                'myServer.php?action=update&newData=' + escape(newData) +
+                                '&oldData=' + escape(oldData) + myBuildUrl(this._oCellEditor.record),
+                        {
+                            success: function (o) {
+                                var r = parseJSON(o.responseText);
+                                if (r.replyCode == 200) {
+
+                                    // --------     on success section
+                                    this._oRecordSet.updateKey(this._oCellEditor.record, this._oCellEditor.column.key, newData);
+                                    this.formatCell(this._oCellEditor.cell);
+                                    this.resetCellEditor();
+                                    this.fireEvent("editorSaveEvent",
+                                    {editor:this._oCellEditor, oldData:oldData, newData:newData}
+                                            );
+                                    // --------     end of on success section
+
+                                } else {
+                                    onFailure(r.replyText);
+                                }
+                            },
+                            failure: function(o) {
+                                onFailure(o.statusText);
+                            },
+                            scope: this
+                        }
+                                );
+                    } else {
+                    }
+                };
+                ;
+            };
+        });
     </script>
+
 </fieldset>
 <fieldset>
     <legend>Album Configuration</legend>

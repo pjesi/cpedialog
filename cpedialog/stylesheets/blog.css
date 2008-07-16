@@ -33,7 +33,7 @@ dt {font:bold}
 #admincontainer .fieldsetdiv{padding-left:10px;padding-top:5px;padding-right:10px}
 #admincontainer legend{padding: 2px 6px;font-weight:bold;}
 .fieldsetcomment{font: 0.8em Georgia, "Times New Roman", serif,italic;}
-#admincontainer th,#admincontainer td {border:1px solid #cccccc;padding:.5em!important;}
+#admincontainer th,#admincontainer td {border:1px solid #cccccc;padding:.4em!important;}
 #admincontainer th {font-weight:bold!important;text-align:center!important;}
 
 .post {PADDING-RIGHT: 10px; PADDING-LEFT: 10px; margin-bottom:10px;border-bottom: 1px dotted #cccccc;}
