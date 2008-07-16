@@ -13,9 +13,20 @@
 <!-- JSON Utility -->
 <script src="http://yui.yahooapis.com/2.5.2/build/json/json-min.js"></script>
 
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/container/assets/skins/sam/container.css" />
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/utilities/utilities.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/button/button-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/container/container-min.js"></script>
+
 <div class="yui-g">
 <div id="admincontainer">
-
+<script>
+    var handleFailure = function(o) {
+        if (o.responseText !== undefined) {
+            alert("Client RPC Request Error, please retry.");
+        }
+    }
+</script>
 <fieldset>
     <legend>Page Admin</legend>
     <div class="fieldsetdiv">
@@ -45,7 +56,141 @@
         </table>
     </div>
 </fieldset>
+<fieldset>
+    <legend>Menu Admin</legend>
+    <div class="fieldsetdiv">
+        Menu List:
+        <form id=menuForm>
+            <table id="menutable">
+                <tr>
+                    <th>Title</th>
+                    <th>Permalink</th>
+                    <th>Target</th>
+                    <th>Order</th>
+                    <th>Valid</th>
+                    <th> &nbsp; </th>
+                </tr>
+                {% for entry in menus %}
+                <tr id="menu_{{entry.key.id}}">
+                    <td id="menu_title_{{entry.key.id}}">{{entry.title}}</td>
+                    <td id="menu_permalink_{{entry.key.id}}"><a href="{{entry.full_permalink}}" target="_blank">{{entry.full_permalink}}</a></td>
+                    <td id="menu_target_{{entry.key.id}}">{{entry.target}}</td>
+                    <td id="menu_order_{{entry.key.id}}">{{entry.order}}</td>
+                    <td id="menu_valid_{{entry.key.id}}">{{entry.valid}}</td>
+                    <td>
+                        <span id="editmenu"><a href="javascript:makeMenuEditable('{{entry.key.id}}')">edit</a> &nbsp;</span>
+                        <span id="savemenu" style="display:none"><a href="javascript:saveMenu('{{entry.key.id}}')">save</a> &nbsp;</span>
+                        <a href="javascript:deleteMenu('{{entry.key.id}}')">delete</a>
+                    </td>
+                </tr>
+                {% endfor%}
+            </table>
+            <input type="button" value="Save" onClick="saveMenu();" class="submit">
+        </form>
+    </div>
+    <script>
+        YAHOO.namespace("example.container");
 
+        function init() {
+
+            // Define various event handlers for Dialog
+            var handleSubmit = function() {
+                this.submit();
+            };
+            var handleCancel = function() {
+                this.cancel();
+            };
+            var handleSuccess = function(o) {
+                var response = o.responseText;
+                response = response.split("<!")[0];
+                document.getElementById("resp").innerHTML = response;
+            };
+            var handleFailure = function(o) {
+                alert("Submission failed: " + o.status);
+            };
+
+	       // Instantiate the Dialog
+            YAHOO.example.container.dialog1 = new YAHOO.widget.Dialog("dialog1",
+            { width : "30em",
+                fixedcenter : true,
+                visible : false,
+                constraintoviewport : true,
+                buttons : [ { text:"Submit", handler:handleSubmit, isDefault:true },
+                    { text:"Cancel", handler:handleCancel } ]
+            });
+
+	        // Validate the entries in the form to require that both first and last name are entered
+            YAHOO.example.container.dialog1.validate = function() {
+                var data = this.getData();
+                if (data.firstname == "" || data.lastname == "") {
+                    alert("Please enter your first and last names.");
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+
+	        // Wire up the success and failure handlers
+            YAHOO.example.container.dialog1.callback = { success: handleSuccess,
+                failure: handleFailure };
+
+	        // Render the Dialog
+            YAHOO.example.container.dialog1.render();
+
+            YAHOO.util.Event.addListener("show", "click", YAHOO.example.container.dialog1.show, YAHOO.example.container.dialog1, true);
+            YAHOO.util.Event.addListener("hide", "click", YAHOO.example.container.dialog1.hide, YAHOO.example.container.dialog1, true);
+        }
+
+        YAHOO.util.Event.onDOMReady(init);
+
+        function makeMenuEditable(id) {
+            appendInputText("menu_title_" + id, "title", 15);
+            appendInputText("menu_permalink_" + id, "permalink", 30);
+            appendInputText("menu_target_" + id, "target", 10);
+            appendInputText("menu_order_" + id, "order", 5);
+            appendInputText("menu_valid_" + id, "valid");
+            var valid = document.getElementById(id).innerHTML;
+            document.getElementById(id).innerHTML = "<select name=menu_valid_" + id + "><option value=True>True></option><option value=False>False</option>"
+            document.getElementById("editmenu").style.display = "None";
+            document.getElementById("savemenu").style.display = "";
+        }
+        function appendInputText(id, fieldName, size) {
+            document.getElementById(id).innerHTML = "<input type='text' name=" + fieldName + " value='" + document.getElementById(id).innerHTML + "' size=" + size + ">";
+        }
+        function saveMenu(username) {
+            var sUrl = "/rpc?action=SaveMenu&arg0=\"" + username + "\"&time=" + new Date().getTime();
+            var saveMenuSuccess = function(o) {
+                if (o.responseText !== undefined) {
+                    alert("Update menu successfully.");
+                }
+            }
+            var callback =
+            {
+                success:saveMenuSuccess,
+                failure:handleFailure,
+                argument:{username:username}
+            };
+            YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
+        }
+        function deleteMenu(username) {
+            var sUrl = "/rpc?action=DeleteMenu&arg0=\"" + username + "\"&time=" + new Date().getTime();
+            var deleteMenuSuccess = function(o) {
+                if (o.responseText !== undefined) {
+                    var src_obj = document.getElementById(o.argument.user_email + "_" + o.argument.target_service);
+                    document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
+                    alert("Delete menu successfully.");
+                }
+            }
+            var callback =
+            {
+                success:deleteMenuSuccess,
+                failure:handleFailure,
+                argument:{username:username}
+            };
+            YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+        }
+    </script>
+</fieldset>
 <fieldset>
     <legend>Album Configuration</legend>
     <div class="fieldsetdiv">
@@ -71,8 +216,26 @@
             {% endfor%}
         </table>
     </div>
+    <script>
+        function deleteAlbum(username) {
+            var sUrl = "/rpc?action=DeleteAlbum&arg0=\"" + username + "\"&time=" + new Date().getTime();
+            var deleteAlbumSuccess = function(o) {
+                if (o.responseText !== undefined) {
+                    var src_obj = document.getElementById(o.argument.user_email + "_" + o.argument.target_service);
+                    document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
+                    alert("Delete user's album successfully.");
+                }
+            }
+            var callback =
+            {
+                success:deleteAlbumSuccess,
+                failure:handleFailure,
+                argument:{username:username}
+            };
+            YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+        }
+    </script>
 </fieldset>
-
 <fieldset>
     <legend>Session Token Management</legend>
     <div class="fieldsetdiv">
@@ -97,12 +260,31 @@
             {% endfor%}
         </table>
     </div>
+    <script>
+        function deleteSessionToken(user_email, target_service) {
+            var sUrl = "/rpc?action=DeleteSessionToken&arg0=\"" + user_email + "\"&arg1=\"" + target_service +
+                       "\"&time=" + new Date().getTime();
+            var deleteSessionTokenSuccess = function(o) {
+                if (o.responseText !== undefined) {
+                    var src_obj = document.getElementById(o.argument.user_email + "_" + o.argument.target_service);
+                    document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
+                    alert("Delete session token successfully.");
+                }
+            }
+            var callback =
+            {
+                success:deleteSessionTokenSuccess,
+                failure:handleFailure,
+                argument:{user_email:user_email,target_service:target_service}
+            };
+            YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+        }
+    </script>
 </fieldset>
-
 <fieldset>
     <legend>System Cache Management</legend>
     <div class="fieldsetdiv">
-        Memcache statistics for this application: 
+        Memcache statistics for this application:
         <table>
             <tr>
                 <th>hits</th>
@@ -144,76 +326,36 @@
         <input type="submit" value="Refresh Memcache statistics" onClick="flushAllMemcache(false);" class="submit">
         <input type="submit" value="Flush All the Memcache" onClick="flushAllMemcache(true);" class="submit">
     </div>
+    <script>
+        function flushAllMemcache(flush) {
+            var sUrl = "/rpc?action=FlushAllMemcache&arg0=" + flush + "&time=" + new Date().getTime();
+            var flushAllMemcacheSuccess = function(o) {
+                if (o.responseText !== undefined) {
+                    var cache_stats = YAHOO.lang.JSON.parse(o.responseText);
+                    document.getElementById("cache_stats.hits").innerHTML = cache_stats.hits;
+                    document.getElementById("cache_stats.misses").innerHTML = cache_stats.misses;
+                    document.getElementById("cache_stats.byte_hits").innerHTML = cache_stats.byte_hits;
+                    document.getElementById("cache_stats.items").innerHTML = cache_stats.items;
+                    document.getElementById("cache_stats.bytes").innerHTML = cache_stats.bytes;
+                    document.getElementById("cache_stats.oldest_item_age").innerHTML = cache_stats.oldest_item_age;
+                    if (o.argument.flush) {
+                        alert("Flush all the memcache successfully.");
+                    } else {
+                        alert("Refresh memcache statistics successfully.");
+                    }
+                }
+            }
+            var callback =
+            {
+                success:flushAllMemcacheSuccess,
+                failure:handleFailure,
+                argument:{flush:flush}
+            };
+            YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+        }
+    </script>
 </fieldset>
 </div>
 </div>
-<script>
-    var flushAllMemcacheSuccess = function(o) {
-        if (o.responseText !== undefined) {
-            var cache_stats = YAHOO.lang.JSON.parse(o.responseText);
-            document.getElementById("cache_stats.hits").innerHTML = cache_stats.hits;
-            document.getElementById("cache_stats.misses").innerHTML = cache_stats.misses;
-            document.getElementById("cache_stats.byte_hits").innerHTML = cache_stats.byte_hits;
-            document.getElementById("cache_stats.items").innerHTML = cache_stats.items;
-            document.getElementById("cache_stats.bytes").innerHTML = cache_stats.bytes;
-            document.getElementById("cache_stats.oldest_item_age").innerHTML = cache_stats.oldest_item_age;
-            if (o.argument.flush) {
-                alert("Flush all the memcache successfully.");
-            } else {
-                alert("Refresh memcache statistics successfully.");
-            }
-        }
-    }
-    var deleteSessionTokenSuccess = function(o) {
-        if (o.responseText !== undefined) {
-            var src_obj = document.getElementById(o.argument.user_email + "_" + o.argument.target_service);
-            document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
-            alert("Delete session token successfully.");
-        }
-    }
-    var deleteAlbumSuccess = function(o) {
-        if (o.responseText !== undefined) {
-            var src_obj = document.getElementById(o.argument.user_email + "_" + o.argument.target_service);
-            document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
-            alert("Delete user's album successfully.");
-        }
-    }
-    var handleFailure = function(o) {
-        if (o.responseText !== undefined) {
-            alert("Client RPC Request Error, please retry.");
-        }
-    }
-    function flushAllMemcache(flush) {
-        var sUrl = "/rpc?action=FlushAllMemcache&arg0=" + flush + "&time=" + new Date().getTime();
-        var callback =
-        {
-            success:flushAllMemcacheSuccess,
-            failure:handleFailure,
-            argument:{flush:flush}
-        };
-        YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
-    }
-    function deleteSessionToken(user_email, target_service) {
-        var sUrl = "/rpc?action=DeleteSessionToken&arg0=\"" + user_email + "\"&arg1=\"" + target_service +
-                   "\"&time=" + new Date().getTime();
-        var callback =
-        {
-            success:deleteSessionTokenSuccess,
-            failure:handleFailure,
-            argument:{user_email:user_email,target_service:target_service}
-        };
-        YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
-    }
-    function deleteAlbum(username) {
-        var sUrl = "/rpc?action=DeleteAlbum&arg0=\"" + username + "\"&time=" + new Date().getTime();
-        var callback =
-        {
-            success:deleteAlbumSuccess,
-            failure:handleFailure,
-            argument:{username:username}
-        };
-        YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
-    }
-</script>
 {% endblock %}
 

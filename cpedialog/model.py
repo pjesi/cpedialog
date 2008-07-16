@@ -126,3 +126,14 @@ class Album(db.Model):
     owner = db.UserProperty()
     date = db.DateTimeProperty(auto_now_add=True)
     private = db.BooleanProperty()
+    
+class Menu(db.Model):
+    title = db.StringProperty()
+    permalink = db.StringProperty()
+    target = db.StringProperty(multiline=False,default='_self',choices=[
+        '_self','_blank','_parent','_top'])
+    order = db.IntegerProperty()
+    valid = db.BooleanProperty(default = True)
+
+    def full_permalink(self):
+        return config.blog['root_url'] + '/' + self.permalink
