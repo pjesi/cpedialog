@@ -50,7 +50,7 @@ class MainPage(BaseRequestHandler):
         session_tokens = AuthSubStoredToken.all()
         albums = Album.all()
         pages = Weblog.all().filter('entrytype','page').order('-date')
-        menus = Menu.all().filter('valid',True).order('order')
+        menus = Menu.all().order('order')
         template_values = {
           'pages':pages,
           'menus':menus,

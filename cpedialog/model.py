@@ -40,15 +40,18 @@ class Weblog(db.Model):
         'post','page'])
     _weblogId = db.IntegerProperty()   ##for data migration from the mysql system
     assoc_dict = db.BlobProperty()     # Pickled dict for sidelinks, associated Amazon items, etc.
-  
-    def get_permaink(self):
-        if not permalink:
-            return permalink
+
+    def relative_permalink(self):
+        if self.entrytype == 'post':
+            return self.date.strftime('%Y/%m/')+ self.permalink
         else:
-            return self.date.strftime('%Y/%m/')+str(self.key().id())
+            return self.permalink
 
     def full_permalink(self):
-        return config.blog['root_url'] + '/' + self.permalink
+        if self.entrytype == 'post':
+            return config.blog['root_url'] + '/' + self.date.strftime('%Y/%m/')+ self.permalink
+        else:
+            return config.blog['root_url'] + '/'+ self.permalink
 
     def get_tags(self):
         '''comma delimted list of tags'''

@@ -130,7 +130,7 @@ class AddBlog(BaseRequestHandler):
         blog.save()
         util.flushBlogMonthCache(blog)
         util.flushBlogPagesCache()
-        self.redirect('/'+permalink)
+        self.redirect('/'+blog.relative_permalink())
 
 class AddBlogReaction(BaseRequestHandler):
   def post(self):
@@ -160,7 +160,7 @@ class AddBlogReaction(BaseRequestHandler):
     blogReaction.userIp = clientIp
     blogReaction.save()
     util.flushRecentReactions()
-    self.redirect('/'+blog.permalink)
+    self.redirect('/'+blog.relative_permalink())
 
 
 class EditBlog(BaseRequestHandler):
@@ -181,7 +181,8 @@ class EditBlog(BaseRequestHandler):
 
         if(blog is None):
             self.redirect('/')
-
+        if blog.entrytype == 'page':
+            blog.permalink = self.request.get('permalink') 
         blog.title = self.request.get('title_input')
         blog.content = self.request.get('text_input')
         blog.tags_commas = self.request.get('tags')
@@ -191,7 +192,7 @@ class EditBlog(BaseRequestHandler):
         blog.put()
         util.flushBlogMonthCache(blog)
         util.flushBlogPagesCache()
-        self.redirect('/'+blog.permalink)
+        self.redirect('/'+blog.relative_permalink())
 
 class DeleteBlog(BaseRequestHandler):
   @authorized.role("admin")
@@ -247,7 +248,7 @@ class EditBlogReaction(BaseRequestHandler):
 
         blogReaction.lastModifiedDate = datetime.datetime.now()
         blogReaction.put()
-        self.redirect('/'+blogReaction.weblog.permalink)
+        self.redirect('/'+blogReaction.weblog.relative_permalink())
 
 
 class DeleteBlogReaction(BaseRequestHandler):
@@ -269,7 +270,7 @@ class DeleteBlogReaction(BaseRequestHandler):
     if(blogReaction is not None):
         db.delete(blogReaction)
         util.flushRecentReactions()
-    self.redirect('/'+blogReaction.weblog.permalink)
+    self.redirect('/'+blogReaction.weblog.relative_permalink())
 
 
 #for the data migration.
@@ -285,14 +286,18 @@ class ViewBlog(BaseRequestHandler):
           permalink =  util.get_permalink(blog.date,translate.translate('zh-CN','en', util.u(blog.title,'utf-8')))
           blog.permalink =  permalink.lower()
           blog.save()
-
-    reactions = db.GqlQuery("select * from WeblogReactions where weblog =:1  order by date", blog) 
-    template_values = {
-      'blog': blog,
-      'reactions': reactions,
-      'permalink': permalink,
-      }
-    self.generate('blog_view.html',template_values)
+    else:
+        permalink = blog.permalink.split('/')[2]
+        blog.permalink = permalink
+        blog.put()
+    self.response.out.write("success! "+permalink)
+#    reactions = db.GqlQuery("select * from WeblogReactions where weblog =:1  order by date", blog)
+#    template_values = {
+#      'blog': blog,
+#      'reactions': reactions,
+#      'permalink': permalink,
+#      }
+#    self.generate('blog_view.html',template_values)
 
 class ArchiveHandler(BaseRequestHandler):
     def get(self, monthyear): 
@@ -307,8 +312,8 @@ class ArchiveHandler(BaseRequestHandler):
 
 
 class ArticleHandler(BaseRequestHandler):
-    def get(self, year, month, perm_stem):
-        blog = db.Query(Weblog).filter('permalink =', year + '/' + month + '/' + perm_stem).get()
+    def get(self,year,month, perm_stem):
+        blog = db.Query(Weblog).filter('permalink =',perm_stem).get()
         if(blog is None):
             self.redirect('/')
         reactions = db.GqlQuery("select * from WeblogReactions where weblog =:1  order by date", blog)
@@ -318,7 +323,19 @@ class ArticleHandler(BaseRequestHandler):
           }
         self.generate('blog_view.html',template_values)
 
-        
+class PageHandler(BaseRequestHandler):
+    def get(self,perm_stem):
+        blog = db.Query(Weblog).filter('permalink =',perm_stem).get()
+        if(blog is None):
+            self.redirect('/')
+        reactions = db.GqlQuery("select * from WeblogReactions where weblog =:1  order by date", blog)
+        template_values = {
+          'blog': blog,
+          'reactions': reactions,
+          }
+        self.generate('blog_view.html',template_values)
+
+
 class TagHandler(BaseRequestHandler):
     def get(self, encoded_tag):
         tag =  re.sub('(%25|%)(\d\d)', lambda cmatch: chr(string.atoi(cmatch.group(2), 16)), encoded_tag)   # No urllib.unquote in AppEngine?

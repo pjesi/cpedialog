@@ -101,6 +101,15 @@ Edit reaction
         </div>
         {% endifnotequal %}
 
+        {% ifequal action "editBlog"%}
+        {% ifequal blog.entrytype "page"%}
+        <div id="blogpermalink">
+         <input type=text size="60" id="permalink" name="permalink" value="{% if blog %}{{blog.permalink}}{% endif %}">
+         <label for="permalink"><b>Permalink</b> </label>
+        </div>
+        {% endifequal %}
+        {% endifequal %}
+
         {% ifequal action "editBlogReaction" %}
         <h2 class="comments-post">About the author</h2>
         <div>

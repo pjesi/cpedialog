@@ -79,13 +79,14 @@ class RPCHandler(webapp.RequestHandler):
   @authorized.role('admin')
   def AddMenu(self,request):
       menu = datastore.Entity("Menu")
-      menu["title"] = request.get('title')
-      menu["permalink"] = request.get('permalink')
-      menu["target"] = request.get('target')
-      menu["order"] = simplejson.loads(request.get('order'))
-      menu["valid"] = simplejson.loads(request.get('valid'))
+      menu["title"] = "New Menu"
+      menu["permalink"] = "New permalink"
+      menu["target"] = "_self"
+      menu["order"] = 0
+      menu["valid"] = False
       datastore.Put(menu)
-      menu['key'] = str(menu.key().id())
+      menu['key'] = str(menu.key())
+      menu['id'] = str(menu.key().id())
       return menu
 
   @authorized.role('admin')
