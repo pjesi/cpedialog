@@ -22,7 +22,7 @@ dt {font:bold}
 #navbar {height: 1.8em; padding: 0 0 3px 215px;background: #FBFAF4;border-bottom:1px dashed #B2B2B2;border-top:1px dashed #B2B2B2;
     font: 1.2em Georgia, Times, serif; overflow: hidden;min-width: 750px;}
 #navbar li {float: left; padding: 0 23px 0 13px; margin-right: 5px;}
-#navbar li a {display: block; padding: 0.5em 0 0.25em;text-transform: uppercase; color: #000;border-bottom:none !important;}
+#navbar li a {display: block; padding: 0.5em 0 0.25em;color: #000;border-bottom:none !important;}
 #navbar a:hover,.articles #navbar #articles a,.topics #navbar #topics a,.about #navbar #about a,
     .contact #navbar #contact a,.contribute #navbar #contribute a,.feed #navbar #feed a {
  background: url(/img/navbarlinkbg.gif) top left repeat-x; color: #555!important;}

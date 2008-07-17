@@ -50,9 +50,15 @@ Edit reaction
              }
         {% else %}
             var title_input = document.forms["previewForm"]["title_input"];
+            var tags = document.forms["previewForm"]["tags"];
             if(title_input.value==""){
                 alert("Please input title of the item.");
                 title_input.focus();
+                return false;
+            }
+            if(tags.value.indexOf(" ")!=-1){
+                alert("Please remove the space or replace it with '_' in the tags.");
+                tags.focus();
                 return false;
             }
         {% endifequal %}

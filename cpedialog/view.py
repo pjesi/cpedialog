@@ -13,6 +13,7 @@ import time
 import urlparse
 import string
 import config
+import util
 
 
 class ViewPage(object):
@@ -27,13 +28,13 @@ class ViewPage(object):
             scheme, netloc, path, query, fragment = urlparse.urlsplit(handler.request.uri)
             administrator = False
             if users.get_current_user():
-              url = users.create_logout_url(handler.request.uri)
-              url_linktext = 'Sign out'
-              if users.is_current_user_admin():
-                administrator = True
+                url = users.create_logout_url(handler.request.uri)
+                url_linktext = 'Sign out'
+                if users.is_current_user_admin():
+                    administrator = True
             else:
-              url = users.create_login_url(handler.request.uri)
-              url_linktext = 'Sign in'
+                url = users.create_login_url(handler.request.uri)
+                url_linktext = 'Sign in'
             template_params = {
                 "title": config.blog['title'],
                 "current_url": url,
@@ -48,6 +49,7 @@ class ViewPage(object):
                 "logout_url": users.create_logout_url(handler.request.uri),
                 'logoImages': config.logo_images,
                 "BLOG": config.blog,
+                "nav_menus": util.getMenuList(),
             }
             template_params.update(params)
             return template.render(template_file, template_params, debug=config._DEBUG)

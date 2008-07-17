@@ -34,7 +34,6 @@ def main():
                                         ('/404.html', blog.NotFoundHandler),
                                         ('/archive/(.*)/*$', blog.ArchiveHandler),
                                         ('/([12]\d\d\d)/(\d|[01]\d)/([-\w]+)/*$', blog.ArticleHandler),
-                                        ('/([-\w]+)/*$', blog.PageHandler),
                                         ('/search', blog.SearchHandler),
                                         ('/tag/(.*)', blog.TagHandler),
                                         ('/atom/*$', blog.FeedHandler),
@@ -43,6 +42,8 @@ def main():
                                         ('/albums/([-\w\.]+)/*$', album.UserHandler),
                                         ('/albums/([-\w\.]+)/([-\w]+)/*$', album.AlbumHandler),
                                         ('/albums/([-\w\.]+)/([-\w]+)/([\d]+)/*$', album.PhotoHandler),
+
+                                        ('/([-\w]+)/*$', blog.PageHandler),                                        
                                        ],
                                        debug=config._DEBUG)
     wsgiref.handlers.CGIHandler().run(application)

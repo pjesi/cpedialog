@@ -13,7 +13,7 @@ from google.appengine.api import memcache
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
 
-from model import Archive, Weblog,WeblogReactions
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu
 import config
 
 
@@ -133,6 +133,21 @@ def getArchiveBlog(monthyear):
         logging.debug("getMonthBlog from cache. ")
     return blogs
 
+#get menu list. Cached.
+def getMenuList():
+    key_ = "blog_menuList_key"
+    try:
+        menus = memcache.get(key_)
+    except Exception:
+        menus = None
+    if menus is None:
+        menus = Menu.all().filter('valid',True).order('order')
+        memcache.add(key=key_, value=menus, time=3600)
+    return menus
+    
+#flush menu list.
+def flushMenuList():
+    memcache.delete("blog_menulist_key")
 
 #flush MonthYear list.
 def flushArchiveList():

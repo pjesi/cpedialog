@@ -286,18 +286,18 @@ class ViewBlog(BaseRequestHandler):
           permalink =  util.get_permalink(blog.date,translate.translate('zh-CN','en', util.u(blog.title,'utf-8')))
           blog.permalink =  permalink.lower()
           blog.save()
-    else:
-        permalink = blog.permalink.split('/')[2]
-        blog.permalink = permalink
-        blog.put()
-    self.response.out.write("success! "+permalink)
-#    reactions = db.GqlQuery("select * from WeblogReactions where weblog =:1  order by date", blog)
-#    template_values = {
-#      'blog': blog,
-#      'reactions': reactions,
-#      'permalink': permalink,
-#      }
-#    self.generate('blog_view.html',template_values)
+#    else:
+#        permalink = blog.permalink.split('/')[2]
+#        blog.permalink = permalink
+#        blog.put()
+    #self.response.out.write("success! "+permalink)
+    reactions = db.GqlQuery("select * from WeblogReactions where weblog =:1  order by date", blog)
+    template_values = {
+      'blog': blog,
+      'reactions': reactions,
+      'permalink': permalink,
+      }
+    self.generate('blog_view.html',template_values)
 
 class ArchiveHandler(BaseRequestHandler):
     def get(self, monthyear): 

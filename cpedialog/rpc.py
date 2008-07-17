@@ -73,7 +73,8 @@ class RPCHandler(webapp.RequestHandler):
             menu.order = simplejson.loads(newData)
           if editColumn == "valid":
             menu.valid = simplejson.loads(newData)
-          menu.put()        
+          menu.put()
+          util.flushMenuList()
       return True
         
   @authorized.role('admin')
@@ -85,6 +86,7 @@ class RPCHandler(webapp.RequestHandler):
       menu["order"] = 0
       menu["valid"] = False
       datastore.Put(menu)
+      util.flushMenuList()
       menu['key'] = str(menu.key())
       menu['id'] = str(menu.key().id())
       return menu
@@ -93,5 +95,6 @@ class RPCHandler(webapp.RequestHandler):
   def DeleteMenu(self,request):
       menu = Menu.get_by_id(int(request.get("id")))
       menu.delete()
+      util.flushMenuList()
       return True
 

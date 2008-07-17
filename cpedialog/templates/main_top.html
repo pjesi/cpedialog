@@ -26,10 +26,9 @@
     </div>
     <div>
     <ul id="navbar">
-         <li><a href="/" target="_top">Blog</a></li>
-         <li><a href="http://code.google.com/p/cpedialog" target="_blank">cpedialog</a></li>
-         <li><a href="/albums">Albums</a></li>
-         <li><a href="#">Resume</a></li>
+         {% for menu in nav_menus %}
+           <li><a href="{{menu.permalink}}" target="{{menu.target}}">{{menu.title}}</a></li>
+         {% endfor %}
     </ul>
     </div>
 </div>
