@@ -59,9 +59,38 @@ class RPCHandler(webapp.RequestHandler):
 
   @authorized.role('admin')
   def UpdateMenu(self,request):
-      menu = Menu()
+      menu = Menu.get_by_id(int(request.get("id")))
+      editColumn = request.get("editColumn")
+      if menu and editColumn:
+          newData = request.get("newData")
+          if editColumn == "title":
+            menu.title = newData
+          if editColumn == "permalink":
+            menu.permalink = newData
+          if editColumn == "target":
+            menu.target = newData
+          if editColumn == "order":
+            menu.order = simplejson.loads(newData)
+          if editColumn == "valid":
+            menu.valid = simplejson.loads(newData)
+          menu.put()        
+      return True
         
   @authorized.role('admin')
-  def DeleteMenu(self,menuId):
-      menu = Menu()
+  def AddMenu(self,request):
+      menu = datastore.Entity("Menu")
+      menu["title"] = request.get('title')
+      menu["permalink"] = request.get('permalink')
+      menu["target"] = request.get('target')
+      menu["order"] = simplejson.loads(request.get('order'))
+      menu["valid"] = simplejson.loads(request.get('valid'))
+      datastore.Put(menu)
+      menu['key'] = str(menu.key().id())
+      return menu
+
+  @authorized.role('admin')
+  def DeleteMenu(self,request):
+      menu = Menu.get_by_id(int(request.get("id")))
+      menu.delete()
+      return True
 

@@ -50,13 +50,6 @@ class MainPage(BaseRequestHandler):
         session_tokens = AuthSubStoredToken.all()
         albums = Album.all()
         pages = Weblog.all().filter('entrytype','page').order('-date')
-        menu= Menu()
-        menu.title = "toolbox"
-        menu.permalink = "08/07/toolbox"
-        menu.target = "_blank"
-        menu.order = 2
-        menu.valid = True
-        #menu.put()
         menus = Menu.all().filter('valid',True).order('order')
         template_values = {
           'pages':pages,

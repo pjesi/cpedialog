@@ -13,11 +13,18 @@
 <!-- JSON Utility -->
 <script src="http://yui.yahooapis.com/2.5.2/build/json/json-min.js"></script>
 
+<!--DataTable-->
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/datatable/assets/skins/sam/datatable.css" />
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/yahoo-dom-event/yahoo-dom-event.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/element/element-beta-min.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datasource/datasource-beta-min.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datatable/datatable-beta-min.js"></script>
+<!--Container:Dialog-->
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/button/assets/skins/sam/button.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/container/assets/skins/sam/container.css" />
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/utilities/utilities.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/button/button-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/container/container-min.js"></script>
 
 <div class="yui-g">
 <div id="admincontainer" class=" yui-skin-sam">
@@ -70,16 +77,20 @@
                     <th>Target</th>
                     <th>Order</th>
                     <th>Valid</th>
+                    <th>Id</th>
+                    <th>&nbsp;</th>
                     <th>&nbsp;</th>
                 </tr></thead>
                 <tbody>
                 {% for entry in menus %}
                 <tr id="menu_{{entry.key.id}}">
                     <td>{{entry.title}}</td>
-                    <td>{{entry.full_permalink}}</td>
+                    <td>{{entry.permalink}}</td>
                     <td>{{entry.target}}</td>
                     <td>{{entry.order}}</td>
                     <td>{{entry.valid}}</td>
+                    <td>{{entry.key.id}}</td>
+                    <td> </td>
                     <td> </td>
                 </tr>
                 {% endfor%}
@@ -94,14 +105,17 @@
             EnhanceFromMarkup = new function() {
                 var myColumnDefs = [
                     {key:"title",label:"Title",sortable:true,editor:"textbox"},
-                    {key:"permalink",label:"Permalink",formatter:YAHOO.widget.DataTable.formatLink,sortable:true,editor:"textbox",isPrimaryKey:true},
+                    {key:"permalink",label:"Permalink",sortable:true,editor:"textbox"},
                     {key:"target",label:"Target",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["_self","_blank","_parent","_top"]}},
                     {key:"order",label:"Order",formatter:YAHOO.widget.DataTable.formatNumber,sortable:true,editor:"textbox",editorOptions:{validator:YAHOO.widget.DataTable.validateNumber}},
                     {key:"valid",label:"Valid",sortable:true,editor:"radio",editorOptions:{radioOptions:["True","False"],disableBtns:true}},
+                    {key:"id",label:"Id",sortable:true,isPrimaryKey:true},
                     {key:"delete",label:"&nbsp;",action:'delete',formatter:function(elCell) {
-                        elCell.innerHTML = '<img src="/img/delete.png" title="delete row" />';
-                        elCell.style.cursor = 'pointer';
-                    }}
+                        elCell.innerHTML = '<img src="/img/delete.gif" title="delete row" />';
+                        elCell.style.cursor = 'pointer';}},
+                    {key:"insert",label:"&nbsp;",action:'insert',formatter:function(elCell) {
+                        elCell.innerHTML = '<img src="/img/insert.gif" title="insert new row" />';
+                        elCell.style.cursor = 'pointer';}}
                 ];
 
                 this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("menutable"));
@@ -109,7 +123,7 @@
                 this.myDataSource.responseSchema = {
                     fields: [{key:"title"},{key:"permalink"},{key:"target"},
                         {key:"order", parser:YAHOO.util.DataSource.parseNumber},
-                        {key:"valid"}, {key:"delete"}
+                        {key:"valid"}, {key:"id"}, {key:"delete"}, {key:"insert"}
                     ]
                 };
                 this.myDataTable = new YAHOO.widget.DataTable("menudiv", myColumnDefs, this.myDataSource,
@@ -141,7 +155,7 @@
                     var cols = datatable.getColumnSet().keys;
                     for (var i = 0; i < cols.length; i++) {
                         if (cols[i].isPrimaryKey) {
-                            url += '&' + cols[i].key + '=' + escape(record.getData(cols[i].key));
+                            url += '&' + cols[i].key + '=' + encodeURIComponent(record.getData(cols[i].key));
                         }
                     }
                     return url;
@@ -150,15 +164,26 @@
                 this.myDataTable.subscribe('cellClickEvent', function(ev) {
                     var target = YAHOO.util.Event.getTarget(ev);
                     var column = this.getColumn(target);
+                    if (column.action == 'insert') {
+                        this.addRow({title:"",permalink:"",target:"_self",order:0,valid:true} ,this.getRecordIndex(target));
+
+                    } else {
+                        this.onEventShowCellEditor(ev);
+                    }
+                });
+
+                this.myDataTable.subscribe('cellClickEvent', function(ev) {
+                    var target = YAHOO.util.Event.getTarget(ev);
+                    var column = this.getColumn(target);
                     if (column.action == 'delete') {
                         if (confirm('Are you sure?')) {
                             var record = this.getRecord(target);
                             YAHOO.util.Connect.asyncRequest(
-                                    'GET',
+                                    'POST',
                                     '/rpc?action=DeleteMenu' + myBuildUrl(this,record),
                             {
                                 success: function (o) {
-                                    if (o.responseText == 'Ok') {
+                                    if (o.responseText == 'true') {
                                         this.deleteRow(target);
                                     } else {
                                         alert(o.responseText);
@@ -176,49 +201,57 @@
                     }
                 });
 
-
                 YAHOO.widget.DataTable.prototype.saveCellEditor = function() {
                     // ++++ this is the inner function to handle the several possible failure conditions
                     var onFailure = function (msg) {
                         alert(msg);
-
-                        // --------      on failure section
-                        this.resetCellEditor();
-                        this.fireEvent("editorRevertEvent",
-                        {editor:this._oCellEditor, oldData:oldData, newData:newData}
-                                );
-                         // --------      end of on failure section
-
                     };
 
                    // +++ this comes from the original except for the part I cut to place in the function above.
                     if (this._oCellEditor.isActive) {
                         var newData = this._oCellEditor.value;
-                        var oldData = this._oCellEditor.record.getData(this._oCellEditor.column.key);
+                        // Copy the data to pass to the event
+                        var oldData = YAHOO.widget.DataTable._cloneObject(this._oCellEditor.record.getData(this._oCellEditor.column.key));
+
+                        // Validate input data
                         if (this._oCellEditor.validator) {
-                            newData = this._oCellEditor.validator.call(this, newData, oldData);
-                            this._oCellEditor.value = newData;
+                            newData = this._oCellEditor.value = this._oCellEditor.validator.call(this, newData, oldData, this._oCellEditor);
                             if (newData === null) {
-                                // this is where the contents of the inner function onFailure used to be.
-                                onFailure('validation');
+                                this.resetCellEditor();
+                                this.fireEvent("editorRevertEvent",
+                                {editor:this._oCellEditor, oldData:oldData, newData:newData});
+                                YAHOO.log("Could not save Cell Editor input due to invalid data " +
+                                          lang.dump(newData), "warn", this.toString());
                                 return;
                             }
                         }
-                       // ++++++ from here on I added new, except for the 'success' case pasted in.
+
+                        var editColumn = this._oCellEditor.column.key;
                         YAHOO.util.Connect.asyncRequest(
                                 'POST',
-                                '/rpc?action=UpdateMenu&newData=' + escape(newData) +
-                                '&oldData=' + escape(oldData) + myBuildUrl(this,this._oCellEditor.record),
+                                '/rpc?action=UpdateMenu&editColumn='+editColumn+'&newData=' + encodeURIComponent(newData) +
+                                '&oldData=' + encodeURIComponent(oldData) + myBuildUrl(this, this._oCellEditor.record),
                         {
                             success: function (o) {
-                                    // --------     on success section
-                                    this._oRecordSet.updateKey(this._oCellEditor.record, this._oCellEditor.column.key, newData);
-                                    this.formatCell(this._oCellEditor.cell);
-                                    this.resetCellEditor();
-                                    this.fireEvent("editorSaveEvent",
-                                    {editor:this._oCellEditor, oldData:oldData, newData:newData}
-                                            );
-                                    // --------     end of on success section
+                                // Update the Record
+                                this._oRecordSet.updateRecordValue(this._oCellEditor.record, this._oCellEditor.column.key, this._oCellEditor.value);
+                                // Update the UI
+                                this.formatCell(this._oCellEditor.cell.firstChild);
+
+                                // Bug fix 1764044
+                                this._oChainRender.add({
+                                    method: function() {
+                                        this._syncColWidths();
+                                    },
+                                    scope: this
+                                });
+                                this._oChainRender.run();
+                                // Clear out the Cell Editor
+                                this.resetCellEditor();
+
+                                this.fireEvent("editorSaveEvent",
+                                {editor:this._oCellEditor, oldData:oldData, newData:newData});
+                                YAHOO.log("Cell Editor input saved", "info", this.toString());
                             },
                             failure: function(o) {
                                 onFailure(o.statusText);
@@ -226,14 +259,15 @@
                             scope: this
                         }
                                 );
-                    } else {
+                    }
+                    else {
+                        YAHOO.log("Cell Editor not active to save input", "warn", this.toString());
                     }
                 };
                 ;
             };
         });
     </script>
-
 </fieldset>
 <fieldset>
     <legend>Album Configuration</legend>
