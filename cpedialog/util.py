@@ -147,7 +147,7 @@ def getMenuList():
     
 #flush menu list.
 def flushMenuList():
-    memcache.delete("blog_menulist_key")
+    memcache.delete("blog_menuList_key")
 
 #flush MonthYear list.
 def flushArchiveList():

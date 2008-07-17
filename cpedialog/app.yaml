@@ -31,14 +31,6 @@ handlers:
 - url: /img
   static_dir: img
 
-- url: /img/logo/logo1.gif
-  static_files: img/logo/logo1.gif
-  upload: img/logo/logo1.gif
-
-- url: /img/logo/logo2.gif
-  static_files: img/logo/logo2.gif
-  upload: img/logo/logo2.gif
-
 - url: /album
   static_dir: album_cpedia
 

@@ -15,6 +15,7 @@ from google.appengine.api import memcache
 from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu
 
 import authorized
+import util
 
 # This handler allows the functions defined in the RPCHandler class to
 # be called automatically by remote code.
