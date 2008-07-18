@@ -1,7 +1,7 @@
 YAHOO.util.Event.addListener(window, "load", function() {
     EnhanceFromMarkup = new function() {
         var myColumnDefs = [
-            {key:"title",label:"Title",sortable:true,editor:"textbox"},
+            {key:"album_username",label:"Picasaweb username",sortable:true,editor:"textbox"},
             {key:"permalink",label:"Permalink",sortable:true,editor:"textbox"},
             {key:"target",label:"Target",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["_self","_blank","_parent","_top"]}},
             {key:"order",label:"Order",formatter:YAHOO.widget.DataTable.formatNumber,sortable:true,editor:"textbox",editorOptions:{validator:YAHOO.widget.DataTable.validateNumber}},

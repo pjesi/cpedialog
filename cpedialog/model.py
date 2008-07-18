@@ -128,7 +128,9 @@ class Album(db.Model):
     album_username = db.StringProperty()
     owner = db.UserProperty()
     date = db.DateTimeProperty(auto_now_add=True)
-    private = db.BooleanProperty()
+    access = db.StringProperty(multiline=False,default='public',choices=[
+        'public','private','login'])
+    
     
 class Menu(db.Model):
     title = db.StringProperty()

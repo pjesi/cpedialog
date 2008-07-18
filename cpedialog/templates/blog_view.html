@@ -16,7 +16,7 @@
     <div id="blogview">
         <div>
             <H2 class=date-header> {{blog.date|date:"l, F m, Y"}} </H2>
-
+            <div class="post">
             <H3 class=post-title>
                 {%if blog.permalink %}
                 <a href="/{{blog.relative_permalink}}">{{blog.title}}</a>
@@ -56,7 +56,7 @@
                 Edited at {{blog.lastModifiedDate}} by {{blog.lastModifiedBy}}.
                 {% endifnotequal %}
             </DIV>
-
+            </div>
         {% ifnotequal reactions.count 0 %}
         <br> <br>
         <div class="commentlabel">

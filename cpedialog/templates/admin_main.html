@@ -104,44 +104,25 @@
         Album List:
         <table id="albumtable">
             <tr>
-                <th>Picasaweb album username</th>
+                <th>Picasaweb username</th>
                 <th>Added by</th>
                 <th>Added date</th>
                 <th>Public/Private</th>
-                <th> &nbsp;</th>
+                <th>Delete</th>
+                <th>Add</th>
             </tr>
             {% for album in albums %}
             <tr>
-                <td>{{album.username}}</td>
+                <td>{{album.album_username}}</td>
                 <td>{{album.owner.email}}</td>
                 <td>{{album.date|date:"m/d/Y"}}</td>
-                <td>{{album.private}}</td>
-                <td>
-                    <a href="javascript:deleteAlbum('{{album.username}}')">Delete</a>
-                </td>
+                <td>{{album.access}}</td>
+                <td> </td>
+                <td> </td>
             </tr>
             {% endfor%}
         </table>
     </div>
-    <script>
-        function deleteAlbum(username) {
-            var sUrl = "/rpc?action=DeleteAlbum&arg0=\"" + username + "\"&time=" + new Date().getTime();
-            var deleteAlbumSuccess = function(o) {
-                if (o.responseText !== undefined) {
-                    var src_obj = document.getElementById(o.argument.user_email + "_" + o.argument.target_service);
-                    document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
-                    alert("Delete user's album successfully.");
-                }
-            }
-            var callback =
-            {
-                success:deleteAlbumSuccess,
-                failure:handleFailure,
-                argument:{username:username}
-            };
-            YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
-        }
-    </script>
 </fieldset>
 <fieldset>
     <legend>Session Token Management</legend>
