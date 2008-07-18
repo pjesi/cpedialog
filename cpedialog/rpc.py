@@ -58,6 +58,7 @@ class RPCHandler(webapp.RequestHandler):
           stored_token.delete()
       return True
 
+  # for menu inline cell editable table
   @authorized.role('admin')
   def UpdateMenu(self,request):
       menu = Menu.get_by_id(int(request.get("id")))
@@ -97,5 +98,50 @@ class RPCHandler(webapp.RequestHandler):
       menu = Menu.get_by_id(int(request.get("id")))
       menu.delete()
       util.flushMenuList()
+      return True
+
+  # for album inline cell editable table.
+  @authorized.role('user')
+  def UpdateAlbum(self,request):
+      album = Album.get_by_id(int(request.get("id")))
+      editColumn = request.get("editColumn")
+      if album and editColumn:
+          newData = request.get("newData")
+          if editColumn == "album_username":
+            album.album_username = newData
+          if editColumn == "album_type":
+            album.album_type = newData
+          if editColumn == "access":
+            album.access = newData
+          if editColumn == "date":
+            album.date = simplejson.loads(newData)
+          if editColumn == "valid":
+            album.valid = simplejson.loads(newData)
+          album.put()
+          util.flushAlbumList()
+      return True
+
+  @authorized.role('user')
+  def AddAlbum(self,request):
+      album = datastore.Entity("Album")
+      album["album_username"] = "New Album"
+      album["album_type"] = "public"
+      album["access"] = "public"
+      album["date"] = datetime.datetime.now()
+      album["valid"] = False
+      album["owner"] = users.GetCurrentUser()
+      datastore.Put(album)
+      util.flushAlbumList()
+      album['key'] = str(album.key())
+      album['id'] = str(album.key().id())
+      #album["date"] = album["date"].strftime('%m/%d/%y')
+      album["owner"] = str(album["owner"].email())
+      return album
+
+  @authorized.role('user')
+  def DeleteAlbum(self,request):
+      album = Album.get_by_id(int(request.get("id")))
+      album.delete()
+      util.flushAlbumList()
       return True
 

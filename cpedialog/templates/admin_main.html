@@ -21,7 +21,7 @@
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datatable/datatable-beta-min.js"></script>
 
 <!--my yui grid render-->
-<!--<script type="text/javascript" src="/jscripts/albumlist.grid.js"></script>-->
+<script type="text/javascript" src="/jscripts/albumlist.grid.js"></script>
 <script type="text/javascript" src="/jscripts/menulist.grid.js"></script>
 
 <div class="yui-g">
@@ -49,7 +49,7 @@
             <tr>
                 <td>{{entry.title}}</td>
                 <td>{{entry.author.email}}</td>
-                <td>{{entry.date|date:"m/d/Y"}}</td>
+                <td>{{entry.date|date:"m/d/y"}}</td>
                 <td>
                     <a href="{{entry.full_permalink}}" target="_blank">{{entry.full_permalink}}</a>
                 </td>
@@ -66,7 +66,6 @@
     <legend>Menu Admin</legend>
     <div class="fieldsetdiv">
         Menu List:
-        <form id=menuForm>
             <div id="menudiv">
             <table id="menutable">
                 <thead><tr>
@@ -95,33 +94,40 @@
                 </tbody>
             </table>
             </div>
-        </form>
     </div>
 </fieldset>
 <fieldset>
     <legend>Album Configuration</legend>
     <div class="fieldsetdiv">
         Album List:
+        <div id="albumdiv">
         <table id="albumtable">
-            <tr>
-                <th>Picasaweb username</th>
-                <th>Added by</th>
-                <th>Added date</th>
-                <th>Public/Private</th>
-                <th>Delete</th>
-                <th>Add</th>
-            </tr>
+            <thead><tr>
+                <th>Picasaweb</th>
+                <th>Owner</th>
+                <th>Type</th>
+                <th>Access</th>
+                <th>Valid</th>
+                <th>Id</th>
+                <th></th>
+                <th></th>
+            </tr></thead>
+            <tbody>
             {% for album in albums %}
             <tr>
                 <td>{{album.album_username}}</td>
                 <td>{{album.owner.email}}</td>
-                <td>{{album.date|date:"m/d/Y"}}</td>
+                <td>{{album.album_type}}</td>
                 <td>{{album.access}}</td>
+                <td>{{album.valid}}</td>
+                <td>{{album.key.id}}</td>
                 <td> </td>
                 <td> </td>
             </tr>
             {% endfor%}
+            </tbody>
         </table>
+       </div>
     </div>
 </fieldset>
 <fieldset>
@@ -211,8 +217,8 @@
                 </td>
             </tr>
         </table>
-        <input type="submit" value="Refresh Memcache statistics" onClick="flushAllMemcache(false);" class="submit">
-        <input type="submit" value="Flush All the Memcache" onClick="flushAllMemcache(true);" class="submit">
+        <input type="button" value="Refresh Memcache statistics" onClick="flushAllMemcache(false);" class="submit">
+        <input type="button" value="Flush All the Memcache" onClick="flushAllMemcache(true);" class="submit">
     </div>
     <script>
         function flushAllMemcache(flush) {

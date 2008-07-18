@@ -129,9 +129,14 @@ class Album(db.Model):
     owner = db.UserProperty()
     date = db.DateTimeProperty(auto_now_add=True)
     access = db.StringProperty(multiline=False,default='public',choices=[
-        'public','private','login'])
-    
-    
+        'public','private','login'])     #public: all can access the album; private:only the owner can access;
+                                         #login:login user can access.
+
+    album_type = db.StringProperty(multiline=False,default='public',choices=[
+        'public','private'])    #private album need to authorize by user and store the session token.
+
+    valid = db.BooleanProperty(default = True)
+
 class Menu(db.Model):
     title = db.StringProperty()
     permalink = db.StringProperty()

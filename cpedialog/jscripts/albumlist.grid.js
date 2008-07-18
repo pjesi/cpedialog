@@ -1,30 +1,29 @@
 YAHOO.util.Event.addListener(window, "load", function() {
     EnhanceFromMarkup = new function() {
         var myColumnDefs = [
-            {key:"album_username",label:"Picasaweb username",sortable:true,editor:"textbox"},
-            {key:"permalink",label:"Permalink",sortable:true,editor:"textbox"},
-            {key:"target",label:"Target",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["_self","_blank","_parent","_top"]}},
-            {key:"order",label:"Order",formatter:YAHOO.widget.DataTable.formatNumber,sortable:true,editor:"textbox",editorOptions:{validator:YAHOO.widget.DataTable.validateNumber}},
-            {key:"valid",label:"Valid",sortable:true,editor:"radio",editorOptions:{radioOptions:["True","False"],disableBtns:true}},
+            {key:"album_username",label:"Picasaweb",sortable:true,editor:"textbox"},
+            {key:"owner",label:"Owner",sortable:true},
+            {key:"album_type",label:"Type",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["public","private"]}},
+            {key:"access",label:"Access",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["public","private","login"],disableBtns:true}},
+            {key:"valid",label:"Valid",sortable:true,editor:"radio",editorOptions:{radioOptions:[true,false],disableBtns:true}},
             {key:"id",label:"Id",sortable:true,isPrimaryKey:true},
-            {key:"delete",label:"Delete",action:'delete',formatter:function(elCell) {
+            {key:"delete",label:"",action:'delete',formatter:function(elCell) {
                 elCell.innerHTML = '<img src="/img/delete.gif" title="delete row" />';
                 elCell.style.cursor = 'pointer';}},
-            {key:"insert",label:"Add",action:'insert',formatter:function(elCell) {
+            {key:"insert",label:"",action:'insert',formatter:function(elCell) {
                 elCell.innerHTML = '<img src="/img/insert.png" title="insert new row" />';
                 elCell.style.cursor = 'pointer';}}
         ];
 
-        this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("menutable"));
+        this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("albumtable"));
         this.myDataSource.responseType = YAHOO.util.DataSource.TYPE_HTMLTABLE;
         this.myDataSource.responseSchema = {
-            fields: [{key:"title"},{key:"permalink"},{key:"target"},
-                {key:"order", parser:YAHOO.util.DataSource.parseNumber},
-                {key:"valid"}, {key:"id"}, {key:"delete"}, {key:"insert"}
+            fields: [{key:"album_username"},{key:"owner"},
+                {key:"album_type"}, {key:"access"}, {key:"valid"},  {key:"id"}, {key:"delete"}, {key:"insert"}
             ]
         };
-        this.myDataTable = new YAHOO.widget.DataTable("menudiv", myColumnDefs, this.myDataSource,
-           { sortedBy:{key:"order",dir:"asc"}});
+        this.myDataTable = new YAHOO.widget.DataTable("albumdiv", myColumnDefs, this.myDataSource,
+           { sortedBy:{key:"album_username",dir:"asc"}});
 
         // Set up editing flow
         this.highlightEditableCell = function(oArgs) {
@@ -62,8 +61,8 @@ YAHOO.util.Event.addListener(window, "load", function() {
             var target = YAHOO.util.Event.getTarget(ev);
             var column = this.getColumn(target);
             if (column.action == 'insert') {
-               if (confirm('Are you sure to add a new menu?')) {
-                   YAHOO.util.Connect.asyncRequest('POST', '/rpc?action=AddMenu',
+               if (confirm('Are you sure to add a new album?')) {
+                   YAHOO.util.Connect.asyncRequest('POST', '/rpc?action=AddAlbum',
                    {
                        success: function (o) {
                                var record = YAHOO.lang.JSON.parse(o.responseText);
@@ -81,13 +80,36 @@ YAHOO.util.Event.addListener(window, "load", function() {
             }
         });
 
+        this.myDataTable.subscribe('theadLabelDblclickEvent', function(ev) {
+            var target = YAHOO.util.Event.getTarget(ev);
+            //var column = this.getTheadEl(target);
+            //if (column.label == 'insert') {
+               if (confirm('Are you sure to add a new album?')) {
+                   YAHOO.util.Connect.asyncRequest('POST', '/rpc?action=AddAlbum',
+                   {
+                       success: function (o) {
+                               var record = YAHOO.lang.JSON.parse(o.responseText);
+                               this.addRow(record ,this.getRecordIndex(target));
+                        },
+                       failure: function (o) {
+                           alert(o.statusText);
+                       },
+                       scope:this
+                   }
+                           );
+               }
+            //} else {
+            //    this.onEventShowCellEditor(ev);
+           //}
+        });
+
         this.myDataTable.subscribe('cellClickEvent', function(ev) {
             var target = YAHOO.util.Event.getTarget(ev);
             var column = this.getColumn(target);
             if (column.action == 'delete') {
-                if (confirm('Are you sure to delete the menu?')) {
+                if (confirm('Are you sure to delete the album?')) {
                     var record = this.getRecord(target);
-                    YAHOO.util.Connect.asyncRequest('POST','/rpc?action=DeleteMenu' + myBuildUrl(this,record),
+                    YAHOO.util.Connect.asyncRequest('POST','/rpc?action=DeleteAlbum' + myBuildUrl(this,record),
                     {
                         success: function (o) {
                             if (o.responseText == 'true') {
@@ -136,7 +158,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
                 var editColumn = this._oCellEditor.column.key;
                 YAHOO.util.Connect.asyncRequest(
                         'POST',
-                        '/rpc?action=UpdateMenu&editColumn='+editColumn+'&newData=' + encodeURIComponent(newData) +
+                        '/rpc?action=UpdateAlbum&editColumn='+editColumn+'&newData=' + encodeURIComponent(newData) +
                         '&oldData=' + encodeURIComponent(oldData) + myBuildUrl(this, this._oCellEditor.record),
                 {
                     success: function (o) {

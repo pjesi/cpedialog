@@ -143,8 +143,28 @@ def getMenuList():
     if menus is None:
         menus = Menu.all().filter('valid',True).order('order')
         memcache.add(key=key_, value=menus, time=3600)
+    else:
+        logging.debug("getMenuList from cache. ")
     return menus
-    
+
+#get album list. Cached.
+def getAlbumList():
+    key_ = "blog_albumList_key"
+    try:
+        menus = memcache.get(key_)
+    except Exception:
+        menus = None
+    if menus is None:
+        menus = Album.all().filter('valid',True).order('-date')
+        memcache.add(key=key_, value=menus, time=3600)
+    else:
+        logging.debug("getAlbumList from cache. ")
+    return menus
+
+#flush album list.
+def flushAlbumList():
+    memcache.delete("blog_albumList_key")
+
 #flush menu list.
 def flushMenuList():
     memcache.delete("blog_menuList_key")

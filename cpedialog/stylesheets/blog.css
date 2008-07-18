@@ -86,6 +86,7 @@ dt {font:bold}
 #bloglist{ background: url(/img/threecolbg.gif) right repeat-y; padding-right:10px;padding-left:10px}
 
 #blogview{padding-top:10px; padding-right:10px;padding-left:10px;border: 1px #000000 solid;}
+#blogview div{margin-bottom:5px;}
 .commentlabel h4 {MARGIN: 0px 0px 8px; FONT: 14px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none}
 
 .author{background:#F8F7EF none repeat scroll 0% 0%;border-style:none none none solid;border-width:medium medium medium 6px;margin:10px 0pt;}
