@@ -79,7 +79,17 @@ class Weblog(db.Model):
             archive[0].weblogcount += 1
             archive[0].put()
 
+    def update_tags(self):
+        """Update Tag cloud info"""
+        #for tag in self.tagsnew:
+        #    if not b.tags.has_key(tag):
+        #        b.tags.update({tag:1})
+        #    else:
+        #        b.tags.update({tag:b.tags[tag]+1})
+        pass
+
     def save(self):
+        self.update_tags()
         if self.entrytype == "post":
             self.update_archive()
         my = self.date.strftime('%B %Y') # July 2008
@@ -139,7 +149,7 @@ class Album(db.Model):
 
 class Menu(db.Model):
     title = db.StringProperty()
-    permalink = db.StringProperty()
+    permalink = db.StringProperty()          
     target = db.StringProperty(multiline=False,default='_self',choices=[
         '_self','_blank','_parent','_top'])
     order = db.IntegerProperty()

@@ -134,7 +134,7 @@ class RPCHandler(webapp.RequestHandler):
       util.flushAlbumList()
       album['key'] = str(album.key())
       album['id'] = str(album.key().id())
-      #album["date"] = album["date"].strftime('%m/%d/%y')
+      album["date"] = album["date"].strftime('%m/%d/%y')
       album["owner"] = str(album["owner"].email())
       return album
 

@@ -27,6 +27,10 @@ Edit reaction
 
 <div class="yui-g">
 <script type="text/javascript">
+    String.prototype.trim = function () {
+        return this.replace(/^[\s\,]*/, "").replace(/[\s\,]*$/, ""); //for remove the space and comma at the begining/end of the tag.
+    };
+
     (function() {
         var Dom = YAHOO.util.Dom,
             Event = YAHOO.util.Event;
@@ -62,6 +66,7 @@ Edit reaction
         {% else %}
             var title_input = document.forms["previewForm"]["title_input"];
             var tags = document.forms["previewForm"]["tags"];
+            tags.value = tags.value.trim();
             if(title_input.value==""){
                 alert("Please input title of the item.");
                 title_input.focus();
