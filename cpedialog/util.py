@@ -127,7 +127,8 @@ def getArchiveBlog(monthyear):
     except Exception:
         blogs = None    
     if blogs is None:
-        blogs = Weblog.all().filter('monthyear', monthyearTmp).filter('entrytype','post').order('-date') 
+        #blogs = Weblog.all().filter('monthyear', monthyearTmp).filter('entrytype','post').order('-date')
+        blogs = db.GqlQuery("select * from Weblog where monthyear=:1 and entrytype = 'post'order by date desc",monthyearTmp).fetch(100)
         memcache.add(key=key_, value=blogs, time=3600)
     else:
         logging.debug("getMonthBlog from cache. ")
