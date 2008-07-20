@@ -37,6 +37,7 @@ def main():
                                         ('/search', blog.SearchHandler),
                                         ('/tag/(.*)', blog.TagHandler),
                                         ('/atom/*$', blog.FeedHandler),
+                                        ('/sitemap/*$', blog.SiteMapHandler),  #for live.com SEO
 
                                         ('/albums/*$', album.MainPage),
                                         ('/albums/([-\w\.]+)/*$', album.UserHandler),

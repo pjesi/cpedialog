@@ -11,9 +11,9 @@
                 {% if user %}
             <LI><a href="#"> Welcome, <b>{{ user.email }}</b> </a>
                 {% if administrator %}
-            <LI><a href='/addBlog'>Admin/Add new blog</a>
-            <LI><a href='/addBlog?entrytype=page'>Admin/Add new page</a>
-            <LI><a href='/admin'>Admin/System configuration</a>
+            <LI><a href='/addBlog'>Admin/Add New Blog</a>
+            <LI><a href='/addBlog?entrytype=page'>Admin/Add New Page</a>
+            <LI><a href='/admin'>Admin/System Configuration</a>
                 {% endif %}
                 {% endif %}
             <LI><a href="{{ url }}">{{ url_linktext }}</a>
@@ -22,6 +22,8 @@
     </DIV>
     {% endblock %}
 
+    {% include "tagclound.html" %}
+    
     {% include "module_plugin/favourite_site.html" %}
 
     {% include "module_plugin/favourite_ebook.html" %}

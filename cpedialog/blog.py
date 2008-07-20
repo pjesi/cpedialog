@@ -335,6 +335,14 @@ class PageHandler(BaseRequestHandler):
           }
         self.generate('blog_view.html',template_values)
 
+class SiteMapHandler(BaseRequestHandler):
+    def get(self):
+        blogs = Weblog.all().order('-date')
+        template_values = {
+          'allblogs': blogs,
+          }
+        self.generate('site_map.html',template_values)
+
 
 class TagHandler(BaseRequestHandler):
     def get(self, encoded_tag):
