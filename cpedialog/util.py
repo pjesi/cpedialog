@@ -231,7 +231,7 @@ def getDeliciousTag(username):
         if result.status_code == 200:
             objs = eval(result.content)
             for obj in objs:
-                 tags.append(Tag(tag=obj,entrycount = objs[obj]))
+                 tags.append(Tag(tag=obj,entrycount = int(objs[obj])))
         memcache.add(key=key_, value=tags, time=3600)
     else:
         logging.debug("getDeliciousTag from cache. ")
