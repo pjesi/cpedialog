@@ -13,7 +13,7 @@ from google.appengine.api import memcache
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag
 import config
 
 
@@ -161,6 +161,26 @@ def getAlbumList():
     else:
         logging.debug("getAlbumList from cache. ")
     return menus
+
+#get tag list. Cached.
+def getTagList():
+    key_ = "blog_tagList_key"
+    try:
+        tags = memcache.get(key_)
+    except Exception:
+        tags = None
+    if tags is None:
+        tags = Tag.all().filter('valid',True).order('tag')
+        memcache.add(key=key_, value=tags, time=3600)
+    else:
+        logging.debug("getTagList from cache. ")
+    return tags
+
+
+#flush tag list.
+def flushTagList():
+    memcache.delete("blog_tagList_key")
+
 
 #flush album list.
 def flushAlbumList():

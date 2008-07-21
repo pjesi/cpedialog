@@ -2,10 +2,15 @@
     <h3>Tag Clound</h3>
     <div>
         <span>My Blog Tags</span>
-        <div></div>
+        <div>
+            {%for tag in tags%}
+             <a href="/tag/{{tag.tag}}">{{tag.tag}}</a>
+            {% endfor%}
+        </div>
     </div>
     <div>
         <span>My Del.icio.us</span>
+        <div></div>
     </div>
 
 </div>

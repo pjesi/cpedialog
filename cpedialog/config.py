@@ -13,6 +13,10 @@ album ={
     "username":["cpedia","yeli.piao","pegina8"]
 }
 
+delicious = {
+    "username":"cpedia"    #del.icio.us user name.
+}
+
 logo_images = ["logo1.gif","logo2.gif"]  #make sure the images located in the folder img/logo.
 
 # Set to true if we want to have our webapp print stack traces, etc

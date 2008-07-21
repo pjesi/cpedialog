@@ -1,6 +1,6 @@
 {% extends "main.html" %}
 
-{% block title %}{{title}} - Albums{% endblock %}
+{% block title %}{{title}} - Albums - {% if album %}{{album.title.text}}{% endif %}{% endblock %}
 
 {% block blogcontainer %}
         
@@ -14,7 +14,7 @@
         <div id="albuminfo">
             <H3>Albums</H3>
             <p>
-            <a href="/albums">Albums</a> -> <a href="/albums/{{username}}">{{username}}</a> -> <a href="/albums/{{username}}/{{album.name.text}}">{{album.title}}</a>
+            <a href="/albums">Albums</a> -> <a href="/albums/{{username}}">{{username}}</a> -> <a href="/albums/{{username}}/{{album.name.text}}">{{album.title.text}}</a>
             <p>
             Shot at: {{album.datetime|date:"m/d/y"}} <br>
             Photos Num: {{album.numphotos}}

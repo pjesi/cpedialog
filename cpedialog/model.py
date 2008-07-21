@@ -19,7 +19,8 @@ class Archive(db.Model):
 
 class Tag(db.Model):
     tag = db.StringProperty(multiline=False)
-    tagcount = db.IntegerProperty(default=0)
+    entrycount = db.IntegerProperty(default=0)
+    valid = db.BooleanProperty(default = True)
 
 
 class Weblog(db.Model):
@@ -81,12 +82,16 @@ class Weblog(db.Model):
 
     def update_tags(self):
         """Update Tag cloud info"""
-        #for tag in self.tagsnew:
-        #    if not b.tags.has_key(tag):
-        #        b.tags.update({tag:1})
-        #    else:
-        #        b.tags.update({tag:b.tags[tag]+1})
-        pass
+        if self.tags: 
+            for tag in self.tags:
+                tag_ = urllib.unquote(tag)
+                tags = Tag.all().filter('tag',tag_).fetch(10)
+                if tags == []:
+                    tagnew = Tag(tag=tag_,entrycount=1)
+                    tagnew.put()
+                else:
+                    tags[0].entrycount+=1
+                    tags[0].put()
 
     def save(self):
         self.update_tags()

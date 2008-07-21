@@ -50,6 +50,7 @@ class ViewPage(object):
                 'logoImages': config.logo_images,
                 "BLOG": config.blog,
                 "nav_menus": util.getMenuList(),
+                "tags": util.getTagList(),
             }
             template_params.update(params)
             return template.render(template_file, template_params, debug=config._DEBUG)
