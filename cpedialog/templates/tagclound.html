@@ -11,23 +11,11 @@
     </div>
     <div>
         <span class="tagheader">My Del.icio.us</span>
-
-        <div id="tags-container">
+        <div>
+            {% for tag in delicious %}
+            <a href="/tag/{{tag.tag}}">{{tag.tag}}</a>
+            {% endfor %}
         </div>
-        <script type="text/javascript"
-                src="http://del.icio.us/feeds/json/tags/cpedia?count=20&sort=count"></script>
-
-        <script type="text/javascript">
-            var ct = document.getElementById('tags-container');
-            for (var k in Delicious.tags) {
-                var count = Delicious.tags[k];
-                var a = document.createElement('a');
-                a.setAttribute('href', 'http://del.icio.us/cpedia/' + k);
-                a.setAttribute('target','_blank')
-                a.appendChild(document.createTextNode(k + ' (' + count + ') '));
-                ct.appendChild(a);
-            }
-        </script>
     </div>
 
 </div>

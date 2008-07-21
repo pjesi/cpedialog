@@ -9,6 +9,7 @@ import string
 from google.appengine.api import users
 from google.appengine.ext import db
 from google.appengine.api import memcache
+from google.appengine.api import urlfetch
 
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
@@ -216,4 +217,23 @@ def flushBlogMonthCache(blog):
     month_ =  blog.date.month
     key= "blog_year_month_"+str(year_)+"_"+str(month_)+"_key"
     memcache.delete(key)
-        
+
+def getDeliciousTag(username):
+    key_ = "blog_deliciousList_key"
+    try:
+        tags = memcache.get(key_)
+    except Exception:
+        tags = None
+    if tags is None:
+        url = "http://del.icio.us/feeds/json/tags/%s?raw" % username
+        result = urlfetch.fetch(url)
+        tags = []
+        if result.status_code == 200:
+            objs = eval(result.content)
+            for obj in objs:
+                 tags.append(Tag(tag=obj,entrycount = objs[obj]))
+        memcache.add(key=key_, value=tags, time=3600)
+    else:
+        logging.debug("getDeliciousTag from cache. ")
+    return tags
+

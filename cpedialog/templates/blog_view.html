@@ -70,16 +70,21 @@
 {% if reaction.author%}
 {% ifequal reaction.author reaction.weblog.author%}
 <div class='author comment'>
-    {% else %}
-    <div class='{% cycle comment,comment1 %}'>
-        {% endifequal %}
-        {% else %}
-        <div class='{% cycle comment,comment1 %}'>
-            {% endif %}
+{% else %}
+<div class='{% cycle comment,comment1 %}'>
+{% endifequal %}
+{% else %}
+<div class='{% cycle comment,comment1 %}'>
+{% endif %}
             <p> {% if reaction.authorWebsite %}
                 <a href="{{reaction.authorWebsite}}">
                     {% endif%}
-                    <b>{{reaction.user}}</b>
+                    <b>{%if not reaction.author %}
+                        {{reaction.user}}
+                        {%else%}
+                        {{reaction.author.email}}
+                        {% endif %}
+                    </b>
                     {% if reaction.authorWebsite %}
                 </a>
                 {% endif%}

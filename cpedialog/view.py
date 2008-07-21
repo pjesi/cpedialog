@@ -51,6 +51,7 @@ class ViewPage(object):
                 "BLOG": config.blog,
                 "nav_menus": util.getMenuList(),
                 "tags": util.getTagList(),
+                "delicious": util.getDeliciousTag(config.delicious['username']),
             }
             template_params.update(params)
             return template.render(template_file, template_params, debug=config._DEBUG)
