@@ -67,7 +67,7 @@ class Weblog(db.Model):
     tags_commas = property(get_tags,set_tags)
 
     #for data migration
-    def update_archive(self):
+    def update_archive(self,update):
         """Checks to see if there is a month-year entry for the
         month of current blog, if not creates it and increments count"""
         my = self.date.strftime('%B %Y') # July 2008
@@ -76,11 +76,12 @@ class Weblog(db.Model):
             archive = Archive(monthyear=my,date=self.date,weblogcount=1)
             archive.put()
         else:
-            # ratchet up the count
-            archive[0].weblogcount += 1
-            archive[0].put()
+            if not update:
+                # ratchet up the count
+                archive[0].weblogcount += 1
+                archive[0].put()
 
-    def update_tags(self):
+    def update_tags(self,update):
         """Update Tag cloud info"""
         if self.tags: 
             for tag in self.tags:
@@ -90,15 +91,22 @@ class Weblog(db.Model):
                     tagnew = Tag(tag=tag_,entrycount=1)
                     tagnew.put()
                 else:
-                    tags[0].entrycount+=1
-                    tags[0].put()
+                    if not update:
+                        tags[0].entrycount+=1
+                        tags[0].put()
 
     def save(self):
-        self.update_tags()
+        self.update_tags(False)
         if self.entrytype == "post":
-            self.update_archive()
+            self.update_archive(False)
         my = self.date.strftime('%B %Y') # July 2008
         self.monthyear = my
+        self.put()
+
+    def update(self):
+        self.update_tags(True)
+        if self.entrytype == "post":
+            self.update_archive(True)
         self.put()
 
 

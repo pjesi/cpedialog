@@ -159,7 +159,7 @@ class EditBlog(BaseRequestHandler):
         user = users.get_current_user()
         blog.lastModifiedDate = datetime.datetime.now()
         blog.lastModifiedBy = user
-        blog.put()
+        blog.update()
         util.flushBlogMonthCache(blog)
         util.flushBlogPagesCache()
         self.redirect('/'+blog.relative_permalink())
