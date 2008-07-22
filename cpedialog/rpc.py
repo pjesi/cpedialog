@@ -35,15 +35,16 @@ class UploadImage (webapp.RequestHandler):
         images = Images()
         img = self.request.get("img")
         if not img:
-            return 'Please select your image.'
+            self.response.out.write( '{status:"Please select your image."}')
+            return
         try:
             images.image = db.Blob(img)
             images.uploader = users.GetCurrentUser()
             key = images.put()
         except Exception, e:
-            return '{status:"An Error Occurred uploading the image."}'
-
-        return simplejson.dumps('{status:"UPLOADED",image_url:"/rpc/img?img_id=%s"}' % (key))
+            self.response.out.write( '{status:"An Error Occurred uploading the image."}')
+            return
+        self.response.out.write('{status:"UPLOADED",image_url:"/rpc/img?img_id=%s"}' % (key))
 
 
 # This handler allows the functions defined in the RPCHandler class to

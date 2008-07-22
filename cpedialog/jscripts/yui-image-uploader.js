@@ -35,8 +35,8 @@ function yuiImgUploader(rte, upload_url, upload_image_name) {
 						var label=document.createElement('label');
 						label.innerHTML='<strong>Upload:</strong>'+
 							'<input type="file" id="insertimage_upload" name="'+upload_image_name+
-							'" size="10" style="width: 20%" />'+
-							'<a href="#"  id="insertimage_upload_btn" style="width: 20%; margin-left: 10em;">Upload Image</a>'+
+							'" size="10" style="width: 15em"/>'+
+							'<a href="#"  id="insertimage_upload_btn" style="width: 20%; margin-left: 2em;">Upload Image</a>'+
 							'</label>'; 
 					
 						var img_elem=Dom.get('insertimage_url');
@@ -54,7 +54,6 @@ function yuiImgUploader(rte, upload_url, upload_image_name) {
 							'POST', upload_url, {
 								upload:function(r){
 									try {
-                                        debugger;
                                         // strip pre tags if they got added somehow
 										resp=r.responseText.replace( /<pre>/i, '').replace ( /<\/pre>/i, '');
 										var o=eval('('+resp+')');
