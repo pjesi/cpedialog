@@ -54,7 +54,8 @@ function yuiImgUploader(rte, upload_url, upload_image_name) {
 							'POST', upload_url, {
 								upload:function(r){
 									try {
-										// strip pre tags if they got added somehow
+                                        debugger;
+                                        // strip pre tags if they got added somehow
 										resp=r.responseText.replace( /<pre>/i, '').replace ( /<\/pre>/i, '');
 										var o=eval('('+resp+')');
 										if (o.status=='UPLOADED') {
@@ -68,7 +69,7 @@ function yuiImgUploader(rte, upload_url, upload_image_name) {
 										} else {
 										alert ( "Upload Failed: "+o.status );
 									}
-									
+
 									} catch ( eee ) {
 										YAHOO.log( eee.message, 'error' )
 									}
