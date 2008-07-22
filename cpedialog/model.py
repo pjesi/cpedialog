@@ -172,6 +172,12 @@ class Menu(db.Model):
         return config.blog['root_url'] + '/' + self.permalink
 
 
+class Images(db.Model):
+    uploader = db.UserProperty()
+    image = db.BlobProperty()
+    date = db.DateTimeProperty(auto_now_add=True)
+
+
 class DeliciousPost(object):
     def __init__(self, item):
         self.link = utf8(item["u"])

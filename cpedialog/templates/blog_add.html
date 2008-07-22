@@ -24,6 +24,11 @@ Edit reaction
 <script src="http://yui.yahooapis.com/2.5.2/build/button/button-min.js"></script>
 <!-- Source file for Rich Text Editor-->
 <script src="http://yui.yahooapis.com/2.5.2/build/editor/editor-beta-min.js"></script>
+        
+<script src="http://yui.yahooapis.com/2.3.1/build/connection/connection-min.js"></script>
+
+<!--yui image uploader -->
+<script src="/jscripts/yui-image-uploader.js"></script>
 
 <div class="yui-g">
 <script type="text/javascript">
@@ -43,6 +48,7 @@ Edit reaction
         };
 
         var myEditor = new YAHOO.widget.Editor('text_input', myConfig);
+        yuiImgUploader(myEditor, '/rpc/uploadImage','img');
         myEditor._defaultToolbar.buttonType = 'basic';
         myEditor.render();
 

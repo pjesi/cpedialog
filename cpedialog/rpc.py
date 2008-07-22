@@ -11,11 +11,33 @@ from google.appengine.api import datastore
 from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.api import memcache
+from google.appengine.api import images
+from google.appengine.ext import db
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images
 
 import authorized
 import util
+
+class Image (webapp.RequestHandler):
+  def get(self):
+    image = db.get(self.request.get("img_id"))
+    if image.image:
+      self.response.headers['Content-Type'] = "image/png"
+      self.response.out.write(image.image)
+    else:
+      self.response.out.write("No image")
+
+class UploadImage (webapp.RequestHandler):
+    @authorized.role('admin')
+    def get(self):
+        images = Images()
+        img = self.request.get("img")
+        images.image = db.Blob(img)
+        images.uploader = users.GetCurrentUser()
+        key = images.put()
+        return '{status:"UPLOADED",image_url:"/rpc/img?img_id=%s"}' % (key)
+
 
 # This handler allows the functions defined in the RPCHandler class to
 # be called automatically by remote code.

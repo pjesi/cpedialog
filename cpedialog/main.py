@@ -28,6 +28,8 @@ def main():
 
                                         ('/admin/*$', admin.MainPage),
                                         ('/rpc', rpc.RPCHandler),
+                                        ('/rpc/uploadImage', rpc.UploadImage),
+                                        ('/rpc/img', rpc.Image),
 
                                         ('/*$', blog.MainPage),
                                         ('/403.html', blog.UnauthorizedHandler),
