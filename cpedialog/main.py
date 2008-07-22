@@ -36,6 +36,7 @@ def main():
                                         ('/([12]\d\d\d)/(\d|[01]\d)/([-\w]+)/*$', blog.ArticleHandler),
                                         ('/search', blog.SearchHandler),
                                         ('/tag/(.*)', blog.TagHandler),
+                                        ('/delicious/(.*)', blog.DeliciousHandler),
                                         ('/atom/*$', blog.FeedHandler),
                                         ('/sitemap/*$', blog.SiteMapHandler),  #for live.com SEO
 

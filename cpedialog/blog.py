@@ -357,6 +357,19 @@ class TagHandler(BaseRequestHandler):
         self.generate('tag.html',template_values)
 
 
+class DeliciousHandler(BaseRequestHandler):
+    def get(self, encoded_tag):
+        tag =  re.sub('(%25|%)(\d\d)', lambda cmatch: chr(string.atoi(cmatch.group(2), 16)), encoded_tag)   # No urllib.unquote in AppEngine?
+        posts = util.getDeliciousPost(config.delicious['username'],tag)
+        recentReactions = util.getRecentReactions()
+        template_values = {
+          'posts':posts,
+          'tag':tag,
+          'recentReactions':recentReactions,
+          }
+        self.generate('tag_delicious.html',template_values)
+
+
 class FeedHandler(BaseRequestHandler):
     def get(self,tags=None):
         blogs = Weblog.all().filter('entrytype =','post').order('-date').fetch(10)

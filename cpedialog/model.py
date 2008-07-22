@@ -170,3 +170,14 @@ class Menu(db.Model):
 
     def full_permalink(self):
         return config.blog['root_url'] + '/' + self.permalink
+
+
+class DeliciousPost(object):
+    def __init__(self, item):
+        self.link = utf8(item["u"])
+        self.title = utf8(item["d"])
+        self.description = utf8(item.get("n", ""))
+        self.tags = map(utf8, item["t"])        
+
+def utf8(s):
+    return unicode(s, "utf-8")

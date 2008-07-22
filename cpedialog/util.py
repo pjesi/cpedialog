@@ -14,7 +14,7 @@ from google.appengine.api import urlfetch
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost
 import config
 
 
@@ -231,9 +231,27 @@ def getDeliciousTag(username):
         if result.status_code == 200:
             objs = eval(result.content)
             for obj in objs:
-                 tags.append(Tag(tag=obj,entrycount = int(objs[obj])))
+                tags.append(Tag(tag=obj,entrycount = int(objs[obj])))
         memcache.add(key=key_, value=tags, time=3600)
     else:
         logging.debug("getDeliciousTag from cache. ")
     return tags
+
+
+def getDeliciousPost(username,tag):
+    key_ = "blog_deliciousList_"+tag+"_key"
+    try:
+        posts = memcache.get(key_)
+    except Exception:
+        posts = None
+    if posts is None:
+        url = "http://del.icio.us/feeds/json/%s/%s?raw" % (username, tag)
+        result = urlfetch.fetch(url)
+        posts = []
+        if result.status_code == 200:
+            posts = map(DeliciousPost,eval(result.content))
+        memcache.add(key=key_, value=posts, time=3600)
+    else:
+        logging.debug("getDeliciousPost from cache. ")
+    return posts
 

@@ -5,15 +5,15 @@
 
         <div>
             {%for tag in tags%}
-            <a href="/tag/{{tag.tag}}">{{tag.tag}}</a>
+            <a href="/tag/{{tag.tag|urlencode}}">{{tag.tag}}</a>
             {% endfor%}
         </div>
     </div>
-    <div>
+    <div id="delicious">
         <span class="tagheader">My Del.icio.us</span>
         <div>
             {% for tag in delicious %}
-            <a href="/tag/{{tag.tag}}">{{tag.tag}} ({{tag.entrycount}})</a>
+            <a href="/delicious/{{tag.tag|urlencode}}">{{tag.tag}} <span class="commenttime">({{tag.entrycount}})</span></a>
             {% endfor %}
         </div>
     </div>
