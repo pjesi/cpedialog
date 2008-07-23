@@ -27,6 +27,7 @@ def main():
                                         ('/deleteBlogReaction', blog.DeleteBlogReaction),
 
                                         ('/admin/*$', admin.MainPage),
+                                        ('/admin/more/*$', admin.AdminMorePage),
                                         ('/rpc', rpc.RPCHandler),
                                         ('/rpc/uploadImage', rpc.UploadImage),
                                         ('/rpc/img', rpc.Image),

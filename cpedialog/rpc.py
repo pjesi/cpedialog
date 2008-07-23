@@ -31,7 +31,6 @@ class Image (webapp.RequestHandler):
 class UploadImage (webapp.RequestHandler):
     @authorized.role('admin')
     def post(self):
-        self.response.headers['Content-Type'] = "text/html"
         images = Images()
         img = self.request.get("img")
         if not img:
@@ -78,6 +77,11 @@ class RPCHandler(webapp.RequestHandler):
         status = memcache.flush_all()
     cache_stats = memcache.get_stats()
     return cache_stats
+
+  @authorized.role('admin')
+  def FlushMemcache(self,key):
+    memcache.delete(key)
+    return True
 
 
   @authorized.role('admin')

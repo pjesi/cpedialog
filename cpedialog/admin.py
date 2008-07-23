@@ -23,7 +23,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images
 import authorized
 import view
 import config
@@ -59,4 +59,17 @@ class MainPage(BaseRequestHandler):
           'cache_stats':cache_stats,
           }
         self.generate('admin_main.html',template_values)
+
+class AdminMorePage(BaseRequestHandler):
+  @authorized.role('admin')
+  def get(self):
+        images = Images.all().order('-date')
+        tags = Tag.all().order('-date')
+        archives = Archive.all().order('-date')
+        template_values = {
+          'images':images,
+          'tags':tags,
+          'archives':archives,
+          }
+        self.generate('admin_more.html',template_values)
 

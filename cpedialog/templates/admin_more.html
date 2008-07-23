@@ -1,0 +1,138 @@
+{% extends "main.html" %}
+
+{% block title %}{{title}} - System Admin{% endblock %}
+
+{% block blogcontainer %}
+
+<!-- Dependency -->
+<script src="http://yui.yahooapis.com/2.5.2/build/yahoo/yahoo-min.js"></script>
+<!-- Used for Custom Events and event listener bindings -->
+<script src="http://yui.yahooapis.com/2.5.2/build/event/event-min.js"></script>
+<!-- Connection Manager -->
+<script src="http://yui.yahooapis.com/2.5.2/build/connection/connection-min.js"></script>
+<!-- JSON Utility -->
+<script src="http://yui.yahooapis.com/2.5.2/build/json/json-min.js"></script>
+
+<!--DataTable-->
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/datatable/assets/skins/sam/datatable.css" />
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/element/element-beta-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datasource/datasource-beta-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datatable/datatable-beta-min.js"></script>
+
+<!--my yui grid render-->
+<script type="text/javascript" src="/jscripts/imagelist.grid.js"></script>
+<script type="text/javascript" src="/jscripts/taglist.grid.js"></script>
+<script type="text/javascript" src="/jscripts/archivelist.grid.js"></script>
+
+<div class="yui-g">
+<div id="admincontainer" class=" yui-skin-sam">
+<script>
+    var handleFailure = function(o) {
+        if (o.responseText !== undefined) {
+            alert("Client RPC Request Error, please retry.");
+        }
+    }
+</script>
+<fieldset>
+    <legend>Uploaded Images Admin</legend>
+    <div class="fieldsetdiv">
+        Image List:
+        <div id="imagediv">
+        <table id="imagetable">
+            <tr>
+                <th>Images</th>
+                <th>URL</th>
+                <th>Date</th>
+                <th> &nbsp;</th>
+            </tr>
+            {% for entry in images %}
+            <tr>
+                <td>{{entry.title}}</td>
+                <td><a href="{{BLOG.root_url}}/rpc/img?img_id={{entry.key}}" target="_blank">{{BLOG.root_url}}/rpc/img?img_id={{entry.key}}</a></td>
+                <td>{{entry.date|date:"m/d/y"}}</td>
+                <td>
+                    <a href="{{entry.full_permalink}}" target="_blank">{{entry.full_permalink}}</a>
+                </td>
+                <td>
+                    <a href='/editBlog?blogId={{entry.key.id}}' target="_blank">edit</a> &nbsp;
+                    <a href='/deleteBlog?blogId={{entry.key.id}}' target="_blank">delete</a>
+                </td>
+            </tr>
+            {% endfor%}
+        </table>
+        </div>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Tag Admin</legend>
+    <div class="fieldsetdiv">
+        Tag List:
+            <div id="tagdiv">
+            <table id="tagtable">
+                <thead><tr>
+                    <th>Title</th>
+                    <th>Permalink</th>
+                    <th>Target</th>
+                    <th>Order</th>
+                    <th>Valid</th>
+                    <th>Id</th>
+                    <th>Delete</th>
+                    <th>Add</th>
+                </tr></thead>
+                <tbody>
+                {% for entry in menus %}
+                <tr id="menu_{{entry.key.id}}">
+                    <td>{{entry.title}}</td>
+                    <td>{{entry.permalink}}</td>
+                    <td>{{entry.target}}</td>
+                    <td>{{entry.order}}</td>
+                    <td>{{entry.valid}}</td>
+                    <td>{{entry.key.id}}</td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                {% endfor%}
+                </tbody>
+            </table>
+            </div>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Archive Admin</legend>
+    <div class="fieldsetdiv">
+        Archive List:
+        <div id="archivediv">
+        <table id="archivetable">
+            <thead><tr>
+                <th>Picasaweb</th>
+                <th>Owner</th>
+                <th>Type</th>
+                <th>Access</th>
+                <th>Valid</th>
+                <th>Id</th>
+                <th></th>
+                <th></th>
+            </tr></thead>
+            <tbody>
+            {% for album in albums %}
+            <tr>
+                <td>{{album.album_username}}</td>
+                <td>{{album.owner.email}}</td>
+                <td>{{album.album_type}}</td>
+                <td>{{album.access}}</td>
+                <td>{{album.valid}}</td>
+                <td>{{album.key.id}}</td>
+                <td> </td>
+                <td> </td>
+            </tr>
+            {% endfor%}
+            </tbody>
+        </table>
+       </div>
+    </div>
+</fieldset>
+</div>
+</div>
+{% endblock %}
+

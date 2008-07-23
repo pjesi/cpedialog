@@ -225,14 +225,17 @@ def getDeliciousTag(username):
     except Exception:
         tags = None
     if tags is None:
-        url = "http://del.icio.us/feeds/json/tags/%s?raw" % username
-        result = urlfetch.fetch(url)
-        tags = []
-        if result.status_code == 200:
-            objs = eval(result.content)
-            for obj in objs:
-                tags.append(Tag(tag=obj,entrycount = int(objs[obj])))
-        memcache.add(key=key_, value=tags, time=3600)
+        try:
+            url = "http://del.icio.us/feeds/json/tags/%s?raw" % username
+            result = urlfetch.fetch(url)
+            tags = []
+            if result.status_code == 200:
+                objs = eval(result.content)
+                for obj in objs:
+                    tags.append(Tag(tag=obj,entrycount = int(objs[obj])))
+            memcache.add(key=key_, value=tags, time=3600)
+        except Exception:
+            pass            
     else:
         logging.debug("getDeliciousTag from cache. ")
     return tags
