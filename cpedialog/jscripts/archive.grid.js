@@ -1,9 +1,8 @@
 YAHOO.util.Event.addListener(window, "load", function() {
     EnhanceFromMarkup = new function() {
         var myColumnDefs = [
-            {key:"image",label:"Image",sortable:true},
-            {key:"url",label:"URL"},
-            {key:"date",label:"Date",sortable:true,formatter:YAHOO.widget.DataTable.formatDate},
+            {key:"monthyear",label:"Month Year",sortable:true},
+            {key:"entrycount",sortable:true,label:"Entry count"},
             {key:"id",label:"Id",sortable:true,isPrimaryKey:true},
             {key:"delete",label:"",action:'delete',formatter:function(elCell) {
                 elCell.innerHTML = '<img src="/img/delete.gif" title="delete row" />';
@@ -13,12 +12,11 @@ YAHOO.util.Event.addListener(window, "load", function() {
         this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("albumtable"));
         this.myDataSource.responseType = YAHOO.util.DataSource.TYPE_HTMLTABLE;
         this.myDataSource.responseSchema = {
-            fields: [{key:"image"},{key:"url"},
-                {key:"date"}, {key:"id"}, {key:"delete"}
+            fields: [{key:"tag"},{key:"entrycount"}, {key:"id"}, {key:"delete"}
             ]
         };
-        this.myDataTable = new YAHOO.widget.DataTable("imagediv", myColumnDefs, this.myDataSource,
-           { sortedBy:{key:"date",dir:"desc"}});
+        this.myDataTable = new YAHOO.widget.DataTable("archivediv", myColumnDefs, this.myDataSource,
+           { sortedBy:{key:"monthyear",dir:"desc"}});
 
         // Set up editing flow
         this.highlightEditableCell = function(oArgs) {
@@ -46,9 +44,9 @@ YAHOO.util.Event.addListener(window, "load", function() {
             var target = YAHOO.util.Event.getTarget(ev);
             var column = this.getColumn(target);
             if (column.action == 'delete') {
-                if (confirm('Are you sure to delete the image?')) {
+                if (confirm('Are you sure to delete the archive (no article will be deleted.) ?')) {
                     var record = this.getRecord(target);
-                    YAHOO.util.Connect.asyncRequest('POST','/rpc?action=DeleteImage' + myBuildUrl(this,record),
+                    YAHOO.util.Connect.asyncRequest('POST','/rpc?action=DeleteArchive' + myBuildUrl(this,record),
                     {
                         success: function (o) {
                             if (o.responseText == 'true') {
