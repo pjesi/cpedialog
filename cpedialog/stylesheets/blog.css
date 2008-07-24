@@ -38,6 +38,7 @@ dt {font:bold}
 .fieldsetcomment{font: 0.8em Georgia, "Times New Roman", serif,italic;}
 #admincontainer th,#admincontainer td {border:1px solid #cccccc;padding:.4em!important;}
 #admincontainer th {font-weight:bold!important;text-align:center!important;}
+#imagetable .thumbnail{background:white none repeat scroll 0% 0%;border:1px solid #CCCCCC;padding:0;}
 
 .post {PADDING-RIGHT: 10px; PADDING-LEFT: 10px; margin-bottom:10px;border-bottom: 1px dotted #cccccc;}
 .post-title {font: 1.6em Georgia, Times, serif;MARGIN: 1em 0px 0.25em;text-transform: none; letter-spacing: 1px;}

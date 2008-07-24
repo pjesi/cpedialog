@@ -40,26 +40,23 @@
         Image List:
         <div id="imagediv">
         <table id="imagetable">
-            <tr>
-                <th>Images</th>
+            <thead><tr>
+                <th>Image</th>
                 <th>URL</th>
                 <th>Date</th>
-                <th> &nbsp;</th>
-            </tr>
+                <th>ID</th>
+                <th>Delete</th>
+            </tr></thead>
+            <tbody>
             {% for entry in images %}
             <tr>
-                <td>{{entry.title}}</td>
+                <td><img src="/rpc/img?img_id={{entry.key}}" class="thumbnail"></td>
                 <td><a href="{{BLOG.root_url}}/rpc/img?img_id={{entry.key}}" target="_blank">{{BLOG.root_url}}/rpc/img?img_id={{entry.key}}</a></td>
                 <td>{{entry.date|date:"m/d/y"}}</td>
-                <td>
-                    <a href="{{entry.full_permalink}}" target="_blank">{{entry.full_permalink}}</a>
-                </td>
-                <td>
-                    <a href='/editBlog?blogId={{entry.key.id}}' target="_blank">edit</a> &nbsp;
-                    <a href='/deleteBlog?blogId={{entry.key.id}}' target="_blank">delete</a>
-                </td>
+                <td></td>
             </tr>
             {% endfor%}
+            </tbody>
         </table>
         </div>
     </div>
@@ -71,24 +68,20 @@
             <div id="tagdiv">
             <table id="tagtable">
                 <thead><tr>
-                    <th>Title</th>
-                    <th>Permalink</th>
-                    <th>Target</th>
-                    <th>Order</th>
+                    <th>Tag</th>
+                    <th>Entry count</th>
                     <th>Valid</th>
-                    <th>Id</th>
+                    <th>ID</th>
                     <th>Delete</th>
-                    <th>Add</th>
+                    <th>Refresh entry count</th>
                 </tr></thead>
                 <tbody>
-                {% for entry in menus %}
+                {% for tag in tags %}
                 <tr id="menu_{{entry.key.id}}">
-                    <td>{{entry.title}}</td>
-                    <td>{{entry.permalink}}</td>
-                    <td>{{entry.target}}</td>
-                    <td>{{entry.order}}</td>
-                    <td>{{entry.valid}}</td>
-                    <td>{{entry.key.id}}</td>
+                    <td>{{tag.tag}}</td>
+                    <td>{{tag.entrycount}}</td>
+                    <td>{{tag.valid}}</td>
+                    <td>{{tag.key.id}}</td>
                     <td> </td>
                     <td> </td>
                 </tr>
@@ -105,24 +98,18 @@
         <div id="archivediv">
         <table id="archivetable">
             <thead><tr>
-                <th>Picasaweb</th>
-                <th>Owner</th>
-                <th>Type</th>
-                <th>Access</th>
-                <th>Valid</th>
+                <th>Month Year</th>
+                <th>Entry count</th>
                 <th>Id</th>
-                <th></th>
-                <th></th>
+                <th>Delete</th>
+                <th>Refresh entry count</th>
             </tr></thead>
             <tbody>
-            {% for album in albums %}
+            {% for archive in archives %}
             <tr>
-                <td>{{album.album_username}}</td>
-                <td>{{album.owner.email}}</td>
-                <td>{{album.album_type}}</td>
-                <td>{{album.access}}</td>
-                <td>{{album.valid}}</td>
-                <td>{{album.key.id}}</td>
+                <td>{{archive.monthyear}}</td>
+                <td>{{archive.weblogcount}}</td>
+                <td>{{archive.key.id}}</td>
                 <td> </td>
                 <td> </td>
             </tr>
