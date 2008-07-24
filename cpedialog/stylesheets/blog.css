@@ -95,9 +95,9 @@ dt {font:bold}
 
 #albumsdiv{border: 1px #000000 solid;padding-bottom: 40px; padding-top: 10px;}
 #albuminfo{padding-left:20px}
-#albums{margin:auto;text-align:center;padding-left:20px}
+#albums{margin:auto;text-align:center;padding-left:20px;padding-top:10px}
 #albums td {padding:3px 2px;text-align:center;vertical-align:middle;width:150px;}
-#albums img {background:white none repeat scroll 0% 0%;border:1px solid #CCCCCC;padding:6px;}
+#albumsTable img {background:white none repeat scroll 0% 0%;border:1px solid #CCCCCC;padding:6px;}
 #albums a {color:#3B5998;cursor:pointer;text-decoration:none;border-bottom:none!important;}
 #albums a, #albums a:hover, #albums a:link, #albums a:visited {border:none !important;background-color: inherit!important;border-bottom:none!important;}
 
