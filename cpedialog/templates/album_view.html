@@ -22,18 +22,28 @@
           {% endif %}
         <p>
     <div id="albums">
-        {% for photo in photos %}
+    <table cellspacing="0" border="0">
+    {% for photo in photos %}
+        {% if forloop.counter0|divisibleby:"4"  or forloop.first %}
+        <tr>
+        {% endif %}
+
+        <td>
              {% for thumbnail in photo.media.thumbnail%}
-             {% ifequal forloop.counter 2 %}
-        <div class="photo_thumbnail" width="{{thumbnail.width}}" height="{{thumbnail.height}}">
-            {#<!--<a href="/albums/{{username}}/{{album_name}}/{{photo.gphoto_id.text}}">-->#}
-            <a href="{{photo.content.src}}?imgmax=800" rel="lightbox[roadtrip]" onFocus='this.blur()'>
-                <img src="{{thumbnail.url}}" style="border:1px #000000 solid;"/>
-            </a>
-        </div>
-    {% endifequal %}
+                 {% ifequal forloop.counter 2 %}
+                 <a href="{{photo.content.src}}?imgmax=800" rel="lightbox[roadtrip]" onFocus='this.blur()'>
+                    <img src="{{thumbnail.url}}" onmouseover="{this.style.border='1px solid #000066'}" onmouseout="{this.style.border='1px solid #CCCCCC'}"/>
+                 </a>
+                 {% endifequal %}
              {% endfor %}
-        {% endfor %}
+        </td>
+
+        {% if forloop.counter|divisibleby:"4" or forloop.last%}
+          </tr>
+        {% endif %}
+
+    {% endfor %}
+    </table>
     </div>
 </div>
 {% endblock %}
