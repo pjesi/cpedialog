@@ -193,6 +193,7 @@ class RPCHandler(webapp.RequestHandler):
           image["date"] = image["date"].strftime('%m/%d/%y')
           image['id'] = str(image.key().id())
           images+=[image]
+      totalRecords = query.Count
       returnValue = {"records":images,"totalRecords":1000,"startIndex":0}    
       return images
 
