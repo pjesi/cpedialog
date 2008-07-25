@@ -23,7 +23,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag
 import authorized
 import view
 import config
@@ -63,11 +63,11 @@ class MainPage(BaseRequestHandler):
 class AdminMorePage(BaseRequestHandler):
   @authorized.role('admin')
   def get(self):
-        images = Images.all().order('-date')
-        tags = Tag.all().order('-date')
+        #images = Images.all().order('-date')
+        tags = Tag.all().order('-entrycount')
         archives = Archive.all().order('-date')
         template_values = {
-          'images':images,
+          #'images':images,
           'tags':tags,
           'archives':archives,
           }

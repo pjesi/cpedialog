@@ -4,19 +4,22 @@ YAHOO.util.Event.addListener(window, "load", function() {
             {key:"monthyear",label:"Month Year",sortable:true},
             {key:"entrycount",sortable:true,label:"Entry count"},
             {key:"id",label:"Id",sortable:true,isPrimaryKey:true},
-            {key:"delete",label:"",action:'delete',formatter:function(elCell) {
+            {key:"delete",label:"Delete",action:'delete',formatter:function(elCell) {
                 elCell.innerHTML = '<img src="/img/delete.gif" title="delete row" />';
+                elCell.style.cursor = 'pointer';}},
+            {key:"refreshcount",label:"Refresh entry count",action:'refresh',formatter:function(elCell) {
+                elCell.innerHTML = 'refresh';
                 elCell.style.cursor = 'pointer';}}
         ];
 
-        this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("albumtable"));
+        this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("archivetable"));
         this.myDataSource.responseType = YAHOO.util.DataSource.TYPE_HTMLTABLE;
         this.myDataSource.responseSchema = {
-            fields: [{key:"tag"},{key:"entrycount"}, {key:"id"}, {key:"delete"}
+            fields: [{key:"tag"},{key:"entrycount"}, {key:"id"}, {key:"delete"}, {key:"refreshcount"}
             ]
         };
         this.myDataTable = new YAHOO.widget.DataTable("archivediv", myColumnDefs, this.myDataSource,
-           { sortedBy:{key:"monthyear",dir:"desc"}});
+           { sortedBy:{key:"entrycount",dir:"desc"}});
 
         // Set up editing flow
         this.highlightEditableCell = function(oArgs) {

@@ -14,10 +14,11 @@ from google.appengine.api import memcache
 from google.appengine.api import images
 from google.appengine.ext import db
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag
 
 import authorized
 import util
+import config
 
 class Image (webapp.RequestHandler):
   def get(self):
@@ -179,3 +180,24 @@ class RPCHandler(webapp.RequestHandler):
       util.flushAlbumList()
       return True
 
+  #for uploaded images files management.
+  @authorized.role('admin')
+  def GetImages(self,startIndex,results):
+      query = datastore.Query('Images')
+      images = []
+      for image in query.Get(results,startIndex):
+          image['uploader'] = image['uploader'].email()
+          image['image'] = "/rpc/img?img_id="+str(image.key())
+          image['url'] =  config.blog['root_url']+"/rpc/img?img_id="+str(image.key())
+          image['key'] = str(image.key())
+          image["date"] = image["date"].strftime('%m/%d/%y')
+          image['id'] = str(image.key().id())
+          images+=[image]
+      returnValue = {"records":images,"totalRecords":1000,"startIndex":0}    
+      return images
+
+  @authorized.role('user')
+  def DeleteImage(self,request):
+      image = Images.get_by_id(int(request.get("id")))
+      image.delete()
+      return True

@@ -5,16 +5,19 @@ YAHOO.util.Event.addListener(window, "load", function() {
             {key:"entrycount",sortable:true,label:"Entry count"},
             {key:"valid",label:"Valid",sortable:true},
             {key:"id",label:"Id",sortable:true,isPrimaryKey:true},
-            {key:"delete",label:"",action:'delete',formatter:function(elCell) {
+            {key:"delete",label:"Delete",action:'delete',formatter:function(elCell) {
                 elCell.innerHTML = '<img src="/img/delete.gif" title="delete row" />';
+                elCell.style.cursor = 'pointer';}},
+            {key:"refreshcount",label:"Refresh entry count",action:'refresh',formatter:function(elCell) {
+                elCell.innerHTML = 'Refresh';
                 elCell.style.cursor = 'pointer';}}
         ];
 
-        this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("albumtable"));
+        this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("tagtable"));
         this.myDataSource.responseType = YAHOO.util.DataSource.TYPE_HTMLTABLE;
         this.myDataSource.responseSchema = {
             fields: [{key:"tag"},{key:"entrycount"},
-                {key:"valid"}, {key:"id"}, {key:"delete"}
+                {key:"valid"}, {key:"id"}, {key:"delete"}, {key:"refreshcount"}
             ]
         };
         this.myDataTable = new YAHOO.widget.DataTable("tagdiv", myColumnDefs, this.myDataSource,

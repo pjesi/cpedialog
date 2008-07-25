@@ -38,27 +38,9 @@
     <legend>Uploaded Images Admin</legend>
     <div class="fieldsetdiv">
         Image List:
-        <div id="imagediv">
-        <table id="imagetable">
-            <thead><tr>
-                <th>Image</th>
-                <th>URL</th>
-                <th>Date</th>
-                <th>ID</th>
-                <th>Delete</th>
-            </tr></thead>
-            <tbody>
-            {% for entry in images %}
-            <tr>
-                <td><img src="/rpc/img?img_id={{entry.key}}" class="thumbnail"></td>
-                <td><a href="{{BLOG.root_url}}/rpc/img?img_id={{entry.key}}" target="_blank">{{BLOG.root_url}}/rpc/img?img_id={{entry.key}}</a></td>
-                <td>{{entry.date|date:"m/d/y"}}</td>
-                <td>{{entry.key.id}}</td>
-                <td></td>
-            </tr>
-            {% endfor%}
-            </tbody>
-        </table>
+        <div>
+        <div id="paging"></div>
+        <div id="imagediv"></div>
         </div>
     </div>
 </fieldset>
