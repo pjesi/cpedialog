@@ -1,25 +1,52 @@
 YAHOO.util.Event.addListener(window, "load", function() {
     EnhanceFromMarkup = new function() {
+        var DataTable  = YAHOO.widget.DataTable,
+            Paginator  = YAHOO.widget.Paginator;
+
+        var buildQueryString = function (state,dt) {
+            return "&arg0=" + state.pagination.recordOffset +
+                   "&arg1=" + state.pagination.rowsPerPage+ '&time='+ new Date().getTime();
+        };
+
+        var myPaginator = new Paginator({
+            containers         : ['archive_paging'],
+            pageLinks          : 5,
+            rowsPerPage        : 10,
+            rowsPerPageOptions : [10,20,30],
+            template           : "<strong>{CurrentPageReport}</strong> {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+        });
+
+        var myTableConfig = {
+            initialRequest         : '&arg0=0&arg1=10&time='+ new Date().getTime(),  //'startIndex=0&results=25'
+            generateRequest        : buildQueryString,
+            paginationEventHandler : DataTable.handleDataSourcePagination,
+            paginator              : myPaginator,
+            sortedBy               :{key:"date",dir:"desc"}
+        };
         var myColumnDefs = [
             {key:"monthyear",label:"Month Year",sortable:true},
-            {key:"entrycount",sortable:true,label:"Entry count"},
+            {key:"date",label:"Date",sortable:true,formatter:YAHOO.widget.DataTable.formatDate},
+            {key:"weblogcount",sortable:true,label:"Blog count"},
             {key:"id",label:"Id",sortable:true,isPrimaryKey:true},
             {key:"delete",label:"Delete",action:'delete',formatter:function(elCell) {
                 elCell.innerHTML = '<img src="/img/delete.gif" title="delete row" />';
                 elCell.style.cursor = 'pointer';}},
             {key:"refreshcount",label:"Refresh entry count",action:'refresh',formatter:function(elCell) {
-                elCell.innerHTML = 'refresh';
+                elCell.innerHTML = 'Refresh';
                 elCell.style.cursor = 'pointer';}}
         ];
 
-        this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("archivetable"));
-        this.myDataSource.responseType = YAHOO.util.DataSource.TYPE_HTMLTABLE;
+        this.myDataSource = new YAHOO.util.DataSource('/rpc?action=GetArchives');
+        this.myDataSource.responseType   = YAHOO.util.DataSource.TYPE_JSON;
         this.myDataSource.responseSchema = {
-            fields: [{key:"tag"},{key:"entrycount"}, {key:"id"}, {key:"delete"}, {key:"refreshcount"}
-            ]
+            resultsList : 'records',
+            fields: [{key:"monthyear"},{key:"date"},{key:"weblogcount"}, {key:"id"}, {key:"delete"}, {key:"refreshcount"}],
+            metaFields : {
+             totalRecords:'totalRecords',
+             recordStartIndex:'startIndex'
+            }
         };
-        this.myDataTable = new YAHOO.widget.DataTable("archivediv", myColumnDefs, this.myDataSource,
-           { sortedBy:{key:"entrycount",dir:"desc"}});
+        this.myDataTable = new YAHOO.widget.DataTable("archivediv", myColumnDefs, this.myDataSource,myTableConfig);
 
         // Set up editing flow
         this.highlightEditableCell = function(oArgs) {

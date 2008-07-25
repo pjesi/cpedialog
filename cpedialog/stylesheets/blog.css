@@ -7,7 +7,7 @@ h4 {font: bolder 1.1em Verdana, Arial, "Times New Roman", serif; color:#000000}
 h5 {font: bolder .83em Verdana, Arial, "Times New Roman", serif; color:#000000}
 h6 {font: bolder .75em Verdana, Arial, "Times New Roman", serif; color:#000000}
 
-a {text-decoration: none;}
+a {text-decoration: none; outline:none;}
 a:link, a:visited {color: #555; border-bottom: 1px solid #555;}
 html body a:hover {color: #000; background-color: #F4F2E4; border-bottom: 1px solid #9A8E51;}
 
@@ -39,6 +39,8 @@ dt {font:bold}
 #admincontainer th,#admincontainer td {border:1px solid #cccccc;padding:.4em!important;}
 #admincontainer th {font-weight:bold!important;text-align:center!important;}
 #imagetable .thumbnail{background:white none repeat scroll 0% 0%;border:1px solid #CCCCCC;padding:0;}
+#adminmenu{padding-bottom:20px;font: 1.5em Georgia, "Times New Roman", serif;border-top:1px solid #CCCCCC}
+#adminmenu a{border:1px solid #CCCCCC;padding:5px}
 
 .post {PADDING-RIGHT: 10px; PADDING-LEFT: 10px; margin-bottom:10px;border-bottom: 1px dotted #cccccc;}
 .post-title {font: 1.6em Georgia, Times, serif;MARGIN: 1em 0px 0.25em;text-transform: none; letter-spacing: 1px;}

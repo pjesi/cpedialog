@@ -34,6 +34,11 @@
         }
     }
 </script>
+    
+    <div id="adminmenu">
+        <a href="/admin">System Configuration</a>  <a href="/admin/more">Resource Management</a>
+    </div>
+
 <fieldset>
     <legend>Uploaded Images Admin</legend>
     <div class="fieldsetdiv">
@@ -48,29 +53,9 @@
     <legend>Tag Admin</legend>
     <div class="fieldsetdiv">
         Tag List:
-            <div id="tagdiv">
-            <table id="tagtable">
-                <thead><tr>
-                    <th>Tag</th>
-                    <th>Entry count</th>
-                    <th>Valid</th>
-                    <th>ID</th>
-                    <th>Delete</th>
-                    <th>Refresh entry count</th>
-                </tr></thead>
-                <tbody>
-                {% for tag in tags %}
-                <tr id="menu_{{entry.key.id}}">
-                    <td>{{tag.tag}}</td>
-                    <td>{{tag.entrycount}}</td>
-                    <td>{{tag.valid}}</td>
-                    <td>{{tag.key.id}}</td>
-                    <td> </td>
-                    <td> </td>
-                </tr>
-                {% endfor%}
-                </tbody>
-            </table>
+            <div>
+            <div id="tag_paging"></div>
+            <div id="tagdiv"></div>
             </div>
     </div>
 </fieldset>
@@ -78,28 +63,10 @@
     <legend>Archive Admin</legend>
     <div class="fieldsetdiv">
         Archive List:
-        <div id="archivediv">
-        <table id="archivetable">
-            <thead><tr>
-                <th>Month Year</th>
-                <th>Entry count</th>
-                <th>Id</th>
-                <th>Delete</th>
-                <th>Refresh entry count</th>
-            </tr></thead>
-            <tbody>
-            {% for archive in archives %}
-            <tr>
-                <td>{{archive.monthyear}}</td>
-                <td>{{archive.weblogcount}}</td>
-                <td>{{archive.key.id}}</td>
-                <td> </td>
-                <td> </td>
-            </tr>
-            {% endfor%}
-            </tbody>
-        </table>
-       </div>
+        <div>
+        <div id="archive_paging"></div>        
+        <div id="archivediv"></div>
+        </div>
     </div>
 </fieldset>
 </div>

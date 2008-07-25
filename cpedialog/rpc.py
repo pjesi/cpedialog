@@ -62,7 +62,7 @@ class RPCHandler(webapp.RequestHandler):
       else:
         break;
     result = getattr(self, action)(*args)
-    self.response.out.write(simplejson.dumps(result))
+    self.response.out.write(simplejson.dumps((result)))
 
   def post(self):
     action = self.request.get('action')
@@ -193,12 +193,52 @@ class RPCHandler(webapp.RequestHandler):
           image["date"] = image["date"].strftime('%m/%d/%y')
           image['id'] = str(image.key().id())
           images+=[image]
-      totalRecords = query.Count
-      returnValue = {"records":images,"totalRecords":1000,"startIndex":0}    
-      return images
+      totalRecords = query.Count()
+      returnValue = {"records":images,"totalRecords":totalRecords,"startIndex":startIndex}    
+      return returnValue
 
   @authorized.role('user')
   def DeleteImage(self,request):
       image = Images.get_by_id(int(request.get("id")))
       image.delete()
+      return True
+
+
+  #for tags management.
+  @authorized.role('admin')
+  def GetTags(self,startIndex,results):
+      query = datastore.Query('Tag')
+      tags = []
+      for tag in query.Get(results,startIndex):
+          tag['key'] = str(tag.key())
+          tag['id'] = str(tag.key().id())
+          tags+=[tag]
+      totalRecords = query.Count()
+      returnValue = {"records":tags,"totalRecords":totalRecords,"startIndex":startIndex}
+      return returnValue
+
+  @authorized.role('user')
+  def DeleteTag(self,request):
+      tag = Tag.get_by_id(int(request.get("id")))
+      tag.delete()
+      return True
+
+  #for archive management.
+  @authorized.role('admin')
+  def GetArchives(self,startIndex,results):
+      query = datastore.Query('Archive').Order(('date',datastore.Query.DESCENDING))  #the parameter must be list.
+      archives = []
+      for archive in query.Get(results,startIndex):
+          archive['key'] = str(archive.key())
+          archive['id'] = str(archive.key().id())
+          archive["date"] = archive["date"].strftime('%m/%d/%y')
+          archives+=[archive]
+      totalRecords = query.Count()
+      returnValue = {"records":archives,"totalRecords":totalRecords,"startIndex":startIndex}
+      return returnValue
+
+  @authorized.role('user')
+  def DeleteArchive(self,request):
+      archive = Archive.get_by_id(int(request.get("id")))
+      archive.delete()
       return True

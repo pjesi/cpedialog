@@ -136,8 +136,8 @@ Lightbox.prototype = {
                 Builder.node('div',{id:'imageContainer'}, [
                     Builder.node('img',{id:'lightboxImage'}), 
                     Builder.node('div',{id:'hoverNav'}, [
-                        Builder.node('a',{id:'prevLink', href: '#' }),
-                        Builder.node('a',{id:'nextLink', href: '#' })
+                        Builder.node('a',{id:'prevLink', href: '#', onFocus:'this.blur()' }),
+                        Builder.node('a',{id:'nextLink', href: '#', onFocus:'this.blur()' })
                     ]),
                     Builder.node('div',{id:'loading'}, 
                         Builder.node('a',{id:'loadingLink', href: '#' }, 

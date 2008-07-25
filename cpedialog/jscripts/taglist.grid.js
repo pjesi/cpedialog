@@ -1,8 +1,31 @@
 YAHOO.util.Event.addListener(window, "load", function() {
     EnhanceFromMarkup = new function() {
+        var DataTable  = YAHOO.widget.DataTable,
+            Paginator  = YAHOO.widget.Paginator;
+
+        var buildQueryString = function (state,dt) {
+            return "&arg0=" + state.pagination.recordOffset +
+                   "&arg1=" + state.pagination.rowsPerPage+ '&time='+ new Date().getTime();
+        };
+
+        var myPaginator = new Paginator({
+            containers         : ['tag_paging'],
+            pageLinks          : 5,
+            rowsPerPage        : 10,
+            rowsPerPageOptions : [10,20,30],
+            template           : "<strong>{CurrentPageReport}</strong> {PreviousPageLink} {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+        });
+
+        var myTableConfig = {
+            initialRequest         : '&arg0=0&arg1=10&time='+ new Date().getTime(),  //'startIndex=0&results=25'
+            generateRequest        : buildQueryString,
+            paginationEventHandler : DataTable.handleDataSourcePagination,
+            paginator              : myPaginator,
+            sortedBy               :{key:"entrycount",dir:"desc"}
+        };
         var myColumnDefs = [
             {key:"tag",label:"Tag",sortable:true},
-            {key:"entrycount",sortable:true,label:"Entry count"},
+            {key:"entrycount",sortable:true,label:"Count"},
             {key:"valid",label:"Valid",sortable:true},
             {key:"id",label:"Id",sortable:true,isPrimaryKey:true},
             {key:"delete",label:"Delete",action:'delete',formatter:function(elCell) {
@@ -13,15 +36,19 @@ YAHOO.util.Event.addListener(window, "load", function() {
                 elCell.style.cursor = 'pointer';}}
         ];
 
-        this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("tagtable"));
-        this.myDataSource.responseType = YAHOO.util.DataSource.TYPE_HTMLTABLE;
+        this.myDataSource = new YAHOO.util.DataSource('/rpc?action=GetTags');
+        this.myDataSource.responseType   = YAHOO.util.DataSource.TYPE_JSON;
         this.myDataSource.responseSchema = {
+            resultsList : 'records',
             fields: [{key:"tag"},{key:"entrycount"},
                 {key:"valid"}, {key:"id"}, {key:"delete"}, {key:"refreshcount"}
-            ]
+            ],
+            metaFields : {
+             totalRecords:'totalRecords',
+             recordStartIndex:'startIndex'
+        }
         };
-        this.myDataTable = new YAHOO.widget.DataTable("tagdiv", myColumnDefs, this.myDataSource,
-           { sortedBy:{key:"entrycount",dir:"desc"}});
+        this.myDataTable = new YAHOO.widget.DataTable("tagdiv", myColumnDefs, this.myDataSource,myTableConfig);
 
         // Set up editing flow
         this.highlightEditableCell = function(oArgs) {
