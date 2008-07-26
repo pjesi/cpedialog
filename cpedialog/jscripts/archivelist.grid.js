@@ -31,8 +31,8 @@ YAHOO.util.Event.addListener(window, "load", function() {
             {key:"delete",label:"Delete",action:'delete',formatter:function(elCell) {
                 elCell.innerHTML = '<img src="/img/delete.gif" title="delete row" />';
                 elCell.style.cursor = 'pointer';}},
-            {key:"refreshcount",label:"Refresh entry count",action:'refresh',formatter:function(elCell) {
-                elCell.innerHTML = 'Refresh';
+            {key:"refreshcount",label:"Refresh",action:'refresh',formatter:function(elCell) {
+                elCell.innerHTML = '<img src="/img/refresh.png" title="refresh entry count row" />';
                 elCell.style.cursor = 'pointer';}}
         ];
 
@@ -74,13 +74,33 @@ YAHOO.util.Event.addListener(window, "load", function() {
             var target = YAHOO.util.Event.getTarget(ev);
             var column = this.getColumn(target);
             if (column.action == 'delete') {
-                if (confirm('Are you sure to delete the archive (no article will be deleted.) ?')) {
+                if (confirm("Are you sure to delete the archive (no article will be deleted.) ?")) {
                     var record = this.getRecord(target);
                     YAHOO.util.Connect.asyncRequest('POST','/rpc?action=DeleteArchive' + myBuildUrl(this,record),
                     {
                         success: function (o) {
                             if (o.responseText == 'true') {
                                 this.deleteRow(target);
+                            } else {
+                                alert(o.responseText);
+                            }
+                        },
+                        failure: function (o) {
+                            alert(o.statusText);
+                        },
+                        scope:this
+                    }
+                            );
+                }
+            }else if (column.action =='refresh') {
+                if (confirm("Are you sure to refresh the entry count of this archive?")) {
+                    var record = this.getRecord(target);
+                    YAHOO.util.Connect.asyncRequest('POST','/rpc?action=RefreshArchive' + myBuildUrl(this,record),
+                    {
+                        success: function (o) {
+                            if (o.responseText == 'true') {
+                                //this.deleteRow(target);
+                                
                             } else {
                                 alert(o.responseText);
                             }

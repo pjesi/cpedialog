@@ -54,7 +54,7 @@ a:hover .p_redirect {
 }
 
 /* Start Tag Cloud CSS */
-.cloud {padding:1px; line-height:1.8em;text-align:center;}
+.cloud {padding:1px; line-height:150%;text-align:justify;}
 .cloud a {text-decoration:none;padding:0px;}
 a.tag1 { font-size: 0.7em; font-weight: 100; }
 a.tag2, a.tag3 { font-size: 0.8em; font-weight: 200; }

@@ -180,8 +180,8 @@ class Images(db.Model):
 
 class DeliciousPost(object):
     def __init__(self, item):
-        self.link = utf8(item["u"])
-        self.title = utf8(item["d"])
+        self.link = item["u"]
+        self.title = item["d"]
         self.description = utf8(item.get("n", ""))
         self.tags = map(utf8, item["t"])        
 

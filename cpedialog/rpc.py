@@ -197,7 +197,7 @@ class RPCHandler(webapp.RequestHandler):
       returnValue = {"records":images,"totalRecords":totalRecords,"startIndex":startIndex}    
       return returnValue
 
-  @authorized.role('user')
+  @authorized.role('admin')
   def DeleteImage(self,request):
       image = Images.get_by_id(int(request.get("id")))
       image.delete()
@@ -217,10 +217,19 @@ class RPCHandler(webapp.RequestHandler):
       returnValue = {"records":tags,"totalRecords":totalRecords,"startIndex":startIndex}
       return returnValue
 
-  @authorized.role('user')
+  @authorized.role('admin')
   def DeleteTag(self,request):
       tag = Tag.get_by_id(int(request.get("id")))
       tag.delete()
+      return True
+
+  @authorized.role('admin')
+  def RefreshTag(self,request):
+      tag = Tag.get_by_id(int(request.get("id")))
+      query = Weblog.all().filter('tags', tag.tag)
+      if query:
+          tag.entrycount = query.count()
+          tag.put()
       return True
 
   #for archive management.
@@ -237,8 +246,18 @@ class RPCHandler(webapp.RequestHandler):
       returnValue = {"records":archives,"totalRecords":totalRecords,"startIndex":startIndex}
       return returnValue
 
-  @authorized.role('user')
+  @authorized.role('admin')
   def DeleteArchive(self,request):
       archive = Archive.get_by_id(int(request.get("id")))
       archive.delete()
       return True
+
+  @authorized.role('admin')
+  def RefreshArchive(self,request):
+      archive = Archive.get_by_id(int(request.get("id")))
+      query = db.GqlQuery("select * from Weblog where monthyear=:1 and entrytype = 'post'order by date desc",archive.monthyear)
+      if query:
+          archive.weblogcount = query.count()
+          archive.put()
+      return True
+
