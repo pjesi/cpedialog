@@ -98,12 +98,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
                     YAHOO.util.Connect.asyncRequest('POST','/rpc?action=RefreshArchive' + myBuildUrl(this,record),
                     {
                         success: function (o) {
-                            if (o.responseText == 'true') {
-                                //this.deleteRow(target);
-                                
-                            } else {
-                                alert(o.responseText);
-                            }
+                             //todo: refresh the select row.
                         },
                         failure: function (o) {
                             alert(o.statusText);

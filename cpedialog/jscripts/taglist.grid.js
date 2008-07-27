@@ -100,11 +100,8 @@ YAHOO.util.Event.addListener(window, "load", function() {
                     YAHOO.util.Connect.asyncRequest('POST','/rpc?action=RefreshTag' + myBuildUrl(this,record),
                     {
                         success: function (o) {
-                            if (o.responseText == 'true') {
-                                //this.deleteRow(target);
-                            } else {
-                                alert(o.responseText);
-                            }
+                            //todo: refresh the select row.
+                            //this.render();
                         },
                         failure: function (o) {
                             alert(o.statusText);

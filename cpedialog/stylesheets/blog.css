@@ -66,7 +66,8 @@ dt {font:bold}
 #sidebar li a:link, #sidebar li a:visited {padding-left: 12px;border-bottom:none}
 #sidebar p {font-size: 0.85em; margin-top: 0.25em;}
 #login UL, #favourite_ebook UL , #favourite_site UL {MARGIN: 0px 0px 1.5em; LIST-STYLE-TYPE: none}
-#login UL LI, #favourite_ebook UL LI, #favourite_site UL LI {PADDING-RIGHT: 0px; PADDING-LEFT: 10px; BACKGROUND: url(/img/bullet.gif) no-repeat 0px 0.5em; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0.5em; PADDING-TOP: 0px}
+#login UL LI, #favourite_ebook UL LI, #favourite_site UL LI {PADDING-RIGHT: 0px; PADDING-LEFT: 5px; BACKGROUND: url(/img/bullet.gif) no-repeat 0px 0.5em; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0.5em; PADDING-TOP: 0px}
+#login a:hover {font:bolder;color: #000;background-color:#FFF;}
 #sidebar LI.current, #favourite_ebook LI.current, #favourite_ebook LI.current {FONT-WEIGHT: bold; BACKGROUND: url(/img/bullet_current.gif) no-repeat 0px 0.5em}
 #sidebar DL {MARGIN: 0px 0px 1em}
 
