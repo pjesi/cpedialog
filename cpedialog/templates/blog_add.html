@@ -44,11 +44,6 @@ Edit reaction
         background-position: 0 1px;
         left: 5px;
     }
-    .yui-skin-sam .yui-toolbar-container .yui-toolbar-youTube span.yui-toolbar-icon {
-        background-image: url( /img/youtube.gif );
-        background-position: 0 1px;
-        left: 5px;
-    }
     .editor-hidden {
         visibility: hidden;
         top: -9999px;
@@ -129,54 +124,6 @@ Edit reaction
 
                 this.addClass('editor-hidden');
             }, this, true);
-
-            var youTubeMovie = {
-                showDlg : false,
-                dlg : null,
-                dialog_config : { width: '400px', height: 'auto', fixedcenter: true, constraintoviewport: true, visible: false, draggable: false, modal: true },
-                handleCancel : function() {
-                    this.cancel();
-                    youTubeMovie.showDlg = false;
-                },
-                handleSubmit : function() {
-                    if (!this.getData().ymovie) return false;
-                    youTubeMovie.showDlg = false;
-                    //var fl_url = this.getData().ymovie.match(/(youtube).*(v=)([^&]*)/);
-                    //fl_url = fl_url[3];
-                    //fl_url = "http://www.youtube.com/v/" + fl_url;
-                    var fl_url= this.getData().ymovie;
-                    var html = '<br><br><div style="margin: auto; text-align: center; background: #eee; width: 425px; height: 350px;"><object width="425" height="350"><param name="movie" value="' + fl_url + '"></param><param name="wmode" value="transparent"></param><embed src="' + fl_url + '" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object></div><br><br>';
-                    this.execCommand('inserthtml', html);
-                    this.cancel();
-                },
-                createDialog: function() {
-                    var youtubeEle = document.createElement('div');
-                    youtubeEle.setAttribute('id', 'youTubeDlg');
-                    youtubeEle.innerHTML = '<div class="hd">Insert YouTube Movie</div><divclass="bd"><form name="youTubeForm" class="text"><br/>YouTube Movie URL: <input type="text" name="ymovie" size="30"/><br /></form></div>';
-                    YAHOO.util.Dom.setStyle(youtubeEle, 'visibility', 'hidden');
-                    document.body.appendChild(youtubeEle);
-                    youTubeMovie.dlg = new YAHOO.widget.Dialog(youtubeEle, youTubeMovie.dialog_config);
-                    youTubeMovie.dlg.cfg.queueProperty("buttons", [ { text:"Submit", handler:youTubeMovie.handleSubmit, isDefault:true }, { text:"Cancel", handler:youTubeMovie.handleCancel } ]);
-                    youTubeMovie.dlg.render(document.body);
-                },
-                toggle : function() {
-                    youTubeMovie.showDlg = !youTubeMovie.showDlg;
-                    if (youTubeMovie.showDlg) {
-                        youTubeMovie.dlg.show();
-                    } else {
-                        youTubeMovie.dlg.hide();
-                    }
-                }
-            };
-
-            this.toolbar.addButtonToGroup({ type: 'push', label: 'Insert YouTube movie', value: 'youTube' }, 'insertitem');
-
-            this.toolbar.on('youTubeClick', function() {
-                youTubeMovie.toggle();
-            });
-
-            youTubeMovie.createDialog();
-
         }, myEditor, true);
 
         yuiImgUploader(myEditor, '/rpc/uploadImage','img');
