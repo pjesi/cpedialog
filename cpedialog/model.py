@@ -178,6 +178,23 @@ class Images(db.Model):
     date = db.DateTimeProperty(auto_now_add=True)
 
 
+class Greeting(db.Model):
+    date = db.DateTimeProperty(auto_now_add=True)
+    user = db.StringProperty()
+    author = db.UserProperty()
+    content = db.StringProperty()
+    valid = db.BooleanProperty(default = True)
+
+
+class FavouriteSite(db.Model):
+    title = db.StringProperty()
+    permalink = db.StringProperty()
+    target = db.StringProperty(multiline=False,default='_self',choices=[
+        '_self','_blank','_parent','_top'])
+    order = db.IntegerProperty()
+    valid = db.BooleanProperty(default = True)
+
+
 class DeliciousPost(object):
     def __init__(self, item):
         self.link = utf8(item["u"])

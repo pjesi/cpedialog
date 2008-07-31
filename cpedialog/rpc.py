@@ -14,7 +14,7 @@ from google.appengine.api import memcache
 from google.appengine.api import images
 from google.appengine.ext import db
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Greeting
 
 import authorized
 import util
@@ -260,4 +260,30 @@ class RPCHandler(webapp.RequestHandler):
           archive.weblogcount = query.count()
           archive.put()
       return True
+
+  #for greeting.
+  def AddGreeting(self,request):
+      refresh = simplejson.loads(request.get("refresh"))
+      if refresh:
+          greeting = Greeting()
+          greeting.user = request.get("id")
+          greeting.content = request.get("msg")
+          currentUser = users.GetCurrentUser()
+          if currentUser:
+            greeting.author = currentUser
+          greeting.put()
+      query = datastore.Query('Greeting').Order(('date',datastore.Query.DESCENDING))  #the parameter must be list.
+      greetings = []
+      for greeting_ in query.Get(20):
+          greeting_['key'] = str(greeting_.key())
+          #greeting_['author'] = greeting_['user']
+          if greeting_['author']:
+            greeting_['email'] = greeting_['author'].email()
+            greeting_['author'] = "\""+greeting_['email'].split('@')[0]+"\""
+          else:
+            greeting_['author'] = greeting_['user'].split('@')[0]   
+          greeting_["date"] = greeting_["date"].strftime('%m/%d/%y')
+          greetings+=[greeting_]
+      return greetings
+
 
