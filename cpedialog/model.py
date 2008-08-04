@@ -9,6 +9,7 @@ import logging
 import datetime
 import urllib
 import config
+import cgi
 
 
 class Archive(db.Model):
@@ -197,10 +198,10 @@ class FavouriteSite(db.Model):
 
 class DeliciousPost(object):
     def __init__(self, item):
-        self.link = utf8(item["u"])
+        self.link = utf8(item["u"].replace("\\",""))
         self.title = utf8(item["d"])
         self.description = utf8(item.get("n", ""))
-        self.tags = map(utf8, item["t"])        
+        self.tags = map(utf8, item["t"])
 
 def utf8(s):
     return unicode(s, "utf-8")

@@ -1,3 +1,4 @@
+# coding: utf-8
 __author__ = 'Ping Chen'
 
 import os
@@ -16,6 +17,8 @@ from cpedia.pagination.paginator import InvalidPage,Paginator
 
 from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost
 import config
+import simplejson
+import cgi
 
 
 # Functions to generate permalinks
@@ -226,7 +229,7 @@ def getDeliciousTag(username):
         tags = None
     if tags is None:
         try:
-            url = "http://del.icio.us/feeds/json/tags/%s?raw" % username
+            url = "http://feeds.delicious.com/v2/json/tags/%s" % username
             result = urlfetch.fetch(url)
             tags = []
             if result.status_code == 200:
@@ -248,7 +251,7 @@ def getDeliciousPost(username,tag):
     except Exception:
         posts = None
     if posts is None:
-        url = "http://del.icio.us/feeds/json/%s/%s?raw" % (username, tag)
+        url = "http://feeds.delicious.com/v2/json/%s/%s" % (username, tag)
         result = urlfetch.fetch(url)
         posts = []
         if result.status_code == 200:

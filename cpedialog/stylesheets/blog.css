@@ -10,6 +10,8 @@ h6 {font: bolder .75em Verdana, Arial, "Times New Roman", serif; color:#000000}
 a {text-decoration: none; outline:none;}
 a:link, a:visited {color: #555; border-bottom: 1px solid #555;}
 html body a:hover {color: #000; background-color: #F4F2E4; border-bottom: 1px solid #9A8E51;}
+.img a,.img a:hover ,.img a:link ,.img a:visited {border-bottom:none !important;background-color: !important;border-bottom-width: 0!important;color:inherit;!important}
+
 
 #sidebar a:link,.post-title a:link, .post-title a:visited, .byline a:link, .byline a:visited{border-bottom-width: 0;}
 #sidebar a:hover,.post-title a:hover, .byline a:hover {border-bottom-width: 1px;}
