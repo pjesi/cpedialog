@@ -255,7 +255,7 @@ def getDeliciousPost(username,tag):
         result = urlfetch.fetch(url)
         posts = []
         if result.status_code == 200:
-            posts = map(DeliciousPost,eval(result.content))
+            posts = map(DeliciousPost,simplejson.loads(result.content))
         memcache.add(key=key_, value=posts, time=3600)
     else:
         logging.debug("getDeliciousPost from cache. ")

@@ -115,6 +115,6 @@ html>body .album_thumbnail{display:table;float:left}/*for mozilla */
 .album_thumbnail_title{width:170px;height:30px}
 
 .tagheader{font:bolder .7em Verdana, Arial, "Times New Roman", serif;}
-#delicious{padding-top:5px}
+#delicious{padding-top:5px;padding-bottom:10px}
 
 #greetings{overflow:auto;height:300px;}
