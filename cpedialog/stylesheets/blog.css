@@ -10,7 +10,7 @@ h6 {font: bolder .75em Verdana, Arial, "Times New Roman", serif; color:#000000}
 a {text-decoration: none; outline:none;}
 a:link, a:visited {color: #555; border-bottom: 1px solid #555;}
 html body a:hover {color: #000; background-color: #F4F2E4; border-bottom: 1px solid #9A8E51;}
-.img a,.img a:hover ,.img a:link ,.img a:visited {border-bottom:none !important;background-color: !important;border-bottom-width: 0!important;color:inherit;!important}
+.img a,.img a:hover ,.img a:link ,.img a:visited {border-bottom:none !important;background-color:inherit!important;border-bottom-width: 0!important;color:inherit;!important}
 
 
 #sidebar a:link,.post-title a:link, .post-title a:visited, .byline a:link, .byline a:visited{border-bottom-width: 0;}
@@ -70,6 +70,11 @@ dt {font:bold}
 #login UL, #favourite_ebook UL , #favourite_site UL {MARGIN: 0px 0px 1.5em; LIST-STYLE-TYPE: none}
 #login UL LI, #favourite_ebook UL LI, #favourite_site UL LI {PADDING-RIGHT: 0px; PADDING-LEFT: 5px; BACKGROUND: url(/img/bullet.gif) no-repeat 0px 0.5em; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0.5em; PADDING-TOP: 0px}
 #login a:hover {font:bolder;color: #000;background-color:#FFF;}
+
+#gravatar{vertical-align:middle;padding-bottom:10px;padding-top:10px;padding-left:10px;overflow:hidden;line-height:48px}
+#gravatar img{float:left; border:1px solid #999999;margin-right:5px;padding:2px}
+.avatar{border:1px solid #000000;clear:both;float:right;height:32px;margin:0 0 2px 2px;padding:2px;width:32px;}
+
 #sidebar LI.current, #favourite_ebook LI.current, #favourite_ebook LI.current {FONT-WEIGHT: bold; BACKGROUND: url(/img/bullet_current.gif) no-repeat 0px 0.5em}
 #sidebar DL {MARGIN: 0px 0px 1em}
 

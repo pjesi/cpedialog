@@ -18,7 +18,7 @@ from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,T
 import config
 import simplejson
 import cgi
-
+import urllib, hashlib
 
 # Functions to generate permalinks
 def get_permalink(date,title):
@@ -259,4 +259,28 @@ def getDeliciousPost(username,tag):
     else:
         logging.debug("getDeliciousPost from cache. ")
     return posts
+
+def getGravatarUrlByUser(user):
+    default = config.blog['root_url']+"/img/anonymous.jpg"
+    if user:
+        getGravatarUrl(user.email())
+    else:
+        return default
+
+def getGravatarUrl(email):
+    default = config.blog['root_url']+"/img/anonymous.jpg"
+    size = 48
+    # Set your variables here
+    # construct the url
+    gravatar_url = "http://www.gravatar.com/avatar.php?"
+    gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(email).hexdigest(),
+        'default':default, 'size':str(size)})
+    return gravatar_url
+
+def getUserNickname(user):
+    default = "anonymous"
+    if user:
+        return user.email().split("@")[0]
+    else:
+        return default
 

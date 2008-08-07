@@ -78,24 +78,19 @@
 {% endif %}
             <p> {% if reaction.authorWebsite %}
                 <a href="{{reaction.authorWebsite}}">
-                    {% endif%}
-                    <b>{%if not reaction.author %}
-                        {{reaction.user}}
-                        {%else%}
-                        {{reaction.author.email}}
-                        {% endif %}
-                    </b>
-                    {% if reaction.authorWebsite %}
+                {% endif%}
+                <b>{%if not reaction.author %}{{reaction.user}}{%else%}{{reaction.author.email}}{% endif %}</b> |
+                {% if reaction.authorWebsite %}
                 </a>
                 {% endif%}
-                {{reaction.date|date:"Y-m-d H:i"}}
-                &nbsp;&nbsp;
+                {{reaction.date|date:"Y-m-d H:i"}} | 
                 {% ifnotequal reaction.userIp Null %}
-                <i><b>IP Address</b>:{{reaction.userIp}}</i>
+                IP:{{reaction.userIp}}
                 {% endifnotequal %}
             </p>
 
             <DIV class=post-body>
+                <img height="32" width="32" class="avatar" src="{%if not reaction.author %}{{reaction.user|gravatar}}{%else%}{{reaction.author.email|gravatar}}{% endif %}"/>
                 <p>{{reaction.content}}</p>
             </DIV>
             <DIV class=post-footer>

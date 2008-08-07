@@ -52,7 +52,9 @@ class ViewPage(object):
                 "nav_menus": util.getMenuList(),
                 "tags": util.getTagList(),
                 "delicious": util.getDeliciousTag(config.delicious['username']),
-                "docs": util.getGoogleDocs(config.delicious['username']),
+                "user_gravatar_url":util.getGravatarUrlByUser(users.GetCurrentUser()),
+                "user_nickname":util.getUserNickname(users.GetCurrentUser())
+               # "docs": util.getGoogleDocs(config.delicious['username']),
             }
             template_params.update(params)
             return template.render(template_file, template_params, debug=config._DEBUG)

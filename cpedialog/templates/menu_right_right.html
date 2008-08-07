@@ -6,15 +6,15 @@
     {% block loginmenu %}
     <DIV id=login>
         <H3>Login</H3>
+        <div id="gravatar">
+        <img src="{{user_gravatar_url}}">  <b> {{user_nickname}} </b>
+        </div>
         <UL>
             <LI><a href='http://blog.cpedia.com/2004/01/anything-is-possible' onclick="this.blur()">Anything is possible!</a>
-                {% if user %}
-            <LI><a href="#" onclick="this.blur()"> Welcome, <b>{{ user.email }}</b> </a>
                 {% if administrator %}
             <LI><a href='/addBlog' onclick="this.blur()">Admin/Add New Blog</a>
             <LI><a href='/addBlog?entrytype=page' onclick="this.blur()">Admin/Add New Page</a>
             <LI><a href='/admin' onclick="this.blur()">Admin/System Configuration</a>
-                {% endif %}
                 {% endif %}
             <LI><a href="{{ url }}" onclick="this.blur()">{{ url_linktext }}</a>
             </LI>

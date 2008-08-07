@@ -18,7 +18,11 @@ delicious = {
 }
 
 google_docs = {
-    "username":"cpedia",""
+    "username":"cpedia@gmail.com"
+}
+
+google_calendar = {
+    "username":"cpedia@gmail.com"
 }
 
 logo_images = ["logo1.gif","logo2.gif"]  #make sure the images located in the folder img/logo.
