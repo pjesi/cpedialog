@@ -35,7 +35,7 @@ class GqlQueryPaginator(Paginator):
 class GqlPage(Page):
 
     def page_numbers(self):
-        return range(self.from_to_page()["from_page"],self.from_to_page()["to_page"]+1)
+        return range(self.from_to_page()["from_page"],self.from_to_page()["to_page"])
 
     def show_first(self):
         return   self.paginator.number - page_offset > 1 and self.real_pages() > adjacent_pages  
