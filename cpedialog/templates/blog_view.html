@@ -79,7 +79,7 @@
             <p> {% if reaction.authorWebsite %}
                 <a href="{{reaction.authorWebsite}}">
                 {% endif%}
-                <b>{%if not reaction.author %}{{reaction.user}}{%else%}{{reaction.author.email}}{% endif %}</b> |
+                <b>{%if not reaction.author %}{{reaction.user}}{%else%}{{reaction.author.email|email_username}}{% endif %}</b> |
                 {% if reaction.authorWebsite %}
                 </a>
                 {% endif%}
@@ -111,14 +111,11 @@
         {% endfor %}
         {% endifnotequal %}
         <br> <br> <br>
-
         <div class="commentlabel">
             <h4> Add a reaction </h4>
         </div>
-
         <form method=post action='/addBlogReaction?blogId={{blog.key.id}}' onsubmit="return parseBlogContent()" id="reactionForm">
             <h2 class="comments-post">About You</h2>
-
             <div>
                 <input id="name_input" name='name_input' type=text size="60"
                        value="{% if user %}{{user.nickname}}{%endif%}" {% if user %}readonly{%endif%}>
@@ -143,7 +140,6 @@
             <input name=submit_addreply type=submit value=submit> <br> <br>
         </form>
         <script>
-
             (function() {
                 var Dom = YAHOO.util.Dom,
                         Event = YAHOO.util.Event;
@@ -179,8 +175,6 @@
             }
 
         </script>
-
-
     </div>
 </div>
 </div>

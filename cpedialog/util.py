@@ -128,7 +128,7 @@ def getArchiveBlog(monthyear):
     try:
         blogs = memcache.get(key_)
     except Exception:
-        blogs = None    
+        blogs = None
     if blogs is None:
         #blogs = Weblog.all().filter('monthyear', monthyearTmp).filter('entrytype','post').order('-date')
         blogs = db.GqlQuery("select * from Weblog where monthyear=:1 and entrytype = 'post'order by date desc",monthyearTmp).fetch(100)
@@ -237,7 +237,7 @@ def getDeliciousTag(username):
                     tags.append(Tag(tag=obj,entrycount = int(objs[obj])))
             memcache.add(key=key_, value=tags, time=3600)
         except Exception:
-            pass            
+            pass
     else:
         logging.debug("getDeliciousTag from cache. ")
     return tags
@@ -262,18 +262,16 @@ def getDeliciousPost(username,tag):
 
 def getGravatarUrlByUser(user):
     default = config.blog['root_url']+"/img/anonymous.jpg"
-    if user:
-        getGravatarUrl(user.email())
+    if user is not None:
+        return getGravatarUrl(user.email())
     else:
         return default
 
 def getGravatarUrl(email):
     default = config.blog['root_url']+"/img/anonymous.jpg"
     size = 48
-    # Set your variables here
-    # construct the url
     gravatar_url = "http://www.gravatar.com/avatar.php?"
-    gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(email).hexdigest(),
+    gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(str(email)).hexdigest(),
         'default':default, 'size':str(size)})
     return gravatar_url
 

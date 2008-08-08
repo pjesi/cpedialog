@@ -52,7 +52,7 @@ dt {font:bold}
 .timestamp-link{color: #ff9966!important;font-weight:normal!important;}
 .comment-link{color: #ff9966!important;font-weight:normal!important;padding-left:10px}
 
-.post-body {text-align: left; line-height: 1.6em;margin: 0 0 1em;padding-top:5px}
+.post-body {text-align: left; line-height: 1.6em;margin: 0 0 1em;padding-top:5px;padding-bottom:15px}
 .post-body a {text-decoration:none!important;font-weight:bold;}
  
 .byline {font: italic 0.9em Times, serif; letter-spacing: 1px; margin: 0 0 1.5em;}
