@@ -77,11 +77,25 @@ class MainPage(BaseRequestHandler):
       }
     self.generate('blog_main.html',template_values)
 
+class PageHandle(BaseRequestHandler):
+  def get(self,pagenum):
+    page = int(pagenum)
+    #get blog pagination from cache.
+    obj_page = util.getBlogPagination(page)
+    if obj_page is None:
+        self.redirect('/')
+
+    recentReactions = util.getRecentReactions()
+    template_values = {
+      'page':obj_page,
+      'recentReactions':recentReactions,
+      }
+    self.generate('blog_main.html',template_values)
+
 
 class AddBlog(BaseRequestHandler):
   @authorized.role("admin")
-  def get(self):
-    entrytype = self.request.get('entrytype')
+  def get(self,entrytype):
     template_values = {
       'entrytype': entrytype,
       'action': "addBlog",
@@ -89,12 +103,10 @@ class AddBlog(BaseRequestHandler):
     self.generate('blog_add.html',template_values)
 
   @authorized.role("admin")
-  def post(self):
+  def post(self,entrytype):
     preview = self.request.get('preview')
     submitted = self.request.get('submitted')
-    entrytype = self.request.get('entrytype')
     user = users.get_current_user()
-
     blog = Weblog()
     blog.title = self.request.get('title_input')
     blog.content = self.request.get('text_input')
@@ -135,9 +147,8 @@ class AddBlog(BaseRequestHandler):
 
 class EditBlog(BaseRequestHandler):
     @authorized.role("admin")
-    def get(self):
-        blogId_ = self.request.get('blogId')
-        blog = Weblog.get_by_id(int(blogId_))
+    def get(self,entrytype,blogId):
+        blog = Weblog.get_by_id(int(blogId))
         template_values = {
         'blog': blog,
         'action': "editBlog",
@@ -145,10 +156,8 @@ class EditBlog(BaseRequestHandler):
         self.generate('blog_add.html',template_values)
 
     @authorized.role("admin")
-    def post(self):
-        blogId_ = self.request.get('blogId')
-        blog= Weblog.get_by_id(int(blogId_))
-
+    def post(self,entrytype,blogId):
+        blog= Weblog.get_by_id(int(blogId))
         if(blog is None):
             self.redirect('/')
         if blog.entrytype == 'page':
@@ -166,9 +175,8 @@ class EditBlog(BaseRequestHandler):
 
 class DeleteBlog(BaseRequestHandler):
   @authorized.role("admin")
-  def get(self):
-      blogId_ = self.request.get('blogId')
-      blog = Weblog.get_by_id(int(blogId_))
+  def get(self,entrytype,blogId):
+      blog = Weblog.get_by_id(int(blogId))
       template_values = {
       'blog': blog,
       'action': "deleteBlog",
@@ -176,9 +184,8 @@ class DeleteBlog(BaseRequestHandler):
       self.generate('blog_delete.html',template_values)
 
   @authorized.role("admin")
-  def post(self):
-    blogId_ = self.request.get('blogId')
-    blog= Weblog.get_by_id(int(blogId_))
+  def post(self,entrytype,blogId):
+    blog= Weblog.get_by_id(int(blogId))
     if(blog is not None):
         blogReactions = blog.weblogreactions_set
         for reaction in blogReactions:
@@ -208,8 +215,8 @@ class AddBlogReaction(BaseRequestHandler):
 
     if user is not None:
         blogReaction.author = user
-        blogReaction.authorEmail = str(user.email)
-        blogReaction.user = str(user.nickname)
+        blogReaction.authorEmail = str(user.email())
+        blogReaction.user = str(user.nickname())
     else:
         blogReaction.authorEmail = self.request.get('mail')
         blogReaction.user = self.request.get('name_input')
@@ -220,9 +227,8 @@ class AddBlogReaction(BaseRequestHandler):
 
 class EditBlogReaction(BaseRequestHandler):
     @authorized.role("user")
-    def get(self):
-        reactionId_ = self.request.get('reactionId')
-        blogReaction = WeblogReactions.get_by_id(int(reactionId_))
+    def get(self,reactionId):
+        blogReaction = WeblogReactions.get_by_id(int(reactionId))
         template_values = {
         'blogReaction': blogReaction,
         'action': "editBlogReaction",
@@ -230,13 +236,10 @@ class EditBlogReaction(BaseRequestHandler):
         self.generate('blog_add.html',template_values)
 
     @authorized.role("user")
-    def post(self):
-        blogReactionId_ = self.request.get('blogReactionId')
-        blogReaction= WeblogReactions.get_by_id(int(blogReactionId_))
-
+    def post(self,reactionId):
+        blogReaction= WeblogReactions.get_by_id(int(reactionId))
         if(blogReaction is None):
             self.redirect('/')
-
         blogReaction.content = self.request.get('text_input')
         blogReaction.authorWebsite = self.request.get('website')
         user = users.get_current_user()
@@ -245,7 +248,6 @@ class EditBlogReaction(BaseRequestHandler):
         else:
             blogReaction.authorEmail = self.request.get('mail')
             blogReaction.user = self.request.get('name_input')
-
         blogReaction.lastModifiedDate = datetime.datetime.now()
         blogReaction.put()
         self.redirect('/'+blogReaction.weblog.relative_permalink())
@@ -253,9 +255,8 @@ class EditBlogReaction(BaseRequestHandler):
 
 class DeleteBlogReaction(BaseRequestHandler):
   @authorized.role("admin")
-  def get(self):
-      reactionId_ = self.request.get('reactionId')
-      blogReaction = WeblogReactions.get_by_id(int(reactionId_))
+  def get(self,reactionId):
+      blogReaction = WeblogReactions.get_by_id(int(reactionId))
       template_values = {
       'reaction': blogReaction,
       'action': "deleteBlogReaction",
@@ -263,10 +264,8 @@ class DeleteBlogReaction(BaseRequestHandler):
       self.generate('blog_delete.html',template_values)
 
   @authorized.role("admin")
-  def post(self):
-    blogReactionId_ = self.request.get('blogReactionId')
-    blogReaction= WeblogReactions.get_by_id(int(blogReactionId_))
-
+  def post(self,reactionId):
+    blogReaction= WeblogReactions.get_by_id(int(reactionId))
     if(blogReaction is not None):
         db.delete(blogReaction)
         util.flushRecentReactions()
@@ -274,6 +273,7 @@ class DeleteBlogReaction(BaseRequestHandler):
 
 
 #for the data migration.
+#todo: will be removed
 class ViewBlog(BaseRequestHandler):
   def get(self):
     blogId_ = self.request.get('blogId')

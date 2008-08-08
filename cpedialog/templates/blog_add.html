@@ -1,7 +1,7 @@
 {% extends "main.html" %}
 
 {% block title %}{{title}} -  {% ifequal action "addBlog" %}
-Add item
+Add {% ifequal entrytype "blog"%}Blog{% endifequal %}{% ifequal entrytype "page"%}Page{% endifequal %}
 {% endifequal %}
 {% ifequal action "editBlog" %}
 Edit item
@@ -176,10 +176,10 @@ Edit reaction
     </div>
      {% endif %}
     <div>
-    <form method=post action='/{{action}}?preview=1' onsubmit="return parseBlogContent()" id="previewForm">
+    <form method=post onsubmit="return parseBlogContent()" id="previewForm">
         <h4>
             {% ifequal action "addBlog" %}
-            Add item
+            Add {% ifequal entrytype "blog"%}Blog{% endifequal %}{% ifequal entrytype "page"%}Page{% endifequal %}
             {% endifequal %}
             {% ifequal action "editBlog" %}
             Edit item
@@ -188,14 +188,12 @@ Edit reaction
             Edit reaction
             {% endifequal %}
         </h4>
-
         {% ifnotequal action "editBlogReaction" %}
         <div id="blogtitle">
          <input name=title_input id="title_input" type=text size="60"
                value='{% if blog %}{{blog.title}}{% endif %}'>
             <label for="title_input"><b>Title</b>(required)</label>
         </div>
-
         <div id="blogtags">
          <input type=text size="60" id="tags" name="tags" value="{% if blog %}{{blog.tags_commas}}{% endif %}">
          <label for="tags"><b>Tags</b>(comma separated without space) </label>
@@ -249,10 +247,10 @@ Edit reaction
         <br>
         {% ifequal action "addBlog" %}
         <input name=submit_preview type=submit value=preview>
+        <input type="hidden" name="preview" value="1">
         {% else %}
         <input name=submit_edit type=submit value=submit>
         {% endifequal %}
-         <input name=entrytype type="hidden" value="{{entrytype}}"/> 
         <br><br>
     </form>
     </div>
@@ -267,14 +265,12 @@ Edit reaction
         }
     </script>
     <div>
-    <form method=post action='/addBlog' onsubmit="return parseConfirmContent()" id="submitForm">
+    <form method=post onsubmit="return parseConfirmContent()" id="submitForm">
         <H2 class=date-header>{{blog.date|date:"l, F m, Y"}}</H2>
-
         <DIV class="post">
             <H3 class=post-title>
                 <a href="#">{{blog.title}}</a>
             </H3>
-
             <DIV class=post-body id="blogcontent">
                 {{blog.content}}
             </DIV>
@@ -295,16 +291,13 @@ Edit reaction
                 </P>
                  <br>
             </DIV>
-
         </DIV>
-
         <input name=title_input type=hidden value="{{blog.title}}">
         <input name=tags type=hidden value="{{blog.tags_commas}}">
         <input name=text_input type="hidden"/>
         <input name=entrytype type="hidden" value="{{blog.entrytype}}"/>
         <input name=submitted type=hidden value='0'>
         <input name=submit_add type=submit value=submit>
-
     </form>
     </div>
     {% endifnotequal%}

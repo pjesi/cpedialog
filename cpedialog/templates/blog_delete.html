@@ -47,7 +47,7 @@
                {% endifequal %}
         <br><br>
         </div>
-    <form method=post action='/{{action}}?submitted=1'>
+    <form method=post>
         {% if blog %} <input name="blogId" type="hidden" value="{{blog.key.id}}">{% endif %}
 
         {% if reaction %}
@@ -55,6 +55,7 @@
         {% endif %}
 
      <input type=submit value=delete>
+     <input type=hidden name="submitted" value=1>
     </form>
 </div>
 </div>

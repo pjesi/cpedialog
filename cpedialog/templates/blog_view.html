@@ -51,8 +51,8 @@
         <P>
             {% ifequal administrator 1 %}
 
-        <p style='text-align: right;'>:<a href='/editBlog?blogId={{blog.key.id}}'>edit</a>: :
-            <a href='/deleteBlog?blogId={{blog.key.id}}'>delete</a>:</p>
+        <p style='text-align: right;'>:<a href='/edit/blog/{{blog.key.id}}'>edit</a>: :
+            <a href='/delete/blog/{{blog.key.id}}'>delete</a>:</p>
         {% endifequal %}
 
         {% ifnotequal reaction.lastModifiedDate Null %}
@@ -90,15 +90,15 @@
             </p>
 
             <DIV class=post-body>
-                <img height="32" width="32" class="avatar" src="{%if not reaction.author %}{{reaction.user|gravatar}}{%else%}{{reaction.author.email|gravatar}}{% endif %}"/>
+                <img height="32" width="32" class="avatar" src="{%if not reaction.author %}{{reaction.authorEmail|gravatar}}{%else%}{{reaction.author.email|gravatar}}{% endif %}"/>
                 <p>{{reaction.content}}</p>
             </DIV>
             <DIV class=post-footer>
                     <span class='comment-timestamp'>
                         {% ifequal administrator 1 %}
                         <p style='text-align: right;'>:<a
-                                href='/editBlogReaction?reactionId={{reaction.key.id}}'>edit</a>: :
-                            <a href='/deleteBlogReaction?reactionId={{reaction.key.id}}'>delete</a>:</p>
+                                href='/edit/comment/{{reaction.key.id}}'>edit</a>: :
+                            <a href='/delete/comment/{{reaction.key.id}}'>delete</a>:</p>
                         {% endifequal %}
 
                         {% ifnotequal reaction.lastModifiedDate Null %}

@@ -19,13 +19,14 @@ template.register_template_library('cpedia.filter.gravatar')
 def main():
 
     application = webapp.WSGIApplication(
-                                       [('/addBlog', blog.AddBlog),
-                                        ('/viewBlog', blog.ViewBlog),
+                                       [
+                                        ('/create/(blog|page)/*$', blog.AddBlog),
+                                        ('/viewBlog', blog.ViewBlog),  #todo: will be removed
                                         ('/addBlogReaction', blog.AddBlogReaction),
-                                        ('/editBlog', blog.EditBlog),
-                                        ('/deleteBlog', blog.DeleteBlog),
-                                        ('/editBlogReaction', blog.EditBlogReaction),
-                                        ('/deleteBlogReaction', blog.DeleteBlogReaction),
+                                        ('/edit/(blog|page)/(.*)/*$', blog.EditBlog),
+                                        ('/delete/(blog|page)/(.*)/*$', blog.DeleteBlog),
+                                        ('/edit/comment/(.*)/*$', blog.EditBlogReaction),
+                                        ('/delete/comment/(.*)/*$', blog.DeleteBlogReaction),
 
                                         ('/admin/*$', admin.MainPage),
                                         ('/admin/more/*$', admin.AdminMorePage),
@@ -34,6 +35,7 @@ def main():
                                         ('/rpc/img', rpc.Image),
 
                                         ('/*$', blog.MainPage),
+                                        ('/page/(\d*)/*$', blog.PageHandle),
                                         ('/403.html', blog.UnauthorizedHandler),
                                         ('/404.html', blog.NotFoundHandler),
                                         ('/archive/(.*)/*$', blog.ArchiveHandler),
