@@ -245,6 +245,8 @@ class EditBlogReaction(BaseRequestHandler):
         user = users.get_current_user()
         if user is not None:
             blogReaction.lastModifiedBy = user
+            blogReaction.authorEmail = str(user.email())
+            blogReaction.user = str(user.nickname())
         else:
             blogReaction.authorEmail = self.request.get('mail')
             blogReaction.user = self.request.get('name_input')
