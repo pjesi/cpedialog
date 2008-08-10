@@ -118,41 +118,54 @@
             <h2 class="comments-post">About You</h2>
             <div>
                 <input id="name_input" name='name_input' type=text size="60"
-                       value="{% if user %}{{user.nickname}}{%endif%}" {% if user %}readonly{%endif%}>
+                       value="{% if user %}{{user.nickname}}{%else%}{{blogReaction.user}}{%endif%}" {% if user %}readonly{%endif%}>
 
                 <label for="name_input"><b>Name</b> (required)</label>
             </div>
             <div>
-                <input id="mail" name="mail" type=text size="60" value="{% if user %}{{user.email}}{%endif%}"
+                <input id="mail" name="mail" type=text size="60" value="{% if user %}{{user.email}}{%else%}{%if blogReaction%}{{blogReaction.authorEmail}}{%endif%}{%endif%}"
                 {% if user %}readonly{%endif%}>
                 <label for="mail"><b>Mail</b> (required)</label>
             </div>
             <div>
-                <input id="website" name="website" type=text size="60">
+                <input id="website" name="website" type=text size="60" value="{%if blogReaction%}{{blogReaction.authorWebsite}}{%endif%}">
                 <label for="website"><b>Website</b></label>
+            </div>
+            <div id="recaptcha">
+                {%if captchahtml%}{{captchahtml}}{%endif%}
             </div>
             <h2 class="comments-post">Comment</h2>
 
             <div id="blogpost">
-                <textarea id="text_input" name="text_input" rows="12" cols="60"></textarea>
+                <textarea id="text_input" name="text_input" rows="12" cols="60">
+                    {%if blogReaction%}{{blogReaction.content}}{%endif%}
+                </textarea>
             </div>
             <br>
             <input name=submit_addreply type=submit value=submit> <br> <br>
         </form>
         <script>
+            function init() {
+                if(document.getElementById("recaptcha_response_field")){
+                   {%if captchahtml%}
+                   {%if blogReaction%}
+                      document.getElementById("recaptcha_response_field").focus();
+                   {%endif%}
+                   {%endif%}
+                }
+             }
+             YAHOO.util.Event.onDOMReady(init);
+
             (function() {
                 var Dom = YAHOO.util.Dom,
                         Event = YAHOO.util.Event;
-
                 var myConfig = {
                     height: '150px',
                     width: '520px',
                     dompath: true
                 };
-
                 var myEditor = new YAHOO.widget.SimpleEditor('text_input', myConfig);
                 myEditor.render();
-
             })();
 
             function parseBlogContent(){
@@ -168,6 +181,13 @@
                          alert("Please input your email address.");
                          mail.focus();
                          return false;
+                     }
+                     if(document.getElementById("recaptcha_response_field")){
+                         if(document.getElementById("recaptcha_response_field").value==""){
+                             alert("Please input the reCAPTCHA code value.");
+                             document.getElementById("recaptcha_response_field").focus();
+                             return false;
+                         }
                      }
                 var editor = YAHOO.widget.EditorInfo.getEditorById("text_input");
                 editor.saveHTML();        

@@ -29,6 +29,8 @@ import view
 import config
 import util
 
+from recaptcha.client import captcha
+
 
 class BaseRequestHandler(webapp.RequestHandler):
   """Supplies a common template generation function.
@@ -197,29 +199,48 @@ class DeleteBlog(BaseRequestHandler):
 
 class AddBlogReaction(BaseRequestHandler):
   def post(self):
-    title_review = self.request.get('title_input')
-    content_review = self.request.get('text_input')
-
     blogId_ = self.request.get('blogId')
     blog= Weblog.get_by_id(int(blogId_))
-
     if(blog is None):
-        self.redirect('/')
+      self.redirect('/')
     blogReaction = WeblogReactions()
     blogReaction.weblog = blog
     blogReaction.content = self.request.get('text_input')
     blogReaction.authorWebsite = self.request.get('website')
+    blogReaction.authorEmail = self.request.get('mail')
+    blogReaction.user = self.request.get('name_input')
+
+    if(config.recaptcha["enable"]):
+        challenge = self.request.get('recaptcha_challenge_field')
+        response  = self.request.get('recaptcha_response_field')
+        clientIp = self.request.remote_addr
+        cResponse = captcha.submit(
+                       challenge,
+                       response,
+                       config.recaptcha["private_key"],
+                       clientIp)
+        if not cResponse.is_valid:
+            captchahtml = None
+            if(config.recaptcha["enable"]):
+                captchahtml = captcha.displayhtml(
+                    public_key = config.recaptcha["public_key"],
+                    use_ssl = False,
+                    error = cResponse.error_code)
+            reactions = db.GqlQuery("select * from WeblogReactions where weblog =:1  order by date", blog)
+            template_values = {
+              'blog': blog,
+              'reactions': reactions,
+              'blogReaction': blogReaction,
+              'captchahtml': captchahtml,
+              }
+            self.generate('blog_view.html',template_values)
+            return True
 
     user = users.get_current_user()
-    clientIp = self.request.remote_addr
-
     if user is not None:
         blogReaction.author = user
         blogReaction.authorEmail = str(user.email())
         blogReaction.user = str(user.nickname())
-    else:
-        blogReaction.authorEmail = self.request.get('mail')
-        blogReaction.user = self.request.get('name_input')
     blogReaction.userIp = clientIp
     blogReaction.save()
     util.flushRecentReactions()
@@ -302,7 +323,7 @@ class ViewBlog(BaseRequestHandler):
     self.generate('blog_view.html',template_values)
 
 class ArchiveHandler(BaseRequestHandler):
-    def get(self, monthyear): 
+    def get(self, monthyear):
         #get blogs in month from cache.        
         blogs = util.getArchiveBlog(monthyear)
         recentReactions = util.getRecentReactions()
@@ -315,6 +336,13 @@ class ArchiveHandler(BaseRequestHandler):
 
 class ArticleHandler(BaseRequestHandler):
     def get(self,year,month, perm_stem):
+        #for recaptcha.
+        captchahtml = None
+        if(config.recaptcha["enable"]):
+            captchahtml = captcha.displayhtml(
+            public_key = config.recaptcha["public_key"],
+            use_ssl = False,
+            error = None)
         blog = db.Query(Weblog).filter('permalink =',perm_stem).get()
         if(blog is None):
             self.redirect('/')
@@ -322,6 +350,7 @@ class ArticleHandler(BaseRequestHandler):
         template_values = {
           'blog': blog,
           'reactions': reactions,
+          'captchahtml': captchahtml,
           }
         self.generate('blog_view.html',template_values)
 

@@ -25,6 +25,12 @@ google_calendar = {
     "username":"cpedia@gmail.com"
 }
 
+recaptcha = {
+    "enable":True,
+    "public_key":"6Ld7tQIAAAAAAJLo39p3u6AvTAJcXftc5mJeAif5",  #you get get recaptcha key from:http://recaptcha.net/
+    "private_key":"6Ld7tQIAAAAAAO0iDvyai5Ie-WUHuyDwpshIlKro"  
+}
+
 logo_images = ["logo1.gif","logo2.gif"]  #make sure the images located in the folder img/logo.
 
 # Set to true if we want to have our webapp print stack traces, etc
