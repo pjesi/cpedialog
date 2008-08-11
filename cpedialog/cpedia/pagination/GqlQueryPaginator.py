@@ -53,10 +53,10 @@ class GqlPage(Page):
         return   self.paginator.count//self.paginator.per_page +1
 
     def from_to_page(self):
-         if(adjacent_pages> self.real_pages()):
+        if(adjacent_pages> self.real_pages()):
             from_page = 1
             to_page = self.real_pages()    
-         else :
+        else :
             from_page = self.paginator.number - page_offset
             to_page = from_page + adjacent_pages
             if from_page <1:
@@ -68,5 +68,5 @@ class GqlPage(Page):
                 if  to_page > self.real_pages():
                     from_page = self.real_pages() - adjacent_pages +1
                     to_page = self.real_pages()
-         return {"from_page":from_page,"to_page":to_page}
+        return {"from_page":from_page,"to_page":to_page}
          

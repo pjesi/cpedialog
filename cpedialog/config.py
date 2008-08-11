@@ -27,7 +27,7 @@ google_calendar = {
 
 recaptcha = {
     "enable":True,
-    "public_key":"6Ld7tQIAAAAAAJLo39p3u6AvTAJcXftc5mJeAif5",  #you get get recaptcha key from:http://recaptcha.net/
+    "public_key":"6Ld7tQIAAAAAAJLo39p3u6AvTAJcXftc5mJeAif5",  #you get get recaptcha key for your domain from:http://recaptcha.net/
     "private_key":"6Ld7tQIAAAAAAO0iDvyai5Ie-WUHuyDwpshIlKro"  
 }
 

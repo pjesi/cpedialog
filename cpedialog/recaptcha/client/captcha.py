@@ -1,13 +1,6 @@
 import urllib
 from google.appengine.api import urlfetch
 
-"""
-    Adapted from http://pypi.python.org/pypi/recaptcha-client
-    to use with Google App Engine
-    by Joscha Feth <joscha@feth.com>
-    Version 0.1
-"""
-
 API_SSL_SERVER  ="https://api-secure.recaptcha.net"
 API_SERVER      ="http://api.recaptcha.net"
 VERIFY_SERVER   ="api-verify.recaptcha.net"
@@ -67,11 +60,7 @@ def submit (recaptcha_challenge_field,
             len (recaptcha_response_field) and len (recaptcha_challenge_field)):
         return RecaptchaResponse (is_valid = False, error_code = 'incorrect-captcha-sol')
     
-    headers = {
-               'Content-type':  'application/x-www-form-urlencoded',
-               "User-agent"  :  "reCAPTCHA GAE Python"
-               }         
-    
+
     params = urllib.urlencode ({
 	    'privatekey': private_key,
         'remoteip' : remoteip,
@@ -83,8 +72,11 @@ def submit (recaptcha_challenge_field,
                    url      = "http://%s/verify" % VERIFY_SERVER,
                    payload  = params,
                    method   = urlfetch.POST,
-                   headers  = headers
-                    )     
+                   headers  = {
+                       'Content-type':  'application/x-www-form-urlencoded',
+                       "User-agent"  :  "reCAPTCHA GAE Python"
+                   }
+                   )     
     
     if httpresp.status_code == 200:
         # response was fine
