@@ -23,7 +23,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Feeds
 import authorized
 import view
 import config
@@ -51,11 +51,13 @@ class MainPage(BaseRequestHandler):
         albums = Album.all()
         pages = Weblog.all().filter('entrytype','page').order('-date')
         menus = Menu.all().order('order')
+        feeds = Feeds.all().order('order')
         template_values = {
           'pages':pages,
           'menus':menus,
           'session_tokens':session_tokens,
           'albums':albums,
+          'feeds':feeds,
           'cache_stats':cache_stats,
           }
         self.generate('admin_main.html',template_values)

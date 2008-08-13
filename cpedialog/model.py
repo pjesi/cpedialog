@@ -196,6 +196,12 @@ class FavouriteSite(db.Model):
     order = db.IntegerProperty()
     valid = db.BooleanProperty(default = True)
 
+class Feeds(db.Model):
+    title = db.StringProperty()
+    feed = db.StringProperty()
+    order = db.IntegerProperty()
+    valid = db.BooleanProperty(default = True)
+
 
 class DeliciousPost(object):
     def __init__(self, item):
@@ -203,3 +209,4 @@ class DeliciousPost(object):
         self.title = item["d"]
         self.description = item.get("n", "")
         self.tags = item["t"]
+

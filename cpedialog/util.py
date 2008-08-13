@@ -14,7 +14,7 @@ from google.appengine.api import urlfetch
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds
 import config
 import simplejson
 import cgi
@@ -180,6 +180,21 @@ def getTagList():
     return tags
 
 
+#get feed list. Cached.
+def getFeedList():
+    key_ = "blog_feedList_key"
+    try:
+        feeds = memcache.get(key_)
+    except Exception:
+        feeds = None
+    if feeds is None:
+        feeds = Feeds.all().filter('valid',True).order('order')
+        memcache.add(key=key_, value=feeds, time=3600)
+    else:
+        logging.debug("getFeedList from cache. ")
+    return feeds
+
+
 #flush tag list.
 def flushTagList():
     memcache.delete("blog_tagList_key")
@@ -192,6 +207,11 @@ def flushAlbumList():
 #flush menu list.
 def flushMenuList():
     memcache.delete("blog_menuList_key")
+
+
+#flush feed list.
+def flushFeedList():
+    memcache.delete("blog_feedList_key")
 
 #flush MonthYear list.
 def flushArchiveList():

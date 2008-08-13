@@ -51,6 +51,7 @@ class ViewPage(object):
                 "BLOG": config.blog,
                 "nav_menus": util.getMenuList(),
                 "tags": util.getTagList(),
+                "feeds": util.getFeedList(),
                 "delicious": util.getDeliciousTag(config.delicious['username']),
                 "user_gravatar_url":util.getGravatarUrlByUser(users.get_current_user()),
                 "user_nickname":util.getUserNickname(users.get_current_user())

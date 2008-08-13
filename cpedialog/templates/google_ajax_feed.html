@@ -9,7 +9,6 @@
         @import url( "http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.css" );
 
         #feedControl {
-            margin-top: 20px;
             margin-left: auto;
             margin-right: auto;
             font-size: 16px;
@@ -21,10 +20,17 @@
             var options = {
                numResults : 16,
                displayTime : 5000,
-               linkTarget : google.feeds.LINK_TARGET_BLANK
+               linkTarget : google.feeds.LINK_TARGET_BLANK,
+               stacked : true
              };
-            var feed = "http://www.infoq.com/rss/rss.action?token=fr1AXeOFMOEqg9Q1k9ynrrRVcHK67vdE";
-            new GFdynamicFeedControl(feed, "feedControl",options);
+            var feeds = [
+                {%for feed in feeds%}
+             {title:'{{feed.title}}',
+              url:'{{feed.feed}}'}
+                 {% if not forloop.last %},{% endif %}
+                 {%endfor%}
+             ];
+            new GFdynamicFeedControl(feeds, "feedControl",options);
         }
         google.load("feeds", "1");
         google.setOnLoadCallback(load);

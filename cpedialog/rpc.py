@@ -287,3 +287,41 @@ class RPCHandler(webapp.RequestHandler):
       return greetings
 
 
+  # for feed inline cell editable table
+  @authorized.role('admin')
+  def UpdateFeed(self,request):
+      feed = Feeds.get_by_id(int(request.get("id")))
+      editColumn = request.get("editColumn")
+      if feed and editColumn:
+          newData = request.get("newData")
+          if editColumn == "title":
+            feed.title = newData
+          if editColumn == "feed":
+            feed.feed = newData
+          if editColumn == "order":
+            feed.order = simplejson.loads(newData)
+          if editColumn == "valid":
+            feed.valid = simplejson.loads(newData)
+          feed.put()
+          util.flushFeedList()
+      return True
+
+  @authorized.role('admin')
+  def AddFeed(self,request):
+      feed = datastore.Entity("Feeds")
+      feed["title"] = "New feed"
+      feed["feed"] = "New feed url"
+      feed["order"] = 0
+      feed["valid"] = False
+      datastore.Put(feed)
+      util.flushFeedList()
+      feed['key'] = str(feed.key())
+      feed['id'] = str(feed.key().id())
+      return menu
+
+  @authorized.role('admin')
+  def DeleteFeed(self,request):
+      feed = Feeds.get_by_id(int(request.get("id")))
+      feed.delete()
+      util.flushFeedList()
+      return True

@@ -61,7 +61,7 @@ dt {font:bold}
 #sidebar{border: 1px #000000 solid;PADDING-RIGHT: 10px; PADDING-LEFT: 10px;padding-bottom:10px}
 #sidebar h3 {font: 1.5em Georgia, Times, serif; letter-spacing: 0; text-transform: none;margin-bottom: 0.25em; color: #333;}
 #sidebar H2 {MARGIN: 0px 0px 8px; FONT: italic 12px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none}
-#login , #favourite_site ,  #tagclound, #greeting {border-bottom: 1px dashed #B2B2B2; padding: 10px 0.5em;}
+#login , #ajaxfeed ,  #tagclound, #greeting {border-bottom: 1px dashed #B2B2B2; padding: 10px 0.5em;}
 #favourite_ebook {padding: 10px 0.5em;}
 #sidebar div.login {padding-top: 0;}
 #sidebar li a{text-decoration:none !important;}
@@ -120,8 +120,8 @@ html>body .album_thumbnail{display:table;float:left}/*for mozilla */
 .album_thumbnail_title{width:170px;height:30px}
 
 .tagheader{font:bolder .7em Verdana, Arial, "Times New Roman", serif;}
-#delicious{padding-top:5px;padding-bottom:10px}
-#ajaxfeed{padding-top:5px;padding-bottom:10px}
+#delicious{padding-top:5px;padding-bottom:20px}
+#ajaxfeed{padding-top:10px;padding-bottom:20px}
 
 #greetings{overflow:auto;height:300px;}
 
