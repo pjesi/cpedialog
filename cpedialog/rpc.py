@@ -14,7 +14,7 @@ from google.appengine.api import memcache
 from google.appengine.api import images
 from google.appengine.ext import db
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Greeting
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Greeting,Feeds
 
 import authorized
 import util
@@ -317,7 +317,7 @@ class RPCHandler(webapp.RequestHandler):
       util.flushFeedList()
       feed['key'] = str(feed.key())
       feed['id'] = str(feed.key().id())
-      return menu
+      return feed
 
   @authorized.role('admin')
   def DeleteFeed(self,request):

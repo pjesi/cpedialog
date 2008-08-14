@@ -1,5 +1,5 @@
 YAHOO.util.Event.addListener(window, "load", function() {
-    EnhanceFromMarkup = new function() {
+    EnhanceFromMarkup_image = new function() {
         var DataTable  = YAHOO.widget.DataTable,
             Paginator  = YAHOO.widget.Paginator;
 

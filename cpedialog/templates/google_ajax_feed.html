@@ -1,5 +1,5 @@
 <div id="ajaxfeed">
-    <h3>My Feeds</h3>
+
     <script src="http://www.google.com/jsapi/?key={{BLOG.google_ajax_feed_key}}"
             type="text/javascript"></script>
     <script src="http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.js"
@@ -7,13 +7,6 @@
 
     <style type="text/css">
         @import url( "http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.css" );
-
-        #feedControl {
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 16px;
-            color: #9CADD0;
-        }
     </style>
     <script type="text/javascript">
         function load() {
@@ -21,7 +14,8 @@
                numResults : 16,
                displayTime : 5000,
                linkTarget : google.feeds.LINK_TARGET_BLANK,
-               stacked : true
+               stacked : true,
+               title : 'Technical Articles'
              };
             var feeds = [
                 {%for feed in feeds%}
@@ -35,5 +29,6 @@
         google.load("feeds", "1");
         google.setOnLoadCallback(load);
     </script>
+    <h3>My Feeds</h3>
     <div id="feedControl">Loading...</div>
 </div>

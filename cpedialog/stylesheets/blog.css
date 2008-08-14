@@ -70,6 +70,12 @@ dt {font:bold}
 #login UL, #favourite_ebook UL , #favourite_site UL {MARGIN: 0px 0px 1.5em; LIST-STYLE-TYPE: none}
 #login UL LI, #favourite_ebook UL LI, #favourite_site UL LI {PADDING-RIGHT: 0px; PADDING-LEFT: 5px; BACKGROUND: url(/img/bullet.gif) no-repeat 0px 0.5em; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0.5em; PADDING-TOP: 0px}
 #login a:hover {font:bolder;color: #000;background-color:#FFF;}
+.tagheader{font:bolder .7em Verdana, Arial, "Times New Roman", serif;}
+#delicious{padding-top:5px;padding-bottom:20px}
+#favourite_site{padding-top:10px;padding-bottom:20px;padding-left:10px}
+#ajaxfeed{padding-bottom:20px;}
+.feedth{width:200px!important; word-break: break-all;}
+#greetings{overflow:auto;height:300px;}
 
 #gravatar{vertical-align:middle;padding-bottom:10px;padding-top:10px;padding-left:10px;overflow:hidden;line-height:48px}
 #gravatar img{float:left; border:1px solid #999999;margin-right:5px;padding:2px}
@@ -118,13 +124,6 @@ html>body #albums {display:table} /*for mozilla */
 html>body .album_thumbnail{display:table;float:left}/*for mozilla */
 .album_thumbnail_img{background-image:url('/img/album_background.gif');background-repeat:no-repeat;padding-top:15px;padding-bottom:10px;padding-left:5px;padding-right:5px;width:180px;height:170px}
 .album_thumbnail_title{width:170px;height:30px}
-
-.tagheader{font:bolder .7em Verdana, Arial, "Times New Roman", serif;}
-#delicious{padding-top:5px;padding-bottom:20px}
-#ajaxfeed{padding-top:10px;padding-bottom:20px}
-
-#greetings{overflow:auto;height:300px;}
-
 
 #recaptcha{margin-bottom:0!important;padding:0}
 #recaptcha div{margin-bottom:0!important;padding:0}
