@@ -1,8 +1,6 @@
 <DIV id=sidebar>
-
     {% block webloglist %}
     {% endblock %}
-
     {% block loginmenu %}
     <DIV id=login>
         <H3>Login</H3>
@@ -21,13 +19,8 @@
         </UL>
     </DIV>
     {% endblock %}
-
     {% include "tagclound.html" %}
-    
     {% include "google_ajax_feed.html" %}
-
     {# include "module_plugin/greeting.html" #}
-
     {% include "module_plugin/favourite_site.html" %}
-
 </DIV>

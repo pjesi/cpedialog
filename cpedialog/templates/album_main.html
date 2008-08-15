@@ -1,9 +1,6 @@
 {% extends "main.html" %}
-
 {% block title %}{{title}} - Albums{% endblock %}
-
 {% block blogcontainer %}
-
 <script type="text/javascript">
     function showAlbumByUser(obj){
         var username = obj[obj.selectedIndex].value;
@@ -12,13 +9,19 @@
 </script>
 <div class="yui-g" id="albumsdiv">
 
+    {% if error %}
+   <div class="error">
+       {{error}}
+   </div>
+    {% endif %}
+   {% if albums %}
     <div id="albuminfo">
         <H3>Albums</H3>
         <p>
             Please select a picasaweb user to show the albums.
             <select id="username" onchange="showAlbumByUser(this)">
                 {% for username_ in usernames %}
-                <option {%ifequal username_ username %} selected {%endifequal%} value={{username_}}>{{username_}}</option>
+                <option {%ifequal username_.album_username username %} selected {%endifequal%} value={{username_.album_username}}>{{username_.album_username}}</option>
                 {% endfor %}
             </select>
         <p>
@@ -40,5 +43,6 @@
          </div>
         {% endfor %}
     </div>
+    {%endif %}
 </div>
 {% endblock %}

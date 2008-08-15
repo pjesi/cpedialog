@@ -9,7 +9,9 @@ blog = {
     "cache_time": 0,      # You can override this default for each page through a handler's call to view.ViewPage(cache_time=...)
 
     #apply google ajax feed key for your domain from: http://code.google.com/apis/ajaxfeeds/signup.html
-    "google_ajax_feed_key":"ABQIAAAAOY_c0tDeN-DKUM-NTZldZhQG0TqTy2vJ9mpRzeM1HVuOe9SdDRSieJccw-q7dBZF5aGxGJ-oZDyf5Q"
+    "google_ajax_feed_key":"ABQIAAAAOY_c0tDeN-DKUM-NTZldZhQG0TqTy2vJ9mpRzeM1HVuOe9SdDRSieJccw-q7dBZF5aGxGJ-oZDyf5Q",
+    "google_ajax_feed_result_num":15,
+    "google_ajax_feed_title":"Technical Articles",
 }
 
 album ={

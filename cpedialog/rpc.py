@@ -150,6 +150,8 @@ class RPCHandler(webapp.RequestHandler):
             album.access = newData
           if editColumn == "date":
             album.date = simplejson.loads(newData)
+          if editColumn == "order":
+            album.order = simplejson.loads(newData)
           if editColumn == "valid":
             album.valid = simplejson.loads(newData)
           album.put()
@@ -164,6 +166,7 @@ class RPCHandler(webapp.RequestHandler):
       album["access"] = "public"
       album["date"] = datetime.datetime.now()
       album["valid"] = False
+      album["order"] = 0
       album["owner"] = users.GetCurrentUser()
       datastore.Put(album)
       util.flushAlbumList()

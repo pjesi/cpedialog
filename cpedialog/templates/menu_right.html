@@ -1,11 +1,9 @@
 <DIV id=menu_right>
-
     {% block webloglist %}
     {% endblock %}
     <div id="subscribe">
       <a href="/atom" target="_blank"><img src="/img/feed-icon-16x16.png" alt="Subscribe to this blog">Subscribe to this blog. </a>
     </div>
-
     <div id="comments">
         <h2>Recent comments</h2>
         <ul>
@@ -19,9 +17,7 @@
             </li>               
             {% endfor %}
         </ul>
-
     </div>
-
     <div id="archives">
         <h2>Archives</h2>
         <ul>
@@ -29,11 +25,8 @@
             <li><a href='/archive/{{archive.monthyear|replace:" -"}}'>{{ archive.monthyear }} ({{archive.weblogcount}})</a></li>
             {% endfor %}
         </ul>
-
     </div>
-
     <div id="google_ad">
         {% include 'google_ad.html' %}
     </div>
-
 </DIV>

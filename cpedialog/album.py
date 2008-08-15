@@ -45,27 +45,33 @@ class BaseRequestHandler(webapp.RequestHandler):
 
 class MainPage(BaseRequestHandler):
   def get(self):
-    usernames =config.album['username']
-    defaultUsername = usernames[0]
-    key_albums = "albums_"+defaultUsername
-    try:
-        feed = memcache.get(key_albums)
-    except Exception:
-        feed = None
-    if not feed:
-        gd_client = gdata.photos.service.PhotosService()
-        feed = gd_client.GetUserFeed(user=defaultUsername)
-        memcache.add(key=key_albums, value=feed, time=3600)
-    template_values = {
-      'username':defaultUsername,
-      'usernames':usernames,
-      'albums':feed.entry,
-       }
+    usernames = util.getAlbumList()
+    if usernames and usernames.count() >0  :
+        defaultAlbum = usernames.get()
+        key_albums = "albums_"+defaultAlbum.album_username
+        try:
+            feed = memcache.get(key_albums)
+        except Exception:
+            feed = None
+        if not feed:
+            gd_client = gdata.photos.service.PhotosService()
+            feed = gd_client.GetUserFeed(user=defaultAlbum.album_username)
+            memcache.add(key=key_albums, value=feed, time=3600)
+        template_values = {
+          'username':defaultAlbum.album_username,
+          'usernames':usernames,
+          'albums':feed.entry,
+           }
+    else:
+        template_values ={
+            'error':"Please set picasaweb album(s) in the system configuration."
+        }
     self.generate('album_main.html',template_values)
 
+        
 class UserHandler(BaseRequestHandler):
   def get(self, username):
-    usernames =config.album['username'] 
+    usernames = util.getAlbumList()
     key_albums = "albums_"+username
     try:
         feed = memcache.get(key_albums)

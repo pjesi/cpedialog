@@ -1,10 +1,10 @@
 YAHOO.util.Event.addListener(window, "load", function() {
     EnhanceFromMarkup_album = new function() {
         var myColumnDefs = [
-            {key:"album_username",label:"Picasaweb",sortable:true,editor:"textbox"},
-            {key:"owner",label:"Owner",sortable:true},
-            {key:"album_type",label:"Type",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["public","private"]}},
-            {key:"access",label:"Access",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["public","private","login"],disableBtns:true}},
+            {key:"album_username",label:"Username",sortable:true,editor:"textbox"},
+            {key:"album_type",label:"Access(picasaweb)",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["public","private"]}},
+            {key:"access",label:"Access(blog)",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["public","private","login"],disableBtns:true}},
+            {key:"order",label:"Order",formatter:YAHOO.widget.DataTable.formatNumber,sortable:true,editor:"textbox",editorOptions:{validator:YAHOO.widget.DataTable.validateNumber}},
             {key:"valid",label:"Valid",sortable:true,editor:"radio",editorOptions:{radioOptions:[true,false],disableBtns:true}},
             {key:"id",label:"Id",sortable:true,isPrimaryKey:true},
             {key:"delete",label:"",action:'delete',formatter:function(elCell) {
@@ -18,14 +18,13 @@ YAHOO.util.Event.addListener(window, "load", function() {
         this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("albumtable"));
         this.myDataSource.responseType = YAHOO.util.DataSource.TYPE_HTMLTABLE;
         this.myDataSource.responseSchema = {
-            fields: [{key:"album_username"},{key:"owner"},
-                {key:"album_type"}, {key:"access"}, {key:"valid"},  {key:"id"}, {key:"delete"}, {key:"insert"}
+            fields: [{key:"album_username"}, {key:"album_type"}, {key:"access"}, {key:"order"}, {key:"valid"},  {key:"id"}, {key:"delete"}, {key:"insert"}
             ]
         };
         this.myDataTable = new YAHOO.widget.DataTable("albumdiv", myColumnDefs, this.myDataSource,
            { sortedBy:{key:"album_username",dir:"asc"}});
 
-        this.myDataTable.updateMethod = "UpdateMenu";
+        this.myDataTable.updateMethod = "UpdateAlbum";
 
         // Set up editing flow
         this.highlightEditableCell = function(oArgs) {

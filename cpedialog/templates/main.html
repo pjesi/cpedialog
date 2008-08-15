@@ -4,11 +4,12 @@
     <meta name="verify-v1" content="XR70SJE5JNIWNugeaRSpxdbdQeJ6dUno8MHQRplhv/Y=" />
     <meta name="msvalidate.01" content="DF4A381369FD44CDBD61C7E9566A74EC" />
     <META http-equiv=Content-Type content="text/html; charset=utf-8">
-    <TITLE>
-        {% block title %}
-        {{title}}
-        {% endblock %}
-    </TITLE>
+    <!-- cpedialog: http://code.google.com/p/cpedialog created by cpedia: http://blog.cpedia.com -->
+    <meta name="keywords" content="appengine,python,django,cpedialog,free,open source,cpedia,blog" />
+    <meta name="description" content="cpedialog is an open source blog program can be hosted on google appengine." />
+    <meta name="author" content="cpedia, Ping Chen, http://blog.cpedia.com" />
+    <meta name="copyright" content="2008 http://cpedia.com" />
+    <TITLE>{% block title %}{{title}}{% endblock %}</TITLE>
     <link rel="alternate" type="application/atom+xml" title="{{ BLOG.title }}" href="{{ BLOG.root_url }}/atom" />
     <link type="text/css" rel="stylesheet" href="/stylesheets/blog.css"/>
     <link type="text/css" rel="stylesheet" href="/stylesheets/weblog.css"/>
@@ -26,14 +27,12 @@
         <div id="yui-main">
             <div class="yui-b">
                 <DIV id=logo style='BACKGROUND-IMAGE: url(/img/logo/{{logoImages|random}});margin-bottom:15px'></DIV>
-
                 {% block blogcontainer %}
                 <div class="yui-gc" id="blogcontainer">
                     <div class="yui-u first">
                         {% block blog %}
                         {% endblock %}
                     </div>
-
                     <div class="yui-u">
                         {% include "menu_right.html" %}
                     </div>
@@ -41,18 +40,13 @@
                 {% endblock %}
             </div>
         </div>
-
         <div class="yui-b">
             {% include "menu_right_right.html" %}
         </div>
     </div>
-
     <div id="ft">
         {% include "footer.html" %}
     </div>
-
 </div>
-
 </BODY>
-
 </HTML>

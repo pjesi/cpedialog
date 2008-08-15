@@ -47,7 +47,7 @@ class MainPage(BaseRequestHandler):
   def get(self):
         cache_stats = memcache.get_stats()
         session_tokens = AuthSubStoredToken.all()
-        albums = Album.all()
+        albums = Album.all().order('order')
         pages = Weblog.all().filter('entrytype','page').order('-date')
         menus = Menu.all().order('order')
         feeds = Feeds.all().order('order')

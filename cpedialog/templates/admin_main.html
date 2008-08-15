@@ -1,9 +1,6 @@
 {% extends "main.html" %}
-
 {% block title %}{{title}} - System Admin{% endblock %}
-
 {% block blogcontainer %}
-
 <!-- Dependency -->
 <script src="http://yui.yahooapis.com/2.5.2/build/yahoo/yahoo-min.js"></script>
 <!-- Used for Custom Events and event listener bindings -->
@@ -12,20 +9,17 @@
 <script src="http://yui.yahooapis.com/2.5.2/build/connection/connection-min.js"></script>
 <!-- JSON Utility -->
 <script src="http://yui.yahooapis.com/2.5.2/build/json/json-min.js"></script>
-
 <!--DataTable-->
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/datatable/assets/skins/sam/datatable.css" />
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/yahoo-dom-event/yahoo-dom-event.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/element/element-beta-min.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datasource/datasource-beta-min.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datatable/datatable-beta-min.js"></script>
-
 <!--my yui grid render-->
 <script type="text/javascript" src="/jscripts/update.prototype.grid.js"></script>
 <script type="text/javascript" src="/jscripts/albumlist.grid.js"></script>
 <script type="text/javascript" src="/jscripts/menulist.grid.js"></script>
 <script type="text/javascript" src="/jscripts/feedlist.grid.js"></script>
-
 <div class="yui-g">
 <div id="admincontainer" class=" yui-skin-sam">
 <script>
@@ -109,9 +103,9 @@
         <table id="albumtable">
             <thead><tr>
                 <th>Picasaweb</th>
-                <th>Owner</th>
-                <th>Type</th>
-                <th>Access</th>
+                <th>Access(picasaweb)</th>
+                <th>Access(blog)</th>
+                <th>Order</th>
                 <th>Valid</th>
                 <th>Id</th>
                 <th></th>
@@ -121,9 +115,9 @@
             {% for album in albums %}
             <tr>
                 <td>{{album.album_username}}</td>
-                <td>{{album.owner.email}}</td>
                 <td>{{album.album_type}}</td>
                 <td>{{album.access}}</td>
+                <td>{{album.order}}</td>
                 <td>{{album.valid}}</td>
                 <td>{{album.key.id}}</td>
                 <td> </td>

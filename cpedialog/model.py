@@ -156,10 +156,9 @@ class Album(db.Model):
     access = db.StringProperty(multiline=False,default='public',choices=[
         'public','private','login'])     #public: all can access the album; private:only the owner can access;
                                          #login:login user can access.
-
     album_type = db.StringProperty(multiline=False,default='public',choices=[
         'public','private'])    #private album need to authorize by user and store the session token.
-
+    order = db.IntegerProperty()
     valid = db.BooleanProperty(default = True)
 
 class Menu(db.Model):

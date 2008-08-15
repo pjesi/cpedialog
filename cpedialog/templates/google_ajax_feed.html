@@ -11,11 +11,11 @@
     <script type="text/javascript">
         function load() {
             var options = {
-               numResults : 16,
+               numResults : {{BLOG.google_ajax_feed_result_num}},
                displayTime : 5000,
                linkTarget : google.feeds.LINK_TARGET_BLANK,
                stacked : true,
-               title : 'Technical Articles'
+               title : '{{BLOG.google_ajax_feed_title}}'
              };
             var feeds = [
                 {%for feed in feeds%}

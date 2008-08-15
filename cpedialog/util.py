@@ -159,7 +159,7 @@ def getAlbumList():
     except Exception:
         menus = None
     if menus is None:
-        menus = Album.all().filter('valid',True).order('-date')
+        menus = Album.all().filter('valid',True).order('-order')
         memcache.add(key=key_, value=menus, time=3600)
     else:
         logging.debug("getAlbumList from cache. ")

@@ -1,9 +1,6 @@
 {% extends "main.html" %}
-
 {% block title %}{{title}} - {{blog.title}}{% endblock %}
-
 {% block blogcontainer %}
-
 <!-- Skin CSS file -->
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/assets/skins/sam/skin.css">
 <!-- Utility Dependencies -->
@@ -13,12 +10,10 @@
 <script src="http://yui.yahooapis.com/2.5.2/build/container/container_core-min.js"></script>
 <!-- Source file for Rich Text Editor-->
 <script src="http://yui.yahooapis.com/2.5.2/build/editor/simpleeditor-beta-min.js"></script>
-
 <div class="yui-g">
 <div id="blogview">
 <div>
 <H2 class=date-header> {{blog.date|date:"l, F m, Y"}} </H2>
-
 <div class="post">
     <H3 class=post-title>
         {%if blog.permalink %}
@@ -27,11 +22,9 @@
         <a href="/viewBlog?blogId={{ blog.key.id }}">{{blog.title}}</a>
         {% endif %}
     </H3>
-
     <DIV class=post-body>
         {{blog.content}}
     </DIV>
-
     <DIV class=post-footer>
         {% if blog.tags %}
         <p>
@@ -47,14 +40,11 @@
                         <A class=timestamp-link href="/{{blog.relative_permalink}}">{{blog.date|date:"H:i A"}}</A>
                     </SPAN>
         </P>
-
         <P>
             {% ifequal administrator 1 %}
-
         <p style='text-align: right;'>:<a href='/edit/blog/{{blog.key.id}}'>edit</a>: :
             <a href='/delete/blog/{{blog.key.id}}'>delete</a>:</p>
         {% endifequal %}
-
         {% ifnotequal reaction.lastModifiedDate Null %}
         Edited at {{blog.lastModifiedDate}} by {{blog.lastModifiedBy}}.
         {% endifnotequal %}
@@ -62,7 +52,6 @@
 </div>
 {% ifnotequal reactions.count 0 %}
 <br> <br>
-
 <div class="commentlabel">
     <h4> Reactions</h4>
 </div>
@@ -88,7 +77,6 @@
                 IP:{{reaction.userIp}}
                 {% endifnotequal %}
             </p>
-
             <DIV class=post-body>
                 <img height="32" width="32" class="avatar" src="{%if not reaction.author %}{{reaction.authorEmail|gravatar}}{%else%}{{reaction.author.email|gravatar}}{% endif %}"/>
                 <p>{{reaction.content}}</p>
@@ -119,7 +107,6 @@
             <div>
                 <input id="name_input" name='name_input' type=text size="60"
                        value="{% if user %}{{user.nickname}}{%else%}{{blogReaction.user}}{%endif%}" {% if user %}readonly{%endif%}>
-
                 <label for="name_input"><b>Name</b> (required)</label>
             </div>
             <div>
@@ -135,7 +122,6 @@
                 {%if captchahtml%}{{captchahtml}}{%endif%}
             </div>
             <h2 class="comments-post">Comment</h2>
-
             <div id="blogpost">
                 <textarea id="text_input" name="text_input" rows="12" cols="60">
                     {%if blogReaction%}{{blogReaction.content}}{%endif%}
@@ -193,7 +179,6 @@
                 editor.saveHTML();        
                 return true;
             }
-
         </script>
     </div>
 </div>
