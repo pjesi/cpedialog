@@ -146,7 +146,19 @@ class CPediaLog(db.Model):
    author = db.StringProperty()
    email = db.StringProperty()
    root_url = db.StringProperty()
-   host_ip = db.StringProperty()    
+   cache_time = db.IntegerProperty()
+   blog_num_per_page = db.IntegerProperty()
+   google_ajax_feed_key = db.StringProperty()
+   google_ajax_feed_result_num = db.IntegerProperty()
+   google_ajax_feed_title = db.StringProperty()
+   delicious_username = db.StringProperty()
+   recaptcha_enable = db.StringProperty()
+   recaptcha_public_key = db.StringProperty()
+   recaptcha_private_key = db.StringProperty()
+   debug = db.BooleanProperty(default = True)
+   host_ip = db.StringProperty()
+   host_domain = db.StringProperty()
+   default = db.BooleanProperty(default = True)
 
 
 class Album(db.Model):
