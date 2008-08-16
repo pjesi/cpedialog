@@ -28,6 +28,8 @@ import view
 import config
 import util
 
+from model import Album
+
 import gdata.urlfetch
 gdata.service.http_request_handler = gdata.urlfetch
 
@@ -42,23 +44,27 @@ class BaseRequestHandler(webapp.RequestHandler):
     directory = os.path.dirname(__file__)
     view.ViewPage(cache_time=0).render(self, template_name,values)
 
+  def getAlbumFeedEntry(self,album_username):
+      key_albums = "albums_"+ album_username
+      try:
+          feed = memcache.get(key_albums)
+      except Exception:
+          feed = None
+      if not feed:
+          gd_client = gdata.photos.service.PhotosService()
+          feed = gd_client.GetUserFeed(user= album_username)
+          memcache.add(key=key_albums, value=feed, time=3600)
+      return feed
 
 class MainPage(BaseRequestHandler):
   def get(self):
     usernames = util.getAlbumList()
-    if usernames and usernames.count() >0  :
+    if usernames and usernames.count() > 0  :
         defaultAlbum = usernames.get()
-        key_albums = "albums_"+defaultAlbum.album_username
-        try:
-            feed = memcache.get(key_albums)
-        except Exception:
-            feed = None
-        if not feed:
-            gd_client = gdata.photos.service.PhotosService()
-            feed = gd_client.GetUserFeed(user=defaultAlbum.album_username)
-            memcache.add(key=key_albums, value=feed, time=3600)
+        album_username = defaultAlbum.album_username
+        feed = self.getAlbumFeedEntry(defaultAlbum.album_username)
         template_values = {
-          'username':defaultAlbum.album_username,
+          'username':album_username,
           'usernames':usernames,
           'albums':feed.entry,
            }
@@ -72,21 +78,31 @@ class MainPage(BaseRequestHandler):
 class UserHandler(BaseRequestHandler):
   def get(self, username):
     usernames = util.getAlbumList()
-    key_albums = "albums_"+username
-    try:
-        feed = memcache.get(key_albums)
-    except Exception:
-        feed = None
-    if not feed:
-        gd_client = gdata.photos.service.PhotosService()
-        feed = gd_client.GetUserFeed(user=username)
-        memcache.add(key=key_albums, value=feed, time=3600)
+    album = db.Query(Album).filter('album_username =',username).get()
+    if album is None:
+        self.redirect("/albums")
+    feed = self.getAlbumFeedEntry(album.album_username)
     template_values = {
       'username':username,
       'usernames':usernames,
       'albums':feed.entry,
        }
     self.generate('album_main.html',template_values)
+
+class UserPrivateHandler(BaseRequestHandler):
+   @authorized.authSub("albums")
+   def get(self, username):
+        usernames = util.getAlbumList()
+        album = db.Query(Album).filter('album_username =',username).get()
+        if album is None:
+            self.redirect("/albums")
+        feed = self.getAlbumFeedEntry(album.album_username)
+        template_values = {
+          'username':username,
+          'usernames':usernames,
+          'albums':feed.entry,
+           }
+        self.generate('album_main.html',template_values)
 
 
 class AlbumHandler(BaseRequestHandler):

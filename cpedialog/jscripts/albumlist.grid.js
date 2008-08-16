@@ -3,14 +3,13 @@ YAHOO.util.Event.addListener(window, "load", function() {
         var myColumnDefs = [
             {key:"album_username",label:"Username",sortable:true,editor:"textbox"},
             {key:"album_type",label:"Access(picasaweb)",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["public","private"]}},
-            {key:"access",label:"Access(blog)",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["public","private","login"],disableBtns:true}},
             {key:"order",label:"Order",formatter:YAHOO.widget.DataTable.formatNumber,sortable:true,editor:"textbox",editorOptions:{validator:YAHOO.widget.DataTable.validateNumber}},
             {key:"valid",label:"Valid",sortable:true,editor:"radio",editorOptions:{radioOptions:[true,false],disableBtns:true}},
             {key:"id",label:"Id",sortable:true,isPrimaryKey:true},
-            {key:"delete",label:"",action:'delete',formatter:function(elCell) {
+            {key:"delete",label:"Del",action:'delete',formatter:function(elCell) {
                 elCell.innerHTML = '<img src="/img/delete.gif" title="delete row" />';
                 elCell.style.cursor = 'pointer';}},
-            {key:"insert",label:"",action:'insert',formatter:function(elCell) {
+            {key:"insert",label:"Add",action:'insert',formatter:function(elCell) {
                 elCell.innerHTML = '<img src="/img/insert.png" title="insert new row" />';
                 elCell.style.cursor = 'pointer';}}
         ];
@@ -18,7 +17,7 @@ YAHOO.util.Event.addListener(window, "load", function() {
         this.myDataSource = new YAHOO.util.DataSource(YAHOO.util.Dom.get("albumtable"));
         this.myDataSource.responseType = YAHOO.util.DataSource.TYPE_HTMLTABLE;
         this.myDataSource.responseSchema = {
-            fields: [{key:"album_username"}, {key:"album_type"}, {key:"access"}, {key:"order"}, {key:"valid"},  {key:"id"}, {key:"delete"}, {key:"insert"}
+            fields: [{key:"album_username"}, {key:"album_type"}, {key:"order"}, {key:"valid"},  {key:"id"}, {key:"delete"}, {key:"insert"}
             ]
         };
         this.myDataTable = new YAHOO.widget.DataTable("albumdiv", myColumnDefs, this.myDataSource,

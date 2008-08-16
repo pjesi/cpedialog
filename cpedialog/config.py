@@ -14,20 +14,8 @@ blog = {
     "google_ajax_feed_title":"Technical Articles",
 }
 
-album ={
-    "username":["cpedia","yeli.piao","pegina8"]
-}
-
 delicious = {
     "username":"cpedia"    #del.icio.us user name.
-}
-
-google_docs = {
-    "username":"cpedia@gmail.com"
-}
-
-google_calendar = {
-    "username":"cpedia@gmail.com"
 }
 
 recaptcha = {

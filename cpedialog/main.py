@@ -48,6 +48,7 @@ def main():
 
                                         ('/albums/*$', album.MainPage),
                                         ('/albums/([-\w\.]+)/*$', album.UserHandler),
+                                        ('/albums/([-\w\.]+)/private/*$', album.UserPrivateHandler),
                                         ('/albums/([-\w\.]+)/([-\w]+)/*$', album.AlbumHandler),
                                         ('/albums/([-\w\.]+)/([-\w]+)/([\d]+)/*$', album.PhotoHandler),
 
