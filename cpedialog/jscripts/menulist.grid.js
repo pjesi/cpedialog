@@ -83,6 +83,29 @@
                     }
                 });
 
+                this.myDataTable.subscribe('theadLabelDblclickEvent', function(ev) {
+                    var target = YAHOO.util.Event.getTarget(ev);
+                    //var column = this.getTheadEl(target);
+                    //if (column.label == 'insert') {
+                       if (confirm('Are you sure to add a new menu?')) {
+                           YAHOO.util.Connect.asyncRequest('POST', '/rpc?action=AddMenu',
+                           {
+                               success: function (o) {
+                                       var record = YAHOO.lang.JSON.parse(o.responseText);
+                                       this.addRow(record ,this.getRecordIndex(target));
+                                },
+                               failure: function (o) {
+                                   alert(o.statusText);
+                               },
+                               scope:this
+                           }
+                                   );
+                       }
+                    //} else {
+                    //    this.onEventShowCellEditor(ev);
+                   //}
+                });
+
                 this.myDataTable.subscribe('cellClickEvent', function(ev) {
                     var target = YAHOO.util.Event.getTarget(ev);
                     var column = this.getColumn(target);
