@@ -1,0 +1,1 @@
+This folder is only for blog.cpedia.com. You don't need the files in the folder for your blog.
