@@ -34,7 +34,9 @@ dt {font:bold}
 
 #footer{margin-top:20px;margin-bottom:20px;height: 2.5em; background: #FBFAF4;overflow: hidden;min-width: 750px;}
 #admincontainer fieldset{margin-bottom:20px!important;padding-bottom:20px;border:1px solid #cccccc!important;}
+
 .submit{margin-top:10px;margin-bottom:10px; border:1px solid #cccccc;background-color:#cccccc;}
+
 #admincontainer .fieldsetdiv{padding-left:10px;padding-top:5px;padding-right:10px}
 #admincontainer legend{padding: 2px 6px;font-weight:bold;}
 .fieldsetcomment{font: 0.8em Georgia, "Times New Roman", serif,italic;}
@@ -43,6 +45,9 @@ dt {font:bold}
 #imagetable .thumbnail{background:white none repeat scroll 0% 0%;border:1px solid #CCCCCC;padding:0;}
 #adminmenu{padding-bottom:20px;font: 1.5em Georgia, "Times New Roman", serif;border-top:1px solid #CCCCCC}
 #adminmenu a{border:1px solid #CCCCCC;padding:5px}
+#configuration{border:none}
+#configuration th{border:none;text-align:right!important;padding-top:10px;}
+#configuration td{border:none;text-align:left;padding:7px 3px;}
 
 .post {PADDING-RIGHT: 10px; PADDING-LEFT: 10px; margin-bottom:10px;border-bottom: 1px dotted #cccccc;}
 .post-title {font: 1.6em Georgia, Times, serif;MARGIN: 1em 0px 0.25em;text-transform: none; letter-spacing: 1px;}

@@ -25,6 +25,8 @@
 <script type="text/javascript" src="/jscripts/imagelist.grid.js"></script>
 <script type="text/javascript" src="/jscripts/taglist.grid.js"></script>
 <script type="text/javascript" src="/jscripts/archivelist.grid.js"></script>
+<script type="text/javascript" src="/jscripts/albumlist.grid.js"></script>
+<script type="text/javascript" src="/jscripts/feedlist.grid.js"></script>
 
 <div class="yui-g">
 <div id="admincontainer" class=" yui-skin-sam">
@@ -40,6 +42,70 @@
         <a href="/admin" onfocus="this.blur()">System Configuration</a>  <a href="/admin/more" onfocus="this.blur()">Resource Management</a>
     </div>
 
+<fieldset>
+    <legend>Albums Admin</legend>
+    <div class="fieldsetdiv">
+        Album List:
+        <div id="albumdiv">
+        <table id="albumtable">
+            <thead><tr>
+                <th>Picasaweb</th>
+                <th>Access(picasaweb)</th>
+                <th>Order</th>
+                <th>Valid</th>
+                <th>Id</th>
+                <th></th>
+                <th></th>
+            </tr></thead>
+            <tbody>
+            {% for album in albums %}
+            <tr>
+                <td>{{album.album_username}}</td>
+                <td>{{album.album_type}}</td>
+                <td>{{album.order}}</td>
+                <td>{{album.valid}}</td>
+                <td>{{album.key.id}}</td>
+                <td> </td>
+                <td> </td>
+            </tr>
+            {% endfor%}
+            </tbody>
+        </table>
+       </div>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>Feeds Admin</legend>
+    <div class="fieldsetdiv">
+        Feed List:
+        <div id="feeddiv">
+        <table id="feedtable">
+            <thead><tr>
+                <th>Title</th>
+                <th>Feed</th>
+                <th>Order</th>
+                <th>Valid</th>
+                <th>Id</th>
+                <th></th>
+                <th></th>
+            </tr></thead>
+            <tbody>
+            {% for feed in feeds %}
+            <tr>
+                <td>{{feed.title}}</td>
+                <td>{{feed.feed}}</td>
+                <td>{{feed.order}}</td>
+                <td>{{feed.valid}}</td>
+                <td>{{feed.key.id}}</td>
+                <td> </td>
+                <td> </td>
+            </tr>
+            {% endfor%}
+            </tbody>
+        </table>
+       </div>
+    </div>
+</fieldset>
 <fieldset>
     <legend>Uploaded Images Admin</legend>
     <div class="fieldsetdiv">

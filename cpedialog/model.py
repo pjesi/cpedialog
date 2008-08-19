@@ -146,16 +146,24 @@ class CPediaLog(db.Model):
    author = db.StringProperty()
    email = db.StringProperty()
    root_url = db.StringProperty()
-   cache_time = db.IntegerProperty()
-   blog_num_per_page = db.IntegerProperty()
-   google_ajax_feed_key = db.StringProperty()
-   google_ajax_feed_result_num = db.IntegerProperty()
-   google_ajax_feed_title = db.StringProperty()
-   delicious_username = db.StringProperty()
+   logo_images = db.ListProperty(db.Category)
+   num_post_per_page = db.IntegerProperty()
+   cache_time = db.IntegerProperty(default=0)
+   debug = db.BooleanProperty(default = True)
+
    recaptcha_enable = db.StringProperty()
    recaptcha_public_key = db.StringProperty()
    recaptcha_private_key = db.StringProperty()
-   debug = db.BooleanProperty(default = True)
+
+   delicious_enable = db.BooleanProperty(default = True)
+   delicious_username = db.StringProperty()
+
+   google_ajax_feed_enable = db.BooleanProperty(default = True)
+   google_ajax_feed_key = db.StringProperty(
+           default='ABQIAAAAOY_c0tDeN-DKUM-NTZldZhQG0TqTy2vJ9mpRzeM1HVuOe9SdDRSieJccw-q7dBZF5aGxGJ-oZDyf5Q')
+   google_ajax_feed_result_num = db.IntegerProperty()
+   google_ajax_feed_title = db.StringProperty()
+   
    host_ip = db.StringProperty()
    host_domain = db.StringProperty()
    default = db.BooleanProperty(default = True)
