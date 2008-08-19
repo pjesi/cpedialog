@@ -21,7 +21,8 @@ blog = {
     "recaptcha_public_key":"6Ld7tQIAAAAAAJLo39p3u6AvTAJcXftc5mJeAif5",
     "recaptcha_private_key":"6Ld7tQIAAAAAAO0iDvyai5Ie-WUHuyDwpshIlKro",
 
-    "logo_images": ["logo1.gif","logo2.gif"],
+    "logo_images": ["http://blog.cpedia.com/img/logo/logo1.gif",
+                    "http://blog.cpedia.com/img/logo/logo2.gif"],
 
     "debug":True,
     "num_post_per_page":8
@@ -37,7 +38,8 @@ recaptcha = {
     "private_key":"6Ld7tQIAAAAAAO0iDvyai5Ie-WUHuyDwpshIlKro"  
 }
 
-logo_images = ["logo1.gif","logo2.gif"]  #make sure the images located in the folder img/logo.
+logo_images = ["http://blog.cpedia.com/img/logo/logo1.gif",
+               "http://blog.cpedia.com/img/logo/logo2.gif"]
 
 # Set to true if we want to have our webapp print stack traces, etc
 _DEBUG = True

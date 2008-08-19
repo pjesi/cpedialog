@@ -159,7 +159,7 @@ class CPediaLog(db.Model):
    delicious_username = db.StringProperty()
 
    google_ajax_feed_enable = db.BooleanProperty(default = True)
-   google_ajax_feed_key = db.StringProperty(
+   google_ajax_feed_key = db.StringProperty(multiline=False,
            default='ABQIAAAAOY_c0tDeN-DKUM-NTZldZhQG0TqTy2vJ9mpRzeM1HVuOe9SdDRSieJccw-q7dBZF5aGxGJ-oZDyf5Q')
    google_ajax_feed_result_num = db.IntegerProperty()
    google_ajax_feed_title = db.StringProperty()
@@ -167,6 +167,18 @@ class CPediaLog(db.Model):
    host_ip = db.StringProperty()
    host_domain = db.StringProperty()
    default = db.BooleanProperty(default = True)
+
+   def get_logo_images(self):
+       '''comma delimted list of tags'''
+       return ' '.join([urllib.unquote(logo_images) for logo_image in self.logo_images])
+
+   def set_logo_images(self, logo_images):
+       if logo_images:
+           logo_images_temp = [db.Category(urllib.quote(logo_image.strip().encode('utf8'))) for logo_image in logo_images.split(' ')]
+           self.logo_images = logo_images_temp
+
+   logo_images_space = property(get_logo_images,set_logo_images)
+
 
 
 class Album(db.Model):
