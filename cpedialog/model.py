@@ -145,7 +145,7 @@ class CPediaLog(db.Model):
     author = db.StringProperty(multiline=False, default='Your Blog Author')
     email = db.StringProperty(multiline=False, default='')
     description = db.StringProperty(default='Blog powered by cpedialog.')
-    root_url = db.StringProperty(multiline=False,default='http://yourapp.appspot.com')
+    root_url = db.StringProperty(multiline=False,default='http://pchen.appspot.com')
     logo_images = db.ListProperty(db.Category)
     num_post_per_page = db.IntegerProperty(default=8)
     cache_time = db.IntegerProperty(default=0)
@@ -182,14 +182,13 @@ class CPediaLog(db.Model):
         if not self.logo_images:
             logog_images_ =  ["http://blog.cpedia.com/img/logo/logo1.gif",
                     "http://blog.cpedia.com/img/logo/logo2.gif"]
-            self.logo_images = [db.Category(urllib.quote(logo_image.strip().encode('utf8'))) for logo_image in logog_images_]
+            self.logo_images = [db.Category(logo_image.strip().encode('utf8')) for logo_image in logog_images_]
         return ' '.join([urllib.unquote(logo_image) for logo_image in self.logo_images])
 
     def set_logo_images(self, logo_images):
         if not logo_images:
-            logog_images_ =  ["http://blog.cpedia.com/img/logo/logo1.gif",
-                    "http://blog.cpedia.com/img/logo/logo2.gif"]
-        self.logo_images = [db.Category(urllib.quote(logo_image.strip().encode('utf8'))) for logo_image in logog_images_]
+            logo_images =  "http://blog.cpedia.com/img/logo/logo1.gif http://blog.cpedia.com/img/logo/logo2.gif"
+        self.logo_images = [db.Category(logo_image.strip().encode('utf8')) for logo_image in logo_images.split(' ')]
 
     logo_images_space = property(get_logo_images,set_logo_images)
 

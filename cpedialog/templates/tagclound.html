@@ -9,6 +9,7 @@
             {% endfor%}
         </div>
     </div>
+    {% if BLOG.delicious_enable %}
     <div id="delicious">
         <span class="tagheader">My Del.icio.us</span>
         <div class="cloud">
@@ -17,5 +18,5 @@
             {% endfor %}
         </div>
     </div>
-
+    {% endif %}
 </div>

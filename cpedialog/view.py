@@ -36,6 +36,12 @@ class ViewPage(object):
                 url = users.create_login_url(handler.request.uri)
                 url_linktext = 'Sign in'
             cpedialog = util.getCPedialog()
+            delicious = None
+            if cpedialog.delicious_enable:
+                delicious = util.getDeliciousTag(cpedialog.delicious_username)
+            feeds = None
+            if cpedialog.google_ajax_feed_enable:
+                feeds = util.getFeedList()
             template_params = {
                 "title": cpedialog.title,
                 "current_url": url,
@@ -52,8 +58,8 @@ class ViewPage(object):
                 "BLOG": cpedialog,
                 "nav_menus": util.getMenuList(),
                 "tags": util.getTagList(),
-                "feeds": util.getFeedList(),
-                "delicious": util.getDeliciousTag(cpedialog.delicious_username),
+                "feeds": feeds,
+                "delicious": delicious,
                 "user_gravatar_url":util.getGravatarUrlByUser(users.get_current_user()),
                 "user_nickname":util.getUserNickname(users.get_current_user())
                # "docs": util.getGoogleDocs(config.delicious['username']),

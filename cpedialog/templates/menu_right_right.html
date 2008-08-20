@@ -20,6 +20,8 @@
     </DIV>
     {% endblock %}
     {% include "tagclound.html" %}
-    {% include "google_ajax_feed.html" %}
+    {% if BLOG.google_ajax_feed_enable %}
+      {% include "google_ajax_feed.html" %}
+    {% endif %}
     {# include "module_plugin/greeting.html" #}
 </DIV>

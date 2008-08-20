@@ -216,7 +216,7 @@ class AddBlogReaction(BaseRequestHandler):
         cResponse = captcha.submit(
                        challenge,
                        response,
-                       cpedialaog.recaptcha_private_key,
+                       cpedialog.recaptcha_private_key,
                        clientIp)
         if not cResponse.is_valid:
             captchahtml = None

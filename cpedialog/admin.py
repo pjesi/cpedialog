@@ -23,7 +23,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Feeds
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Feeds,CPediaLog
 import authorized
 import view
 import util
@@ -58,11 +58,7 @@ class MainPage(BaseRequestHandler):
 
   @authorized.role('admin')
   def post(self):
-        cpedialogs = CPediaLog().all().filter("default",True)
-        if cpedialogs:
-            cpedialog = cpedialogs.get()
-        else:
-            cpedialog = CPediaLog()
+        cpedialog = util.getCPedialog()
         cpedialog.title = self.request.get("title")
         cpedialog.author = self.request.get("author")
         cpedialog.email = self.request.get("email")
