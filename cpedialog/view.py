@@ -12,7 +12,6 @@ import copy
 import time
 import urlparse
 import string
-import config
 import util
 
 
@@ -20,7 +19,8 @@ class ViewPage(object):
     def __init__(self, cache_time=None):
         """Each ViewPage has a variable cache timeout"""
         if cache_time == None:
-            self.cache_time = config.blog['cache_time']
+            cpedialog = util.getCPedialog()
+            self.cache_time = cpedialog.cache_time
         else:
             self.cache_time = cache_time
 
@@ -35,8 +35,9 @@ class ViewPage(object):
             else:
                 url = users.create_login_url(handler.request.uri)
                 url_linktext = 'Sign in'
+            cpedialog = util.getCPedialog()
             template_params = {
-                "title": config.blog['title'],
+                "title": cpedialog.title,
                 "current_url": url,
                 'user': users.GetCurrentUser(),
                 'url': url,
@@ -47,18 +48,18 @@ class ViewPage(object):
                 "user_is_admin": users.is_current_user_admin(),
                 "login_url": users.create_login_url(handler.request.uri),
                 "logout_url": users.create_logout_url(handler.request.uri),
-                'logoImages': config.logo_images,
-                "BLOG": config.blog,
+                'logoImages': cpedialog.logo_images,
+                "BLOG": cpedialog,
                 "nav_menus": util.getMenuList(),
                 "tags": util.getTagList(),
                 "feeds": util.getFeedList(),
-                "delicious": util.getDeliciousTag(config.delicious['username']),
+                "delicious": util.getDeliciousTag(cpedialog.delicious_username),
                 "user_gravatar_url":util.getGravatarUrlByUser(users.get_current_user()),
                 "user_nickname":util.getUserNickname(users.get_current_user())
                # "docs": util.getGoogleDocs(config.delicious['username']),
             }
             template_params.update(params)
-            return template.render(template_file, template_params, debug=config._DEBUG)
+            return template.render(template_file, template_params, debug=cpedialog.debug)
 
 
 

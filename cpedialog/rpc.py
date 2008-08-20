@@ -18,7 +18,6 @@ from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,I
 
 import authorized
 import util
-import config
 
 class Image (webapp.RequestHandler):
   def get(self):
@@ -187,11 +186,12 @@ class RPCHandler(webapp.RequestHandler):
   @authorized.role('admin')
   def GetImages(self,startIndex,results):
       query = datastore.Query('Images')
+      cpedialog = util.getCPedialog()
       images = []
       for image in query.Get(results,startIndex):
           image['uploader'] = image['uploader'].email()
           image['image'] = "/rpc/img?img_id="+str(image.key())
-          image['url'] =  config.blog['root_url']+"/rpc/img?img_id="+str(image.key())
+          image['url'] =  "/rpc/img?img_id="+str(image.key())
           image['key'] = str(image.key())
           image["date"] = image["date"].strftime('%m/%d/%y')
           image['id'] = str(image.key().id())

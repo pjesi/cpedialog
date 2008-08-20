@@ -25,7 +25,6 @@ from google.appengine.api import memcache
 
 import authorized
 import view
-import config
 import util
 
 from model import Album

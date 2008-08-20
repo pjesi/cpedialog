@@ -9,7 +9,7 @@ import blog
 import album
 import admin
 import logging
-import config
+import util
 
 from google.appengine.ext.webapp import template
 template.register_template_library('cpedia.filter.replace')
@@ -17,7 +17,7 @@ template.register_template_library('cpedia.filter.gravatar')
 
 
 def main():
-
+    cpedialog = util.getCPedialog()
     application = webapp.WSGIApplication(
                                        [
                                         ('/create/(blog|page)/*$', blog.AddBlog),
@@ -54,7 +54,7 @@ def main():
 
                                         ('/([-\w]+)/*$', blog.PageHandler),                                        
                                        ],
-                                       debug=config._DEBUG)
+                                       debug=cpedialog.debug)
     wsgiref.handlers.CGIHandler().run(application)
 
 if __name__ == "__main__":

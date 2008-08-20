@@ -8,7 +8,6 @@ from google.appengine.ext import search
 import logging
 import datetime
 import urllib
-import config
 import cgi
 import simplejson
 
@@ -52,9 +51,9 @@ class Weblog(db.Model):
 
     def full_permalink(self):
         if self.entrytype == 'post':
-            return config.blog['root_url'] + '/' + self.date.strftime('%Y/%m/')+ self.permalink
+            return '/' + self.date.strftime('%Y/%m/')+ self.permalink
         else:
-            return config.blog['root_url'] + '/'+ self.permalink
+            return '/'+ self.permalink
 
     def get_tags(self):
         '''comma delimted list of tags'''
@@ -142,40 +141,43 @@ class AuthSubStoredToken(db.Model):
 
 
 class CPediaLog(db.Model):
-   title = db.StringProperty()
-   author = db.StringProperty()
+   title = db.StringProperty(multiline=False, default="Your Blog Title")
+   author = db.StringProperty(multiline=False, default="Your Blog Author")
    email = db.StringProperty()
-   root_url = db.StringProperty()
+   root_url = db.StringProperty(multiline=False,default='http://yourapp.appspot.com')
    logo_images = db.ListProperty(db.Category)
-   num_post_per_page = db.IntegerProperty()
+   num_post_per_page = db.IntegerProperty(default=8)
    cache_time = db.IntegerProperty(default=0)
    debug = db.BooleanProperty(default = True)
 
-   recaptcha_enable = db.StringProperty()
+   recaptcha_enable = db.BooleanProperty(default = False)
    recaptcha_public_key = db.StringProperty()
    recaptcha_private_key = db.StringProperty()
 
    delicious_enable = db.BooleanProperty(default = True)
-   delicious_username = db.StringProperty()
+   delicious_username = db.StringProperty(multiline=False, default="popular")
 
    google_ajax_feed_enable = db.BooleanProperty(default = True)
    google_ajax_feed_key = db.StringProperty(multiline=False,
-           default='ABQIAAAAOY_c0tDeN-DKUM-NTZldZhQG0TqTy2vJ9mpRzeM1HVuOe9SdDRSieJccw-q7dBZF5aGxGJ-oZDyf5Q')
-   google_ajax_feed_result_num = db.IntegerProperty()
-   google_ajax_feed_title = db.StringProperty()
+      default='ABQIAAAAOY_c0tDeN-DKUM-NTZldZhQG0TqTy2vJ9mpRzeM1HVuOe9SdDRSieJccw-q7dBZF5aGxGJ-oZDyf5Q')  #this key only for support from google. It's optional.
+   google_ajax_feed_result_num = db.IntegerProperty(default = 10)
+   google_ajax_feed_title = db.StringProperty(multiline=False,default='Your feeds')
    
    host_ip = db.StringProperty()
    host_domain = db.StringProperty()
    default = db.BooleanProperty(default = True)
 
    def get_logo_images(self):
-       '''comma delimted list of tags'''
+       '''space delimted list of tags'''
+       if not logo_images:
+           logo_images = "http://blog.cpedia.com/img/logo/logo1.gif http://blog.cpedia.com/img/logo/logo2.gif";       
        return ' '.join([urllib.unquote(logo_images) for logo_image in self.logo_images])
 
    def set_logo_images(self, logo_images):
-       if logo_images:
-           logo_images_temp = [db.Category(urllib.quote(logo_image.strip().encode('utf8'))) for logo_image in logo_images.split(' ')]
-           self.logo_images = logo_images_temp
+       if not logo_images:
+           logo_images = "http://blog.cpedia.com/img/logo/logo1.gif http://blog.cpedia.com/img/logo/logo2.gif";
+       logo_images_temp = [db.Category(urllib.quote(logo_image.strip().encode('utf8'))) for logo_image in logo_images.split(' ')]
+       self.logo_images = logo_images_temp
 
    logo_images_space = property(get_logo_images,set_logo_images)
 

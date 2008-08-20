@@ -26,7 +26,6 @@ from cpedia.util import translate
 from model import Archive,Weblog,WeblogReactions
 import authorized
 import view
-import config
 import util
 
 from recaptcha.client import captcha
@@ -209,20 +208,20 @@ class AddBlogReaction(BaseRequestHandler):
     blogReaction.authorEmail = self.request.get('mail')
     blogReaction.user = self.request.get('name_input')
 
-    if(config.recaptcha["enable"]):
+    cpedialog = util.getCPedialog()
+    if(cpedialog.recaptcha_enable):
         challenge = self.request.get('recaptcha_challenge_field')
         response  = self.request.get('recaptcha_response_field')
         clientIp = self.request.remote_addr
         cResponse = captcha.submit(
                        challenge,
                        response,
-                       config.recaptcha["private_key"],
+                       cpedialaog.recaptcha_private_key,
                        clientIp)
         if not cResponse.is_valid:
             captchahtml = None
-            if(config.recaptcha["enable"]):
-                captchahtml = captcha.displayhtml(
-                    public_key = config.recaptcha["public_key"],
+            captchahtml = captcha.displayhtml(
+                    public_key = cpedialog.recaptcha_public_key,
                     use_ssl = False,
                     error = cResponse.error_code)
             reactions = db.GqlQuery("select * from WeblogReactions where weblog =:1  order by date", blog)
@@ -337,9 +336,10 @@ class ArticleHandler(BaseRequestHandler):
     def get(self,year,month, perm_stem):
         #for recaptcha.
         captchahtml = None
-        if(config.recaptcha["enable"]):
+        cpedialog = util.getCPedialog()
+        if(cpedialog.recaptcha_enable):
             captchahtml = captcha.displayhtml(
-            public_key = config.recaptcha["public_key"],
+            public_key = cpedialog.recaptcha_public_key,
             use_ssl = False,
             error = None)
         blog = db.Query(Weblog).filter('permalink =',perm_stem).get()
@@ -390,7 +390,8 @@ class TagHandler(BaseRequestHandler):
 class DeliciousHandler(BaseRequestHandler):
     def get(self, encoded_tag):
         tag =  re.sub('(%25|%)(\d\d)', lambda cmatch: chr(string.atoi(cmatch.group(2), 16)), encoded_tag)   # No urllib.unquote in AppEngine?
-        posts = util.getDeliciousPost(config.delicious['username'],tag)
+        cpedialog = util.getCPedialog()
+        posts = util.getDeliciousPost(cpedialog.delicious_username,tag)
         recentReactions = util.getRecentReactions()
         template_values = {
           'posts':posts,
@@ -425,7 +426,8 @@ class SearchHandler(BaseRequestHandler):
         query.Search(search_term)
         result = query.Run()
         try:
-            obj_page  =  Paginator(result,config._NUM_PER_PAGE)
+            cpedialog = util.getCPedialog()
+            obj_page  =  Paginator(result,cpedialog.num_post_per_page)
         except InvalidPage:
             self.redirect('/')
 

@@ -14,8 +14,7 @@ from google.appengine.api import urlfetch
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds
-import config
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds,CPedialog
 import simplejson
 import cgi
 import urllib, hashlib
@@ -108,7 +107,8 @@ def getBlogPagination(page):
     if obj_pages is None or page not in obj_pages:
         blogs_query = Weblog.all().filter('entrytype','post').order('-date')
         try:
-            obj_page  =  GqlQueryPaginator(blogs_query,page,config._NUM_PER_PAGE).page()
+            cpedialog = getCPedialog()
+            obj_page  =  GqlQueryPaginator(blogs_query,page,cpedialog.num_post_per_page).page()
             if obj_pages is None:
                 obj_pages = {}
             obj_pages[page] = obj_page
@@ -193,6 +193,29 @@ def getFeedList():
     else:
         logging.debug("getFeedList from cache. ")
     return feeds
+
+
+#get cpedialog configuration. Cached.
+def getCPedialog():
+    key_ = "blog_cpedialog_key"
+    try:
+        cpedialog = memcache.get(key_)
+    except Exception:
+        cpedialog = None
+    if cpedialog is None:
+        cpedialogs = CPediaLog().all().filter("default",True)
+        if cpedialogs:
+            cpedialog = cpedialogs.get()
+        else:
+            cpedialog = CPediaLog()
+    else:
+        logging.debug("getFeedList from cache. ")
+    return cpedialog
+
+
+#flush tag list.
+def flushCPedialog():
+    memcache.delete("blog_cpedialog_key")
 
 
 #flush tag list.
@@ -281,14 +304,14 @@ def getDeliciousPost(username,tag):
     return posts
 
 def getGravatarUrlByUser(user):
-    default = config.blog['root_url']+"/img/anonymous.jpg"
+    default = "/img/anonymous.jpg"
     if user is not None:
         return getGravatarUrl(user.email())
     else:
         return default
 
 def getGravatarUrl(email):
-    default = config.blog['root_url']+"/img/anonymous.jpg"
+    default = "/img/anonymous.jpg"
     size = 48
     gravatar_url = "http://www.gravatar.com/avatar.php?"
     gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(str(email)).hexdigest(),

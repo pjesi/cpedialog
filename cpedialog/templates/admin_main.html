@@ -130,11 +130,17 @@
         
         var logo_images = document.forms["configForm"]["logo_images"];
         var logoUrls = logo_images.value.replace(/[,\n\r]/g, ' ');
+        logoUrls = logoUrls.replace(/[ ]+/g, ' ');
         var logoArray = logoUrls.split(' ');
-        document.forms["configForm"]["logo_images_space"].value = logoArray;
-        alert("not implemented yet.");
-        //alert(document.forms["configForm"]["logo_images_space"].value);
-
+        var logo_images_space = "";
+        for(var i=0;i<logoArray.length;i++){
+           logo_images_space+=logoArray[i];
+           if(i!=logoArray.length-1){
+            logo_images_space+=" ";
+           }
+        }
+        document.forms["configForm"]["logo_images_space"].value = logo_images_space;
+        return true;
     }
 </script>
 <div id="adminmenu">
@@ -258,7 +264,7 @@
         </tr>
         <tr>
             <th> </th>
-            <td><input name="commit" type="button" value="Save" onclick="saveConfiguration()"/></td>
+            <td><input name="commit" type="submit" value="Save" onclick="return saveConfiguration()"/></td>
         </tr>
     </table>
     </form>
