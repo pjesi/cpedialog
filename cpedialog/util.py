@@ -208,7 +208,7 @@ def getCPedialog():
             cpedialog = cpedialogs.get()
         else:
             cpedialog = CPediaLog()
-        memcache.add(key=key_, value=cpedialog, time=3600)            
+        memcache.add(key=key_, value=cpedialog, time=36000)            
     else:
         logging.debug("getFeedList from cache. ")
     return cpedialog
@@ -312,7 +312,8 @@ def getGravatarUrlByUser(user):
         return default
 
 def getGravatarUrl(email):
-    default = "/img/anonymous.jpg"
+    cpedialog = getCPedialog()
+    default = cpedialog.root_url+"/img/anonymous.jpg"
     size = 48
     gravatar_url = "http://www.gravatar.com/avatar.php?"
     gravatar_url += urllib.urlencode({'gravatar_id':hashlib.md5(str(email)).hexdigest(),

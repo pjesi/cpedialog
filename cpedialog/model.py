@@ -143,7 +143,8 @@ class AuthSubStoredToken(db.Model):
 class CPediaLog(db.Model):
     title = db.StringProperty(multiline=False, default='Your Blog Title')
     author = db.StringProperty(multiline=False, default='Your Blog Author')
-    email = db.StringProperty()
+    email = db.StringProperty(multiline=False, default='')
+    description = db.StringProperty(default='Blog powered by cpedialog.')
     root_url = db.StringProperty(multiline=False,default='http://yourapp.appspot.com')
     logo_images = db.ListProperty(db.Category)
     num_post_per_page = db.IntegerProperty(default=8)
@@ -215,7 +216,7 @@ class Menu(db.Model):
     valid = db.BooleanProperty(default = True)
 
     def full_permalink(self):
-        return config.blog['root_url'] + '/' + self.permalink
+        return  '/' + self.permalink
 
 
 class Images(db.Model):

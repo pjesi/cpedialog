@@ -98,6 +98,7 @@ class MainPage(BaseRequestHandler):
             cpedialog.google_ajax_feed_enable = False
 
         cpedialog.put()
+        util.flushCPedialog()
 
         cache_stats = memcache.get_stats()
         session_tokens = AuthSubStoredToken.all()
