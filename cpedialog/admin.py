@@ -75,7 +75,7 @@ class MainPage(BaseRequestHandler):
         else:
             cpedialog.debug = False
         cpedialog.host_ip = self.request.remote_addr
-        cpedialog.host_domain = self.request.remote_addr
+        cpedialog.host_domain = self.request.get("SERVER_NAME")
 
         if self.request.get("recaptcha_enable"):
             cpedialog.recaptcha_enable = True

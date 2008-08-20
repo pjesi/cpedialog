@@ -151,8 +151,8 @@ class CPediaLog(db.Model):
     debug = db.BooleanProperty(default = True)
  
     recaptcha_enable = db.BooleanProperty(default = False)
-    recaptcha_public_key = db.StringProperty()
-    recaptcha_private_key = db.StringProperty()
+    recaptcha_public_key = db.StringProperty(multiline=False,default='')
+    recaptcha_private_key = db.StringProperty(multiline=False,default='')
  
     delicious_enable = db.BooleanProperty(default = True)
     delicious_username = db.StringProperty(multiline=False, default='popular')
