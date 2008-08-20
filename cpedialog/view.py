@@ -48,7 +48,7 @@ class ViewPage(object):
                 "user_is_admin": users.is_current_user_admin(),
                 "login_url": users.create_login_url(handler.request.uri),
                 "logout_url": users.create_logout_url(handler.request.uri),
-                'logoImages': cpedialog.logo_images,
+                'logoImages': cpedialog.get_logo_images_list(),
                 "BLOG": cpedialog,
                 "nav_menus": util.getMenuList(),
                 "tags": util.getTagList(),

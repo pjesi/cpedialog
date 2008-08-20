@@ -14,7 +14,7 @@ from google.appengine.api import urlfetch
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds,CPedialog
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds,CPediaLog
 import simplejson
 import cgi
 import urllib, hashlib
@@ -204,10 +204,11 @@ def getCPedialog():
         cpedialog = None
     if cpedialog is None:
         cpedialogs = CPediaLog().all().filter("default",True)
-        if cpedialogs:
+        if cpedialogs.count() > 0 :
             cpedialog = cpedialogs.get()
         else:
             cpedialog = CPediaLog()
+        memcache.add(key=key_, value=cpedialog, time=3600)            
     else:
         logging.debug("getFeedList from cache. ")
     return cpedialog
