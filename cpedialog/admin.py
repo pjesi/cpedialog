@@ -40,21 +40,40 @@ class BaseRequestHandler(webapp.RequestHandler):
     directory = os.path.dirname(__file__)
     view.ViewPage(cache_time=0).render(self, template_name,values)
 
-
 class MainPage(BaseRequestHandler):
   @authorized.role('admin')
   def get(self):
-        cache_stats = memcache.get_stats()
-        session_tokens = AuthSubStoredToken.all()
-        pages = Weblog.all().filter('entrytype','page').order('-date')
-        menus = Menu.all().order('order')
         template_values = {
-          'pages':pages,
-          'menus':menus,
-          'session_tokens':session_tokens,
-          'cache_stats':cache_stats,
           }
         self.generate('admin_main.html',template_values)
+
+
+class AdminAuthsubPage(BaseRequestHandler):
+  @authorized.role('admin')
+  def get(self):
+        session_tokens = AuthSubStoredToken.all()
+        template_values = {
+          'session_tokens':session_tokens,
+          }
+        self.generate('admin/admin_authsub.html',template_values)
+
+
+class AdminCachePage(BaseRequestHandler):
+  @authorized.role('admin')
+  def get(self):
+        cache_stats = memcache.get_stats()
+        template_values = {
+          'cache_stats':cache_stats,
+          }
+        self.generate('admin/admin_cache.html',template_values)
+
+
+class AdminSystemPage(BaseRequestHandler):
+  @authorized.role('admin')
+  def get(self):
+        template_values = {
+          }
+        self.generate('admin/admin_system.html',template_values)
 
   @authorized.role('admin')
   def post(self):
@@ -96,33 +115,66 @@ class MainPage(BaseRequestHandler):
         cpedialog.put()
         util.flushCPedialog()
 
-        cache_stats = memcache.get_stats()
-        session_tokens = AuthSubStoredToken.all()
-        pages = Weblog.all().filter('entrytype','page').order('-date')
-        menus = Menu.all().order('order')
-        feeds = Feeds.all().order('order')
         template_values = {
           'BLOG':cpedialog,
-          'pages':pages,
-          'menus':menus,
-          'session_tokens':session_tokens,
-          'cache_stats':cache_stats,
           }
-        self.generate('admin_main.html',template_values)
+        self.generate('admin/admin_system.html',template_values)
 
         
-class AdminMorePage(BaseRequestHandler):
+class AdminPagesPage(BaseRequestHandler):
+  @authorized.role('admin')
+  def get(self):
+        pages = Weblog.all().filter('entrytype','page').order('-date')
+        template_values = {
+            'pages':pages,
+          }
+        self.generate('admin/admin_pages.html',template_values)
+
+
+class AdminAlbumsPage(BaseRequestHandler):
   @authorized.role('admin')
   def get(self):
         albums = Album.all().order('order')
+        template_values = {
+            'albums':albums,
+          }
+        self.generate('admin/admin_albums.html',template_values)
+
+
+class AdminFeedsPage(BaseRequestHandler):
+  @authorized.role('admin')
+  def get(self):
         feeds = Feeds.all().order('order')
+        template_values = {
+            'feeds':feeds,
+          }
+        self.generate('admin/admin_feeds.html',template_values)
+
+
+class AdminImagesPage(BaseRequestHandler):
+  @authorized.role('admin')
+  def get(self):
+        template_values = {
+          }
+        self.generate('admin/admin_images.html',template_values)
+
+
+class AdminTagsPage(BaseRequestHandler):
+  @authorized.role('admin')
+  def get(self):
         tags = Tag.all().order('-entrycount')
+        template_values = {
+           'tags':tags,
+          }
+        self.generate('admin/admin_tags.html',template_values)
+
+
+class AdminArchivesPage(BaseRequestHandler):
+  @authorized.role('admin')
+  def get(self):
         archives = Archive.all().order('-date')
         template_values = {
-          'albums':albums,
-          'feeds':feeds,
-          'tags':tags,
           'archives':archives,
           }
-        self.generate('admin_more.html',template_values)
+        self.generate('admin/admin_archives.html',template_values)
 

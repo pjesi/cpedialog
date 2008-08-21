@@ -21,7 +21,6 @@ def main():
     application = webapp.WSGIApplication(
                                        [
                                         ('/create/(blog|page)/*$', blog.AddBlog),
-                                        ('/viewBlog', blog.ViewBlog),  #todo: will be removed
                                         ('/addBlogReaction', blog.AddBlogReaction),
                                         ('/edit/(blog|page)/(.*)/*$', blog.EditBlog),
                                         ('/delete/(blog|page)/(.*)/*$', blog.DeleteBlog),
@@ -29,7 +28,16 @@ def main():
                                         ('/delete/comment/(.*)/*$', blog.DeleteBlogReaction),
 
                                         ('/admin/*$', admin.MainPage),
-                                        ('/admin/more/*$', admin.AdminMorePage),
+                                        ('/admin/system/*$', admin.AdminSystemPage),
+                                        ('/admin/authsub/*$', admin.AdminAuthsubPage),
+                                        ('/admin/cache/*$', admin.AdminCachePage),
+                                        ('/admin/pages/*$', admin.AdminPagesPage),
+                                        ('/admin/albums/*$', admin.AdminAlbumsPage),
+                                        ('/admin/feeds/*$', admin.AdminFeedsPage),
+                                        ('/admin/images/*$', admin.AdminImagesPage),
+                                        ('/admin/tags/*$', admin.AdminTagsPage),
+                                        ('/admin/archives/*$', admin.AdminArchivesPage),
+
                                         ('/rpc', rpc.RPCHandler),
                                         ('/rpc/uploadImage', rpc.UploadImage),
                                         ('/rpc/img', rpc.Image),

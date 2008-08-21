@@ -43,8 +43,6 @@ dt {font:bold}
 #admincontainer th,#admincontainer td {border:1px solid #cccccc;padding:.4em!important;}
 #admincontainer th {font-weight:bold!important;text-align:center!important;}
 #imagetable .thumbnail{background:white none repeat scroll 0% 0%;border:1px solid #CCCCCC;padding:0;}
-#adminmenu{padding-bottom:20px;font: 1.5em Georgia, "Times New Roman", serif;border-top:1px solid #CCCCCC}
-#adminmenu a{border:1px solid #CCCCCC;padding:5px}
 #configuration{border:none}
 #configuration th{border:none;text-align:right!important;padding-top:10px;}
 #configuration td{border:none;text-align:left;padding:7px 3px;}

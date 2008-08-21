@@ -1,0 +1,35 @@
+<!--my yui grid render-->
+<script type="text/javascript" src="/jscripts/feedlist.grid.js"></script>
+<fieldset>
+    <legend>Feeds Admin</legend>
+    <div class="fieldsetdiv">
+        Feed List:
+        <div id="feeddiv">
+        <table id="feedtable">
+            <thead><tr>
+                <th>Title</th>
+                <th>Feed</th>
+                <th>Order</th>
+                <th>Valid</th>
+                <th>Id</th>
+                <th> </th>
+                <th> </th>
+            </tr></thead>
+            <tbody>
+            {% for feed in feeds %}
+            <tr>
+                <td>{{feed.title}}</td>
+                <td>{{feed.feed}}</td>
+                <td>{{feed.order}}</td>
+                <td>{{feed.valid}}</td>
+                <td>{{feed.key.id}}</td>
+                <td> </td>
+                <td> </td>
+            </tr>
+            {% endfor%}
+            </tbody>
+        </table>
+       </div>
+    </div>
+</fieldset>
+

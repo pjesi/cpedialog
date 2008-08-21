@@ -293,33 +293,6 @@ class DeleteBlogReaction(BaseRequestHandler):
     self.redirect('/'+blogReaction.weblog.relative_permalink())
 
 
-#for the data migration.
-#todo: will be removed
-class ViewBlog(BaseRequestHandler):
-  def get(self):
-    blogId_ = self.request.get('blogId')
-    blog= Weblog.get_by_id(int(blogId_))
-
-    if(blog is None):
-        self.redirect('/')
-    permalink = ""
-    if not blog.permalink:
-          permalink =  util.get_permalink(blog.date,translate.translate('zh-CN','en', util.u(blog.title,'utf-8')))
-          blog.permalink =  permalink.lower()
-          blog.save()
-#    else:
-#        permalink = blog.permalink.split('/')[2]
-#        blog.permalink = permalink
-#        blog.put()
-    #self.response.out.write("success! "+permalink)
-    reactions = db.GqlQuery("select * from WeblogReactions where weblog =:1  order by date", blog)
-    template_values = {
-      'blog': blog,
-      'reactions': reactions,
-      'permalink': permalink,
-      }
-    self.generate('blog_view.html',template_values)
-
 class ArchiveHandler(BaseRequestHandler):
     def get(self, monthyear):
         #get blogs in month from cache.        
