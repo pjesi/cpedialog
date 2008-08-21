@@ -1,4 +1,4 @@
-YAHOO.util.Event.onContentReady('admin_menus', function() {
+YAHOO.util.Event.onContentReady('menutable', function() {
     EnhanceFromMarkup_menu = new function() {
         var myColumnDefs = [
             {key:"title",label:"Title",sortable:true,editor:"textbox"},

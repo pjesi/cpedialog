@@ -1,4 +1,4 @@
-YAHOO.util.Event.onContentReady('admin_feeds', function() {
+YAHOO.util.Event.onContentReady('feedtable', function() {
     EnhanceFromMarkup_feed = new function() {
         var myColumnDefs = [
             {key:"title",label:"Title",sortable:true,editor:"textbox"},

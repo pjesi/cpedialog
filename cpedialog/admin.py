@@ -111,14 +111,9 @@ class AdminSystemPage(BaseRequestHandler):
             cpedialog.google_ajax_feed_result_num = int(self.request.get("google_ajax_feed_result_num"))
         else:
             cpedialog.google_ajax_feed_enable = False
-
         cpedialog.put()
         util.flushCPedialog()
-
-        template_values = {
-          'BLOG':cpedialog,
-          }
-        self.generate('admin/admin_system.html',template_values)
+        return True
 
         
 class AdminPagesPage(BaseRequestHandler):

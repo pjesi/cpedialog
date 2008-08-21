@@ -1,4 +1,4 @@
-YAHOO.util.Event.onContentReady('admin_images', function() {
+YAHOO.util.Event.onContentReady('imagediv', function() {
     EnhanceFromMarkup_image = new function() {
         var DataTable  = YAHOO.widget.DataTable,
             Paginator  = YAHOO.widget.Paginator;
@@ -27,7 +27,7 @@ YAHOO.util.Event.onContentReady('admin_images', function() {
         var myColumnDefs = [
             {key:"image",label:"Image",sortable:true,formatter:function(elCell,oRecord) {
                 var imgUrl = oRecord.getData("image")
-                elCell.innerHTML = '<img src="'+imgUrl+'" width=36px />';
+                elCell.innerHTML = '<img src="'+imgUrl+'"/>';
                 elCell.style.cursor = 'pointer';}},
             {key:"url",label:"URL", formatter:YAHOO.widget.DataTable.formatLink},
             {key:"date",label:"Date",sortable:true,formatter:YAHOO.widget.DataTable.formatDate},
