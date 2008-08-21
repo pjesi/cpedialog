@@ -1,4 +1,4 @@
-YAHOO.util.Event.addListener(window, "load", function() {
+YAHOO.util.Event.onContentReady('admin_albums', function() {
     EnhanceFromMarkup_album = new function() {
         var myColumnDefs = [
             {key:"album_username",label:"Username",sortable:true,editor:"textbox"},
