@@ -44,32 +44,4 @@
         <a href="javascript:flushAllMemcache(false);">Refresh Memcache statistics</a> &nbsp; &nbsp;
         <a href="javascript:flushAllMemcache(true);">Flush All the Memcache</a>
     </div>
-    <script>
-        function flushAllMemcache(flush) {
-            var sUrl = "/rpc?action=FlushAllMemcache&arg0=" + flush + "&time=" + new Date().getTime();
-            var flushAllMemcacheSuccess = function(o) {
-                if (o.responseText !== undefined) {
-                    var cache_stats = YAHOO.lang.JSON.parse(o.responseText);
-                    document.getElementById("cache_stats.hits").innerHTML = cache_stats.hits;
-                    document.getElementById("cache_stats.misses").innerHTML = cache_stats.misses;
-                    document.getElementById("cache_stats.byte_hits").innerHTML = cache_stats.byte_hits;
-                    document.getElementById("cache_stats.items").innerHTML = cache_stats.items;
-                    document.getElementById("cache_stats.bytes").innerHTML = cache_stats.bytes;
-                    document.getElementById("cache_stats.oldest_item_age").innerHTML = cache_stats.oldest_item_age;
-                    if (o.argument.flush) {
-                        alert("Flush all the memcache successfully.");
-                    } else {
-                        alert("Refresh memcache statistics successfully.");
-                    }
-                }
-            }
-            var callback =
-            {
-                success:flushAllMemcacheSuccess,
-                failure:handleFailure,
-                argument:{flush:flush}
-            };
-            YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
-        }
-    </script>
 </fieldset>
