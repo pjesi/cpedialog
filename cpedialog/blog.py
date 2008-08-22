@@ -349,7 +349,8 @@ class SiteMapHandler(BaseRequestHandler):    #for live.com SEO
 
 class TagHandler(BaseRequestHandler):
     def get(self, encoded_tag):
-        tag =  re.sub('(%25|%)(\d\d)', lambda cmatch: chr(string.atoi(cmatch.group(2), 16)), encoded_tag)   # No urllib.unquote in AppEngine?
+        #tag =  re.sub('(%25|%)(\d\d)', lambda cmatch: chr(string.atoi(cmatch.group(2), 16)), encoded_tag)   # No urllib.unquote in AppEngine?
+        tag =  urllib.unquote(encoded_tag)
         blogs = Weblog.all().filter('tags', tag).order('-date')
         recentReactions = util.getRecentReactions()
         template_values = {

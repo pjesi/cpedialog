@@ -11,11 +11,7 @@
         <H2 class=date-header> {{blog.date|date:"l, F m, Y"}} </H2>
         <DIV class="post">
         <H3 class=post-title>
-            {%if blog.permalink %}
             <a href="/{{blog.relative_permalink}}">{{blog.title}}</a>
-            {% else %}
-            <a href="/viewBlog?blogId={{ blog.key.id }}">{{blog.title}}</a>
-            {% endif %}
         </H3>
         <DIV class=post-body>
          {{blog.content}}
