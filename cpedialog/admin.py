@@ -80,7 +80,7 @@ class AdminSystemPage(BaseRequestHandler):
         cpedialog = util.getCPedialog()
         cpedialog.title = self.request.get("title")
         cpedialog.author = self.request.get("author")
-        cpedialog.email = self.request.get("email")
+        cpedialog.email = users.GetCurrentUser().email()
         cpedialog.root_url = self.request.get("root_url")
         cpedialog.logo_images_space = self.request.get("logo_images_space")
         cpedialog.num_post_per_page = int(self.request.get("num_post_per_page"))
@@ -120,8 +120,10 @@ class AdminPagesPage(BaseRequestHandler):
   @authorized.role('admin')
   def get(self):
         pages = Weblog.all().filter('entrytype','page').order('-date')
+        menus = Menu.all().order('order')
         template_values = {
             'pages':pages,
+            'menus':menus,
           }
         self.generate('admin/admin_pages.html',template_values)
 
