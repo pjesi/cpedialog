@@ -27,7 +27,7 @@ YAHOO.util.Event.onContentReady('imagediv', function() {
         var myColumnDefs = [
             {key:"image",label:"Image",sortable:true,formatter:function(elCell,oRecord) {
                 var imgUrl = oRecord.getData("image")
-                elCell.innerHTML = '<img src="'+imgUrl+'"/>';
+                elCell.innerHTML = '<img src="'+imgUrl+'" width=36px/>';
                 elCell.style.cursor = 'pointer';}},
             {key:"url",label:"URL", formatter:YAHOO.widget.DataTable.formatLink},
             {key:"date",label:"Date",sortable:true,formatter:YAHOO.widget.DataTable.formatDate},
