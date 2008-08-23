@@ -28,14 +28,14 @@
               //need to escape the oData.
                 el.innerHTML = decodeURI(oData);
              }},
-            {key:"entrycount",sortable:true,label:"Count"},
+            {key:"entrycount",sortable:true,label:"Post Count"},
             {key:"valid",label:"Valid",sortable:true},
             {key:"id",label:"Id",sortable:true,isPrimaryKey:true},
             {key:"delete",label:"Delete",action:'delete',formatter:function(elCell) {
                 elCell.innerHTML = '<img src="/img/delete.gif" title="delete row" />';
                 elCell.style.cursor = 'pointer';}},
             {key:"refreshcount",label:"Refresh",action:'refresh',formatter:function(elCell) {
-                elCell.innerHTML = '<img src="/img/refresh.png" title="refresh entry count row" />';
+                elCell.innerHTML = '<img src="/img/refresh.png" title="refresh post count row" />';
                 elCell.style.cursor = 'pointer';}}
         ];
 
@@ -98,7 +98,7 @@
                             );
                 }
             }else if ( column.action =='refresh') {
-                if (confirm("Are you sure to refresh the entry count of this tag?")) {
+                if (confirm("Are you sure to refresh the post count of this tag?")) {
                     var record = this.getRecord(target);
                     YAHOO.util.Connect.asyncRequest('POST','/rpc?action=RefreshTag' + myBuildUrl(this,record),
                     {

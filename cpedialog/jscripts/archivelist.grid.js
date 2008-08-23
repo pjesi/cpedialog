@@ -93,7 +93,7 @@
                             );
                 }
             }else if (column.action =='refresh') {
-                if (confirm("Are you sure to refresh the entry count of this archive?")) {
+                if (confirm("Are you sure to refresh the blog count of this archive?")) {
                     var record = this.getRecord(target);
                     YAHOO.util.Connect.asyncRequest('POST','/rpc?action=RefreshArchive' + myBuildUrl(this,record),
                     {
