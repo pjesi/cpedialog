@@ -1,5 +1,5 @@
-YAHOO.util.Event.onContentReady('feeddiv', function() {
-    EnhanceFromMarkup_feed = new function() {
+//YAHOO.util.Event.onContentReady('feeddiv', function() {
+    var renderFeedTable = function() {
         var myColumnDefs = [
             {key:"title",label:"Title",sortable:true,editor:"textbox"},
             {key:"feed",label:"Feed URL",sortable:true,editor:"textbox",className:"feedth"},
@@ -135,4 +135,4 @@ YAHOO.util.Event.onContentReady('feeddiv', function() {
 
         ;
     };
-});
+//});

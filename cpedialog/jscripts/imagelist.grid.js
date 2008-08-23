@@ -1,5 +1,5 @@
-YAHOO.util.Event.onContentReady('imagesdiv', function() {
-    EnhanceFromMarkup_image = new function() {
+//YAHOO.util.Event.onContentReady('imagesdiv', function() {
+    var renderImageTable = function() {
         var DataTable  = YAHOO.widget.DataTable,
             Paginator  = YAHOO.widget.Paginator;
 
@@ -103,4 +103,4 @@ YAHOO.util.Event.onContentReady('imagesdiv', function() {
 
         ;
     };
-});
+//});

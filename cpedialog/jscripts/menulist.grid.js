@@ -1,5 +1,5 @@
-YAHOO.util.Event.onContentReady('menudiv', function() {
-    EnhanceFromMarkup_menu = new function() {
+//YAHOO.util.Event.onContentReady('menudiv', function() {
+    var renderMenuTable = function() {
         var myColumnDefs = [
             {key:"title",label:"Title",sortable:true,editor:"textbox"},
             {key:"permalink",label:"Permalink",sortable:true,editor:"textbox"},
@@ -136,4 +136,4 @@ YAHOO.util.Event.onContentReady('menudiv', function() {
         });
         ;
     };
-});
+//});

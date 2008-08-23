@@ -1,5 +1,5 @@
-YAHOO.util.Event.onContentReady('albumdiv', function() {
-    EnhanceFromMarkup_album = new function() {
+//YAHOO.util.Event.onContentReady('albumdiv', function() {
+    var renderAlbumTable = function() {
         var myColumnDefs = [
             {key:"album_username",label:"Username",sortable:true,editor:"textbox"},
             {key:"album_type",label:"Access(picasaweb)",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["public","private"]}},
@@ -132,4 +132,4 @@ YAHOO.util.Event.onContentReady('albumdiv', function() {
 
         ;
     };
-});
+//});

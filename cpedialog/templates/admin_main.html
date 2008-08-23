@@ -219,64 +219,81 @@
             (function() {
                 var tabView = new YAHOO.widget.TabView();
 
-                tabView.addTab(new YAHOO.widget.Tab({
+                var systemTab = new YAHOO.widget.Tab({
                     label: 'System',
                     dataSrc: '/admin/system',
                     cacheData: true,
                     active: true
-                }), tabView);
+                });
+                tabView.addTab(systemTab);
 
-                tabView.addTab(new YAHOO.widget.Tab({
+                var pagesTab = new YAHOO.widget.Tab({
                     label: 'Pages',
                     dataSrc: '/admin/pages',
                     cacheData: true
-                }), tabView);
+                });
+                tabView.addTab(pagesTab);
+                pagesTab.addListener('dataLoadedChange', renderMenuTable);
 
-                tabView.addTab(new YAHOO.widget.Tab({
+                var albumsTab = new YAHOO.widget.Tab({
                     label: 'Albums',
                     dataSrc: '/admin/albums',
                     cacheData: true
-                }), tabView);
+                });
+                tabView.addTab(albumsTab);
+                albumsTab.addListener('dataLoadedChange', renderAlbumTable);
 
-                tabView.addTab(new YAHOO.widget.Tab({
+                var feedsTab = new YAHOO.widget.Tab({
                     label: 'Feeds',
                     dataSrc: '/admin/feeds',
                     cacheData: true
-                }), tabView);
+                });
+                tabView.addTab(feedsTab);
+                feedsTab.addListener('dataLoadedChange', renderFeedTable);
 
-                tabView.addTab(new YAHOO.widget.Tab({
+                var imagesTab = new YAHOO.widget.Tab({
                     label: 'Images',
                     dataSrc: '/admin/images',
                     cacheData: true
-                }), tabView);
+                });
+                tabView.addTab(imagesTab);
+                imagesTab.addListener('dataLoadedChange', renderImageTable);
 
-                tabView.addTab(new YAHOO.widget.Tab({
+                var tagsTab = new YAHOO.widget.Tab({
                     label: 'Tags',
                     dataSrc: '/admin/tags',
                     cacheData: true
-                }), tabView);
+                });
+                tabView.addTab(tagsTab);
+                tagsTab.addListener('dataLoadedChange', renderTagTable);  
 
-                tabView.addTab(new YAHOO.widget.Tab({
+                var archivesTab = new YAHOO.widget.Tab({
                     label: 'Archives',
                     dataSrc: '/admin/archives',
                     cacheData: true
-                }), tabView);
+                });
+                tabView.addTab(archivesTab);
+                archivesTab.addListener('dataLoadedChange', renderArchiveTable);  
 
-                tabView.addTab(new YAHOO.widget.Tab({
+                var authsubTab = new YAHOO.widget.Tab({
                     label: 'AuthSub',
                     dataSrc: '/admin/authsub',
                     cacheData: true
-                }), tabView);
+                });
+                tabView.addTab(authsubTab);
 
-                tabView.addTab(new YAHOO.widget.Tab({
+                var cacheTab = new YAHOO.widget.Tab({
                     label: 'Cache',
                     dataSrc: '/admin/cache',
                     cacheData: true
-                }), tabView);
+                });
+                tabView.addTab(cacheTab);
 
                 YAHOO.util.Event.onContentReady('adminmenu', function() {
                     tabView.appendTo('adminmenu');
-                });                
+                });
+
+                
             })();
 
         </script>
