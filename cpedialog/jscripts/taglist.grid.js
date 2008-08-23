@@ -24,7 +24,10 @@ YAHOO.util.Event.onContentReady('tagdiv',function() {
             sortedBy               :{key:"entrycount",dir:"desc"}
         };
         var myColumnDefs = [
-            {key:"tag",label:"Tag",sortable:true},
+            {key:"tag",label:"Tag",sortable:true,formatter:function(el , oRecord , oColumn , oData ){
+              //need to escape the oData.
+                el.innerHTML = decodeURI(oData);
+             }},
             {key:"entrycount",sortable:true,label:"Count"},
             {key:"valid",label:"Valid",sortable:true},
             {key:"id",label:"Id",sortable:true,isPrimaryKey:true},
