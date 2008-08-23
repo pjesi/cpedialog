@@ -279,7 +279,7 @@ Edit reaction
                 <p>
                     Tags:
                     {% for tag in blog.tags %}
-                    <a href="/tag/{{ tag }}">{{ tag }}</a> {% if not forloop.last %},{% endif %}
+                    <a href="/tag/{{ tag|unquote }}">{{ tag|unquote }}</a> {% if not forloop.last %},{% endif %}
                     {% endfor %}
                 </p><br>
                 {% endif %}
@@ -293,7 +293,7 @@ Edit reaction
             </DIV>
         </DIV>
         <input name=title_input type=hidden value="{{blog.title}}">
-        <input name=tags type=hidden value="{{blog.tags_commas}}">
+        <input name=tags type=hidden value="{{tags}}">
         <input name=text_input type="hidden"/>
         <input name=entrytype type="hidden" value="{{blog.entrytype}}"/>
         <input name=submitted type=hidden value='0'>

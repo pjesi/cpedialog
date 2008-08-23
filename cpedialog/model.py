@@ -57,13 +57,11 @@ class Weblog(db.Model):
 
     def get_tags(self):
         '''comma delimted list of tags'''
-        return ','.join([urllib.unquote(tag) for tag in self.tags])
+        return ','.join([urllib.unquote(tag.encode('utf8')) for tag in self.tags])
   
     def set_tags(self, tags):
         if tags:
-            tagstemp = [db.Category(urllib.quote(tag.strip().encode('utf8'))) for tag in tags.split(',')]
-            self.tagsnew = [tag for tag in tagstemp if not tag in self.tags]
-            self.tags = tagstemp
+            self.tags = [db.Category(urllib.quote(tag.strip().encode('utf8'))) for tag in tags.split(',')]
   
     tags_commas = property(get_tags,set_tags)
 
@@ -85,8 +83,8 @@ class Weblog(db.Model):
     def update_tags(self,update):
         """Update Tag cloud info"""
         if self.tags: 
-            for tag in self.tags:
-                tag_ = urllib.unquote(tag)
+            for tag_ in self.tags:
+                #tag_ = tag.encode('utf8')
                 tags = Tag.all().filter('tag',tag_).fetch(10)
                 if tags == []:
                     tagnew = Tag(tag=tag_,entrycount=1)

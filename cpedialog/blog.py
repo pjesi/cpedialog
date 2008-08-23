@@ -121,6 +121,7 @@ class AddBlog(BaseRequestHandler):
       'preview': preview,
       'submitted': submitted,
       'action': "addBlog",
+      'tags': self.request.get('tags'),
       }
     if preview == '1' and submitted !='1':
         self.generate('blog_add.html',template_values)
@@ -350,7 +351,8 @@ class SiteMapHandler(BaseRequestHandler):    #for live.com SEO
 class TagHandler(BaseRequestHandler):
     def get(self, encoded_tag):
         #tag =  re.sub('(%25|%)(\d\d)', lambda cmatch: chr(string.atoi(cmatch.group(2), 16)), encoded_tag)   # No urllib.unquote in AppEngine?
-        tag =  urllib.unquote(encoded_tag)
+        #tag =  urllib.unquote(encoded_tag.encode('utf8'))
+        tag = encoded_tag
         blogs = Weblog.all().filter('tags', tag).order('-date')
         recentReactions = util.getRecentReactions()
         template_values = {

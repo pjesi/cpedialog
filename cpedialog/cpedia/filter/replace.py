@@ -22,7 +22,7 @@ def email_username ( email ):
 
 @register.filter
 def unquote ( str ):
-        return urllib.unquote(str).replace('%','x').lower().decode('utf8')
+        return urllib.unquote(str.encode('utf8'))
 
 @register.filter
 def quote ( str ):

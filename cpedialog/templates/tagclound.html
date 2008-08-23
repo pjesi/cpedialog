@@ -5,7 +5,7 @@
 
         <div class="cloud">
             {%for tag in tags%}
-            <a href="/tag/{{tag.tag|urlencode}}"  class="tag{{tag.entrycount}}">{{tag.tag}}</a>
+            <a href="/tag/{{tag.tag|unquote}}"  class="tag{{tag.entrycount}}">{{tag.tag|unquote}}</a>
             {% endfor%}
         </div>
     </div>
