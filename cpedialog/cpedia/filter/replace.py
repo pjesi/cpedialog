@@ -1,7 +1,10 @@
 import re
 from google.appengine.ext import webapp
 
-import urllib2
+import urllib
+import re
+import cgi
+
 
 
 register = webapp.template.create_template_register()
@@ -19,8 +22,13 @@ def email_username ( email ):
 
 @register.filter
 def unquote ( str ):
-        return urllib2.unquote(str)
+        return urllib.unquote(str).replace('%','x').lower().decode('utf8')
 
 @register.filter
 def quote ( str ):
-        return urllib2.quote(str)
+        return urllib.quote(str)
+
+@register.filter
+def escape ( str ):
+        return cgi.escape(str)
+

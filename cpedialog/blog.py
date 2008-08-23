@@ -363,7 +363,7 @@ class TagHandler(BaseRequestHandler):
 
 class DeliciousHandler(BaseRequestHandler):
     def get(self, encoded_tag):
-        tag =  re.sub('(%25|%)(\d\d)', lambda cmatch: chr(string.atoi(cmatch.group(2), 16)), encoded_tag)   # No urllib.unquote in AppEngine?
+        tag =  urllib.unquote(encoded_tag)
         cpedialog = util.getCPedialog()
         posts = util.getDeliciousPost(cpedialog.delicious_username,tag)
         recentReactions = util.getRecentReactions()
