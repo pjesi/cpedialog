@@ -1,4 +1,4 @@
-YAHOO.util.Event.onContentReady('archivediv', function() {
+YAHOO.util.Event.onContentReady('archivesdiv', function() {
     EnhanceFromMarkup_archive = new function() {
         var DataTable  = YAHOO.widget.DataTable,
             Paginator  = YAHOO.widget.Paginator;

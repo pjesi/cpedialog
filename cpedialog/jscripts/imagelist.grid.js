@@ -1,4 +1,4 @@
-YAHOO.util.Event.onContentReady('imagediv', function() {
+YAHOO.util.Event.onContentReady('imagesdiv', function() {
     EnhanceFromMarkup_image = new function() {
         var DataTable  = YAHOO.widget.DataTable,
             Paginator  = YAHOO.widget.Paginator;

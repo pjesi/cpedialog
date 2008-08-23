@@ -1,4 +1,4 @@
-YAHOO.util.Event.onContentReady('albumtable', function() {
+YAHOO.util.Event.onContentReady('albumdiv', function() {
     EnhanceFromMarkup_album = new function() {
         var myColumnDefs = [
             {key:"album_username",label:"Username",sortable:true,editor:"textbox"},

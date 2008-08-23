@@ -1,4 +1,4 @@
-YAHOO.util.Event.onContentReady('tagdiv',function() {
+YAHOO.util.Event.onContentReady('tagsdiv',function() {
     EnhanceFromMarkup_tag = new function() {
         var DataTable  = YAHOO.widget.DataTable,
             Paginator  = YAHOO.widget.Paginator;
