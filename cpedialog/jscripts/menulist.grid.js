@@ -1,4 +1,4 @@
-YAHOO.util.Event.onContentReady('menutable', function() {
+YAHOO.util.Event.onContentReady('menudiv', function() {
     EnhanceFromMarkup_menu = new function() {
         var myColumnDefs = [
             {key:"title",label:"Title",sortable:true,editor:"textbox"},
