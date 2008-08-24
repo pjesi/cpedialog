@@ -143,7 +143,7 @@ class CPediaLog(db.Model):
     author = db.StringProperty(multiline=False, default='Your Blog Author')
     email = db.StringProperty(multiline=False, default='')
     description = db.StringProperty(default='Blog powered by cpedialog.')
-    root_url = db.StringProperty(multiline=False,default='http://pchen.appspot.com')
+    root_url = db.StringProperty(multiline=False,default='http://cpedialog.appspot.com')
     logo_images = db.ListProperty(db.Category)
     num_post_per_page = db.IntegerProperty(default=8)
     cache_time = db.IntegerProperty(default=0)
@@ -169,8 +169,8 @@ class CPediaLog(db.Model):
     def get_logo_images_list(self):
         '''space delimted list of tags'''
         if not self.logo_images:
-            logog_images_ =  ["http://blog.cpedia.com/img/logo/logo1.gif",
-                    "http://blog.cpedia.com/img/logo/logo2.gif"]
+            logog_images_ =  ["http://cpedialog.appspot.com/img/logo/logo1.gif",
+                    "http://cpedialog.appspot.com/img/logo/logo2.gif"]
             return logog_images_
         else:
             return self.logo_images
@@ -178,14 +178,14 @@ class CPediaLog(db.Model):
     def get_logo_images(self):
         '''space delimted list of tags'''
         if not self.logo_images:
-            logog_images_ =  ["http://blog.cpedia.com/img/logo/logo1.gif",
-                    "http://blog.cpedia.com/img/logo/logo2.gif"]
+            logog_images_ =  ["http://cpedialog.appspot.com/img/logo/logo1.gif",
+                    "http://cpedialog.appspot.com/img/logo/logo2.gif"]
             self.logo_images = [db.Category(logo_image.strip().encode('utf8')) for logo_image in logog_images_]
         return ' '.join([urllib.unquote(logo_image) for logo_image in self.logo_images])
 
     def set_logo_images(self, logo_images):
         if not logo_images:
-            logo_images =  "http://blog.cpedia.com/img/logo/logo1.gif http://blog.cpedia.com/img/logo/logo2.gif"
+            logo_images =  "http://cpedialog.appspot.com/img/logo/logo1.gif http://cpedialog.appspot.com/img/logo/logo2.gif"
         self.logo_images = [db.Category(logo_image.strip().encode('utf8')) for logo_image in logo_images.split(' ')]
 
     logo_images_space = property(get_logo_images,set_logo_images)
