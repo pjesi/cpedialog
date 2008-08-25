@@ -22,7 +22,7 @@ dt {font:bold}
 
 .error{background:#F8F7EF none repeat scroll 0% 0%;border-color:red;border-style:none none none solid;border-width:medium medium medium 4px;margin:10px 0pt;padding-bottom:10px;padding-left:10px;font-weight:bold;}
 
-#blogcontainer{border: 1px #000000 solid;padding-bottom: 10px; padding-top: 10px;}
+#blogcontainer{border: 1px #cccccc solid;padding-bottom: 10px; padding-top: 10px;}
 
 #blogpost h2 a{text-decoration: none!important; font: 0.75em Verdana, sans-serif;}
 
@@ -61,7 +61,7 @@ dt {font:bold}
 .byline {font: italic 0.9em Times, serif; letter-spacing: 1px; margin: 0 0 1.5em;}
 .byline a:link, .byline a:visited {font: bold 0.85em Verdana, sans-serif;text-transform: uppercase; letter-spacing: 2px;margin-left: 0.25em;}
 
-#sidebar{border: 1px #000000 solid;PADDING-RIGHT: 10px; PADDING-LEFT: 10px;padding-bottom:10px}
+#sidebar{border: 1px #cccccc solid;PADDING-RIGHT: 10px; PADDING-LEFT: 10px;padding-bottom:10px}
 #sidebar h3 {font: 1.5em Georgia, Times, serif; letter-spacing: 0; text-transform: none;margin-bottom: 0.25em; color: #333;}
 #sidebar H2 {MARGIN: 0px 0px 8px; FONT: italic 12px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none}
 #login ,  #tagclound, #greeting {border-bottom: 1px dashed #B2B2B2; padding: 10px 0.5em;}
@@ -102,10 +102,10 @@ dt {font:bold}
 #archives{border-bottom: 1px dotted #cccccc;padding-top:10px}
 #google_ad{padding-top:10px;padding-left:5px}
 
-#logo {background: #efefef;  border: 1px #000000 solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
+#logo {background: #efefef;  border: 1px #cccccc solid; height: 148px;  text-align: right;  padding-top: 2px;  padding-right: 5px;}
 #bloglist{ background: url(/img/threecolbg.gif) right repeat-y; padding-right:10px;padding-left:10px}
 
-#blogview{padding-top:10px; padding-right:10px;padding-left:10px;border: 1px #000000 solid;}
+#blogview{padding-top:10px; padding-right:10px;padding-left:10px;border: 1px #cccccc solid;}
 #blogview div{margin-bottom:5px;}
 .commentlabel h4 {MARGIN: 0px 0px 8px; FONT: 14px/1.2 Georgia, 'Times New Roman', serif; TEXT-TRANSFORM: uppercase; COLOR: #963; LETTER-SPACING: 3px; TEXT-DECORATION: none}
 
@@ -113,7 +113,7 @@ dt {font:bold}
 .comment {background:#F8F7EF none repeat scroll 0% 0%;margin-bottom:-1px;padding:15px 10px 1px;border-bottom: 1px dotted #cccccc;padding-top:10px}
 .comment1 {background:#FBFBF7 none repeat scroll 0% 0%;border-style:none;border-width:medium; margin-bottom:-1px;padding:15px 10px 1px;border-bottom: 1px dotted #cccccc;padding-top:10px}
 
-#albumsdiv{border: 1px #000000 solid;padding-bottom: 40px; padding-top: 10px;}
+#albumsdiv{border: 1px #cccccc solid;padding-bottom: 40px; padding-top: 10px;}
 #albuminfo{padding-left:20px}
 #albums{margin:auto;text-align:center;padding-left:20px;padding-top:10px}
 #albums td {padding:3px 2px;text-align:center;vertical-align:middle;width:150px;}
