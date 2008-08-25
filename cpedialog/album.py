@@ -51,9 +51,26 @@ class BaseRequestHandler(webapp.RequestHandler):
           feed = None
       if not feed:
           gd_client = gdata.photos.service.PhotosService()
-          feed = gd_client.GetUserFeed(user= album_username)
+          try:
+              feed = gd_client.GetUserFeed(user= album_username)
+          except Exception:
+              return None
           memcache.add(key=key_albums, value=feed, time=3600)
       return feed
+
+  def validatorFeedAndReturnTemplate(self,feed,album_username,usernames):
+      if feed == None:
+          template_values ={
+              'error':"Can not retrieve the picasaweb album(s) of user '"+album_username+"', please " +
+              "make sure you set the correct picasaweb account."
+          }
+      else:
+          template_values = {
+            'username':album_username,
+            'usernames':usernames,
+            'albums':feed.entry,
+             }
+      return template_values
 
 class MainPage(BaseRequestHandler):
   def get(self):
@@ -62,11 +79,7 @@ class MainPage(BaseRequestHandler):
         defaultAlbum = usernames.get()
         album_username = defaultAlbum.album_username
         feed = self.getAlbumFeedEntry(defaultAlbum.album_username)
-        template_values = {
-          'username':album_username,
-          'usernames':usernames,
-          'albums':feed.entry,
-           }
+        template_values = self.validatorFeedAndReturnTemplate(feed,album_username,usernames)
     else:
         template_values ={
             'error':"Please set picasaweb album(s) in the system configuration."
@@ -81,11 +94,7 @@ class UserHandler(BaseRequestHandler):
     if album is None:
         self.redirect("/albums")
     feed = self.getAlbumFeedEntry(album.album_username)
-    template_values = {
-      'username':username,
-      'usernames':usernames,
-      'albums':feed.entry,
-       }
+    template_values = self.validatorFeedAndReturnTemplate(feed,album.album_username,usernames)
     self.generate('album_main.html',template_values)
 
 class UserPrivateHandler(BaseRequestHandler):
@@ -96,11 +105,7 @@ class UserPrivateHandler(BaseRequestHandler):
         if album is None:
             self.redirect("/albums")
         feed = self.getAlbumFeedEntry(album.album_username)
-        template_values = {
-          'username':username,
-          'usernames':usernames,
-          'albums':feed.entry,
-           }
+        template_values = self.validatorFeedAndReturnTemplate(feed,album.album_username,usernames)
         self.generate('album_main.html',template_values)
 
 

@@ -154,7 +154,7 @@ class CPediaLog(db.Model):
     recaptcha_private_key = db.StringProperty(multiline=False,default='')
  
     delicious_enable = db.BooleanProperty(default = True)
-    delicious_username = db.StringProperty(multiline=False, default='popular')
+    delicious_username = db.StringProperty(multiline=False, default='cpedia')
  
     google_ajax_feed_enable = db.BooleanProperty(default = True)
     google_ajax_feed_key = db.StringProperty(multiline=False,
