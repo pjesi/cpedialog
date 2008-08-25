@@ -229,11 +229,17 @@ class RPCHandler(webapp.RequestHandler):
   @authorized.role('admin')
   def RefreshTag(self,request):
       tag = Tag.get_by_id(int(request.get("id")))
-      query = Weblog.all().filter('tags', tag.tag)
-      if query:
-          tag.entrycount = query.count()
+      query_weblog = Weblog.all().filter('tags', tag.tag)
+      if query_weblog:
+          tag.entrycount = query_weblog.count()
           tag.put()
-      return True
+      tagJson = {}    
+      tagJson["id"] =  str(tag.key().id())
+      tagJson["key"] = str(tag.key())
+      tagJson["tag"] = str(tag.tag)
+      tagJson["entrycount"] = tag.entrycount
+      tagJson["valid"] = tag.valid
+      return tagJson
 
   #for archive management.
   @authorized.role('admin')
@@ -262,7 +268,13 @@ class RPCHandler(webapp.RequestHandler):
       if query:
           archive.weblogcount = query.count()
           archive.put()
-      return True
+      archiveJson = {}
+      archiveJson["id"] =  str(archive.key().id())
+      archiveJson["key"] = str(archive.key())
+      archiveJson["monthyear"] = str(archive.monthyear)
+      archiveJson["weblogcount"] = archive.weblogcount
+      archiveJson["date"] = archive.date.strftime('%m/%d/%y')
+      return archiveJson
 
   #for greeting.
   def AddGreeting(self,request):

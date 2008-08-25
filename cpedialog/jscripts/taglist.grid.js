@@ -103,7 +103,10 @@
                     YAHOO.util.Connect.asyncRequest('POST','/rpc?action=RefreshTag' + myBuildUrl(this,record),
                     {
                         success: function (o) {
-                            //todo: refresh the select row.
+                            if(o.responseText != null && o.responseText !="null"){
+                                var tag = YAHOO.lang.JSON.parse(o.responseText);
+                                this.updateRow(this.getRecordIndex(target),tag);
+                            }
                             //this.render();
                         },
                         failure: function (o) {

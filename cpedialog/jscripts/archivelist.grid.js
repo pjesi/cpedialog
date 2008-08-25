@@ -98,7 +98,10 @@
                     YAHOO.util.Connect.asyncRequest('POST','/rpc?action=RefreshArchive' + myBuildUrl(this,record),
                     {
                         success: function (o) {
-                             //todo: refresh the select row.
+                            if(o.responseText != null && o.responseText !="null"){
+                                var archive = YAHOO.lang.JSON.parse(o.responseText);
+                                this.updateRow(this.getRecordIndex(target),archive);
+                            }
                         },
                         failure: function (o) {
                             alert(o.statusText);
