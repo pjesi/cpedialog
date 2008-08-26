@@ -83,7 +83,9 @@ class AdminSystemPage(BaseRequestHandler):
         cpedialog.email = users.GetCurrentUser().email()
         cpedialog.root_url = self.request.get("root_url")
         cpedialog.logo_images_space = self.request.get("logo_images_space")
-        cpedialog.num_post_per_page = int(self.request.get("num_post_per_page"))
+        if(int(self.request.get("num_post_per_page"))!=cpedialog.num_post_per_page):
+            cpedialog.num_post_per_page = int(self.request.get("num_post_per_page"))
+            util.flushBlogPagesCache()        
         cpedialog.cache_time = int(self.request.get("cache_time"))
         if self.request.get("debug"):
             cpedialog.debug = True
@@ -101,7 +103,9 @@ class AdminSystemPage(BaseRequestHandler):
             
         if self.request.get("delicious_enable"):
             cpedialog.delicious_enable = True
-            cpedialog.delicious_username =  self.request.get("delicious_username")
+            if(self.request.get("delicious_username")!=cpedialog.delicious_username):
+                cpedialog.delicious_username =  self.request.get("delicious_username")
+                util.flushDeliciousTag()
         else:
             cpedialog.delicious_enable = False
 

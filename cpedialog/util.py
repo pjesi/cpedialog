@@ -264,6 +264,12 @@ def flushBlogMonthCache(blog):
     key= "blog_year_month_"+str(year_)+"_"+str(month_)+"_key"
     memcache.delete(key)
 
+
+#flush del.icio.us tag.
+def flushDeliciousTag():
+    memcache.delete("blog_deliciousList_key")
+
+
 def getDeliciousTag(username):
     key_ = "blog_deliciousList_key"
     try:
