@@ -391,24 +391,26 @@ class FeedHandler(BaseRequestHandler):
     
 
 class SearchHandler(BaseRequestHandler):
-    def get(self):
+    def get(self,search_term):
         pageStr = self.request.get('page')
         if pageStr:
             page = int(pageStr)
         else:
             page = 1;
-        search_term = self.request.get("q")
-        query = search.SearchableQuery('Weblog')
-        query.Search(search_term)
-        result = query.Run()
+        #search_term = self.request.get("q")
+        #query = search.SearchableQuery('Weblog')
+        #query.Search(search_term)
+        #result = query.Run()
+        query = db.Query(Weblog).filter('tags =', search_term).order('-date')
         try:
             cpedialog = util.getCPedialog()
-            obj_page  =  Paginator(result,cpedialog.num_post_per_page)
+            obj_page  =  Paginator(query,1000)
         except InvalidPage:
             self.redirect('/')
 
         recentReactions = util.getRecentReactions()
         template_values = {
+          'search_term':search_term,
           'page':obj_page,
           'recentReactions':recentReactions,
           }
