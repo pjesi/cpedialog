@@ -64,7 +64,7 @@
         <tr>
             <th><label for="recaptcha_enable">Recaptcha enable:</label></th>
             <td>
-                <input id="recaptcha_enable" name="recaptcha_enable" type="checkbox" {% if BLOG.recaptcha_enable %} checked {% endif %}/>
+                <input id="recaptcha_enable" name="recaptcha_enable"  onclick="checkRecaptcha()" type="checkbox" {% if BLOG.recaptcha_enable %} checked {% endif %}/>
                 <p><small>reCAPTCHA is a free CAPTCHA service that helps to enable anti-spam for the post's comment.  </small></p>
                 <p><small>You can get reCAPTCHA for free from: <a href="http://recaptcha.net/">http://recaptcha.net/</a>. </small></p>
             </td>
@@ -84,7 +84,7 @@
         <tr>
             <th><label for="delicious_enable">del.icio.us enable:</label></th>
             <td>
-                <input id="delicious_enable" name="delicious_enable" type="checkbox" {% if BLOG.delicious_enable %} checked {% endif %}/>
+                <input id="delicious_enable" name="delicious_enable" onclick="checkDelicious()" type="checkbox" {% if BLOG.delicious_enable %} checked {% endif %}/>
                 <p><small>Delicious is a Social Bookmarking service. </small></p>
             </td>
         </tr>
@@ -98,7 +98,7 @@
         <tr>
             <th><label for="google_ajax_feed_enable">Feed control enable:</label></th>
             <td>
-                <input id="google_ajax_feed_enable" name="google_ajax_feed_enable" type="checkbox"  {% if BLOG.google_ajax_feed_enable %} checked {% endif %}/>
+                <input id="google_ajax_feed_enable" name="google_ajax_feed_enable" onclick="checkGoogleAjaxFeed()"  type="checkbox"  {% if BLOG.google_ajax_feed_enable %} checked {% endif %}/>
                 <small>Enable feed control on your site.</small>
                 <p><small>You can manage your feeds on the Feeds tab.</small></p>
             </td>

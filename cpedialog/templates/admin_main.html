@@ -96,6 +96,26 @@
         return true;
     }
 
+    function checkDelicious(){
+        var delicious = document.getElementById("delicious_enable");
+        var delicious_username = document.getElementById("delicious_username");
+        delicious_username.disabled = !delicious.checked;
+    }
+    function checkGoogleAjaxFeed(){
+        var google_ajax_feed_enable = document.getElementById("google_ajax_feed_enable");
+        var google_ajax_feed_title = document.getElementById("google_ajax_feed_title");
+        var google_ajax_feed_result_num = document.getElementById("google_ajax_feed_result_num");
+        google_ajax_feed_title.disabled = !google_ajax_feed_enable.checked;
+        google_ajax_feed_result_num.disabled = !google_ajax_feed_enable.checked;
+    }
+    function checkRecaptcha(){
+        var recaptcha_enable = document.getElementById("recaptcha_enable");
+        var recaptcha_public_key = document.getElementById("recaptcha_public_key");
+        var recaptcha_private_key = document.getElementById("recaptcha_private_key");
+        recaptcha_public_key.disabled = !recaptcha_enable.checked;
+        recaptcha_private_key.disabled = !recaptcha_enable.checked;
+    }
+
     function saveConfiguration(){
         var title = document.forms["configForm"]["title"];
         if(title.value==""){
@@ -291,9 +311,7 @@
 
                 YAHOO.util.Event.onContentReady('adminmenu', function() {
                     tabView.appendTo('adminmenu');
-                });
-
-                
+                });               
             })();
 
         </script>
