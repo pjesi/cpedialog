@@ -13,7 +13,7 @@
     <div>
         <div class="yui-gd">
         <div class="yui-u first">
-            <font size="6em"><a href="/" style="border-bottom:none !important;">{{BLOG.title}}</a></font> BETA
+             <a href="/" style="border-bottom:none !important;font-size:2.4em!important;">{{BLOG.title}}</a>  BETA
         </div>
         <div class="yui-u">
             <div align="right" style="padding-top:10px">
@@ -25,8 +25,6 @@
                 </script>
                 <!-- Search Google -->
                 <form method="get" action="http://www.google.com/custom" target="google_window">
-                <table bgcolor="#ffffff">
-                <tr><td nowrap="nowrap" valign="top" align="left" height="32">
                 <label for="sbi" style="display: none">Enter your search terms</label>
                 <input type="text" name="q" size="30" maxlength="255" value="{%if search_term%}{{search_term|unquote}}{%endif%}" id="sbi"></input>
                 <label for="sbb" style="display: none">Submit search form</label>
@@ -39,7 +37,6 @@
                 <input type="hidden" name="safe" value="active"></input>
                 <input type="hidden" name="cof" value="GALT:#008000;GL:1;DIV:#336699;VLC:663399;AH:center;BGC:FFFFFF;LBGC:336699;ALC:0000FF;LC:0000FF;T:000000;GFNT:0000FF;GIMP:0000FF;FORID:1"></input>
                 <input type="hidden" name="hl" value="en"></input>
-                </td></tr></table>
                 </form>
                 <!-- Search Google -->
             </div>            
