@@ -210,10 +210,10 @@ class AddBlogReaction(BaseRequestHandler):
     blogReaction.user = self.request.get('name_input')
 
     cpedialog = util.getCPedialog()
+    clientIp = self.request.remote_addr
     if(cpedialog.recaptcha_enable):
         challenge = self.request.get('recaptcha_challenge_field')
         response  = self.request.get('recaptcha_response_field')
-        clientIp = self.request.remote_addr
         cResponse = captcha.submit(
                        challenge,
                        response,

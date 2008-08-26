@@ -98,15 +98,15 @@ class UserHandler(BaseRequestHandler):
     self.generate('album_main.html',template_values)
 
 class UserPrivateHandler(BaseRequestHandler):
-   @authorized.authSub("albums")
-   def get(self, username):
-        usernames = util.getAlbumList()
-        album = db.Query(Album).filter('album_username =',username).get()
-        if album is None:
-            self.redirect("/albums")
-        feed = self.getAlbumFeedEntry(album.album_username)
-        template_values = self.validatorFeedAndReturnTemplate(feed,album.album_username,usernames)
-        self.generate('album_main.html',template_values)
+  @authorized.authSub("albums")
+  def get(self, username):
+    usernames = util.getAlbumList()
+    album = db.Query(Album).filter('album_username =',username).get()
+    if album is None:
+        self.redirect("/albums")
+    feed = self.getAlbumFeedEntry(album.album_username)
+    template_values = self.validatorFeedAndReturnTemplate(feed,album.album_username,usernames)
+    self.generate('album_main.html',template_values)
 
 
 class AlbumHandler(BaseRequestHandler):
