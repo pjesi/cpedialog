@@ -186,6 +186,7 @@ class RPCHandler(webapp.RequestHandler):
   @authorized.role('admin')
   def GetImages(self,startIndex,results):
       query = datastore.Query('Images')
+      query.Order(('date', datastore.Query.DESCENDING))
       cpedialog = util.getCPedialog()
       images = []
       for image in query.Get(results,startIndex):
