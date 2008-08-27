@@ -22,6 +22,8 @@ dt {font:bold}
 
 .error{background:#F8F7EF none repeat scroll 0% 0%;border-color:red;border-style:none none none solid;border-width:medium medium medium 4px;margin:10px 0pt;padding-bottom:10px;padding-left:10px;font-weight:bold;}
 
+#title a, #title a:hover, #title a:link, #title a:visited {border:none !important;background-color: inherit!important;border-bottom:none!important;text-decoration:none;font-size:2.4em!important;}
+
 #blogcontainer{border: 1px #cccccc solid;padding-bottom: 10px; padding-top: 10px;}
 
 #blogpost h2 a{text-decoration: none!important; font: 0.75em Verdana, sans-serif;}
