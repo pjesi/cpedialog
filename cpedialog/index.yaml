@@ -10,20 +10,20 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 14 times in query history.
+# Used 3 times in query history.
 - kind: Album
   properties:
   - name: valid
   - name: order
     direction: desc
 
-# Used 122 times in query history.
+# Used 49 times in query history.
 - kind: Archive
   properties:
   - name: date
     direction: desc
 
-# Used 124 times in query history.
+# Used 103 times in query history.
 - kind: Feeds
   properties:
   - name: valid
@@ -38,10 +38,16 @@ indexes:
 # Used 2 times in query history.
 - kind: Images
   properties:
+  - name: -date
+    direction: desc
+
+# Used 2 times in query history.
+- kind: Images
+  properties:
   - name: date
     direction: desc
 
-# Used 175 times in query history.
+# Used 103 times in query history.
 - kind: Menu
   properties:
   - name: valid
@@ -53,13 +59,13 @@ indexes:
   - name: entrycount
     direction: desc
 
-# Used 165 times in query history.
+# Used 92 times in query history.
 - kind: Tag
   properties:
   - name: valid
   - name: tag
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Weblog
   properties:
   - name: __searchable_text_index
@@ -72,14 +78,14 @@ indexes:
   - name: date
     direction: desc
 
-# Used 86 times in query history.
+# Used 62 times in query history.
 - kind: Weblog
   properties:
   - name: entrytype
   - name: date
     direction: desc
 
-# Used 7 times in query history.
+# Unused in query history -- copied from input.
 - kind: Weblog
   properties:
   - name: entrytype
@@ -87,7 +93,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 16 times in query history.
+# Used 3 times in query history.
 - kind: Weblog
   properties:
   - name: lastCommentedDate
@@ -100,13 +106,13 @@ indexes:
   - name: date
     direction: desc
 
-# Used 9 times in query history.
+# Used 11 times in query history.
 - kind: Weblog
   properties:
   - name: permalink
     direction: desc
 
-# Used 17 times in query history.
+# Unused in query history -- copied from input.
 - kind: Weblog
   properties:
   - name: tags
@@ -119,7 +125,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 25 times in query history.
+# Used 11 times in query history.
 - kind: WeblogReactions
   properties:
   - name: weblog
