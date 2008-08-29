@@ -20,7 +20,7 @@ __author__ = 'Ping Chen'
 from paginator import \
     Paginator, QuerySetPaginator, Page, InvalidPage
 
-adjacent_pages = 10
+adjacent_pages = 8
 page_offset = 2
 
 class GqlQueryPaginator(Paginator):
