@@ -1,0 +1,48 @@
+application: pchen
+version: 1
+runtime: python
+api_version: 1
+skip_files: |
+ ^(.*/)?(
+ (app\.yaml)|
+ (app\.yml)|
+ (index\.yaml)|
+ (index\.yml)|
+ (#.*#)|
+ (.*~)|
+ (.*\.py[co])|
+ (.*/RCS/.*)|
+ (\..*)|
+ (.*/\.svn/.*)|
+ (.*/Thumbs\.db)|
+ )$
+
+
+handlers:
+- url: /stylesheets
+  static_dir: stylesheets
+
+- url: /cert
+  static_dir: cert
+
+- url: /images
+  static_dir: images_cpedia
+
+- url: /img
+  static_dir: img
+
+- url: /album
+  static_dir: album_cpedia
+
+- url: /jscripts
+  static_dir: jscripts
+
+- url: /favicon.ico
+  static_files: img/favicon.ico
+  upload: img/favicon.ico
+
+- url: /static
+  static_dir: static
+
+- url: /.*
+  script: main.py
