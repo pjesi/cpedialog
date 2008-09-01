@@ -348,4 +348,8 @@ def getUserNickname(user):
         return user.email().split("@")[0]
     else:
         return default
-
+def getLogger(loggerName):
+    #create a logger to use
+    logger = logging.getLogger(loggerName)
+    logger.setLevel(logging.DEBUG)
+    return logger
