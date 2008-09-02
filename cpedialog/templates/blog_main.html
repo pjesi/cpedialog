@@ -2,7 +2,7 @@
 {% block title %}{{title}}{% endblock %}
 {% block blog %}
     <div id=bloglist>
-    {% if page %}
+    {% if page.object_list %}
       {% for blog in page.object_list %}
         <H2 class=date-header> {{blog.date|date:"l, F m, Y"}} </H2>
         <DIV class="post">
@@ -27,13 +27,13 @@
                     {% else %}<A class=comment-link href="/{{blog.relative_permalink}}#addreaction">no comments</A>{% endif %}
         </H4>
         </DIV>
+        {% include "paginator.html" %}
         {% endfor %}
     {% else %}
        <div>
        No articles!
        </div>
     {% endif %}
-    {% include "paginator.html" %}
     </div>
 {% endblock %}
 
