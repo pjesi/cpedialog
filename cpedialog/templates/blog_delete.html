@@ -34,7 +34,7 @@
                  {% if reaction.authorWebsite %}
                   </a>
                  {% endif%}
-                {{reaction.date|date:"Y-m-d H:i"}}
+                {{reaction.date|timezone:BLOG.time_zone_offset|date:"Y-m-d H:i"}}
                 &nbsp;&nbsp;
                 {% ifnotequal reaction.userIp Null %}
                 <i><b>IP Address</b>:{{reaction.userIp}}</i>

@@ -13,7 +13,7 @@
 <div class="yui-g">
 <div id="blogview">
 <div>
-<H2 class=date-header> {{blog.date|date:"l, F m, Y"}} </H2>
+<H2 class=date-header> {{blog.date|timezone:BLOG.time_zone_offset|date:"l, F m, Y"}} </H2>
 <div class="post">
     <H3 class=post-title>
         <a href="/{{blog.relative_permalink}}">{{blog.title}}</a>
@@ -33,7 +33,7 @@
         <P>
             <SPAN class=post-author>Posted by {{blog.author.nickname}} </SPAN>
                     <SPAN class=post-timestamp>at
-                        <A class=timestamp-link href="/{{blog.relative_permalink}}">{{blog.date|date:"H:i A"}}</A>
+                        <A class=timestamp-link href="/{{blog.relative_permalink}}">{{blog.date|timezone:BLOG.time_zone_offset|date:"H:i A"}}</A>
                     </SPAN>
         </P>
         <P>
@@ -68,7 +68,7 @@
                 {% if reaction.authorWebsite %}
                 </a>
                 {% endif%}
-                {{reaction.date|date:"Y-m-d H:i"}} | 
+                {{reaction.date|timezone:BLOG.time_zone_offset|date:"Y-m-d H:i"}} |
                 {% ifnotequal reaction.userIp Null %}
                 IP:{{reaction.userIp}}
                 {% endifnotequal %}

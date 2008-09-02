@@ -14,7 +14,7 @@
             <tr>
                 <td>{{entry.title}}</td>
                 <td>{{entry.author.email}}</td>
-                <td>{{entry.date|date:"m/d/y"}}</td>
+                <td>{{entry.date|timezone:BLOG.time_zone_offset|date:"m/d/y"}}</td>
                 <td>
                     <a href="{{entry.full_permalink}}" target="_blank">{{entry.full_permalink}}</a>
                 </td>

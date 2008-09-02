@@ -266,7 +266,7 @@ Edit reaction
     </script>
     <div>
     <form method=post onsubmit="return parseConfirmContent()" id="submitForm">
-        <H2 class=date-header>{{blog.date|date:"l, F m, Y"}}</H2>
+        <H2 class=date-header>{{blog.date|timezone:BLOG.time_zone_offset|date:"l, F m, Y"}}</H2>
         <DIV class="post">
             <H3 class=post-title>
                 <a href="#">{{blog.title}}</a>
@@ -286,7 +286,7 @@ Edit reaction
                 <P>
                     <SPAN class=post-author>Posted by {{blog.author}} </SPAN>
                    <SPAN class=post-timestamp>at
-                       <A class=timestamp-link href="#">{{blog.date|date:"H:i A"}}</A>
+                       <A class=timestamp-link href="#">{{blog.date|timezone:BLOG.time_zone_offset|date:"H:i A"}}</A>
                    </SPAN>
                 </P>
                  <br>

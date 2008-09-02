@@ -10,7 +10,7 @@
 <br><br>
  {% for blog in allblogs %}   
 
-<H2 class=date-header> {{blog.date|date:"l, F m, Y"}} </H2>
+<H2 class=date-header> {{blog.date|timezone:BLOG.time_zone_offset|date:"l, F m, Y"}} </H2>
 
 <div class="post">
     <H3 class=post-title>

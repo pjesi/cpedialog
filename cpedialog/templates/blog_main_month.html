@@ -4,7 +4,7 @@
     <div id=bloglist>
     {% if blogs %}
       {% for blog in blogs %}
-        <H2 class=date-header> {{blog.date|date:"l, F m, Y"}} </H2>
+        <H2 class=date-header> {{blog.date|timezone:BLOG.time_zone_offset|date:"l, F m, Y"}} </H2>
         <DIV class="post">
         <H3 class=post-title>
             <a href="/{{blog.relative_permalink}}">{{blog.title}}</a>
@@ -21,7 +21,7 @@
             </p><br>
             {% endif %}
         <H4 class=byline> Posted by {{blog.author}} at 
-           <A  class=timestamp-link href="/{{blog.relative_permalink}}">{{blog.date|date:"H:i A"}}</A>
+           <A  class=timestamp-link href="/{{blog.relative_permalink}}">{{blog.date|timezone:BLOG.time_zone_offset|date:"H:i A"}}</A>
                      {% if blog.weblogreactions_set.count %}
                     <A class=comment-link href="/{{blog.relative_permalink}}#reactions">{{blog.weblogreactions_set.count}} comments</A>
                     {% else %}<A class=comment-link href="/{{blog.relative_permalink}}#addreaction">no comments</A>{% endif %}
