@@ -23,6 +23,7 @@ from google.appengine.ext import webapp
 import urllib
 import re
 import cgi
+import datetime
 
 
 
@@ -50,4 +51,9 @@ def quote ( str ):
 @register.filter
 def escape ( str ):
         return cgi.escape(str)
+
+@register.filter
+def timezone ( date, time_zone_offset ):
+        offset = datetime.timedelta(hours=time_zone_offset)
+        return date+offset
 

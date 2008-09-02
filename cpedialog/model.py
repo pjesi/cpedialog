@@ -160,6 +160,7 @@ class CPediaLog(db.Model):
     email = db.StringProperty(multiline=False, default='')
     description = db.StringProperty(default='Blog powered by cpedialog.')
     root_url = db.StringProperty(multiline=False,default='http://cpedialog.appspot.com')
+    time_zone_offset = db.FloatProperty(default=-8.0)
     logo_images = db.ListProperty(db.Category)
     num_post_per_page = db.IntegerProperty(default=8)
     cache_time = db.IntegerProperty(default=0)

@@ -109,7 +109,7 @@ class AdminSystemPage(BaseRequestHandler):
             cpedialog.debug = False
         cpedialog.host_ip = self.request.remote_addr
         cpedialog.host_domain = self.request.get("SERVER_NAME")
-
+        cpedialog.time_zone_offset = float(self.request.get("time_zone_offset"))
         if self.request.get("recaptcha_enable"):
             cpedialog.recaptcha_enable = True
             cpedialog.recaptcha_public_key =  self.request.get("recaptcha_public_key")
