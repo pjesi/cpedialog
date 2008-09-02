@@ -59,7 +59,6 @@ class BaseRequestHandler(webapp.RequestHandler):
       'archiveList': util.getArchiveList(),
     }
     values.update(template_values)
-    directory = os.path.dirname(__file__)
     view.ViewPage(cache_time=0).render(self, template_name,values)
 
 
