@@ -27,8 +27,8 @@
                     {% else %}<A class=comment-link href="/{{blog.relative_permalink}}#addreaction">no comments</A>{% endif %}
         </H4>
         </DIV>
-        {% include "paginator.html" %}
       {% endfor %}
+      {% include "paginator.html" %}
     {% else %}
        <div>
        No articles!
