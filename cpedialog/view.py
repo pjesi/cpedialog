@@ -45,7 +45,7 @@ class ViewPage(object):
             self.cache_time = cache_time
 
     def full_render(self, handler,template_file, params={}):
-            scheme, netloc, path, query, fragment = urlparse.urlsplit(handler.request.uri)
+            #scheme, netloc, path, query, fragment = urlparse.urlsplit(handler.request.uri)
             administrator = False
             if users.get_current_user():
                 url = users.create_logout_url(handler.request.uri)
@@ -95,9 +95,9 @@ class ViewPage(object):
             key = handler.request.url + str(users.get_current_user() != None) + str(users.is_current_user_admin())
             output = memcache.get(key)
             if not output:
-                logging.debug("Couldn't find a cache for %s", key)
+                util.getLogger(__name__).debug("Couldn't find a cache for %s", key)
             else:
-                logging.debug("Using cache for %s", template_file)
+                util.getLogger(__name__).debug("Using cache for %s", template_file)
                 return output
 
             output = self.full_render(handler, template_file, template_params)
@@ -111,6 +111,6 @@ class ViewPage(object):
     def render(self, handler,template_name, params={}):
         dirname = os.path.dirname(__file__)
         template_file = os.path.join(dirname, os.path.join('templates', template_name))
-        logging.debug("Using template at %s", template_file)
+        util.getLogger(__name__).debug("Using template at %s", template_file)
         output = self.render_or_get_cache(handler, template_file, params)
         handler.response.out.write(output)
