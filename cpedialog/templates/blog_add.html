@@ -1,14 +1,17 @@
 {% extends "main.html" %}
 
-{% block title %}{{title}} -  {% ifequal action "addBlog" %}
-Add {% ifequal entrytype "blog"%}Blog{% endifequal %}{% ifequal entrytype "page"%}Page{% endifequal %}
-{% endifequal %}
-{% ifequal action "editBlog" %}
-Edit item
-{% endifequal %}
-{% ifequal action "editBlogReaction" %}
-Edit reaction
-{% endifequal %}
+{% block title %}{{title}} -  
+	{% ifequal action "addBlog" %}
+		Add 
+		{% ifequal entrytype "blog"%}Blog{% endifequal %}
+		{% ifequal entrytype "page"%}Page{% endifequal %}
+	{% endifequal %}
+	{% ifequal action "editBlog" %}
+		Edit item
+	{% endifequal %}
+	{% ifequal action "editBlogReaction" %}
+		Edit reaction
+	{% endifequal %}
 {% endblock %}
 
 {% block blogcontainer %}
