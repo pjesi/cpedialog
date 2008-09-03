@@ -71,7 +71,7 @@ def getArchiveList():
         monthlist = Archive.all().order('-date')
         memcache.add(key=key_, value=monthlist, time=3600)
     else:
-        logging.debug("getMonthYearList from cache. ")
+        getLogger(__name__).debug("getMonthYearList from cache. ")
     return monthlist
 
 
@@ -94,7 +94,7 @@ def getLogoImagesList():
                 logoImagesList.append(file)
         memcache.add(key=key_, value=logoImagesList, time=3600)
     else:
-        logging.debug("getLogoImagesList from cache. ")
+        getLogger(__name__).debug("getLogoImagesList from cache. ")
     return logoImagesList
 
 #get recent comments. Cached.
@@ -108,7 +108,7 @@ def getRecentReactions():
         recentReactions = db.GqlQuery("select * from Weblog order by lastCommentedDate desc").fetch(10)
         memcache.add(key=key_, value=recentReactions, time=3600)
     else:
-        logging.debug("getRecentReactions from cache. ")
+        getLogger(__name__).debug("getRecentReactions from cache. ")
 
     return recentReactions
 
@@ -132,7 +132,7 @@ def getBlogPagination(page):
         except InvalidPage:
             return None
     else:
-        logging.debug("getBlogPagination from cache. ")
+        getLogger(__name__).debug("getBlogPagination from cache. ")
 
     return obj_pages[page]
 
@@ -150,7 +150,7 @@ def getArchiveBlog(monthyear):
         blogs = db.GqlQuery("select * from Weblog where monthyear=:1 and entrytype = 'post'order by date desc",monthyearTmp).fetch(100)
         memcache.add(key=key_, value=blogs, time=3600)
     else:
-        logging.debug("getMonthBlog from cache. ")
+        getLogger(__name__).debug("getMonthBlog from cache. ")
     return blogs
 
 #get menu list. Cached.
@@ -164,7 +164,7 @@ def getMenuList():
         menus = Menu.all().filter('valid',True).order('order')
         memcache.add(key=key_, value=menus, time=3600)
     else:
-        logging.debug("getMenuList from cache. ")
+        getLogger(__name__).debug("getMenuList from cache. ")
     return menus
 
 #get album list. Cached.
@@ -178,7 +178,7 @@ def getAlbumList():
         menus = Album.all().filter('valid',True).order('-order')
         memcache.add(key=key_, value=menus, time=3600)
     else:
-        logging.debug("getAlbumList from cache. ")
+        getLogger(__name__).debug("getAlbumList from cache. ")
     return menus
 
 #get tag list. Cached.
@@ -192,7 +192,7 @@ def getTagList():
         tags = Tag.all().filter('valid',True).order('tag')
         memcache.add(key=key_, value=tags, time=3600)
     else:
-        logging.debug("getTagList from cache. ")
+        getLogger(__name__).debug("getTagList from cache. ")
     return tags
 
 
@@ -207,7 +207,7 @@ def getFeedList():
         feeds = Feeds.all().filter('valid',True).order('order')
         memcache.add(key=key_, value=feeds, time=3600)
     else:
-        logging.debug("getFeedList from cache. ")
+        getLogger(__name__).debug("getFeedList from cache. ")
     return feeds
 
 
@@ -226,7 +226,7 @@ def getCPedialog():
             cpedialog = CPediaLog()
         memcache.add(key=key_, value=cpedialog, time=36000)            
     else:
-        logging.debug("getFeedList from cache. ")
+        getLogger(__name__).debug("getFeedList from cache. ")
     return cpedialog
 
 
@@ -305,7 +305,7 @@ def getDeliciousTag(username):
         except Exception:
             pass
     else:
-        logging.debug("getDeliciousTag from cache. ")
+        getLogger(__name__).debug("getDeliciousTag from cache. ")
     return tags
 
 
@@ -323,7 +323,7 @@ def getDeliciousPost(username,tag):
             posts = map(DeliciousPost,simplejson.loads(result.content))
         memcache.add(key=key_, value=posts, time=3600)
     else:
-        logging.debug("getDeliciousPost from cache. ")
+        getLogger(__name__).debug("getDeliciousPost from cache. ")
     return posts
 
 def getGravatarUrlByUser(user):
@@ -349,6 +349,7 @@ def getUserNickname(user):
     else:
         return default
 def getLogger(loggerName):
+    """get logger to use in every model"""
     #create a logger to use
     logger = logging.getLogger(loggerName)
     logger.setLevel(logging.DEBUG)
