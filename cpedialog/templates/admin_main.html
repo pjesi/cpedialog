@@ -258,7 +258,7 @@
                 var pagesTab = new YAHOO.widget.Tab({
                     label: 'Pages',
                     dataSrc: '/admin/pages',
-                    cacheData: false
+                    cacheData: true
                 });
                 tabView.addTab(pagesTab);
                 pagesTab.addListener('dataLoadedChange', renderMenuTable);
