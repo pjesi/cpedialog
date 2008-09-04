@@ -217,8 +217,8 @@ class User(EmailUser):
     country = db.StringProperty()
     birthday = db.DateTimeProperty()
     gender = db.StringProperty(multiline=False,choices=['Male','Female'])
-    openid = db.ListProperty(db.Category)
- 
+    openids = db.ListProperty(db.Category)
+
 
 class Album(db.Model):
     album_username = db.StringProperty()

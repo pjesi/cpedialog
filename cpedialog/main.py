@@ -24,6 +24,7 @@ import rpc
 import blog
 import album
 import admin
+import login
 import logging
 import util
 
@@ -75,6 +76,9 @@ def main():
                                         ('/albums/([-\w\.]+)/private/*$', album.UserPrivateHandler),
                                         ('/albums/([-\w\.]+)/([-\w]+)/*$', album.AlbumHandler),
                                         ('/albums/([-\w\.]+)/([-\w]+)/([\d]+)/*$', album.PhotoHandler),
+
+                                        ('/login/*$', login.LoginOpenID),
+                                        ('/login-finish/*$', login.LoginOpenIDFinish),
 
                                         ('/([-\w]+)/*$', blog.PageHandler),                                        
                                        ],
