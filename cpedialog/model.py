@@ -27,6 +27,8 @@ import urllib
 import cgi
 import simplejson
 
+from cpedia.auth.models import EmailUser
+
 
 class Archive(db.Model):
     monthyear = db.StringProperty(multiline=False)
@@ -208,6 +210,10 @@ class CPediaLog(db.Model):
     logo_images_space = property(get_logo_images,set_logo_images)
 
 
+class User(EmailUser):
+    first_name = db.StringProperty()
+    last_name = db.StringProperty()
+ 
 
 class Album(db.Model):
     album_username = db.StringProperty()
