@@ -213,6 +213,11 @@ class CPediaLog(db.Model):
 class User(EmailUser):
     first_name = db.StringProperty()
     last_name = db.StringProperty()
+    username = db.StringProperty()
+    country = db.StringProperty()
+    birthday = db.DateTimeProperty()
+    gender = db.StringProperty(multiline=False,choices=['Male','Female'])
+    openid = db.ListProperty(db.Category)
  
 
 class Album(db.Model):
