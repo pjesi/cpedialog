@@ -1,3 +1,6 @@
+#hacked form google app-engine-patch.
+#please refer to: http://code.google.com/p/app-engine-patch/
+
 from django.contrib import auth
 from django.contrib.auth.models import UNUSABLE_PASSWORD, SiteProfileNotAvailable
 from google.appengine.ext import db
