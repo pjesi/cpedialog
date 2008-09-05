@@ -34,7 +34,7 @@ from openid.consumer.consumer import Consumer
 from openid.consumer import discover
 from openid.extensions import pape, sreg
 from cpedia.openid import fetcher
-from cpedia.openid.fetcher import store
+from cpedia.openid import store
 
 import view
 
