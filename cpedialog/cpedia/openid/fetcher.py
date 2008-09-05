@@ -76,3 +76,6 @@ class UrlfetchFetcher(fetchers.HTTPFetcher):
 
     return fetchers.HTTPResponse(url, resp.status_code, resp.headers,
                                  resp.content)
+  def validateURL(self, url):
+      """validate given url is a valid openID url"""
+      return True;

@@ -172,7 +172,7 @@ class CPediaLog(db.Model):
     recaptcha_public_key = db.StringProperty(multiline=False,default='')
     recaptcha_private_key = db.StringProperty(multiline=False,default='')
  
-    delicious_enable = db.BooleanProperty(default = True)
+    delicious_enable = db.BooleanProperty(default = False)
     delicious_username = db.StringProperty(multiline=False, default='cpedia')
  
     google_ajax_feed_enable = db.BooleanProperty(default = True)
@@ -217,8 +217,15 @@ class User(EmailUser):
     country = db.StringProperty()
     birthday = db.DateTimeProperty()
     gender = db.StringProperty(multiline=False,choices=['Male','Female'])
-    openids = db.ListProperty(db.Category)
-
+    openid_keys = db.ListProperty(db.Key)
+    
+class OpenID(db.Model):
+    openid_url = db.StringProperty(required=True, default='http://openidurl')
+    valid = db.BooleanProperty(default=True)
+    def isDummyUrl(self, dumyyUrl):
+        """check whether given openid url is a dummyUrl"""
+        return 'http://openidurl' == dummyUrl
+    
 
 class Album(db.Model):
     album_username = db.StringProperty()

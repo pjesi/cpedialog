@@ -30,10 +30,11 @@ from google.appengine.api import memcache
 from google.appengine.api import images
 from google.appengine.ext import db
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Greeting,Feeds
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Greeting,Feeds,OpenID
 
 import authorized
 import util
+from cpedia.openid import fetcher
 
 class Image (webapp.RequestHandler):
   def get(self):
@@ -83,6 +84,7 @@ class RPCHandler(webapp.RequestHandler):
     action = self.request.get('action')
     request_ = self.request
     result = getattr(self, action)(request_)
+    util.getLogger(__name__).debug('ajax action "%s"return value is %s', action,simplejson.dumps(result))
     self.response.out.write(simplejson.dumps(result))
 
 # The RPCs exported to JavaScript follow here:
@@ -142,7 +144,34 @@ class RPCHandler(webapp.RequestHandler):
       menu['key'] = str(menu.key())
       menu['id'] = str(menu.key().id())
       return menu
-
+  def UpdateOpenID(self,request):
+      openID = OpenID.get_by_id(int(request.get("id")))
+      editColumn = request.get("editColumn")
+      if openID and editColumn:
+        newData = request.get("newData")
+        if editColumn == "openid_url":
+            openID.openid_url = newData
+        if editColumn == "valid":
+            openID.valid = simplejson.loads(newData)
+        openID.put()
+      return True
+  def DeleteOpenID(self,request):
+      openID = OpenID.get_by_id(int(request.get("id")))
+      openID.delete()
+      return True
+  def AddOpenID(self, request):
+      """attach a openID url to an exist user"""
+      openID = datastore.Entity("OpenID")
+#      openid_url = request.get("openid_url")
+#      if not fetcher.validateURL(openid_url):
+#          return False      
+      openID["openid_url"] = 'http://openidurl'
+      openID["valid"]=True
+      #TODO update user's openID list
+      datastore.Put(openID)
+      openID["id"]=str(openID.key().id())
+      return openID
+      
   @authorized.role('admin')
   def DeleteMenu(self,request):
       menu = Menu.get_by_id(int(request.get("id")))

@@ -1,0 +1,36 @@
+<fieldset>
+    <legend>User Admin</legend>
+    <div class="fieldsetdiv">
+        user can update his basic info here
+    </div>
+</fieldset>
+<fieldset id="admin_openids">
+    <legend>OpenID Admin</legend>
+    <div class="fieldsetdiv">
+        OpenID List:<br>
+        <small>Tips:you can double-click the "Add" column in the table header to add a new record.</small><br />
+        <small>you can attach another openID to your account</small> 
+            <div id="openIDdiv">
+            <table id="openIDtable">
+                <thead><tr>
+                    <th>openid</th>
+                    <th>valid</th>
+                    <th>id</th>
+                    <th>Delete</th>
+                    <th>Add</th>
+                </tr></thead>
+                <tbody>
+                {% for entry in openIDs %}
+                <tr id="openid_{{entry.key.id}}">
+                    <td>{{entry.openid_url}}</td>
+                    <td>{{entry.valid}}</td>
+                    <td>{{entry.key.id}}</td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                {% endfor%}
+                </tbody>
+            </table>
+            </div>
+    	</div>
+</fieldset>

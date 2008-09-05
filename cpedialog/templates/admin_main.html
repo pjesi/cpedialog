@@ -29,6 +29,7 @@
 <script type="text/javascript" src="/jscripts/menulist.grid.js"></script>
 <script type="text/javascript" src="/jscripts/taglist.grid.js"></script>
 <script type="text/javascript" src="/jscripts/imagelist.grid.js"></script>
+<script type="text/javascript" src="/jscripts/usersetting.grid.js"></script>
 
 <script type="text/javascript">
     function flushAllMemcache(flush) {
@@ -307,6 +308,14 @@
                     cacheData: true
                 });
                 tabView.addTab(cacheTab);
+
+                var userSettingTab = new YAHOO.widget.Tab({
+                    label: 'UserSetting',
+                    dataSrc: '/admin/usersetting',
+                    cacheData: true
+                });
+                tabView.addTab(userSettingTab);
+                userSettingTab.addListener('dataLoadedChange', renderUserSetting);
 
                 YAHOO.util.Event.onContentReady('adminmenu', function() {
                     tabView.appendTo('adminmenu');

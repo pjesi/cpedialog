@@ -39,7 +39,7 @@ from google.appengine.ext import webapp
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Feeds,CPediaLog
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Feeds,CPediaLog,OpenID
 import authorized
 import view
 import util
@@ -157,7 +157,14 @@ class AdminAlbumsPage(BaseRequestHandler):
           }
         self.generate('admin/admin_albums.html',template_values)
 
-
+class AdminUserSettingPage(BaseRequestHandler):
+    @authorized.role('admin')
+    def get(self):
+        openIDs = OpenID.all().order('valid')
+        template_values = {
+            'openIDs':openIDs,
+          }
+        self.generate('admin/admin_usersetting.html',template_values)
 class AdminFeedsPage(BaseRequestHandler):
   @authorized.role('admin')
   def get(self):
