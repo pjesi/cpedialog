@@ -37,7 +37,7 @@ from google.appengine.ext import search
 
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
-from cpedia.util import translate
+from cpedia.utils import translate
 
 from model import Archive,Weblog,WeblogReactions
 import authorized

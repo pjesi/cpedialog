@@ -1,32 +1,44 @@
-import cgi
-import wsgiref.handlers
-import urlparse, urllib
-import os
-import logging
+# !/usr/bin/env python
+#
+# Copyright 2008 CPedia.com.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+__author__ = 'Ping Chen'
+
+
 import datetime
-import Cookie
-import pprint
-import pickle
-import hashlib
+import logging
+import os
+import re
+import sys
+import urlparse
+import wsgiref.handlers
 
-from google.appengine.api import users
-from google.appengine.ext import webapp
 from google.appengine.ext import db
+from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-
-from os import environ
 
 from openid import fetchers
 from openid.consumer.consumer import Consumer
 from openid.consumer import discover
-
-from cpedia.openid import store
-from cpedia.openid.fetcher import UrlfetchFetcher
+from openid.extensions import pape, sreg
+from cpedia.openid import fetcher
+from cpedia.openid.fetcher import store
 
 import view
 
-from cpedia.util import sessions
- 
+  
 class BaseRequestHandler(webapp.RequestHandler):
   """Supplies a common template generation function.
 
