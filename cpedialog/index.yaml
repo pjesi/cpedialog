@@ -23,7 +23,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 166 times in query history.
+# Used 167 times in query history.
 - kind: Feeds
   properties:
   - name: valid
@@ -47,7 +47,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 169 times in query history.
+# Used 170 times in query history.
 - kind: Menu
   properties:
   - name: valid
@@ -59,7 +59,7 @@ indexes:
   - name: entrycount
     direction: desc
 
-# Used 153 times in query history.
+# Used 154 times in query history.
 - kind: Tag
   properties:
   - name: valid
