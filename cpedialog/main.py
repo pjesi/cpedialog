@@ -82,6 +82,7 @@ def main():
 
                                         ('/login/*$', login.LoginOpenID),
                                         ('/login-finish/*$', login.LoginOpenIDFinish),
+                                        ('/logout/*$', login.Logout),
 
                                         ('/([-\w]+)/*$', blog.PageHandler),                                        
                                        ],

@@ -37,10 +37,10 @@
                     </SPAN>
         </P>
         <P>
-            {% ifequal administrator 1 %}
+            {% if user_is_admin %}
         <p style='text-align: right;'>:<a href='/edit/blog/{{blog.key.id}}'>edit</a>: :
             <a href='/delete/blog/{{blog.key.id}}'>delete</a>:</p>
-        {% endifequal %}
+            {% endif  %}
         {% ifnotequal reaction.lastModifiedDate Null %}
         Edited at {{blog.lastModifiedDate}} by {{blog.lastModifiedBy}}.
         {% endifnotequal %}
@@ -79,11 +79,11 @@
             </DIV>
             <DIV class=post-footer>
                     <span class='comment-timestamp'>
-                        {% ifequal administrator 1 %}
+                        {% if user_is_admin %}
                         <p style='text-align: right;'>:<a
                                 href='/edit/comment/{{reaction.key.id}}'>edit</a>: :
                             <a href='/delete/comment/{{reaction.key.id}}'>delete</a>:</p>
-                        {% endifequal %}
+                        {% endif %}
 
                         {% ifnotequal reaction.lastModifiedDate Null %}
                         Edited at {{reaction.lastModifiedDate}} by {{reaction.lastModifiedBy}}.

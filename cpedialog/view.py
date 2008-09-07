@@ -46,15 +46,15 @@ class ViewPage(object):
 
     def full_render(self, handler,template_file, params={}):
             #scheme, netloc, path, query, fragment = urlparse.urlsplit(handler.request.uri)
-            administrator = False
-            if users.get_current_user():
-                url = users.create_logout_url(handler.request.uri)
-                url_linktext = 'Sign out'
-                if users.is_current_user_admin():
-                    administrator = True
-            else:
-                url = users.create_login_url(handler.request.uri)
+            session = sessions.Session()
+            session.login_google_user()
+            if not session.get_current_user():
+                url = "/login"
                 url_linktext = 'Sign in'
+            else:
+                url = "/logout"
+                url_linktext = 'Sign out'
+
             cpedialog = util.getCPedialog()
             delicious = None
             if cpedialog.delicious_enable:
@@ -64,16 +64,11 @@ class ViewPage(object):
                 feeds = util.getFeedList()
             template_params = {
                 "title": cpedialog.title,
-                "current_url": url,
-                'user': users.GetCurrentUser(),
+                'user': session.get_current_user(),
                 'url': url,
                 'url_linktext': url_linktext,
-                'administrator': administrator,
                 'request': handler.request,
-
                 "user_is_admin": users.is_current_user_admin(),
-                "login_url": users.create_login_url(handler.request.uri),
-                "logout_url": users.create_logout_url(handler.request.uri),
                 'logoImages': cpedialog.get_logo_images_list(),
                 "BLOG": cpedialog,
                 "nav_menus": util.getMenuList(),

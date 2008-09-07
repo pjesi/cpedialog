@@ -38,8 +38,9 @@ import __main__
 # google appengine imports
 from google.appengine.ext import db
 from google.appengine.api import memcache
+from google.appengine.api import users
 
-from model import UserSession, UserSessionData
+from model import UserSession, UserSessionData, User
 
 # settings, if you have these set elsewhere, such as your django settings file,
 # you'll need to adjust the values to pull from there.
@@ -273,11 +274,30 @@ class Session(object):
 
     def logout_user(self):
         """
-         unassociate the sesion object with user.
+         unassociate the sesion object with user(model.User).
         """
         self.delete()
 
+    def login_google_user(self):
+        """
+         associate the sesion object with google user object.
+        """
+        session = self.session
+        google_user = users.get_current_user()
+        if google_user and (session.user is None ):
+            users = User.all().filter('google_id',google_user.email())
+            if users.count() == 0:
+                user = User()
+                user.email = google_user.email()
+                user.username = google_user.nickname()
+                user.put()
+            else:
+                user = users[0]
+            session.login_user(user)
 
+    def get_current_user(self):
+        session = self.session
+        return session.user
 
     def _delete_session(self):
         """

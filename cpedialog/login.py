@@ -26,6 +26,7 @@ import urlparse
 import wsgiref.handlers
 import pickle
 
+from google.appengine.api import users
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
@@ -41,6 +42,7 @@ from cpedia.sessions import sessions
 
 from model import User
 import view
+import authorized
 
   
 class BaseRequestHandler(webapp.RequestHandler):
@@ -84,13 +86,26 @@ class BaseRequestHandler(webapp.RequestHandler):
         return dict([(arg, req.get(arg)) for arg in req.arguments()])
 
 
+class Logout(BaseRequestHandler):
+    def get(self, error_msg=None):
+        template_values = {
+           "error": error_msg
+        }
+        self.session.delete()
+        if users.get_current_user():
+            self.redirect(users.create_logout_url(self.request.uri))
+        else:
+            self.redirect(self.request.uri)
+        self.generate('login.html',template_values)
+  
+
 class LoginOpenID(BaseRequestHandler):
     def get(self, error_msg=None):
         template_values = {
            "error": error_msg
         }
         self.generate('login.html',template_values)
-  
+
     def post(self):
         openid = self.request.get('openid_identifier')
         if not openid:
@@ -174,8 +189,8 @@ class LoginOpenIDFinish(BaseRequestHandler):
     def post(self):
         self.get()    
 
-
 class EditProfile(BaseRequestHandler):
+    @authorized.role("user")
     def get(self, error_msg=None):
         template_values = {
            "error": error_msg

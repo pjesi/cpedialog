@@ -24,7 +24,8 @@ import gdata.service
 
 import urllib
 
-from model import AuthSubStoredToken
+from model import AuthSubStoredToken, User
+from cpedia.sessions import sessions
 
 def role(role):
     """This method refer to the Bloog (http://bloog.appspot.com).
@@ -48,12 +49,14 @@ def role(role):
     """
     def wrapper(handler_method):
         def check_login(self, *args, **kwargs):
-            user = users.get_current_user()
-            if not user:
+            session = sessions.Session()
+            session.login_google_user()
+            if not session.get_current_user():
                 if self.request.method != 'GET':
                     self.error(403)
                 else:
-                    self.redirect(users.create_login_url(self.request.uri))
+                    #self.redirect(users.create_login_url(self.request.uri))
+                    self.redirect("/login")
             elif role == "user" or (role == "admin" and users.is_current_user_admin()):
                 return handler_method(self, *args, **kwargs)
             else:

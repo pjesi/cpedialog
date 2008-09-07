@@ -223,6 +223,15 @@ class User(EmailUser):
     google_id = db.StringProperty()
     openids = db.ListProperty(db.Category)
 
+    def get_nickname(self):
+        return self.username
+
+    def set_nickname(self,nickname):
+        self.username = nickname
+        
+    nickname = property(get_nickname,set_nickname)
+
+
 class OpenID(db.Model):
     openid_url = db.StringProperty(required=True, default='http://openidurl')
     valid = db.BooleanProperty(default=True)
