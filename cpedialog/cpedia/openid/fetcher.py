@@ -70,7 +70,14 @@ class UrlfetchFetcher(fetchers.HTTPFetcher):
       if resp.status_code in (301, 302):
         logging.debug('Following %d redirect to %s' %
                       (resp.status_code, resp.headers['location']))
-        url = resp.headers['location']
+        #url = resp.headers['location']
+        if resp.headers.has_key('location'):
+            url = resp.headers['location']
+        elif resp.headers.has_key('Location'):
+            url = resp.headers['Location']
+        else:
+            raise Exception('Could not find location in headers: %r' % (resp.headers,))
+
       else:
         break
 
