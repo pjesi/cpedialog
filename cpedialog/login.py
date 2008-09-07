@@ -24,6 +24,7 @@ import re
 import sys
 import urlparse
 import wsgiref.handlers
+import pickle
 
 from google.appengine.ext import db
 from google.appengine.ext import webapp
@@ -102,7 +103,7 @@ class LoginOpenID(BaseRequestHandler):
         try:
             consumer = self.get_consumer()
             if not consumer:
-              return
+                return
             auth_request = consumer.begin(openid)
         except discover.DiscoveryFailure, e:
             logging.error('Error with begin on '+openid)
