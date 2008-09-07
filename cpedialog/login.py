@@ -141,7 +141,9 @@ class LoginOpenIDFinish(BaseRequestHandler):
             except:
                 self.sess['openid_stuff'] = None
     
-        consumer = self.get_consumer()
+        fetchers.setDefaultFetcher(fetcher.UrlfetchFetcher())
+        consumer = Consumer(s, store.DatastoreStore())
+        
         if not consumer:
             return
         auth_response = consumer.complete(args, url)
@@ -156,10 +158,12 @@ class LoginOpenIDFinish(BaseRequestHandler):
             else:
                 user = users[0]
       
-            self.sess['user'] = user.key()
-            self.sess['logged_in_person'] = user
+            self.sess.login_user(user)
       
             self.redirect('/login')
     
         else:
             self.show_main_page('OpenID verification failed :(')
+
+    def post(self):
+        self.get()    

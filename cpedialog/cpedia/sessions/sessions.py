@@ -263,7 +263,7 @@ class Session(object):
         sessdata.put()
         self._set_memcache()
 
-    def attach_user(self, user):
+    def login_user(self, user):
         """
          associate the sesion object with user.
         """
@@ -271,13 +271,11 @@ class Session(object):
         session.user = user
         session.put()
 
-    def unattach_user(self, user):
+    def logout_user(self):
         """
          unassociate the sesion object with user.
         """
-        session = self.session
-        session.user = None
-        session.put()
+        self.delete()
 
 
 
