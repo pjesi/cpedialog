@@ -44,17 +44,12 @@ import view
   
 class BaseRequestHandler(webapp.RequestHandler):
     consumer = None
+    session = sessions.Session()
     session_args = None
 
     def __init__(self):
         self.session_args = {}
 
-    """Supplies a common template generation function.
-    
-    When you call generate(), we augment the template variables supplied with
-    the current user in the 'user' variable and the current webapp request
-    in the 'request' variable.
-    """
     def generate(self, template_name, template_values={}):
         values = {
          }
@@ -106,21 +101,32 @@ class LoginOpenID(BaseRequestHandler):
                 return
             auth_request = consumer.begin(openid)
         except discover.DiscoveryFailure, e:
-            logging.error('Error with begin on '+openid)
-            logging.error(str(e))
+            logging.error('Error with begin on '+openid,e)
             self.show_main_page('An error occured determining your server information.  Please try again.')
             return
+        except discover.XRDSError, e:
+            self.report_error('Error parsing XRDS from provider.', e)
+            self.show_main_page('An error occured determining your server information.  Please try again.')
+            return
+
+        sreg_request = sreg.SRegRequest(optional=['nickname', 'fullname', 'email'])
+        auth_request.addExtension(sreg_request)
+
+        pape_request = pape.Request([pape.AUTH_MULTI_FACTOR,
+                                     pape.AUTH_MULTI_FACTOR_PHYSICAL,
+                                     pape.AUTH_PHISHING_RESISTANT,
+                                     ])
+        auth_request.addExtension(pape_request)
+
         parts = list(urlparse.urlparse(self.request.uri))
         parts[2] = 'login-finish'
-        parts[4] = ''
+        parts[4] = 'session_id=%s' % self.session.sid
         parts[5] = ''
         return_to = urlparse.urlunparse(parts)
-    
         realm = urlparse.urlunparse(parts[0:2] + [''] * 4)
     
         # save the session stuff
-        self.sess = sessions.Session()
-        self.sess['openid_stuff'] = pickle.dumps(consumer.session)
+        self.session['openid_stuff'] = pickle.dumps(consumer.session)
   
         # send the redirect!  we use a meta because appengine bombs out
         # sometimes with long redirect urls
@@ -131,22 +137,20 @@ class LoginOpenID(BaseRequestHandler):
 class LoginOpenIDFinish(BaseRequestHandler):
     def get(self):
         args = self.args_to_dict()
-        url = 'http://'+self.request.host+'/login-finish'
     
-        self.sess = sessions.Session()
         s = {}
-        if self.sess['openid_stuff']:
+        if self.session['openid_stuff']:
             try:
-                s = pickle.loads(str(self.sess['openid_stuff']))
+                s = pickle.loads(str(self.session['openid_stuff']))
             except:
-                self.sess['openid_stuff'] = None
+                pass
     
-        fetchers.setDefaultFetcher(fetcher.UrlfetchFetcher())
         consumer = Consumer(s, store.DatastoreStore())
         
         if not consumer:
             return
-        auth_response = consumer.complete(args, url)
+        fetchers.setDefaultFetcher(fetcher.UrlfetchFetcher())
+        auth_response = consumer.complete(args, self.request.uri)
     
         if auth_response.status == 'success':
             openid = auth_response.getDisplayIdentifier()
@@ -158,12 +162,12 @@ class LoginOpenIDFinish(BaseRequestHandler):
             else:
                 user = users[0]
       
-            self.sess.login_user(user)
+            self.session.login_user(user)
       
             self.redirect('/login')
     
         else:
-            self.show_main_page('OpenID verification failed :(')
+            self.show_main_page('OpenID verification failed.')
 
     def post(self):
         self.get()    
