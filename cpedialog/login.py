@@ -101,7 +101,7 @@ class Logout(BaseRequestHandler):
             self.redirect(users.create_logout_url(self.request.uri))
         else:
             self.redirect(self.request.uri)
-        self.generate('login.html',template_values)
+        self.redirect("/")
   
 
 class LoginOpenID(BaseRequestHandler):
