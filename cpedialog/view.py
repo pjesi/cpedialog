@@ -32,6 +32,8 @@ import urlparse
 import string
 import util
 
+from cpedia.sessions import sessions
+
 
 """This method refer to the Bloog (http://bloog.appspot.com).
 """
