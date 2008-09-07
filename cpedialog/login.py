@@ -141,8 +141,10 @@ class LoginOpenIDFinish(BaseRequestHandler):
             except:
                 self.sess['openid_stuff'] = None
     
-        c = Consumer(s, self.get_store())
-        auth_response = c.complete(args, url)
+        consumer = self.get_consumer()
+        if not consumer:
+            return
+        auth_response = consumer.complete(args, url)
     
         if auth_response.status == 'success':
             openid = auth_response.getDisplayIdentifier()
