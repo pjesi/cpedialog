@@ -1,7 +1,11 @@
 <div class="menu_top">
     <div id="userinfo">
         {% if user %}
+        {% if user.email %}
         <b>{{ user.email }}</b> |
+        {% else %}
+        <a href="/user/usersetting">User Profile</a> |
+        {% endif %}
         {% if user_is_admin %}
         <a href='/admin'>System Configuration</a> |
         {% endif %}

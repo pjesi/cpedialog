@@ -285,15 +285,15 @@ class Session(object):
         session = self.session
         google_user = users.get_current_user()
         if google_user and (session.user is None ):
-            users = User.all().filter('google_id',google_user.email())
-            if users.count() == 0:
+            users_ = User.all().filter('google_id',google_user.email())
+            if users_.count() == 0:
                 user = User()
                 user.email = google_user.email()
                 user.username = google_user.nickname()
                 user.put()
             else:
-                user = users[0]
-            session.login_user(user)
+                user = users_[0]
+            self.login_user(user)
 
     def get_current_user(self):
         session = self.session
@@ -303,15 +303,19 @@ class Session(object):
         """
         Delete the session and all session data for the sid passed.
         """
-        sessiondata = self._get()
-        # delete from datastore
-        if sessiondata is not None:
-            for sd in sessiondata:
-                sd.delete()
-        # delete from memcache
-        memcache.delete('sid-'+str(self.session.key()))
-        # delete the session now that all items that reference it are deleted.
-        self.session.delete()
+        try:
+            sessiondata = self._get()
+            # delete from datastore
+            if sessiondata is not None:
+                for sd in sessiondata:
+                    sd.delete()
+            # delete from memcache
+            memcache.delete('sid-'+str(self.session.key()))
+            # delete the session now that all items that reference it are deleted.
+            self.session.delete()
+        except Exception:
+            pass
+        
         # if the event class has been loaded, fire off the sessionDeleted event
         if 'AEU_Events' in __main__.__dict__:
             __main__.AEU_Events.fire_event('sessionDelete')

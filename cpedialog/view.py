@@ -77,8 +77,8 @@ class ViewPage(object):
                 "tags": util.getTagList(),
                 "feeds": feeds,
                 "delicious": delicious,
-                "user_gravatar_url":util.getGravatarUrlByUser(users.get_current_user()),
-                "user_nickname":util.getUserNickname(users.get_current_user())
+                "user_gravatar_url":util.getGravatarUrlByUser(session.get_current_user()),
+                "user_nickname":util.getUserNickname(session.get_current_user())
                # "docs": util.getGoogleDocs(config.delicious['username']),
             }
             template_params.update(params)

@@ -54,7 +54,12 @@ class BaseRequestHandler(webapp.RequestHandler):
         self.session_args = {}
 
     def generate(self, template_name, template_values={}):
+        google_login_url = users.create_login_url(self.request.uri)
+        google_logout_url = users.create_logout_url(self.request.uri)
         values = {
+            "google_login_status":users.get_current_user(),
+            "google_login_url":google_login_url,
+            "google_logout_url":google_logout_url
          }
         values.update(template_values)
         view.ViewPage(cache_time=0).render(self, template_name,values)

@@ -29,6 +29,7 @@ from google.appengine.api import urlfetch
 
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
+from cpedia.sessions import sessions
 
 from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds,CPediaLog,User
 import simplejson
@@ -329,7 +330,11 @@ def getDeliciousPost(username,tag):
 def getGravatarUrlByUser(user):
     default = "/img/anonymous.jpg"
     if user is not None:
-        return getGravatarUrl(user.email())
+        try:
+            email = user.email()
+        except Exception:
+            email = user.email
+        return getGravatarUrl(email)
     else:
         return default
 
@@ -345,7 +350,10 @@ def getGravatarUrl(email):
 def getUserNickname(user):
     default = "anonymous"
     if user:
-        return user.email().split("@")[0]
+        if user.nickname:
+            return user.nickname
+        else:
+            return user.email().split("@")[0]
     else:
         return default
 
@@ -358,6 +366,6 @@ def getLogger(loggerName):
 
 def getUser():
     #get user from session
-    #session = sessions.Session()
-    #user = session.user
-    user = User(email="test@gmail.com",is_banned=False)
+    session = sessions.Session()
+    return session.get_current_user()
+
