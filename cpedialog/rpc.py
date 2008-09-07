@@ -147,29 +147,37 @@ class RPCHandler(webapp.RequestHandler):
   def UpdateOpenID(self,request):
       openID = OpenID.get_by_id(int(request.get("id")))
       editColumn = request.get("editColumn")
+      user = util.getUser()
       if openID and editColumn:
         newData = request.get("newData")
         if editColumn == "openid_url":
             openID.openid_url = newData
+            user.openids.append([db.Category(newData)])
+            user.put()
         if editColumn == "valid":
             openID.valid = simplejson.loads(newData)
         openID.put()
       return True
   def DeleteOpenID(self,request):
       openID = OpenID.get_by_id(int(request.get("id")))
+      user = util.getUser()
+      for user_openid_url in user.openids:
+        if db.Category(openID.openid_url) == user_openid_url:
+              user.openids.remove(user_openid_url)
+              user.put()
       openID.delete()
       return True
   def AddOpenID(self, request):
       """attach a openID url to an exist user"""
       openID = datastore.Entity("OpenID")
-#      openid_url = request.get("openid_url")
-#      if not fetcher.validateURL(openid_url):
-#          return False      
-      openID["openid_url"] = 'http://openidurl'
+      user = util.getUser()
+      openID["openid_url"] = 'http://'
       openID["valid"]=True
-      #TODO update user's openID list
+      openID["user"] = user
       datastore.Put(openID)
       openID["id"]=str(openID.key().id())
+      #unatach user to returen back json obj
+      #openID["user"] = None
       return openID
       
   @authorized.role('admin')

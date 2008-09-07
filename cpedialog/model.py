@@ -219,12 +219,12 @@ class User(EmailUser):
     gender = db.StringProperty(multiline=False,choices=['Male','Female'])
     yahoo_id = db.StringProperty()
     google_id = db.StringProperty()
-    openid_keys = db.ListProperty(db.Key)
     openids = db.ListProperty(db.Category)
 
 class OpenID(db.Model):
     openid_url = db.StringProperty(required=True, default='http://openidurl')
     valid = db.BooleanProperty(default=True)
+    user = db.ReferenceProperty(User)   #refer to user.
     def isDummyUrl(self, dumyyUrl):
         """check whether given openid url is a dummyUrl"""
         return 'http://openidurl' == dummyUrl

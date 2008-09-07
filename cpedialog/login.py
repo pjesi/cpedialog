@@ -40,6 +40,7 @@ from cpedia.openid import store
 from cpedia.sessions import sessions
 
 import view
+import util
 
   
 class BaseRequestHandler(webapp.RequestHandler):
@@ -150,8 +151,10 @@ class LoginOpenIDFinish(BaseRequestHandler):
         if not consumer:
             return
         fetchers.setDefaultFetcher(fetcher.UrlfetchFetcher())
+        for arg in args.keys():
+          util.getLogger(__name__).debug(arg+"--"+args[arg])
         auth_response = consumer.complete(args, self.request.uri)
-    
+        util.getLogger(__name__).debug("auth code is "+auth_response.status)
         if auth_response.status == 'success':
             openid = auth_response.getDisplayIdentifier()
             users = User.all().filter('openids', openid)

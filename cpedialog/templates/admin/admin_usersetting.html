@@ -1,7 +1,54 @@
 <fieldset>
     <legend>User Admin</legend>
     <div class="fieldsetdiv">
-        user can update his basic info here
+      <form method=post id="configForm" name="configForm">
+        <table cellspacing="0" class="yui-skin-sam" id="configuration">
+          <tr>
+            <th><label for="email">Email</label></th>
+            <td>
+              <input id="email"  name="email" size="30" type="text" value="{{user.email}}" readOnly="true"/>
+            </td>
+          </tr>
+          <tr>
+            <th><label for="first_name">First Name:</label></th>
+            <td>
+              <input id="first_name"  name="first_name" size="30" type="text" value="{{user.first_name}}" />
+            </td>
+          </tr>
+          <tr>
+            <th><label for="last_name">Last Name:</label></th>
+            <td>
+              <input id="last_name"  name="last_name" size="30" type="text" value="{{user.last_name}}" />
+            </td>
+          </tr>
+          <tr>
+            <th><label for="username">User Name:</label></th>
+            <td>
+              <input id="username"  name="username" size="30" type="text" value="{{user.username}}" />
+            </td>
+          </tr>
+          <tr>
+            <th><label for="country">Country:</label></th>
+            <td>
+              <input id="country"  name="country" size="30" type="text" value="{{user.country}}" />
+            </td>
+          </tr><tr>
+            <th><label for="birthday">Birthday:</label></th>
+            <td>
+              <input id="birthday"  name="birthday" size="30" type="text" value="{{user.birthday}}" />
+            </td>
+          </tr><tr>
+            <th><label for="gender">Gender:</label></th>
+            <td>
+              <input id="gender"  name="gender" size="30" type="text" value="{{user.gender}}" />
+            </td>
+          </tr>
+          <tr>
+            <th> </th>
+            <td><input name="commit" type="button" value="Save" onclick="alert('not impl yet!')"/></td>
+        </tr>
+        </table>
+      </form>
     </div>
 </fieldset>
 <fieldset id="admin_openids">

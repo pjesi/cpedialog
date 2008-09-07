@@ -30,7 +30,7 @@ from google.appengine.api import urlfetch
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds,CPediaLog
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds,CPediaLog,User
 import simplejson
 import cgi
 import urllib, hashlib
@@ -354,3 +354,8 @@ def getLogger(loggerName):
     logger = logging.getLogger(loggerName)
     logger.setLevel(logging.DEBUG)
     return logger
+def getUser():
+    #get user from session
+    #session = sessions.Session()
+    #user = session.user
+    user = User(email="test@gmail.com",is_banned=False)
