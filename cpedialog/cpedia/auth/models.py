@@ -67,7 +67,7 @@ class EmailUserTraits(UserTraits):
         return self.email
 
 class EmailUser(EmailUserTraits):
-    email = db.EmailProperty(required=True)
+    email = db.EmailProperty()
     # This can be used to distinguish between banned users and unfinished
     # registrations
     is_banned = db.BooleanProperty(default=False, required=True)

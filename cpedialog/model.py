@@ -211,12 +211,14 @@ class CPediaLog(db.Model):
 
 
 class User(EmailUser):
-    first_name = db.StringProperty()
-    last_name = db.StringProperty()
+    fullname = db.StringProperty()
     username = db.StringProperty()
     country = db.StringProperty()
     birthday = db.DateTimeProperty()
-    gender = db.StringProperty(multiline=False,choices=['Male','Female'])
+    gender = db.StringProperty(multiline=False,choices=['M','F'])
+    language = db.StringProperty()
+    timezone = db.StringProperty()
+    postcode = db.StringProperty()
     yahoo_id = db.StringProperty()
     google_id = db.StringProperty()
     openids = db.ListProperty(db.Category)

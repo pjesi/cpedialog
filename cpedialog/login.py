@@ -39,8 +39,8 @@ from cpedia.openid import fetcher
 from cpedia.openid import store
 from cpedia.sessions import sessions
 
+from model import User
 import view
-import util
 
   
 class BaseRequestHandler(webapp.RequestHandler):
@@ -110,14 +110,8 @@ class LoginOpenID(BaseRequestHandler):
             self.show_main_page('An error occured determining your server information.  Please try again.')
             return
 
-        sreg_request = sreg.SRegRequest(optional=['nickname', 'fullname', 'email'])
+        sreg_request = sreg.SRegRequest(required = sreg.data_fields.keys())
         auth_request.addExtension(sreg_request)
-
-        pape_request = pape.Request([pape.AUTH_MULTI_FACTOR,
-                                     pape.AUTH_MULTI_FACTOR_PHYSICAL,
-                                     pape.AUTH_PHISHING_RESISTANT,
-                                     ])
-        auth_request.addExtension(pape_request)
 
         parts = list(urlparse.urlparse(self.request.uri))
         parts[2] = 'login-finish'
@@ -147,28 +141,31 @@ class LoginOpenIDFinish(BaseRequestHandler):
                 pass
     
         consumer = Consumer(s, store.DatastoreStore())
-        
         if not consumer:
             return
         fetchers.setDefaultFetcher(fetcher.UrlfetchFetcher())
-        for arg in args.keys():
-          util.getLogger(__name__).debug(arg+"--"+args[arg])
         auth_response = consumer.complete(args, self.request.uri)
-        util.getLogger(__name__).debug("auth code is "+auth_response.status)
         if auth_response.status == 'success':
             openid = auth_response.getDisplayIdentifier()
+            sreg_data = sreg.SRegResponse.fromSuccessResponse(auth_response)
             users = User.all().filter('openids', openid)
             if users.count() == 0:
                 user = User()
                 user.openids = [db.Category(urllib.quote(openid.strip().encode('utf8')))]
-                user.put()
+                user.username = sreg_data.nickname
+                user.fullname = sreg_data.fullname
+                user.country = sreg_data.country
+                user.birthday = sreg_data.dob
+                user.gender = sreg_data.gender
+                user.language = sreg_data.language
+                user.postcode = sreg_data.postcode
+                user.email = sreg_data.email
+                user.put()                
             else:
                 user = users[0]
-      
+
             self.session.login_user(user)
-      
             self.redirect('/login')
-    
         else:
             self.show_main_page('OpenID verification failed.')
 
