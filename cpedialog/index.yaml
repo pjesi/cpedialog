@@ -10,20 +10,20 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 14 times in query history.
+# Used 3 times in query history.
 - kind: Album
   properties:
   - name: valid
   - name: order
     direction: desc
 
-# Used 133 times in query history.
+# Used 72 times in query history.
 - kind: Archive
   properties:
   - name: date
     direction: desc
 
-# Used 141 times in query history.
+# Used 166 times in query history.
 - kind: Feeds
   properties:
   - name: valid
@@ -35,7 +35,7 @@ indexes:
   - name: date
     direction: desc
 
-# Unused in query history -- copied from input.
+# Used 2 times in query history.
 - kind: Images
   properties:
   - name: -date
@@ -47,7 +47,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 193 times in query history.
+# Used 169 times in query history.
 - kind: Menu
   properties:
   - name: valid
@@ -59,13 +59,13 @@ indexes:
   - name: entrycount
     direction: desc
 
-# Used 182 times in query history.
+# Used 153 times in query history.
 - kind: Tag
   properties:
   - name: valid
   - name: tag
 
-# Used once in query history.
+# Unused in query history -- copied from input.
 - kind: Weblog
   properties:
   - name: __searchable_text_index
@@ -78,14 +78,14 @@ indexes:
   - name: date
     direction: desc
 
-# Used 96 times in query history.
+# Used 88 times in query history.
 - kind: Weblog
   properties:
   - name: entrytype
   - name: date
     direction: desc
 
-# Used 7 times in query history.
+# Unused in query history -- copied from input.
 - kind: Weblog
   properties:
   - name: entrytype
@@ -93,7 +93,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 23 times in query history.
+# Used 15 times in query history.
 - kind: Weblog
   properties:
   - name: lastCommentedDate
@@ -106,13 +106,13 @@ indexes:
   - name: date
     direction: desc
 
-# Used 9 times in query history.
+# Used 13 times in query history.
 - kind: Weblog
   properties:
   - name: permalink
     direction: desc
 
-# Used 18 times in query history.
+# Used once in query history.
 - kind: Weblog
   properties:
   - name: tags
@@ -125,7 +125,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 34 times in query history.
+# Used 17 times in query history.
 - kind: WeblogReactions
   properties:
   - name: weblog

@@ -217,6 +217,8 @@ class User(EmailUser):
     country = db.StringProperty()
     birthday = db.DateTimeProperty()
     gender = db.StringProperty(multiline=False,choices=['Male','Female'])
+    yahoo_id = db.StringProperty()
+    google_id = db.StringProperty()
     openid_keys = db.ListProperty(db.Key)
     
 class OpenID(db.Model):
@@ -226,6 +228,28 @@ class OpenID(db.Model):
         """check whether given openid url is a dummyUrl"""
         return 'http://openidurl' == dummyUrl
     
+
+#User session will be control by cpedia.session.sessions
+class UserSession(db.Model):
+    """
+    Model for the sessions in the datastore. This contains the identifier and
+    validation information for the session.
+    """
+    sid = db.StringListProperty()
+    ip = db.StringProperty()
+    ua = db.StringProperty()
+    last_activity = db.DateTimeProperty(auto_now=True)
+    user = db.ReferenceProperty(User)   #refer to user.
+
+#for store session data.
+class UserSessionData(db.Model):
+    """
+    Model for the session data in the datastore.
+    """
+    session = db.ReferenceProperty(UserSession)
+    keyname = db.StringProperty()
+    content = db.BlobProperty()
+
 
 class Album(db.Model):
     album_username = db.StringProperty()

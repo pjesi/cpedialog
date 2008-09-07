@@ -39,6 +39,8 @@ import __main__
 from google.appengine.ext import db
 from google.appengine.api import memcache
 
+from model import UserSession, UserSessionData
+
 # settings, if you have these set elsewhere, such as your django settings file,
 # you'll need to adjust the values to pull from there.
 
@@ -52,27 +54,6 @@ CHECK_USER_AGENT = True # validate sessions by user agent
 SET_COOKIE_EXPIRES = True # Set to True to add expiration field to cookie
 SESSION_TOKEN_TTL = 5 # Number of seconds a session token is valid for.
 
-
-class _AppEngineUtilities_Session(db.Model):
-    """
-    Model for the sessions in the datastore. This contains the identifier and
-    validation information for the session.
-    """
-
-    sid = db.StringListProperty()
-    ip = db.StringProperty()
-    ua = db.StringProperty()
-    last_activity = db.DateTimeProperty(auto_now=True)
-
-
-class _AppEngineUtilities_SessionData(db.Model):
-    """
-    Model for the session data in the datastore.
-    """
-
-    session = db.ReferenceProperty(_AppEngineUtilities_Session)
-    keyname = db.StringProperty()
-    content = db.BlobProperty()
 
 
 class Session(object):
@@ -146,7 +127,7 @@ class Session(object):
             self.session = self._get_session()
             if self.session is None:
                 self.sid = self.new_sid()
-                self.session = _AppEngineUtilities_Session()
+                self.session = UserSession()
                 self.session.ua = os.environ['HTTP_USER_AGENT']
                 self.session.ip = os.environ['REMOTE_ADDR']
                 self.session.sid = [self.sid]
@@ -174,7 +155,7 @@ class Session(object):
                         self.session_expire_time
         else:
             self.sid = self.new_sid()
-            self.session = _AppEngineUtilities_Session()
+            self.session = UserSession()
             self.session.ua = os.environ['HTTP_USER_AGENT']
             self.session.ip = os.environ['REMOTE_ADDR']
             self.session.sid = [self.sid]
@@ -213,7 +194,7 @@ class Session(object):
         """
         Get the user's session from the datastore
         """
-        query = _AppEngineUtilities_Session.all()
+        query = UserSession.all()
         query.filter('sid', self.sid)
         if self.check_user_agent:
             query.filter('ua', os.environ['HTTP_USER_AGENT'])
@@ -239,7 +220,7 @@ class Session(object):
         Args:
             keyname: The keyname of the value you are trying to retrieve.
         """
-        query = _AppEngineUtilities_SessionData.all()
+        query = UserSessionData.all()
         query.filter('session', self.session)
         if keyname != None:
             query.filter('keyname =', keyname)
@@ -274,13 +255,31 @@ class Session(object):
             raise ValueError('You must pass a value to put.')
         sessdata = self._get(keyname=keyname)
         if sessdata is None:
-            sessdata = _AppEngineUtilities_SessionData()
+            sessdata = UserSessionData()
             sessdata.session = self.session
             sessdata.keyname = keyname
         sessdata.content = pickle.dumps(value)
         self.cache[keyname] = pickle.dumps(value)
         sessdata.put()
         self._set_memcache()
+
+    def attach_user(self, user):
+        """
+         associate the sesion object with user.
+        """
+        session = self.session
+        session.user = user
+        session.put()
+
+    def unattach_user(self, user):
+        """
+         unassociate the sesion object with user.
+        """
+        session = self.session
+        session.user = None
+        session.put()
+
+
 
     def _delete_session(self):
         """
@@ -316,7 +315,7 @@ class Session(object):
         all_data_deleted = False
 
         while not all_sessions_deleted:
-            query = _AppEngineUtilities_Session.all()
+            query = UserSession.all()
             results = query.fetch(1000)
             if len(results) is 0:
                 all_sessions_deleted = True
@@ -325,7 +324,7 @@ class Session(object):
                     result.delete()
 
         while not all_data_deleted:
-            query = _AppEngineUtilities_SessionData.all()
+            query = UserSessionData.all()
             results = query.fetch(1000)
             if len(results) is 0:
                 all_data_deleted = True
@@ -342,11 +341,11 @@ class Session(object):
         """
         duration = datetime.timedelta(seconds=self.session_expire_time)
         session_age = datetime.datetime.now() - duration
-        query = _AppEngineUtilities_Session.all()
+        query = UserSession.all()
         query.filter('last_activity <', session_age)
         results = query.fetch(1000)
         for result in results:
-            data_query = _AppEngineUtilities_SessionData.all()
+            data_query = UserSessionData.all()
             query.filter('session', result)
             data_results = data_query.fetch(1000)
             for data_result in data_results:
