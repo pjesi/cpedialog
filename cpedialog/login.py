@@ -151,23 +151,34 @@ class LoginOpenIDFinish(BaseRequestHandler):
             users = User.all().filter('openids', openid)
             if users.count() == 0:
                 user = User()
-                user.openids = [db.Category(urllib.quote(openid.strip().encode('utf8')))]
-                user.username = sreg_data.nickname
-                user.fullname = sreg_data.fullname
-                user.country = sreg_data.country
-                user.birthday = sreg_data.dob
-                user.gender = sreg_data.gender
-                user.language = sreg_data.language
-                user.postcode = sreg_data.postcode
-                user.email = sreg_data.email
-                user.put()                
+                user.openids = [db.Category(openid.strip().encode('utf8'))]
+                user.username = sreg_data["nickname"]
+                user.fullname = sreg_data["fullname"]
+                user.country = sreg_data["country"]
+                user.birthday = datetime.datetime.strptime(sreg_data["dob"], '%Y-%m-%d')
+                user.gender = sreg_data["gender"]
+                user.language = sreg_data["language"]
+                user.postcode = sreg_data["postcode"]
+                #user.email = sreg_data["email"]
+                user.put()
+                self.session.login_user(user)
+                self.redirect('/user/usersetting')
             else:
                 user = users[0]
 
             self.session.login_user(user)
-            self.redirect('/login')
+            self.redirect('/')
         else:
             self.show_main_page('OpenID verification failed.')
 
     def post(self):
         self.get()    
+
+
+class EditProfile(BaseRequestHandler):
+    def get(self, error_msg=None):
+        template_values = {
+           "error": error_msg
+        }
+        self.generate('user_setting.html',template_values)
+
