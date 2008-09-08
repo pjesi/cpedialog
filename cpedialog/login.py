@@ -96,11 +96,9 @@ class Logout(BaseRequestHandler):
         template_values = {
            "error": error_msg
         }
-        self.session.delete()
+        self.session.logout_user()
         if users.get_current_user():
             self.redirect(users.create_logout_url(self.request.uri))
-        else:
-            self.redirect(self.request.uri)
         self.redirect("/")
   
 

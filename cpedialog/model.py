@@ -229,10 +229,7 @@ class User(EmailUser):
     def set_nickname(self,nickname):
         self.username = nickname
 
-    #make User object can be adaptable with google user object    
-    def email(self):
-        return self.email
-
+    #make User object can be adaptable with google user object
     def nickname(self):
         return self.username
     

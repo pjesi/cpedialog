@@ -276,7 +276,10 @@ class Session(object):
         """
          unassociate the sesion object with user(model.User).
         """
-        self.delete()
+        session = self.session
+        session.user = None
+        session.put()
+
 
     def login_google_user(self):
         """
