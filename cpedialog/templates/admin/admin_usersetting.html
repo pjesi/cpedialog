@@ -1,8 +1,39 @@
+<style type="text/css">
+    /* Clear calendar's float */
+    #container_cal .bd:after {content:".";display:block;clear:left;height:0;visibility:hidden;}
+
+    /* Have calendar squeeze upto bd bounding box */
+    #container_cal .bd {padding:0;}
+
+    /* Remove calendar's border and set padding in ems instead of px, so we can specify an width in ems for the container */
+    #cal {border:none;padding:1em}
+
+    /* Datefield look/feel */
+    .datefield {
+        position:relative;
+        top:10px;
+        left:10px;
+        white-space:nowrap;
+        border:1px solid black;
+        background-color:#eee;
+        width:25em;
+        padding:5px;
+    }
+
+    .datefield input,
+    .datefield button,
+    .datefield label  {vertical-align:middle}
+
+    .datefield label  {font-weight:bold}
+    .datefield input  {width:15em}
+    .datefield button  {padding:0 5px 0 5px; margin-left:2px;}
+    .datefield button img {padding:0;margin:0;vertical-align:middle}
+</style>
 <fieldset>
     <legend>User Admin</legend>
     <div class="fieldsetdiv">
-      <form method=post id="configForm" name="configForm">
-        <table cellspacing="0" class="yui-skin-sam" id="configuration">
+      <form method=post id="userAdminForm" name="configForm">
+        <table cellspacing="0" class="yui-skin-sam admin_table" id="userAdmin" >
           <tr>
             <th><label for="email">Email</label></th>
             <td>
@@ -35,12 +66,22 @@
           </tr><tr>
             <th><label for="birthday">Birthday:</label></th>
             <td>
-              <input id="birthday"  name="birthday" size="30" type="text" value="{{user.birthday}}" />
+            	<div id="datefield">
+	              <input id="birthday"  name="birthday" type="text" size="30" value="{{user.birthday}}" />
+	              <button type="button" id="show_cal" title="Show Calendar"><img src="/img/calbtn.gif" width="18" height="18" alt="Calendar" /></button>
+	            </div>
+              <div id="container_cal">
+					      <div class="hd">Calendar</div>
+					      <div class="bd">
+					         <div id="cal"></div>
+					      </div>
+					   	</div>
             </td>
           </tr><tr>
             <th><label for="gender">Gender:</label></th>
             <td>
-              <input id="gender"  name="gender" size="30" type="text" value="{{user.gender}}" />
+              <label for="gender_male">Male</label><input id="gender_male"  name="gender" type="radio" value="M" {% ifequal user.gender "M" %} checked {% endifequal %}/>
+              <label for="gender_female">Female</label><input id="gender_female"  name="gender" type="radio" value="F" {% ifequal user.gender "F" %} checked {% endifequal %} />
             </td>
           </tr>
           <tr>

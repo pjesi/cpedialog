@@ -7,15 +7,8 @@ h4 {font: bolder 1.1em Verdana, Arial, "Times New Roman", serif; color:#000000}
 h5 {font: bolder .83em Verdana, Arial, "Times New Roman", serif; color:#000000}
 h6 {font: bolder .75em Verdana, Arial, "Times New Roman", serif; color:#000000}
 
-a {text-decoration: none; outline:none;}
-a:link, a:visited {color: #555; border-bottom: 1px solid #555;}
-html body a:hover {color: #000; background-color: #F4F2E4; border-bottom: 1px solid #9A8E51;}
-.img a,.img a:hover ,.img a:link ,.img a:visited {border-bottom:none !important;background-color:inherit!important;border-bottom-width: 0!important;color:inherit;!important}
-
-
 #sidebar a:link,.post-title a:link, .post-title a:visited, .byline a:link, .byline a:visited{border-bottom-width: 0;}
 #sidebar a:hover,.post-title a:hover, .byline a:hover {border-bottom-width: 1px;}
-
 ul, ol {list-style: none;}
 ul, ol {list-style-image:none;list-style-position:outside;list-style-type:none;}
 dt {font:bold}
@@ -27,28 +20,30 @@ dt {font:bold}
 
 #blogcontainer{border: 1px #cccccc solid;padding-bottom: 10px; padding-top: 10px;}
 
+
 #blogpost h2 a{text-decoration: none!important; font: 0.75em Verdana, sans-serif;}
 
 #navbar {height: 1.8em; padding: 0 0 3px 215px;background: #FBFAF4;border-bottom:1px dashed #B2B2B2;border-top:1px dashed #B2B2B2;font: 1.2em Georgia, Times, serif; overflow: hidden;min-width: 750px;}
 #navbar li {float: left; padding: 0 23px 0 13px; margin-right: 5px;}
 #navbar li a {display: block; padding: 0.5em 0 0.25em;color: #000;border-bottom:none !important;}
 #navbar a:hover,.articles #navbar #articles a,.topics #navbar #topics a,.about #navbar #about a,
-    .contact #navbar #contact a,.contribute #navbar #contribute a,.feed #navbar #feed a {background: url(/img/navbarlinkbg.gif) top left repeat-x; color: #555!important;}
+.contact #navbar #contact a,.contribute #navbar #contribute a,.feed #navbar #feed a {background: url(/img/navbarlinkbg.gif) top left repeat-x; color: #555!important;}
 
 #footer{margin-top:20px;margin-bottom:20px;height: 2.5em; background: #FBFAF4;overflow: hidden;min-width: 750px;}
-#admincontainer fieldset{margin-bottom:20px!important;padding-bottom:20px;border:1px solid #cccccc!important;}
-
-.submit{margin-top:10px;margin-bottom:10px; border:1px solid #cccccc;background-color:#cccccc;}
-
-#admincontainer .fieldsetdiv{padding-left:10px;padding-top:5px;padding-right:10px}
-#admincontainer legend{padding: 2px 6px;font-weight:bold;}
-.fieldsetcomment{font: 0.8em Georgia, "Times New Roman", serif,italic;}
-#admincontainer th,#admincontainer td {border:1px solid #cccccc;padding:.4em!important;}
-#admincontainer th {font-weight:bold!important;text-align:center!important;}
-#imagetable .thumbnail{background:white none repeat scroll 0% 0%;border:1px solid #CCCCCC;padding:0;}
 #configuration{border:none}
 #configuration th{border:none;text-align:right!important;padding-top:10px;}
 #configuration td{border:none;text-align:left;padding:7px 3px;}
+.submit{margin-top:10px;margin-bottom:10px; border:1px solid #cccccc;background-color:#cccccc;}
+#imagetable .thumbnail{background:white none repeat scroll 0% 0%;border:1px solid #CCCCCC;padding:0;}
+.fieldsetcomment{font: 0.8em Georgia, "Times New Roman", serif,italic;}
+
+#admincontainer fieldset{margin-bottom:20px!important;padding-bottom:20px;border:1px solid #cccccc!important;}
+#admincontainer .fieldsetdiv{padding-left:10px;padding-top:5px;padding-right:10px}
+#admincontainer legend{padding: 2px 6px;font-weight:bold;}
+
+.admin_table th,.admin_table td {border:1px solid #cccccc;padding:.4em;}
+.admin_table th {font-weight:bold;text-align:right;}
+.admin_table {width:100%}
 
 .post {PADDING-RIGHT: 10px; PADDING-LEFT: 10px; margin-bottom:10px;border-bottom: 1px dotted #cccccc;}
 .post-title {font: 1.6em Georgia, Times, serif;MARGIN: 1em 0px 0.25em;text-transform: none; letter-spacing: 1px;}

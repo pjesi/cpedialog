@@ -29,7 +29,7 @@ from google.appengine.api import urlfetch
 
 from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
-from cpedia.sessions import sessions
+import cpedia.sessions.sessions
 
 from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds,CPediaLog,User
 import simplejson
@@ -366,6 +366,6 @@ def getLogger(loggerName):
 
 def getUser():
     #get user from session
-    session = sessions.Session()
+    session = cpedia.sessions.sessions.Session()
     return session.get_current_user()
 

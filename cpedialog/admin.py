@@ -40,6 +40,7 @@ from google.appengine.ext import db
 from google.appengine.api import memcache
 
 from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Feeds,CPediaLog,OpenID,User
+import cpedia.sessions.sessions
 import authorized
 import view
 import util
@@ -48,6 +49,7 @@ import gdata.urlfetch
 gdata.service.http_request_handler = gdata.urlfetch
 
 class BaseRequestHandler(webapp.RequestHandler):
+  session = cpedia.sessions.sessions.Session()
   def generate(self, template_name, template_values={}):
     values = {
       'request': self.request,
@@ -160,8 +162,9 @@ class AdminAlbumsPage(BaseRequestHandler):
 class AdminUserSettingPage(BaseRequestHandler):
     @authorized.role('admin')
     def get(self):
-        user = util.getUser()
+        user = self.session.get_current_user()
         openIDs = OpenID.all().filter('user = ', user).order('valid')
+        util.getLogger(__name__).debug("user email is "+user.email)
         template_values = {
             'openIDs':openIDs,
             'user':user,
