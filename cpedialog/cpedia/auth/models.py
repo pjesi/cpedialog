@@ -75,6 +75,5 @@ class EmailUser(EmailUserTraits):
 class User(EmailUserTraits):
     """Default User class that mimics Django's User class."""
     username = db.StringProperty(required=True)
-    email = db.EmailProperty()
     first_name = db.StringProperty()
     last_name = db.StringProperty()
