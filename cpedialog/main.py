@@ -27,11 +27,18 @@ import admin
 import login
 import logging
 import util
+import os
 
 from google.appengine.ext.webapp import template
 template.register_template_library('cpedia.filter.replace')
 template.register_template_library('cpedia.filter.gravatar')
 
+# Force Django to reload its settings.
+from django.conf import settings
+settings._target = None
+
+# Must set this env var before importing any part of Django
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
 def main():
     cpedialog = util.getCPedialog()
