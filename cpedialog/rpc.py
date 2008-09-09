@@ -35,6 +35,7 @@ from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,I
 import authorized
 import util
 from cpedia.openid import fetcher
+import cpedia.sessions.sessions
 
 class Image (webapp.RequestHandler):
   def get(self):
@@ -66,6 +67,7 @@ class UploadImage (webapp.RequestHandler):
 # This handler allows the functions defined in the RPCHandler class to
 # be called automatically by remote code.
 class RPCHandler(webapp.RequestHandler):
+  session = cpedia.sessions.sessions.Session()
   def get(self):
     action = self.request.get('action')
     arg_counter = 0;
@@ -147,12 +149,12 @@ class RPCHandler(webapp.RequestHandler):
   def UpdateOpenID(self,request):
       openID = OpenID.get_by_id(int(request.get("id")))
       editColumn = request.get("editColumn")
-      user = util.getUser()
+      user = self.session.get_current_user()
       if openID and editColumn:
         newData = request.get("newData")
         if editColumn == "openid_url":
             openID.openid_url = newData
-            user.openids.append([db.Category(newData)])
+            user.openids.append(db.Category(newData))
             user.put()
         if editColumn == "valid":
             openID.valid = simplejson.loads(newData)
@@ -160,7 +162,7 @@ class RPCHandler(webapp.RequestHandler):
       return True
   def DeleteOpenID(self,request):
       openID = OpenID.get_by_id(int(request.get("id")))
-      user = util.getUser()
+      user = self.session.get_current_user()
       for user_openid_url in user.openids:
         if db.Category(openID.openid_url) == user_openid_url:
               user.openids.remove(user_openid_url)
@@ -170,12 +172,13 @@ class RPCHandler(webapp.RequestHandler):
   def AddOpenID(self, request):
       """attach a openID url to an exist user"""
       openID = datastore.Entity("OpenID")
-      user = util.getUser()
+      user = self.session.get_current_user()
       openID["openid_url"] = 'http://'
       openID["valid"]=True
-      openID["user"] = user
+      openID["user"] = user.key()
       datastore.Put(openID)
       openID["id"]=str(openID.key().id())
+      openID["user"] = None
       #unatach user to returen back json obj
       #openID["user"] = None
       return openID

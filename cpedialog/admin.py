@@ -166,8 +166,10 @@ class AdminUserSettingPage(BaseRequestHandler):
         user = self.session.get_current_user()
         openIDs = OpenID.all().filter('user = ', user).order('valid')
         util.getLogger(__name__).debug("user email is "+user.email)
-        user.birthday_str=user.birthday.strftime('%Y/%m/%d')
-        
+        if user.birthday:
+            user.birthday_str=user.birthday.strftime('%Y/%m/%d')
+        else:
+            user.birthday_str=None
         template_values = {
             'openIDs':openIDs,
             'user':user,
@@ -184,7 +186,7 @@ class AdminUserSettingPage(BaseRequestHandler):
         birthday = time.strptime(self.request.get("birthday"),'%Y/%m/%d')
         user.birthday = datetime.datetime(birthday[0],birthday[1],birthday[2])
         user.gender = self.request.get('gender')
-        db.put(user)
+        user.put()
         return True
         
 class AdminFeedsPage(BaseRequestHandler):
