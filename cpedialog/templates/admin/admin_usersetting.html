@@ -32,12 +32,12 @@
 <fieldset>
     <legend>User Admin</legend>
     <div class="fieldsetdiv">
-      <form method=post id="userAdminForm" name="configForm">
+      <form method=post id="userAdminForm" name="userAdminForm">
         <table cellspacing="0" class="yui-skin-sam admin_table" id="userAdmin" >
           <tr>
             <th><label for="email">Email</label></th>
             <td>
-              <input id="email"  name="email" size="30" type="text" value="{{user.email}}" readOnly="true"/>
+              <input id="email"  name="email" size="30" type="text" value="{{user.email}}"/>
             </td>
           </tr>
           <tr>
@@ -67,7 +67,7 @@
             <th><label for="birthday">Birthday:</label></th>
             <td>
             	<div id="datefield">
-	              <input id="birthday"  name="birthday" type="text" size="30" value="{{user.birthday}}" />
+	              <input id="birthday"  name="birthday" type="text" size="30" value="{{user.birthday_str}}" readOnly="true"/>
 	              <button type="button" id="show_cal" title="Show Calendar"><img src="/img/calbtn.gif" width="18" height="18" alt="Calendar" /></button>
 	            </div>
               <div id="container_cal">
@@ -86,7 +86,7 @@
           </tr>
           <tr>
             <th> </th>
-            <td><input name="commit" type="button" value="Save" onclick="alert('not impl yet!')"/></td>
+            <td><input name="commit" type="button" value="Save" onclick="saveUserInfo()"/></td>
         </tr>
         </table>
       </form>

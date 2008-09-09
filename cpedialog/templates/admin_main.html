@@ -239,6 +239,54 @@
         YAHOO.util.Connect.setForm(formObject);
         YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
     }
+    //this functions used in admin_usersetting.html
+    function saveUserInfo(){
+				var email = YAHOO.util.Dom.get("email");
+				if(email.value==""){
+					alert('please input your email');
+					email.focus();
+					return false;
+				}
+				var first_name = YAHOO.util.Dom.get("first_name");
+				if(first_name.value==""){
+					alert('please input your first name');
+					first_name.focus();
+					return false;
+				}
+				var last_name = YAHOO.util.Dom.get("last_name");
+				if(last_name.value==""){
+					alert('please input your last name');
+					last_name.focus();
+					return false;
+				}
+				var username = YAHOO.util.Dom.get("username");
+				if(username.value==""){
+					alert('please input your user name');
+					username.focus();
+					return false;
+				}
+				var country = YAHOO.util.Dom.get("country");
+				if(country.value==""){
+					alert('please input your country');
+					country.focus();
+					return false;
+				}
+				
+				var sUrl = "/admin/usersetting?time=" + new Date().getTime();
+		        var updateUserSettingSuccess = function(o) {
+		            if (o.responseText !== undefined) {
+		                alert("Update User Profile successfully.");
+		            }
+		        }
+		        var callback =
+		        {
+		            success:updateUserSettingSuccess,
+		            failure:handleFailure
+		        };
+		        var formObject = YAHOO.util.Dom.get("userAdminForm");
+		        YAHOO.util.Connect.setForm(formObject);
+		        YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
+			}
 </script>
 {% block jscript %}
 {% endblock %}
