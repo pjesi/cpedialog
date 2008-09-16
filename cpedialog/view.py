@@ -54,10 +54,7 @@ class ViewPage(object):
                 url = "/login"
                 url_linktext = 'Sign in'
             else:
-                if users.get_current_user():
-                    url = users.create_logout_url(handler.request.uri)
-                else:
-                    url = "/logout"
+                url = "/logout"
                 url_linktext = 'Sign out'
 
             cpedialog = util.getCPedialog()

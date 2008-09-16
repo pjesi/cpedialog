@@ -96,9 +96,11 @@ class Logout(BaseRequestHandler):
         template_values = {
            "error": error_msg
         }
-        self.session.logout_user()
+        self.session = sessions.Session()
+        self.session.delete()
         if users.get_current_user():
             self.redirect(users.create_logout_url(self.request.uri))
+            return
         self.redirect("/")
   
 
@@ -139,6 +141,7 @@ class LoginOpenID(BaseRequestHandler):
         realm = urlparse.urlunparse(parts[0:2] + [''] * 4)
     
         # save the session stuff
+        self.session = sessions.Session()
         self.session['openid_stuff'] = pickle.dumps(consumer.session)
   
         # send the redirect!  we use a meta because appengine bombs out
@@ -152,6 +155,7 @@ class LoginOpenIDFinish(BaseRequestHandler):
         args = self.args_to_dict()
     
         s = {}
+        self.session = sessions.Session()
         if self.session['openid_stuff']:
             try:
                 s = pickle.loads(str(self.session['openid_stuff']))
