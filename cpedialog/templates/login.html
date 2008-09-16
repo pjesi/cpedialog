@@ -9,15 +9,15 @@
         </div>
         {% endif %}
         <div>
-            <h1><img src="/img/openid-logo-small.png" alt="OpenID"></h1>
+            <img src="/img/openid-logo-small.png" alt="OpenID">
+
             <form action="/login" method="post">
-                        <label for="openid_identifier">Enter your OpenID URL: </label>
-                       <h2>Sign in using OpenID</h2>
-                <input type="text" name="openid_identifier" id="openid_identifier"
-                               style="border: 1px solid #ccc; background: url(/img/openid.gif) no-repeat;	background-position: 0 50%; padding-left: 18px; "/>
-                        <input type="submit" value="Sign in"/>   <br>
+                <label for="openid_identifier">Enter your OpenID URL: </label>
+                <input type="text" name="openid_identifier" id="openid_identifier" size="30"
+                       style="border: 1px solid #ccc; background: url(/img/openid.gif) no-repeat;	background-position: 0 50%; padding-left: 18px; "/>
+                <input type="submit" value="Sign in"/> <br>
                 <small>(e.g. http://username.myopenid.com)</small>
-                    </form>
+            </form>
 
             <br>
 
@@ -27,27 +27,31 @@
                 can be your homepage or blog, or it can be provided to you by a web site you use. In either case, you
                 only have to sign in once to your OpenID provider and so you only need to maintain a single password. <a
                     href="http://iwantmyopenid.org/about/openid" target="_blank">Learn more.</a></p>
+            <br>
 
             <h3>How is cpedialog using OpenID?</h3>
 
-            <p>You can attach your OpenID to your existing Google account or use Google account to register for a new OpenID
+            <p>You can attach your OpenID to your existing Google account or use Google account to register for a new
+                OpenID
                 account. In both cases, you will then be able to sign in using your OpenID provider and you won't have
                 to use or remember a separate password for cpedialog. If you register with your OpenID, you can also
-                pre-fill your cpedialog registration information from your OpenID provider, making it the fastest way to get
+                pre-fill your cpedialog registration information from your OpenID provider, making it the fastest way to
+                get
                 started with cpedialog. To get started, enter your OpenID URL above and click "Sign in".</p>
         </div>
+        <br>
 
-        <div style="line-height: 18px; margin-left: 15px;">
+        <div>
             <div><strong>Other ways to sign in:</strong></div>
+            <img height="16" align="absmiddle" width="16" style="margin-right: 3px;" src="/img/google.gif"/>
             {% if google_login_status %}
             <a href="{{google_logout_url}}">Sign Out with Google Account</a>
             {% else %}
             <a href="{{google_login_url}}">Sign in with Google Account</a>
             {% endif %} <br/>
-            <a
-                    href=""><img
-                    height="16" align="absmiddle" width="16" style="margin-right: 3px;" src="/img/yfavicon.gif"/>
-                Sign in with Yahoo! ID</a><br/>
+
+            <img height="16" align="absmiddle" width="16" style="margin-right: 3px;" src="/img/yfavicon.gif"/>
+            <a href="#"> Sign in with Yahoo! ID</a><br/>
         </div>
     </div>
 </div>
