@@ -1,6 +1,7 @@
 {% extends "main.html" %}
 {% block title %}{{title}} - Login{% endblock %}
 {% block blogcontainer %}
+<script type="text/javascript" src="/jscripts/openid-selector.js"></script>
 <div class="yui-g">
     <div id="logindiv">
         {% if error %}
@@ -13,8 +14,7 @@
 
             <form action="/login" method="post">
                 <label for="openid_identifier">Enter your OpenID URL: </label>
-                <input type="text" name="openid_identifier" id="openid_identifier" size="30"
-                       style="border: 1px solid #ccc; background: url(/img/openid.gif) no-repeat;	background-position: 0 50%; padding-left: 18px; "/>
+                <input type="text" name="openid_identifier" id="openid_identifier" size="30"/>
                 <input type="submit" value="Sign in"/> <br>
                 <small>(e.g. http://username.myopenid.com)</small>
             </form>

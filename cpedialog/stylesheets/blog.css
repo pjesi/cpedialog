@@ -117,6 +117,7 @@ dt {font:bold}
 .comment1 {background:#FBFBF7 none repeat scroll 0% 0%;border-style:none;border-width:medium; margin-bottom:-1px;padding:15px 10px 1px;border-bottom: 1px dotted #cccccc;padding-top:10px}
 
 #logindiv{border: 1px #cccccc solid;padding:20px}
+#openid_identifier{border: 1px solid #ccc;background-image:url(/img/openid.gif);background-position:3px 2px;background-repeat:no-repeat;margin:0;padding:2px 2px 2px 20px;vertical-align:middle;width:322px;}
 
 #albumsdiv{border: 1px #cccccc solid;padding-bottom: 40px; padding-top: 10px;}
 #albuminfo{padding-left:20px}
