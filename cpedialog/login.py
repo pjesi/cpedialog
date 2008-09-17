@@ -130,7 +130,7 @@ class LoginOpenID(BaseRequestHandler):
             self.show_main_page('An error occured determining your server information.  Please try again.')
             return
 
-        sreg_request = sreg.SRegRequest(required = sreg.data_fields.keys())
+        sreg_request = sreg.SRegRequest(optional = sreg.data_fields.keys())
         auth_request.addExtension(sreg_request)
 
         parts = list(urlparse.urlparse(self.request.uri))
@@ -174,14 +174,17 @@ class LoginOpenIDFinish(BaseRequestHandler):
             if users.count() == 0:
                 user = User()
                 user.openids = [db.Category(openid.strip().encode('utf8'))]
-                user.username = sreg_data["nickname"]
-                user.fullname = sreg_data["fullname"]
-                user.country = sreg_data["country"]
-                user.birthday = datetime.datetime.strptime(sreg_data["dob"], '%Y-%m-%d')
-                user.gender = sreg_data["gender"]
-                user.language = sreg_data["language"]
-                user.postcode = sreg_data["postcode"]
-                #user.email = sreg_data["email"]
+                if sreg_data:
+                    user.username = sreg_data["nickname"]
+                    user.fullname = sreg_data["fullname"]
+                    user.country = sreg_data["country"]
+                    user.birthday = datetime.datetime.strptime(sreg_data["dob"], '%Y-%m-%d')
+                    user.gender = sreg_data["gender"]
+                    user.language = sreg_data["language"]
+                    user.postcode = sreg_data["postcode"]
+                    #user.email = sreg_data["email"]
+                else:
+                    user.username = openid
                 user.put()
                 self.session.login_user(user)
                 self.redirect('/user/usersetting')

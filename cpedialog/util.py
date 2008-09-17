@@ -350,10 +350,14 @@ def getGravatarUrl(email):
 def getUserNickname(user):
     default = "anonymous"
     if user:
+        try:
+            email = user.email()
+        except Exception:
+            email = user.email
         if user.nickname:
             return user.nickname
-        else:
-            return user.email().split("@")[0]
+        elif email:
+            return email.split("@")[0]
     else:
         return default
 
