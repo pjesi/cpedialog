@@ -56,7 +56,7 @@ class UrlfetchFetcher(fetchers.HTTPFetcher):
 
     if body:
       method = urlfetch.POST
-      if 'Content-Type' not in headers:
+      if headers is not None and 'Content-Type' not in headers:
         headers['Content-Type'] = 'application/x-www-form-urlencoded'
     else:
       method = urlfetch.GET
