@@ -90,6 +90,7 @@ def main():
                                         ('/login/*$', login.LoginOpenID),
                                         ('/login-finish/*$', login.LoginOpenIDFinish),
                                         ('/logout/*$', login.Logout),
+                                        ('/signup/*$', login.Signup),
 
                                         ('/([-\w]+)/*$', blog.PageHandler),                                        
                                        ],

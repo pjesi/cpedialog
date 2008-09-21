@@ -102,7 +102,14 @@ class Logout(BaseRequestHandler):
             self.redirect(users.create_logout_url(self.request.uri))
             return
         self.redirect("/")
-  
+
+class Signup(BaseRequestHandler):
+    def get(self, error_msg=None):
+        template_values = {
+           "error": error_msg
+        }
+        self.generate('signup.html',template_values)
+
 
 class LoginOpenID(BaseRequestHandler):
     def get(self, error_msg=None):
