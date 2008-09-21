@@ -1,29 +1,5 @@
-"""
-Copyright (c) 2008, appengine-utilities project
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-- Redistributions of source code must retain the above copyright notice, this
-  list of conditions and the following disclaimer.
-- Redistributions in binary form must reproduce the above copyright notice,
-  this list of conditions and the following disclaimer in the documentation
-  and/or other materials provided with the distribution.
-- Neither the name of the appengine-utilities project nor the names of its
-  contributors may be used to endorse or promote products derived from this
-  software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-"""
+#hacked from appengine-utilities project
+#Please refer: http://code.google.com/p/appengine-utitlies
 
 # main python imports
 import os
@@ -121,8 +97,8 @@ class Session(object):
         self.cookie = Cookie.SimpleCookie()
         self.cookie.load(string_cookie)
         # check for existing cookie
-        if self.cookie.get(COOKIE_NAME):
-            self.sid = self.cookie[COOKIE_NAME].value
+        if self.cookie.get(cookie_name):
+            self.sid = self.cookie[cookie_name].value
             # If there isn't a valid session for the cookie sid,
             # start a new session.
             self.session = self._get_session()
@@ -132,10 +108,10 @@ class Session(object):
                 self.session.ua = os.environ['HTTP_USER_AGENT']
                 self.session.ip = os.environ['REMOTE_ADDR']
                 self.session.sid = [self.sid]
-                self.cookie[COOKIE_NAME] = self.sid
-                self.cookie[COOKIE_NAME]['path'] = cookie_path
+                self.cookie[cookie_name] = self.sid
+                self.cookie[cookie_name]['path'] = cookie_path
                 if set_cookie_expires:
-                    self.cookie[COOKIE_NAME]['expires'] = \
+                    self.cookie[cookie_name]['expires'] = \
                         self.session_expire_time
             else:
                 # check the age of the token to determine if a new one
@@ -149,10 +125,10 @@ class Session(object):
                     self.session.sid.append(self.sid)
                 else:
                     self.sid = self.session.sid[-1]
-                self.cookie[COOKIE_NAME] = self.sid
-                self.cookie[COOKIE_NAME]['path'] = cookie_path
+                self.cookie[cookie_name] = self.sid
+                self.cookie[cookie_name]['path'] = cookie_path
                 if set_cookie_expires:
-                    self.cookie[COOKIE_NAME]['expires'] = \
+                    self.cookie[cookie_name]['expires'] = \
                         self.session_expire_time
         else:
             self.sid = self.new_sid()
@@ -160,10 +136,10 @@ class Session(object):
             self.session.ua = os.environ['HTTP_USER_AGENT']
             self.session.ip = os.environ['REMOTE_ADDR']
             self.session.sid = [self.sid]
-            self.cookie[COOKIE_NAME] = self.sid
-            self.cookie[COOKIE_NAME]['path'] = cookie_path
+            self.cookie[cookie_name] = self.sid
+            self.cookie[cookie_name]['path'] = cookie_path
             if set_cookie_expires:
-                self.cookie[COOKIE_NAME]['expires'] = self.session_expire_time
+                self.cookie[cookie_name]['expires'] = self.session_expire_time
 
         self.cache['sid'] = pickle.dumps(self.sid)
 
@@ -243,6 +219,10 @@ class Session(object):
         elif keyname in ('sid', 'flash'):
             raise ValueError(keyname + ' is a reserved keyname.')
 
+        if type(keyname) != type([str, unicode]):
+            return str(keyname)
+        return keyname
+
     def _put(self, keyname, value):
         """
         Insert a keyname/value pair into the datastore for the session.
@@ -251,7 +231,8 @@ class Session(object):
             keyname: The keyname of the mapping.
             value: The value of the mapping.
         """
-        self._validate_key(keyname)
+        keyname = self._validate_key(keyname)
+
         if value is None:
             raise ValueError('You must pass a value to put.')
         sessdata = self._get(keyname=keyname)
@@ -264,61 +245,19 @@ class Session(object):
         sessdata.put()
         self._set_memcache()
 
-    def login_user(self, user):
-        """
-         associate the sesion object with user.
-        """
-        session = self.session
-        session.user = user
-        session.put()
-
-    def logout_user(self):
-        """
-         unassociate the sesion object with user(model.User).
-        """
-        session = self.session
-        session.user = None
-        session.put()
-
-
-    def login_google_user(self):
-        """
-         associate the sesion object with google user object.
-        """
-        session = self.session
-        google_user = users.get_current_user()
-        if google_user and (session.user is None ):
-            users_ = User.all().filter('google_id',google_user.email())
-            if users_.count() == 0:
-                user = User()
-                user.email = google_user.email()
-                user.username = google_user.nickname()
-                user.put()
-            else:
-                user = users_[0]
-            self.login_user(user)
-
-    def get_current_user(self):
-        session = self.session
-        return session.user
-
     def _delete_session(self):
         """
         Delete the session and all session data for the sid passed.
         """
-        try:
-            sessiondata = self._get()
-            # delete from datastore
-            if sessiondata is not None:
-                for sd in sessiondata:
-                    sd.delete()
-            # delete from memcache
-            memcache.delete('sid-'+str(self.session.key()))
-            # delete the session now that all items that reference it are deleted.
-            self.session.delete()
-        except Exception:
-            pass
-        
+        sessiondata = self._get()
+        # delete from datastore
+        if sessiondata is not None:
+            for sd in sessiondata:
+                sd.delete()
+        # delete from memcache
+        memcache.delete('sid-'+str(self.session.key()))
+        # delete the session now that all items that reference it are deleted.
+        self.session.delete()
         # if the event class has been loaded, fire off the sessionDeleted event
         if 'AEU_Events' in __main__.__dict__:
             __main__.AEU_Events.fire_event('sessionDelete')
@@ -387,6 +326,7 @@ class Session(object):
         keyname: The keyname of the mapping.
         """
         # flash messages don't go in the datastore
+
         if self.integrate_flash and (keyname == 'flash'):
             return self.flash.msg
         if keyname in self.cache:
@@ -411,17 +351,19 @@ class Session(object):
             keyname: They keyname of the mapping.
             value: The value of mapping.
         """
-        if type(keyname) is type(''):
+ #       if type(keyname) is type(''):
             # flash messages don't go in the datastore
-            if self.integrate_flash and (keyname == 'flash'):
-                self.flash.msg = value
-            else:
-                self.cache[keyname] = value
-                self._set_memcache()
-                return self._put(keyname, value)
+
+        if self.integrate_flash and (keyname == 'flash'):
+            self.flash.msg = value
         else:
-            raise TypeError('Session data objects are only accessible by' + \
-                ' string keys, not numerical indexes.')
+            keyname = self._validate_key(keyname)
+            self.cache[keyname] = value
+            self._set_memcache()
+            return self._put(keyname, value)
+#        else:
+#            raise TypeError('Session data objects are only accessible by' + \
+#                ' string keys, not numerical indexes.')
 
     def __delitem__(self, keyname):
         """
@@ -430,7 +372,6 @@ class Session(object):
         Args:
             keyname: The keyname of the object to delete.
         """
-        self._validate_key(keyname)
         sessdata = self._get(keyname = keyname)
         if sessdata is None:
             raise KeyError(str(keyname))
@@ -497,3 +438,44 @@ class Session(object):
 
         memcache.set('sid-'+str(self.session.key()), data, \
             self.session_expire_time)
+
+
+
+#add for cpedialog        
+    def login_user(self, user):
+        """
+         associate the sesion object with user.
+        """
+        session = self.session
+        session.user = user
+        session.put()
+
+    def logout_user(self):
+        """
+         unassociate the sesion object with user(model.User).
+        """
+        session = self.session
+        session.user = None
+        session.put()
+
+
+    def login_google_user(self):
+        """
+         associate the sesion object with google user object.
+        """
+        session = self.session
+        google_user = users.get_current_user()
+        if google_user and (session.user is None ):
+            users_ = User.all().filter('google_id',google_user.email())
+            if users_.count() == 0:
+                user = User()
+                user.email = google_user.email()
+                user.username = google_user.nickname()
+                user.put()
+            else:
+                user = users_[0]
+            self.login_user(user)
+
+    def get_current_user(self):
+        session = self.session
+        return session.user
