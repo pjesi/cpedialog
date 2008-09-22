@@ -1,8 +1,8 @@
-
 .p_bar a {
  	float: left;
 	text-decoration: none;
 }
+
 .p_input {
 	background: #EBEBEB;
 	border: 0;
@@ -10,36 +10,43 @@
     margin: 0;
 	width: 40px;
 }
+
 .p_total {
 	border: 1px solid #CEDEF7;
 	border-right: 0;
     padding:1px 5px;
 }
+
 .p_pages {
 	border: 1px solid #CEDEF7;
 	margin-right: 1px;
 	vertical-align: middle;
     padding:1px 5px;    
 }
+
 .p_num {
 	border: 1px solid #CEDEF7;
 	margin-right: 1px;
 	vertical-align: middle;
     padding:1px 5px;        
 }
+
 a:hover .p_num {
 	background-color: #DEF7FF;
 	border: 1px solid #CEDEF7;
  	text-decoration: none;
 }
+
 .p_redirect {
 	border: 1px solid #CEDEF7;
     padding:0px 5px 2px;    
 }
+
 a:hover .p_redirect {
 	border: 1px solid #CEDEF7;
 	text-decoration: none;
 }
+
 .p_curpage {
 	background-color: #FFDE7A;
 	border: 1px solid #CEDEF7;
@@ -63,4 +70,3 @@ a.tag22, a.tag23, a.tag24 { font-size: 2.2em; font-weight: 900; }
 a.tag25, a.tag26, a.tag27 { font-size: 2.3em; font-weight: 900; }
 a.tag28, a.tag29, a.tag30 { font-size: 2.4em; font-weight: 900;}
 /* End Tag Cloud CSS */
-
