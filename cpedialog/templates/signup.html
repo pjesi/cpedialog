@@ -1,19 +1,188 @@
 {% extends "main.html" %}
 {% block title %}{{title}} - Singup{% endblock %}
 {% block blogcontainer %}
+<!-- Dependency -->
+<script src="http://yui.yahooapis.com/2.5.2/build/yahoo/yahoo-min.js"></script>
+<!-- Used for Custom Events and event listener bindings -->
+<script src="http://yui.yahooapis.com/2.5.2/build/event/event-min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/fonts/fonts-min.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/calendar/assets/skins/sam/calendar.css" />
+<link rel="stylesheet" type="text/css"
+      href="http://yui.yahooapis.com/2.5.2/build/datatable/assets/skins/sam/datatable.css"/>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/calendar/calendar-min.js"></script>
+
+<script type="text/javascript" src="/jscripts/common/constant.js"></script>
+
 <div class="yui-g">
-    <div id="logindiv">
-        {% if error %}
-        <div class="error">
-            {{error}}
-        </div>
-        {% endif %}
-        <div>
+<div id="logindiv">
+{% if error %}
+<div class="error">
+    {{error}}
+</div>
+{% endif %}
+<div>
+Sign Up Here (it's free!)
+<form method=post id="signupForm" name="signupForm">
+<table cellspacing="0" class="yui-skin-sam admin_table" id="configuration">
+<tbody>
+<tr>
+    <th><label for="ob_email">E-mail address</label></th>
+    <td><input type="text" onblur="checkEmail(false,true);" id="ob_email" style="width: 180px;"
+               value="" name="email" class="required"/>
+                <span id="checkEmailAlert"><img height="14" width="14"
+                                                src="/images/ico_cross_org.gif"/><br/></span>
 
-       
-        </div>
+        <small>Example: john_doe@example.com</small>
+    </td>
+</tr>
+<tr>
+    <th></th>
+    <td><p style="display: none;" id="email_unavailable_text">
+        That address has already been registered. <a href="javascript:doSigninExisting();">Sign in</a> or use a
+        different address.
+    </p>
 
-    </div>
+        <p style="display: none; color: red;" id="email_unavailable_comcast_text">You have already used this
+            email address to sign up for the Comcast Universal Address Book powered by Plaxo. Therefore, you can
+            click <a href="javascript:doSigninExisting('comcast');">here</a> to sign into this site using your
+            Comcast email address and password.</p>
+    </td>
+</tr>
+<tr>
+    <th><label for="ob_password">Create a password</label></th>
+    <td><input type="password" onblur="checkPassword(false);" id="ob_password"
+               style="width: 180px;" maxlength="255" class="required" name="password"/>
+                <span id="checkPasswordAlert"><img height="14" width="14"
+                                                   src="/images/home/slot/blank.gif"/></span>
+
+        <div class="hint">at least 6 characters (case sensitive)</div>
+        <div style="height: 10px;"/>
+    </td>
+</tr>
+<tr>
+    <th><label for="ob_firstname">First Name</label>
+    </th>
+    <td><input type="text" onfocus="changeColor(this);"
+               onblur="checkFirstName(false);" id="ob_firstname"
+               class="fullwidth" size="20" value=""
+               style="width: 180px;" name="firstname"/><span
+            id="checkFirstNameAlert"/></td>
+</tr>
+<tr>
+    <th><label for="ob_lastname">Last Name</label></th>
+    <td><input type="text" onblur="checkLastName();"
+               onfocus="changeColor(this);" id="ob_lastname"
+               class="fullwidth" size="20" value=""
+               style="width: 180px;" name="lastname"/><span
+            id="checkLastNameAlert"/></td>
+</tr>
+<tr>
+    <th><label for="country">Country</label></th>
+    <td>
+        <select id="country" name="country" class="fullwidth"/>
+        <script type="text/javascript">
+            YAHOO.util.Event.onAvailable("country", function() {
+                var country = document.getElementById("country");
+                for (var i = 0; i < countrys.length; i++) {
+                    var option = new Option(countrys[i].display, countrys[i].value);
+                    country.options[country.options.length] = option;
+                 {%if user %}
+                    if (countrys[i].value == "{{user.country}}") {
+                        country.options[country.options.length - 1].selected = true;
+                    }
+                 {% endif %}
+                }
+             });
+        </script>
+    </td>
+</tr>
+<tr>
+    <th><label for="birthday">Birthday</label></th>
+    <td>
+        <input type="text" name="birthday" id="birthday"/> <div id="cal1Container"></div>
+        <script type="text/javascript">
+            YAHOO.namespace("cpedialog.calendar");
+            YAHOO.cpedialog.calendar.init = function() {
+                function handleSelect(type, args, obj) {
+                    var dates = args[0];
+                    var date = dates[0];
+                    var year = date[0], month = date[1], day = date[2];
+                    var txtDate1 = document.getElementById("birthday");
+                    txtDate1.value = month + "/" + day + "/" + year;
+                }
+
+                function updateCal() {
+                    var txtDate1 = document.getElementById("birthday");
+                    if (txtDate1.value != "") {
+                        YAHOO.cpedialog.calendar.cal1.select(txtDate1.value);
+                        var selectedDates = YAHOO.cpedialog.calendar.cal1.getSelectedDates();
+                        if (selectedDates.length > 0) {
+                            var firstDate = selectedDates[0];
+                            YAHOO.cpedialog.calendar.cal1.cfg.setProperty("pagedate", (firstDate.getMonth() + 1) + "/" + firstDate.getFullYear());
+                            YAHOO.cpedialog.calendar.cal1.render();
+                        }
+                    }
+                }
+
+                // For this example page, stop the Form from being submitted, and update the cal instead
+                function handleSubmit(e) {
+                    updateCal();
+                    YAHOO.util.Event.preventDefault(e);
+                }
+
+                YAHOO.cpedialog.calendar.cal1 = new YAHOO.widget.Calendar("cal1", "cal1Container", { title:"Choose a date:", close:true } );
+                YAHOO.cpedialog.calendar.cal1.selectEvent.subscribe(handleSelect, YAHOO.cpedialog.calendar.cal1, true);
+                YAHOO.cpedialog.calendar.cal1.render();
+
+                YAHOO.util.Event.addListener("birthday", "change", updateCal);
+                YAHOO.util.Event.addListener("birthday", "click", YAHOO.cpedialog.calendar.cal1.show, YAHOO.cpedialog.calendar.cal1, true);
+                //YAHOO.util.Event.addListener("birthday", "mouseout", YAHOO.cpedialog.calendar.cal1.hide, YAHOO.cpedialog.calendar.cal1, true);
+                YAHOO.util.Event.addListener("dates", "submit", handleSubmit);
+            }
+
+            YAHOO.util.Event.onDOMReady(YAHOO.cpedialog.calendar.init);
+        </script>
+
+    </td>
+</tr>
+<tr>
+    <th><label for="gender_Female">Gender</label></th>
+    <td>
+        <input type="radio" style="border: medium none ;" id="gender_Female"
+               value="Female" name="gender"/>
+        <label for="gender_Female">Female</label>
+        <input type="radio" style="border: medium none ;" id="gender_Male"
+               value="Male" name="gender"/><label for="gender_Male">Male</label>
+    </td>
+</tr>
+<tr>
+    <th/>
+    <td><br/>
+
+        <div id="mboxImported-default-signup_right_continue_button-0"
+             style="visibility: visible; display: block;"><!-- Offer Id: 6963  --><a
+                onclick="if (checkData()) order_form.submit()" class="button OrangeButton"><span
+                style="width: 200px; text-align: center;">Sign Up Now</span></a></div>
+        <div style="visibility: hidden; display: none;" id="mboxMarker-default-signup_right_continue_button-0"/>
+    </td>
+</tr>
+<tr>
+    <th/>
+    <td>
+        <div class="mboxDefault" style="visibility: visible; display: block;">
+            <div class="hint">By clicking "Sign Up Now" you are indicating you are over 13 years of age and have
+                read and agree to Plaxo's <a target="_blank" href="/support/tos">Terms of Service</a></div>
+        </div>
+        <div style="visibility: hidden; display: none;" id="mboxMarker-default-signup_right_disclaimer-0"/>
+    </td>
+</tr>
+</tbody>
+</table>
+</form>
+</div>
+</div>
 </div>
 {% endblock %}
 
