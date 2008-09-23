@@ -327,3 +327,7 @@ class DeliciousPost(object):
         self.description = item.get("n", "")
         self.tags = item["t"]
 
+class CSSFile(db.Model):
+    filename = db.StringProperty()
+    contents = db.StringProperty(multiline=True)
+    default = db.BooleanProperty(default=False)

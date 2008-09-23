@@ -31,7 +31,7 @@ from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
 import cpedia.sessions.sessions
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds,CPediaLog,User
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds,CPediaLog,User,CSSFile
 import simplejson
 import cgi
 import urllib, hashlib
@@ -230,6 +230,25 @@ def getCPedialog():
         getLogger(__name__).debug("getFeedList from cache. ")
     return cpedialog
 
+#get CSS links
+def getCSS():
+    key_ = "blog_css_key"
+    try:
+        css = memcache.get(key_)
+    except Exception:
+        css = None
+    if css is None:
+        css = CSSFile().all().filter("default",True).fetch(1)
+        if len(css) == 0:
+            css = [ {'filename' : '/stylesheets/blog.css'}, {'filename' : '/stylesheets/weblog.css'} ]
+        else:
+            css = css[0]
+        memcache.add(key=key_, value=css, time=36000)            
+    else:
+        getLogger(__name__).debug("get CSS from cache. ")
+    return css
+
+
 
 #flush tag list.
 def flushCPedialog():
@@ -281,11 +300,13 @@ def flushBlogMonthCache(blog):
     key= "blog_year_month_"+str(year_)+"_"+str(month_)+"_key"
     memcache.delete(key)
 
-
 #flush del.icio.us tag.
 def flushDeliciousTag():
     memcache.delete("blog_deliciousList_key")
 
+#flush list of CSS files
+def flushCSS():
+    memcache.delete("blog_css_key")
 
 def getDeliciousTag(username):
     key_ = "blog_deliciousList_key"

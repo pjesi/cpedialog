@@ -35,7 +35,7 @@ import util
 from cpedia.sessions import sessions
 
 
-"""This method refer to the Bloog (http://bloog.appspot.com).
+"""This method refer to the Blog (http://blog.appspot.com).
 """
 class ViewPage(object):
     def __init__(self, cache_time=None):
@@ -78,7 +78,8 @@ class ViewPage(object):
                 "feeds": feeds,
                 "delicious": delicious,
                 "user_gravatar_url":util.getGravatarUrlByUser(session.get_current_user()),
-                "user_nickname":util.getUserNickname(session.get_current_user())
+                "user_nickname":util.getUserNickname(session.get_current_user()),
+                "css":util.getCSS(),
                # "docs": util.getGoogleDocs(config.delicious['username']),
             }
             template_params.update(params)

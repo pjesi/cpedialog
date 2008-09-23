@@ -1,22 +1,22 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<HTML>
-<HEAD>
+<html>
+<head>
     <meta name="verify-v1" content="XR70SJE5JNIWNugeaRSpxdbdQeJ6dUno8MHQRplhv/Y=" />
     <meta name="msvalidate.01" content="DF4A381369FD44CDBD61C7E9566A74EC" />
-    <META http-equiv=Content-Type content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <!-- cpedialog: http://code.google.com/p/cpedialog created by cpedia: http://blog.cpedia.com -->
     <meta name="keywords" content="appengine,python,django,cpedialog,free,open source,cpedia,blog" />
     <meta name="description" content="cpedialog is an open source blog program can be hosted on google appengine." />
     <meta name="author" content="cpedia, Ping Chen, http://blog.cpedia.com" />
     <meta name="copyright" content="2008 http://cpedia.com" />
-    <TITLE>{% block title %}{{title}}{% endblock %}</TITLE>
+    <title>{% block title %}{{title}}{% endblock %}</title>
     <link rel="alternate" type="application/atom+xml" title="{{ BLOG.title }}" href="{{ BLOG.root_url }}/atom" />
-    <link type="text/css" rel="stylesheet" href="/stylesheets/blog.css"/>
-    <link type="text/css" rel="stylesheet" href="/stylesheets/weblog.css"/>
+    {% for sheet in stylesheets %}
+        <link type="text/css" rel="stylesheet" href="{{ sheet.filename }}"/>
+    {% endfor %}
     <!-- yui -->
-    <link rel="stylesheet" type="text/css"
-          href="http://yui.yahooapis.com/2.5.2/build/reset-fonts-grids/reset-fonts-grids.css" />
-</HEAD>
+    <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/reset-fonts-grids/reset-fonts-grids.css" />
+</head>
 <body class="yui-skin-sam">
 <div id="doc2" class="yui-t5">
     <div id="hd">
@@ -26,7 +26,7 @@
     <div id="bd">
         <div id="yui-main">
             <div class="yui-b">
-                <DIV id=logo style='BACKGROUND-IMAGE: url({{logoImages|random}});margin-bottom:15px'></DIV>
+                <div id=logo style='BACKGROUND-IMAGE: url({{logoImages|random}});margin-bottom:15px'></div>
                 {% block blogcontainer %}
                 <div class="yui-gc" id="blogcontainer">
                     <div class="yui-u first">
@@ -48,5 +48,5 @@
         {% include "footer.html" %}
     </div>
 </div>
-</BODY>
-</HTML>
+</body>
+</html>

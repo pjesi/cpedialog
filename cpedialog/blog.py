@@ -39,7 +39,7 @@ from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
 from cpedia.utils import translate
 
-from model import Archive,Weblog,WeblogReactions
+from model import Archive,Weblog,WeblogReactions,CSSFile
 import authorized
 import view
 import util
@@ -57,6 +57,7 @@ class BaseRequestHandler(webapp.RequestHandler):
   def generate(self, template_name, template_values={}):
     values = {
       'archiveList': util.getArchiveList(),
+      'stylesheets' : util.getCSS()
     }
     values.update(template_values)
     view.ViewPage(cache_time=0).render(self, template_name,values)
@@ -430,3 +431,14 @@ class SearchHandler(BaseRequestHandler):
           'recentReactions':recentReactions,
           }
         self.generate('blog_main.html',template_values)
+
+class CSSHandler(BaseRequestHandler):
+    def get(self, filename):
+        name = '/css/'+filename
+        util.getLogger(__name__).debug("CSS name: %s" % name)
+        css = db.Query(CSSFile).filter('default =', True).filter('filename =', name).fetch(1)
+        if len(css) > 0:
+            util.getLogger(__name__).debug("CSS found in DS")
+            self.generate('css.html', { 'css' : css[0] })
+        else:
+            self.generate('css.html', {})

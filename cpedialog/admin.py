@@ -54,6 +54,7 @@ class BaseRequestHandler(webapp.RequestHandler):
   def generate(self, template_name, template_values={}):
     values = {
       'request': self.request,
+      'stylesheets' : util.getCSS()
     }
     values.update(template_values)
     directory = os.path.dirname(__file__)
