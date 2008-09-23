@@ -15,6 +15,24 @@ a:hover {
     background-color: #F4F2E4;
 }
 
+
+.noborder_table {
+    border: none;
+}
+
+.noborder_table th {
+    border: none;
+    padding: .4em;
+    font-weight: bold;
+    text-align: right;
+}
+
+.noborder_table td {
+    border: none;
+    padding: .4em;
+    text-align: left;
+}
+
 .error {
     background: #f8f7ef none repeat scroll 0% 0%;
     border-color: red;
@@ -31,12 +49,6 @@ a:hover {
     border: none !important;
     border-bottom: none !important;
     font-size: 2.4em !important;
-    text-decoration: none;
-}
-
-#pagination a:hover, #pagination a:link, #pagination a:visited {
-    background-color: inherit !important;
-    border-bottom: 1px solid #cedef7 !important;
     text-decoration: none;
 }
 
@@ -73,7 +85,8 @@ a:hover {
 #navbar a:hover, .articles #navbar #articles a, .topics #navbar #topics a, .about #navbar #about a,
     .contact #navbar #contact a, .contribute #navbar #contribute a, .feed #navbar #feed a {
     background: url( /img/navbarlinkbg.gif ) top left repeat-x;
-    color: #555 !important;
+    text-decoration:none;
+    color: #555;
 }
 
 #footer {
@@ -83,29 +96,6 @@ a:hover {
     margin-top: 20px;
     min-width: 750px;
     overflow: hidden;
-}
-
-#configuration {
-    border: none;
-}
-
-#configuration th {
-    border: none;
-    padding-top: 10px;
-    text-align: right !important;
-}
-
-#configuration td {
-    border: none;
-    padding: 7px 3px;
-    text-align: left;
-}
-
-.submit {
-    background-color: #cccccc;
-    border: 1px solid #cccccc;
-    margin-bottom: 10px;
-    margin-top: 10px;
 }
 
 #imagetable .thumbnail {
@@ -133,20 +123,6 @@ a:hover {
 #admincontainer legend {
     font-weight: bold;
     padding: 2px 6px;
-}
-
-.admin_table th, .admin_table td {
-    border: 1px solid #cccccc;
-    padding: .4em;
-}
-
-.admin_table th {
-    font-weight: bold;
-    text-align: right;
-}
-
-.admin_table {
-    width: 100%;
 }
 
 .post {
