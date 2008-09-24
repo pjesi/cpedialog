@@ -80,7 +80,7 @@ def main():
                                         ('/delicious/(.*)', blog.DeliciousHandler),
                                         ('/atom/*$', blog.FeedHandler),
                                         ('/sitemap/*$', blog.SiteMapHandler),  #for live.com SEO
-                                        ('/css/(.*)', blog.CSSHandler),
+                                        ('(/css/.*)', blog.CSSHandler),
 
                                         ('/albums/*$', album.MainPage),
                                         ('/albums/([-\w\.]+)/*$', album.UserHandler),

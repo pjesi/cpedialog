@@ -57,10 +57,10 @@ class BaseRequestHandler(webapp.RequestHandler):
   def generate(self, template_name, template_values={}):
     values = {
       'archiveList': util.getArchiveList(),
-      'stylesheets' : util.getCSS()
+      'stylesheets' : util.getCSS(),
     }
     values.update(template_values)
-    view.ViewPage(cache_time=0).render(self, template_name,values)
+    view.ViewPage(cache_time=0).render(self, template_name, values)
 
 
 class NotFoundHandler(webapp.RequestHandler):
@@ -434,9 +434,8 @@ class SearchHandler(BaseRequestHandler):
 
 class CSSHandler(BaseRequestHandler):
     def get(self, filename):
-        name = '/css/'+filename
-        util.getLogger(__name__).debug("CSS name: %s" % name)
-        css = db.Query(CSSFile).filter('default =', True).filter('filename =', name).fetch(1)
+        util.getLogger(__name__).debug("CSS name: %s" % filename)
+        css = db.Query(CSSFile).filter('default =', True).filter('filename =', filename).fetch(1)
         if len(css) > 0:
             util.getLogger(__name__).debug("CSS found in DS")
             self.generate('css.html', { 'css' : css[0] })
