@@ -57,7 +57,6 @@ class BaseRequestHandler(webapp.RequestHandler):
   def generate(self, template_name, template_values={}):
     values = {
       'archiveList': util.getArchiveList(),
-      'stylesheets' : util.getCSS(),
     }
     values.update(template_values)
     view.ViewPage(cache_time=0).render(self, template_name, values)

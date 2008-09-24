@@ -397,3 +397,10 @@ class RPCHandler(webapp.RequestHandler):
       feed.delete()
       util.flushFeedList()
       return True
+
+  def Is(self,user_email,target_service):
+      stored_token = AuthSubStoredToken.gql('WHERE user_email = :1 and target_service = :2',
+          user_email, target_service).get()
+      if stored_token:
+          stored_token.delete()
+      return True

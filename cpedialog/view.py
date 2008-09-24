@@ -79,8 +79,8 @@ class ViewPage(object):
                 "delicious": delicious,
                 "user_gravatar_url":util.getGravatarUrlByUser(session.get_current_user()),
                 "user_nickname":util.getUserNickname(session.get_current_user()),
-                "css":util.getCSS(),
-               # "docs": util.getGoogleDocs(config.delicious['username']),
+                'stylesheets' : util.getCSS(),
+                # "docs": util.getGoogleDocs(config.delicious['username']),
             }
             template_params.update(params)
             return template.render(template_file, template_params, debug=cpedialog.debug)

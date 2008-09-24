@@ -14,7 +14,53 @@
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/calendar/calendar-min.js"></script>
 
 <script type="text/javascript" src="/jscripts/common/constant.js"></script>
+<script type="text/javascript" src="/jscripts/common/validator.js"></script>
 
+<script type="text/javascript">
+    function register(){
+
+    }
+
+    function checkEmail(conservative, checkA) {
+        var emailObj = document.getElementById("email");
+        if (!emailObj) {
+            return "";
+        }
+
+        var email = emailObj.value;
+        if (email == "" || !validatorEmail(email)) {
+            if (!conservative) showError("checkEmailAlert");
+            document.getElementById('email_unavailable_text').style.display = 'none';
+            return "This e-mail address is invalid or not available";
+        }
+        if (checkA) {
+            isEmailAvailiable(email);
+        } else if (email_unavailable) {
+            showError("checkEmailAlert");
+            return "This e-mail address is invalid or not available";
+        }
+        return "";
+    }
+
+      function isEmailAvailiable(email){
+        var callback={
+            success:function(o){
+                var result=YAHOO.lang.JSON.parse(o.responseText);
+                if (result.match(/\s*True\s*/)) {
+                    document.getElementById('email_unavailable_text').style.display = 'none';
+                    showCheck("checkEmailAlert");
+                }else if (result.match(/\s*Invalid\s*/)) {
+                    showError("checkEmailAlert");
+                    document.getElementById('email_unavailable_text').style.display = '';
+                }
+            },
+            failure:handleFailure
+        };
+        var req=YAHOO.util.Connect.asyncRequest('POST', '/rpc/isEmailAvailable.do', callback,'email='+email);
+    } 
+
+</script>
+        
 <div class="yui-g">
 <div id="logindiv">
 {% if error %}
@@ -28,13 +74,10 @@ Sign Up Here (it's free!)
 <table cellspacing="0" class="yui-skin-sam noborder_table">
 <tbody>
 <tr>
-    <th><label for="ob_email">E-mail address</label></th>
-    <td><input type="text" onblur="checkEmail(false,true);" id="ob_email" style="width: 180px;"
-               value="" name="email" class="required"/>
-                <span id="checkEmailAlert"><img height="14" width="14"
-                                                src="/images/ico_cross_org.gif"/><br/></span>
-
-        <small>Example: john_doe@example.com</small>
+    <th><label for="email">E-mail address:</label></th>
+    <td><input type="text" onblur="checkEmail(false,true);" id="email" value="" name="email" class="required"/>
+        <span id="checkEmailAlert"/>
+        <small>Example: test@example.com</small>
     </td>
 </tr>
 <tr>
@@ -43,19 +86,13 @@ Sign Up Here (it's free!)
         That address has already been registered. <a href="javascript:doSigninExisting();">Sign in</a> or use a
         different address.
     </p>
-
-        <p style="display: none; color: red;" id="email_unavailable_comcast_text">You have already used this
-            email address to sign up for the Comcast Universal Address Book powered by Plaxo. Therefore, you can
-            click <a href="javascript:doSigninExisting('comcast');">here</a> to sign into this site using your
-            Comcast email address and password.</p>
     </td>
 </tr>
 <tr>
     <th><label for="ob_password">Create a password</label></th>
     <td><input type="password" onblur="checkPassword(false);" id="ob_password"
                style="width: 180px;" maxlength="255" class="required" name="password"/>
-                <span id="checkPasswordAlert"><img height="14" width="14"
-                                                   src="/images/home/slot/blank.gif"/></span>
+                <span id="checkPasswordAlert"/>
 
         <div class="hint">at least 6 characters (case sensitive)</div>
         <div style="height: 10px;"/>
@@ -101,7 +138,7 @@ Sign Up Here (it's free!)
 <tr>
     <th><label for="birthday">Birthday</label></th>
     <td>
-        <input type="text" name="birthday" id="birthday"/> <div id="cal1Container"></div>
+        <input type="text" name="birthday" id="birthday"/> <div id="cal1Container" class="yui-skin-sam"> </div>
         <script type="text/javascript">
             YAHOO.namespace("cpedialog.calendar");
             YAHOO.cpedialog.calendar.init = function() {
@@ -134,6 +171,7 @@ Sign Up Here (it's free!)
 
                 YAHOO.cpedialog.calendar.cal1 = new YAHOO.widget.Calendar("cal1", "cal1Container", { title:"Choose a date:", close:true } );
                 YAHOO.cpedialog.calendar.cal1.selectEvent.subscribe(handleSelect, YAHOO.cpedialog.calendar.cal1, true);
+                YAHOO.cpedialog.calendar.cal1.hide();
                 YAHOO.cpedialog.calendar.cal1.render();
 
                 YAHOO.util.Event.addListener("birthday", "change", updateCal);
@@ -150,27 +188,25 @@ Sign Up Here (it's free!)
 <tr>
     <th><label for="gender_Female">Gender</label></th>
     <td>
-        <input type="radio" style="border: medium none ;" id="gender_Female"
+        <input type="radio"  id="gender_Female"
                value="Female" name="gender"/>
         <label for="gender_Female">Female</label>
-        <input type="radio" style="border: medium none ;" id="gender_Male"
+        <input type="radio"  id="gender_Male"
                value="Male" name="gender"/><label for="gender_Male">Male</label>
     </td>
 </tr>
 <tr>
     <th/>
     <td>
-        <input type="submit" value="Sign Up Now"/>
+        <input type="button" value="Sign Up Now" onclick="register()"/>
     </td>
 </tr>
 <tr>
     <th/>
     <td>
         <div class="mboxDefault" style="visibility: visible; display: block;">
-            <div>By clicking "Sign Up Now" you are indicating you are over 13 years of age and have
-                read and agree to Plaxo's <a target="_blank" href="/support/tos">Terms of Service</a></div>
+            <div>By clicking "Sign Up Now" you are indicating you are over 13 years of age</div>
         </div>
-        <div style="visibility: hidden; display: none;" id="mboxMarker-default-signup_right_disclaimer-0"/>
     </td>
 </tr>
 </tbody>
