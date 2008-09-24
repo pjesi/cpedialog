@@ -1,3 +1,4 @@
+{% load i18n %}
 {% extends "main.html" %}
 
 {% block title %}{{title}} - {{blog.title}}{% endblock %}
@@ -6,7 +7,7 @@
 
 <div class="yui-g">
 <div id=bloglist>
-<h2>All the post on the site:</h2>
+<h2>{% trans "All the post on the site" %}:</h2>
 <br><br>
  {% for blog in allblogs %}   
 

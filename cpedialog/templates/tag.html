@@ -1,3 +1,4 @@
+{% load i18n %}
 {% extends "main.html" %}
 
 {% block title %}{{title}} - {{tag|unquote}}{% endblock %}
@@ -19,7 +20,7 @@
 
             {% if blog.tags %}
             <p>
-                Tags:
+                {% trans "Tags" %}:
                 {% for tag in blog.tags %}
                 <a href="/tag/{{ tag|unquote }}">{{ tag|unquote }}</a>{% if not forloop.last %},{% endif %}
                 {% endfor %}
@@ -29,18 +30,18 @@
         <H4 class=byline> Posted by {{blog.author}} at
            <A  class=timestamp-link href="{{entity.permalink}}">{{blog.date|timezone:BLOG.time_zone_offset|date:"H:i A"}}</A>
                      {% if blog.weblogreactions_set.count %}
-                    <A class=comment-link href="/viewBlog?blogId={{blog.key.id}}#reactions">{{blog.weblogreactions_set.count}} comments</A>
-                    {% else %}<A class=comment-link href="/viewBlog?blogId={{blog.key.id}}#addreaction">no comments</A>{% endif %}
+                    <A class=comment-link href="/viewBlog?blogId={{blog.key.id}}#reactions">{{blog.weblogreactions_set.count}} {% trans "comments" %}</A>
+                    {% else %}<A class=comment-link href="/viewBlog?blogId={{blog.key.id}}#addreaction">{% trans "no comments" %}</A>{% endif %}
         </H4>
         </DIV>
         {% endfor %}
      {% else %}
         <div class="post">
-            <div class="post-title">No Matches</div>
+            <div class="post-title">{% trans "No Matches" %}</div>
             <h2>No articles tagged with '{{ tag|unquote }}'</h2>
             <div class="post-body">
-                <p>It's possible that an article with the tag was removed.</p>
-                <p>Please try another tag or use the full-text search.</p>
+                <p>{% trans "It's possible that an article with the tag was removed." %}</p>
+                <p>{% trans "Please try another tag or use the full-text search." %}</p>
             </div>
         </div>
      {% endif %}

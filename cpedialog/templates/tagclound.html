@@ -1,7 +1,8 @@
+{% load i18n %} 
 <div id="tagclound">
-    <h3>Tag Clound</h3>
+    <h3>{% trans "Tag Clound" %}</h3>
     <div>
-        <span class="tagheader">My Blog Tags</span>
+        <span class="tagheader">{% trans "My Blog Tags" %}</span>
 
         <div class="cloud">
             {%for tag in tags%}
@@ -11,7 +12,7 @@
     </div>
     {% if BLOG.delicious_enable %}
     <div id="delicious">
-        <span class="tagheader">My Del.icio.us</span>
+        <span class="tagheader">{% trans "My" %} Del.icio.us</span>
         <div class="cloud">
             {% for tag in delicious %}
             <a href="/delicious/{{tag.tag|urlencode}}" class="tag{{tag.entrycount}}">{{tag.tag}}</a>

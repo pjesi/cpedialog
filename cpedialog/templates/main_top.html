@@ -1,3 +1,4 @@
+{% load i18n %}
 <script type="text/javascript">
     var g_chooserShowing = false;
     function toggleLanguageChooser() {
@@ -14,15 +15,15 @@
                 {% if user.email %}
                     <b>{{ user.email }}</b> |
                 {% else %}
-                    <a href="/user/usersetting">My Profile</a> |
+                    <a href="/user/usersetting">{% trans "My Profile" %}</a> |
                 {% endif %}
                 {% if user_is_admin %}
-                    <a href='/admin'>System Configuration</a> |
+                    <a href='/admin'>{% trans "System Configuration" %}</a> |
                 {% endif %}
-            <a href="/logout">Sign out</a> |
+            <a href="/logout">{% trans "Sign out" %}</a> |
         {% else %}
-            <a href="/signup">Join now</a> |
-            Already a user? <a href="/login">Sign in</a> |
+            <a href="/signup">{% trans "Join now" %}</a> |
+            {% trans "Already a user?" %} <a href="/login">{% trans "Sign in" %}</a> |
         {% endif %}
         <a href='http://appengine.google.com/' target="_blank">Appengine</a> |
         <a href="javascript:toggleLanguageChooser();">
@@ -50,9 +51,9 @@
                 </script>
                 <!-- Search Google -->
                 <form method="get" action="http://www.google.com/custom" target="google_window">
-                <label for="sbi" style="display: none">Enter your search terms</label>
+                <label for="sbi" style="display: none">{% trans "Enter your search terms" %}</label>
                 <input type="text" name="q" size="30" maxlength="255" value="{%if search_term%}{{search_term|unquote}}{%endif%}" id="sbi"></input>
-                <label for="sbb" style="display: none">Submit search form</label>
+                <label for="sbb" style="display: none">{% trans "Submit search form" %}</label>
                 <INPUT type="button" value="Search site" name=projectsearch onclick="searchSite()">
                 <input type="submit" name="sa" value="Google Search" id="sbb"></input>
                 <input type="hidden" name="client" value="pub-1257602387207870"></input>

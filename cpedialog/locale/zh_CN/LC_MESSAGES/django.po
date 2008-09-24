@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-06 22:02+0800\n"
+"POT-Creation-Date: 2008-09-24 23:15+0800\n"
 "PO-Revision-Date: 2008-09-06 22:04+0800\n"
 "Last-Translator: jiyu <tang.jiyu@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,8 +15,244 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: .\sample\main.py:5
-#: .\templates\tpl.html.py:2
-msgid "hello"
-msgstr "你好"
+#: .\templates\google_ajax_feed.html.py:33 .\templates\tagclound.html.py:15
+msgid "My"
+msgstr ""
 
+#: .\templates\google_ajax_feed.html.py:34
+msgid "Loading"
+msgstr ""
+
+#: .\templates\login.html.py:17
+msgid "Enter your OpenID URL: "
+msgstr ""
+
+#: .\templates\login.html.py:20
+msgid "e.g."
+msgstr ""
+
+#: .\templates\login.html.py:25
+msgid "What is OpenID"
+msgstr ""
+
+#: .\templates\login.html.py:27
+msgid ""
+"OpenID is a new open standard that lets you sign in to web sites with a "
+"single URL that you own. This URL can be your homepage or blog, or it can be "
+"provided to you by a web site you use. In either case, you only have to sign "
+"in once to your OpenID provider and so you only need to maintain a single "
+"password."
+msgstr ""
+
+#: .\templates\login.html.py:28
+msgid "Learn more."
+msgstr ""
+
+#: .\templates\login.html.py:32
+msgid "How is cpedialog using OpenID?"
+msgstr ""
+
+#: .\templates\login.html.py:34
+msgid ""
+"You can attach your OpenID to your existing Google account or use Google "
+"account to register for a new OpenID account. In both cases, you will then "
+"be able to sign in using your OpenID provider and you won't have to use or "
+"remember a separate password for cpedialog. If you register with your "
+"OpenID, you can also pre-fill your cpedialog registration information from "
+"your OpenID provider, making it the fastest way to get started with "
+"cpedialog. To get started, enter your OpenID URL above and click 'Sign in'."
+msgstr ""
+
+#: .\templates\login.html.py:40
+msgid "Other ways to sign in:"
+msgstr ""
+
+#: .\templates\login.html.py:43
+msgid "Sign Out with Google Account"
+msgstr ""
+
+#: .\templates\login.html.py:45
+msgid "Sign in with Google Account"
+msgstr ""
+
+#: .\templates\main_top.html.py:18
+msgid "My Profile"
+msgstr "我的档案"
+
+#: .\templates\main_top.html.py:21
+msgid "System Configuration"
+msgstr "系统配置"
+
+#: .\templates\main_top.html.py:23
+msgid "Sign out"
+msgstr "登出"
+
+#: .\templates\main_top.html.py:25
+msgid "Join now"
+msgstr "现在加入"
+
+#: .\templates\main_top.html.py:26
+msgid "Already a user?"
+msgstr ""
+
+#: .\templates\main_top.html.py:26 .\templates\signup.html.py:87
+msgid "Sign in"
+msgstr "登录"
+
+#: .\templates\main_top.html.py:54
+msgid "Enter your search terms"
+msgstr ""
+
+#: .\templates\main_top.html.py:56
+msgid "Submit search form"
+msgstr ""
+
+#: .\templates\menu_right.html.py:6
+msgid "Subscribe to this blog."
+msgstr ""
+
+#: .\templates\menu_right.html.py:9
+msgid "Recent comments"
+msgstr ""
+
+#: .\templates\menu_right.html.py:19
+msgid "Archives"
+msgstr ""
+
+#: .\templates\menu_right_right.html.py:7
+msgid "Login"
+msgstr ""
+
+#: .\templates\menu_right_right.html.py:13
+msgid "Admin/Add New Blog"
+msgstr ""
+
+#: .\templates\menu_right_right.html.py:14
+msgid "Admin/Add New Page"
+msgstr ""
+
+#: .\templates\menu_right_right.html.py:15
+#, fuzzy
+msgid "Admin/System Configuration"
+msgstr "系统配置"
+
+#: .\templates\signup.html.py:73
+msgid "Sign Up Here (it's free!)"
+msgstr ""
+
+#: .\templates\signup.html.py:78
+msgid "E-mail address"
+msgstr ""
+
+#: .\templates\signup.html.py:81
+msgid "Example"
+msgstr ""
+
+#: .\templates\signup.html.py:87
+msgid "That address has already been registered."
+msgstr ""
+
+#: .\templates\signup.html.py:93
+msgid "Create a password"
+msgstr ""
+
+#: .\templates\signup.html.py:98
+msgid "at least 6 characters (case sensitive)"
+msgstr ""
+
+#: .\templates\signup.html.py:103
+msgid "First Name"
+msgstr ""
+
+#: .\templates\signup.html.py:112
+msgid "Last Name"
+msgstr ""
+
+#: .\templates\signup.html.py:120
+msgid "Country"
+msgstr ""
+
+#: .\templates\signup.html.py:140
+msgid "Birthday"
+msgstr ""
+
+#: .\templates\signup.html.py:190
+msgid "Gender"
+msgstr ""
+
+#: .\templates\signup.html.py:194
+msgid "Female"
+msgstr ""
+
+#: .\templates\signup.html.py:196
+msgid "Male"
+msgstr ""
+
+#: .\templates\signup.html.py:209
+msgid ""
+"By clicking 'Sign Up Now' you are indicating you are over 13 years of age"
+msgstr ""
+
+#: .\templates\site_map.html.py:10
+msgid "All the post on the site"
+msgstr ""
+
+#: .\templates\tag.html.py:23 .\templates\tag_delicious.html.py:19
+msgid "Tags"
+msgstr ""
+
+#: .\templates\tag.html.py:33
+msgid "comments"
+msgstr ""
+
+#: .\templates\tag.html.py:34
+msgid "no comments"
+msgstr ""
+
+#: .\templates\tag.html.py:40 .\templates\tag_delicious.html.py:31
+msgid "No Matches"
+msgstr ""
+
+#: .\templates\tag.html.py:43 .\templates\tag_delicious.html.py:34
+msgid "It's possible that an article with the tag was removed."
+msgstr ""
+
+#: .\templates\tag.html.py:44 .\templates\tag_delicious.html.py:35
+msgid "Please try another tag or use the full-text search."
+msgstr ""
+
+#: .\templates\tagclound.html.py:3
+msgid "Tag Clound"
+msgstr ""
+
+#: .\templates\tagclound.html.py:5
+msgid "My Blog Tags"
+msgstr ""
+
+#: .\templates\user_setting.html.py:3
+msgid "User Setting"
+msgstr ""
+
+#: .\templates\user_setting.html.py:19
+#, fuzzy
+msgid "Edit Profile"
+msgstr "我的档案"
+
+#: .\templates\user_setting.html.py:20
+msgid "Edit Layout"
+msgstr ""
+
+#: .\templates\user_setting.html.py:21
+msgid "Edit Style"
+msgstr ""
+
+#: .\templates\user_setting.html.py:27
+msgid "Tab Two Content"
+msgstr ""
+
+#: .\templates\user_setting.html.py:28
+msgid "Tab Three Content"
+msgstr ""
+
+#~ msgid "hello"
+#~ msgstr "你好"

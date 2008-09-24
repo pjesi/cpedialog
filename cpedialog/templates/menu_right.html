@@ -1,11 +1,12 @@
+{% load i18n %}
 <DIV id=menu_right>
     {% block webloglist %}
     {% endblock %}
     <div id="subscribe">
-      <a href="/atom" target="_blank"><img src="/img/feed-icon-16x16.png" alt="Subscribe to this blog">Subscribe to this blog. </a>
+      <a href="/atom" target="_blank"><img src="/img/feed-icon-16x16.png" alt="Subscribe to this blog">{% trans "Subscribe to this blog." %} </a>
     </div>
     <div id="comments">
-        <h2>Recent comments</h2>
+        <h2>{% trans "Recent comments" %}</h2>
         <ul>
             {% for blog in recentReactions %}
             <li>
@@ -15,7 +16,7 @@
         </ul>
     </div>
     <div id="archives">
-        <h2>Archives</h2>
+        <h2>{% trans "Archives" %}</h2>
         <ul>
             {% for archive in  archiveList %}
             <li><a href='/archive/{{archive.monthyear|replace:" -"}}'>{{ archive.monthyear }} ({{archive.weblogcount}})</a></li>

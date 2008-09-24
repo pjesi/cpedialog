@@ -1,3 +1,4 @@
+{% load i18n %}
 <div id="ajaxfeed">
 
     <script src="http://www.google.com/jsapi/?key={{BLOG.google_ajax_feed_key}}"
@@ -29,6 +30,6 @@
         google.load("feeds", "1");
         google.setOnLoadCallback(load);
     </script>
-    <h3>My Feeds</h3>
-    <div id="feedControl">Loading...</div>
+    <h3>{% trans "My" %} Feeds</h3>
+    <div id="feedControl">{% trans "Loading" %}...</div>
 </div>

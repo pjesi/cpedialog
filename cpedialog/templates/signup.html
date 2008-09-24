@@ -1,3 +1,4 @@
+{% load i18n %}
 {% extends "main.html" %}
 {% block title %}{{title}} - Singup{% endblock %}
 {% block blogcontainer %}
@@ -69,37 +70,37 @@
 </div>
 {% endif %}
 <div>
-Sign Up Here (it's free!)
+{% trans "Sign Up Here (it's free!)" %}
 <form method=post id="signupForm" name="signupForm">
 <table cellspacing="0" class="yui-skin-sam noborder_table">
 <tbody>
 <tr>
-    <th><label for="email">E-mail address:</label></th>
+    <th><label for="email">{% trans "E-mail address" %}:</label></th>
     <td><input type="text" onblur="checkEmail(false,true);" id="email" value="" name="email" class="required"/>
         <span id="checkEmailAlert"/>
-        <small>Example: test@example.com</small>
+        <small>{% trans "Example" %}: test@example.com</small>
     </td>
 </tr>
 <tr>
     <th></th>
     <td><p style="display: none;" id="email_unavailable_text">
-        That address has already been registered. <a href="javascript:doSigninExisting();">Sign in</a> or use a
-        different address.
+        {% trans "That address has already been registered." %} <a href="javascript:doSigninExisting();">{% trans "Sign in" %}</a> {% trans "or use a
+        different address." %}
     </p>
     </td>
 </tr>
 <tr>
-    <th><label for="ob_password">Create a password</label></th>
+    <th><label for="ob_password">{% trans "Create a password" %}</label></th>
     <td><input type="password" onblur="checkPassword(false);" id="ob_password"
                style="width: 180px;" maxlength="255" class="required" name="password"/>
                 <span id="checkPasswordAlert"/>
 
-        <div class="hint">at least 6 characters (case sensitive)</div>
+        <div class="hint">{% trans "at least 6 characters (case sensitive)" %}</div>
         <div style="height: 10px;"/>
     </td>
 </tr>
 <tr>
-    <th><label for="ob_firstname">First Name</label>
+    <th><label for="ob_firstname">{% trans "First Name" %}</label>
     </th>
     <td><input type="text" onfocus="changeColor(this);"
                onblur="checkFirstName(false);" id="ob_firstname"
@@ -108,7 +109,7 @@ Sign Up Here (it's free!)
             id="checkFirstNameAlert"/></td>
 </tr>
 <tr>
-    <th><label for="ob_lastname">Last Name</label></th>
+    <th><label for="ob_lastname">{% trans "Last Name" %}</label></th>
     <td><input type="text" onblur="checkLastName();"
                onfocus="changeColor(this);" id="ob_lastname"
                class="fullwidth" size="20" value=""
@@ -116,7 +117,7 @@ Sign Up Here (it's free!)
             id="checkLastNameAlert"/></td>
 </tr>
 <tr>
-    <th><label for="country">Country</label></th>
+    <th><label for="country">{% trans "Country" %}</label></th>
     <td>
         <select id="country" name="country" class="fullwidth"/>
         <script type="text/javascript">
@@ -136,7 +137,7 @@ Sign Up Here (it's free!)
     </td>
 </tr>
 <tr>
-    <th><label for="birthday">Birthday</label></th>
+    <th><label for="birthday">{% trans "Birthday" %}</label></th>
     <td>
         <input type="text" name="birthday" id="birthday"/> <div id="cal1Container" class="yui-skin-sam"> </div>
         <script type="text/javascript">
@@ -186,13 +187,13 @@ Sign Up Here (it's free!)
     </td>
 </tr>
 <tr>
-    <th><label for="gender_Female">Gender</label></th>
+    <th><label for="gender_Female">{% trans "Gender" %}</label></th>
     <td>
         <input type="radio"  id="gender_Female"
                value="Female" name="gender"/>
-        <label for="gender_Female">Female</label>
+        <label for="gender_Female">{% trans "Female" %}</label>
         <input type="radio"  id="gender_Male"
-               value="Male" name="gender"/><label for="gender_Male">Male</label>
+               value="Male" name="gender"/><label for="gender_Male">{% trans "Male" %}</label>
     </td>
 </tr>
 <tr>
@@ -205,7 +206,7 @@ Sign Up Here (it's free!)
     <th/>
     <td>
         <div class="mboxDefault" style="visibility: visible; display: block;">
-            <div>By clicking "Sign Up Now" you are indicating you are over 13 years of age</div>
+            <div>{% trans "By clicking 'Sign Up Now' you are indicating you are over 13 years of age" %}</div>
         </div>
     </td>
 </tr>

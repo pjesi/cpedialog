@@ -1,5 +1,6 @@
+{% load i18n %}
 {% extends "main.html" %}
-{% block title %}{{title}} - User Setting {% endblock %}
+{% block title %}{{title}} - {% trans "User Setting" %} {% endblock %}
 {% block blogcontainer %}
 <link rel="stylesheet" type="text/css"
       href="http://yui.yahooapis.com/2.5.2/build/tabview/assets/skins/sam/tabview.css"/>
@@ -15,16 +16,16 @@
         {% endif %}
         <div id="login_tab" class="yui-navset">
             <ul class="yui-nav">
-                <li class="selected"><a href="#tab1"><em>Edit Profile</em></a></li>
-                <li><a href="#tab2"><em>Edit Layout</em></a></li>
-                <li><a href="#tab3"><em>Edit Style</em></a></li>
+                <li class="selected"><a href="#tab1"><em>{% trans "Edit Profile" %}</em></a></li>
+                <li><a href="#tab2"><em>{% trans "Edit Layout" %}</em></a></li>
+                <li><a href="#tab3"><em>{% trans "Edit Style" %}</em></a></li>
             </ul>
             <div class="yui-content">
                 <div id="tab1">
                     {% include 'admin/admin_usersetting.html' %}
                 </div>
-                <div id="tab2"><p>Tab Two Content</p></div>
-                <div id="tab3"><p>Tab Three Content</p></div>
+                <div id="tab2"><p>{% trans "Tab Two Content" %}</p></div>
+                <div id="tab3"><p>{% trans "Tab Three Content" %}</p></div>
             </div>
             <script type="text/javascript">
                 var tabView = new YAHOO.widget.TabView('login_tab');
