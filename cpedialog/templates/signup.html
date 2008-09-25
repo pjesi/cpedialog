@@ -7,8 +7,9 @@
 <!-- Used for Custom Events and event listener bindings -->
 <script src="http://yui.yahooapis.com/2.5.2/build/event/event-min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/fonts/fonts-min.css" />
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/calendar/assets/skins/sam/calendar.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/fonts/fonts-min.css"/>
+<link rel="stylesheet" type="text/css"
+      href="http://yui.yahooapis.com/2.5.2/build/calendar/assets/skins/sam/calendar.css"/>
 <link rel="stylesheet" type="text/css"
       href="http://yui.yahooapis.com/2.5.2/build/datatable/assets/skins/sam/datatable.css"/>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/yahoo-dom-event/yahoo-dom-event.js"></script>
@@ -18,7 +19,7 @@
 <script type="text/javascript" src="/jscripts/common/validator.js"></script>
 
 <script type="text/javascript">
-    function register(){
+    function register() {
 
     }
 
@@ -42,25 +43,25 @@
         return "";
     }
 
-      function isEmailAvailiable(email){
-        var callback={
-            success:function(o){
-                var result=YAHOO.lang.JSON.parse(o.responseText);
+    function isEmailAvailiable(email) {
+        var callback = {
+            success:function(o) {
+                var result = YAHOO.lang.JSON.parse(o.responseText);
                 if (result.match(/\s*True\s*/)) {
                     document.getElementById('email_unavailable_text').style.display = 'none';
                     showCheck("checkEmailAlert");
-                }else if (result.match(/\s*Invalid\s*/)) {
+                } else if (result.match(/\s*Invalid\s*/)) {
                     showError("checkEmailAlert");
                     document.getElementById('email_unavailable_text').style.display = '';
                 }
             },
             failure:handleFailure
         };
-        var req=YAHOO.util.Connect.asyncRequest('POST', '/rpc?action=IsEmailAvailable', callback,'email='+email);
-    } 
+        var req = YAHOO.util.Connect.asyncRequest('POST', '/rpc?action=IsEmailAvailable', callback, 'email=' + email);
+    }
 
 </script>
-        
+
 <div class="yui-g">
 <div id="logindiv">
 {% if error %}
@@ -75,7 +76,7 @@
 <tbody>
 <tr>
     <th><label for="email">{% trans "E-mail address" %}:</label></th>
-    <td><input type="text" onblur="checkEmail(false,true);" id="email" value="" name="email" class="required"/>
+    <td><input type="text" onblur="checkEmail(false,true);" id="email" value="" name="email" size="30"/>
         <span id="checkEmailAlert"/>
         <small>{% trans "Example" %}: test@example.com</small>
     </td>
@@ -83,7 +84,8 @@
 <tr>
     <th></th>
     <td><p style="display: none;" id="email_unavailable_text">
-        {% trans "That address has already been registered." %} <a href="javascript:doSigninExisting();">{% trans "Sign in" %}</a> {% trans "or use a
+        {% trans "That address has already been registered." %} <a href="javascript:doSigninExisting();">{% trans "Sign
+        in" %}</a> {% trans "or use a
         different address." %}
     </p>
     </td>
@@ -91,8 +93,8 @@
 <tr>
     <th><label for="ob_password">{% trans "Create a password" %}</label></th>
     <td><input type="password" onblur="checkPassword(false);" id="ob_password"
-               style="width: 180px;" maxlength="255" class="required" name="password"/>
-                <span id="checkPasswordAlert"/>
+               maxlength="255" name="password" size="30"/>
+        <span id="checkPasswordAlert"/>
 
         <div class="hint">{% trans "at least 6 characters (case sensitive)" %}</div>
         <div style="height: 10px;"/>
@@ -103,16 +105,16 @@
     </th>
     <td><input type="text" onfocus="changeColor(this);"
                onblur="checkFirstName(false);" id="ob_firstname"
-               class="fullwidth" size="20" value=""
-               style="width: 180px;" name="firstname"/><span
+               class="fullwidth" size="30" value=""
+               name="firstname"/><span
             id="checkFirstNameAlert"/></td>
 </tr>
 <tr>
     <th><label for="ob_lastname">{% trans "Last Name" %}</label></th>
     <td><input type="text" onblur="checkLastName();"
                onfocus="changeColor(this);" id="ob_lastname"
-               class="fullwidth" size="20" value=""
-               style="width: 180px;" name="lastname"/><span
+               class="fullwidth" size="30" value=""
+               name="lastname"/><span
             id="checkLastNameAlert"/></td>
 </tr>
 <tr>
@@ -138,7 +140,8 @@
 <tr>
     <th><label for="birthday">{% trans "Birthday" %}</label></th>
     <td>
-        <input type="text" name="birthday" id="birthday"/> <div id="cal1Container" class="yui-skin-sam"> </div>
+        <input type="text" name="birthday" id="birthday" size="30"/>
+        <div id="cal1Container" class="yui-skin-sam"></div>
         <script type="text/javascript">
             YAHOO.namespace("cpedialog.calendar");
             YAHOO.cpedialog.calendar.init = function() {
@@ -169,7 +172,7 @@
                     YAHOO.util.Event.preventDefault(e);
                 }
 
-                YAHOO.cpedialog.calendar.cal1 = new YAHOO.widget.Calendar("cal1", "cal1Container", { title:"Choose a date:", close:true } );
+                YAHOO.cpedialog.calendar.cal1 = new YAHOO.widget.Calendar("cal1", "cal1Container", { title:"Choose a date:", close:true });
                 YAHOO.cpedialog.calendar.cal1.selectEvent.subscribe(handleSelect, YAHOO.cpedialog.calendar.cal1, true);
                 YAHOO.cpedialog.calendar.cal1.hide();
                 YAHOO.cpedialog.calendar.cal1.render();
@@ -186,12 +189,12 @@
     </td>
 </tr>
 <tr>
-    <th><label for="gender_Female">{% trans "Gender" %}</label></th>
+    <th><label>{% trans "Gender" %}</label></th>
     <td>
-        <input type="radio"  id="gender_Female"
+        <input type="radio" id="gender_Female"
                value="Female" name="gender"/>
         <label for="gender_Female">{% trans "Female" %}</label>
-        <input type="radio"  id="gender_Male"
+        <input type="radio" id="gender_Male"
                value="Male" name="gender"/><label for="gender_Male">{% trans "Male" %}</label>
     </td>
 </tr>
