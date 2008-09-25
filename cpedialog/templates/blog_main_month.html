@@ -1,3 +1,4 @@
+{% load i18n %}
 {% extends "main.html" %}
 {% block title %}{{title}}{% endblock %}
 {% block blog %}
@@ -14,7 +15,7 @@
          </DIV>
             {% if blog.tags %}
             <p>
-                Tags:
+                {% trans "Tags" %}:
                 {% for tag in blog.tags %}
                 <a href="/tag/{{ tag|unquote }}">{{ tag|unquote }}</a>{% if not forloop.last %},{% endif %}
                 {% endfor %}
@@ -23,14 +24,14 @@
         <H4 class=byline> Posted by {{blog.author}} at 
            <A  class=timestamp-link href="/{{blog.relative_permalink}}">{{blog.date|timezone:BLOG.time_zone_offset|date:"H:i A"}}</A>
                      {% if blog.weblogreactions_set.count %}
-                    <A class=comment-link href="/{{blog.relative_permalink}}#reactions">{{blog.weblogreactions_set.count}} comments</A>
-                    {% else %}<A class=comment-link href="/{{blog.relative_permalink}}#addreaction">no comments</A>{% endif %}
+                    <A class=comment-link href="/{{blog.relative_permalink}}#reactions">{{blog.weblogreactions_set.count}} {% trans "comments" %}</A>
+                    {% else %}<A class=comment-link href="/{{blog.relative_permalink}}#addreaction">{% trans "no comments" %}</A>{% endif %}
         </H4>
         </DIV>
         {% endfor %}
      {% else %}
         <div>
-        No articles in the month!
+        {% trans "No articles in the month!" %}
         </div>
      {% endif %}
     </div>        

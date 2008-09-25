@@ -1,3 +1,4 @@
+{% load i18n %}
 {% extends "main.html" %}
 {% block title %}{{title}} - Albums - {{username}}{% endblock %}
 {% block blogcontainer %}
@@ -16,9 +17,9 @@
     {% endif %}
    {% if albums %}
     <div id="albuminfo">
-        <H3>Albums</H3>
+        <H3>{% trans "Albums" %}</H3>
         <p>
-            Please select a picasaweb user to show the albums.
+            {% trans "Please select a picasaweb user to show the albums." %}
             <select id="username" onchange="showAlbumByUser(this)">
                 {% for username_ in usernames %}
                 <option {%ifequal username_.album_username username %} selected {%endifequal%} value='{{username_.album_username}}{%ifequal username_.album_type "private" %}/private{%endifequal%}'>{{username_.album_username}}</option>

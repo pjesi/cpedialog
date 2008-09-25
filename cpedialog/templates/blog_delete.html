@@ -1,3 +1,4 @@
+{% load i18n %}
 {% extends "main.html" %}
 
 {% block title %}{{title}} - Delete item{% endblock %}
@@ -7,15 +8,15 @@
 <div id="blogview">
     <h4>
         {% ifequal action "deleteBlog" %}
-        Delete item
+        {% trans "Delete item" %}
         {% endifequal %}
         {% ifequal action "deleteBlogReaction" %}
-        Delete reaction
+        {% trans "Delete reaction" %}
         {% endifequal %}
     </h4>
        <div>
          {% ifequal action "deleteBlog" %}
-            Delete item <b>{{blog.title}}</b> and all of it's comments? 
+            {% trans "Delete item" %} <b>{{blog.title}}</b> {% trans "and all of it's comments?" %}
         {% endifequal %}
         {% ifequal action "deleteBlogReaction" %}
             {% if reaction.author%}
@@ -37,7 +38,7 @@
                 {{reaction.date|timezone:BLOG.time_zone_offset|date:"Y-m-d H:i"}}
                 &nbsp;&nbsp;
                 {% ifnotequal reaction.userIp Null %}
-                <i><b>IP Address</b>:{{reaction.userIp}}</i>
+                <i><b>IP {% trans "Address" %}</b>:{{reaction.userIp}}</i>
                 {% endifnotequal %}
               </p>
              <DIV class=post-body>

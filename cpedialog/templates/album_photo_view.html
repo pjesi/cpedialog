@@ -1,3 +1,4 @@
+{% load i18n %}
 {% extends "main.html" %}
 {% block title %}{{title}} - {{blog.title}}{% endblock %}
 {% block blogcontainer %}
@@ -7,7 +8,7 @@
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/dragdrop/dragdrop-min.js" ></script>
 {% if cur_photo %}
 <div class="yui-g" id="albumsdiv">
-        <H3>Albums</H3>
+        <H3>{% trans "Albums" %}</H3>
         <p>
     <div id="albums">
        <div id="photocontainer">

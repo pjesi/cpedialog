@@ -1,3 +1,4 @@
+{% load i18n %}
 {% extends "main.html" %}
 {% block title %}{{title}} - {{blog.title}}{% endblock %}
 {% block blogcontainer %}
@@ -38,8 +39,8 @@
         </P>
         <P>
             {% if user_is_admin %}
-        <p style='text-align: right;'>:<a href='/edit/blog/{{blog.key.id}}'>edit</a>: :
-            <a href='/delete/blog/{{blog.key.id}}'>delete</a>:</p>
+        <p style='text-align: right;'>:<a href='/edit/blog/{{blog.key.id}}'>{% trans "edit" %}</a>: :
+            <a href='/delete/blog/{{blog.key.id}}'>{% trans "delete" %}</a>:</p>
             {% endif  %}
         {% ifnotequal reaction.lastModifiedDate Null %}
         Edited at {{blog.lastModifiedDate}} by {{blog.lastModifiedBy}}.
@@ -49,7 +50,7 @@
 {% ifnotequal reactions.count 0 %}
 <br> <br>
 <div class="commentlabel">
-    <h4> Reactions</h4>
+    <h4> {% trans "Reactions" %}</h4>
 </div>
 {% for reaction in reactions %}
 {% if reaction.author%}
@@ -81,8 +82,8 @@
                     <span class='comment-timestamp'>
                         {% if user_is_admin %}
                         <p style='text-align: right;'>:<a
-                                href='/edit/comment/{{reaction.key.id}}'>edit</a>: :
-                            <a href='/delete/comment/{{reaction.key.id}}'>delete</a>:</p>
+                                href='/edit/comment/{{reaction.key.id}}'>{% trans "edit" %}</a>: :
+                            <a href='/delete/comment/{{reaction.key.id}}'>{% trans "delete" %}</a>:</p>
                         {% endif %}
 
                         {% ifnotequal reaction.lastModifiedDate Null %}
@@ -96,28 +97,28 @@
         {% endifnotequal %}
         <br> <br> <br>
         <div class="commentlabel">
-            <h4> Add a reaction </h4>
+            <h4> {% trans "Add a reaction" %} </h4>
         </div>
         <form method=post action='/addBlogReaction?blogId={{blog.key.id}}' onsubmit="return parseBlogContent()" id="reactionForm">
-            <h2 class="comments-post">About You</h2>
+            <h2 class="comments-post">{% trans "About You" %}</h2>
             <div>
                 <input id="name_input" name='name_input' type=text size="60"
                        value="{% if user %}{{user.nickname}}{%else%}{{blogReaction.user}}{%endif%}" {% if user %}readonly{%endif%}>
-                <label for="name_input"><b>Name</b> (required)</label>
+                <label for="name_input"><b>{% trans "Name" %}</b> ({% trans "required" %})</label>
             </div>
             <div>
                 <input id="mail" name="mail" type=text size="60" value="{% if user %}{{user.email}}{%else%}{%if blogReaction%}{{blogReaction.authorEmail}}{%endif%}{%endif%}"
                 {% if user %}readonly{%endif%}>
-                <label for="mail"><b>Mail</b> (required)</label>
+                <label for="mail"><b>{% trans "Mail" %}</b> ({% trans "required" %})</label>
             </div>
             <div>
                 <input id="website" name="website" type=text size="60" value="{%if blogReaction%}{{blogReaction.authorWebsite}}{%endif%}">
-                <label for="website"><b>Website</b></label>
+                <label for="website"><b>{% trans "Website" %}</b></label>
             </div>
             <div id="recaptcha">
                 {%if captchahtml%}{{captchahtml}}{%endif%}
             </div>
-            <h2 class="comments-post">Comment</h2>
+            <h2 class="comments-post">{% trans "Comment" %}</h2>
             <div id="blogpost">
                 <textarea id="text_input" name="text_input" rows="12" cols="60">
                     {%if blogReaction%}{{blogReaction.content}}{%endif%}
