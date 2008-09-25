@@ -466,7 +466,7 @@ class Session(object):
         session = self.session
         google_user = users.get_current_user()
         if google_user and (session.user is None ):
-            users_ = User.all().filter('google_id',google_user.email())
+            users_ = User.all().filter('email',google_user.email())
             if users_.count() == 0:
                 user = User()
                 user.email = google_user.email()

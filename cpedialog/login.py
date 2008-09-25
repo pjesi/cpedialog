@@ -111,12 +111,20 @@ class Signup(BaseRequestHandler):
         self.generate('signup.html',template_values)
 
 
-class LoginOpenID(BaseRequestHandler):
+class Login(BaseRequestHandler):
     def get(self, error_msg=None):
         template_values = {
            "error": error_msg
         }
         self.generate('login.html',template_values)
+
+
+class LoginOpenID(BaseRequestHandler):
+    def get(self, error_msg=None):
+        template_values = {
+           "error": error_msg
+        }
+        self.generate('login_openid.html',template_values)
 
     def post(self):
         openid = self.request.get('openid_identifier')

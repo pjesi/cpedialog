@@ -88,7 +88,8 @@ def main():
                                         ('/albums/([-\w\.]+)/([-\w]+)/*$', album.AlbumHandler),
                                         ('/albums/([-\w\.]+)/([-\w]+)/([\d]+)/*$', album.PhotoHandler),
 
-                                        ('/login/*$', login.LoginOpenID),
+                                        ('/login/*$', login.Login),
+                                        ('/login/openid/*$', login.LoginOpenID),
                                         ('/login-finish/*$', login.LoginOpenIDFinish),
                                         ('/logout/*$', login.Logout),
                                         ('/signup/*$', login.Signup),

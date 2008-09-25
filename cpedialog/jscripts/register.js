@@ -78,7 +78,7 @@ var showAvailEmail = function(restext) {
 }
 /* }}} */
 function doSigninExisting(template) {
-    var email = document.getElementById("ob_email").value;
+    var email = document.getElementById("email").value;
     if (!template) {
         template = 'corp';
     }

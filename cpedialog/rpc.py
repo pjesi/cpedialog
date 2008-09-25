@@ -30,7 +30,7 @@ from google.appengine.api import memcache
 from google.appengine.api import images
 from google.appengine.ext import db
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Greeting,Feeds,OpenID
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Greeting,Feeds,OpenID,User
 
 import authorized
 import util
@@ -398,9 +398,10 @@ class RPCHandler(webapp.RequestHandler):
       util.flushFeedList()
       return True
 
-  def Is(self,user_email,target_service):
-      stored_token = AuthSubStoredToken.gql('WHERE user_email = :1 and target_service = :2',
-          user_email, target_service).get()
-      if stored_token:
-          stored_token.delete()
-      return True
+  def IsEmailAvailable(self,request):
+      email = request.get("email")
+      user = User.gql('WHERE email = :1',email).get()
+      if user:
+          return "True"
+      else:
+          return "Invalid"

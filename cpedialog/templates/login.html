@@ -1,50 +1,67 @@
-{% load i18n %} 
 {% extends "main.html" %}
 {% block title %}{{title}} - Login{% endblock %}
 {% block blogcontainer %}
-<script type="text/javascript" src="/jscripts/openid-selector.js"></script>
-<div class="yui-g">
-    <div id="logindiv">
+<div id="logindiv">
+    <div class="yui-g">
         {% if error %}
         <div class="error">
             {{error}}
         </div>
         {% endif %}
-        <div>
-            <img src="/img/openid-logo-small.png" alt="OpenID">
-
-            <form action="/login" method="post">
-                <label for="openid_identifier">{% trans "Enter your OpenID URL: " %}</label>
-                <input type="text" name="openid_identifier" id="openid_identifier" size="30"/>
-                <input type="submit" value="Sign in"/> <br>
-                <small>({% trans "e.g." %} http://username.myopenid.com)</small>
+    </div>
+    <div class="yui-g">
+        <div class="yui-u first">
+            Sign In
+            <form method=post id="signinForm" name="signinForm">
+                <table cellspacing="0" class="yui-skin-sam noborder_table">
+                    <tbody>
+                        <tr>
+                            <th><label for="email">E-mail address:</label></th>
+                            <td><input type="text" id="email" value="" name="email"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Password:</th>
+                            <td><input type="password" name="password" id="password"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>
+                                <input name="keeplive" id="keeplive" value="1" type="checkbox">
+                                <label for="keeplive">Remember me</label><br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td style="line-height: 21px; padding-left: 6px;">
+                                <div style="margin: 10px 10px 10px 0pt; float: right; line-height: 21px;"><a
+                                        tabindex="100" style="font-size: 10px; line-height: 21px;"
+                                        href="javascript:lostPassword(false)">Forgot password?</a></div>
+                                <input type="submit" value="Sign in"/></td>
+                        </tr>
+                    </tbody>
+                </table>
             </form>
-
-            <br>
-
-            <h3>{% trans "What is OpenID" %}?</h3>
-
-            <p>{% trans "OpenID is a new open standard that lets you sign in to web sites with a single URL that you own. This URL can be your homepage or blog, or it can be provided to you by a web site you use. In either case, you only have to sign in once to your OpenID provider and so you only need to maintain a single password." %} 
-            <a href="http://iwantmyopenid.org/about/openid" target="_blank">{% trans "Learn more." %}</a>
-            </p>
-            <br>
-
-            <h3>{% trans "How is cpedialog using OpenID?" %}</h3>
-
-            <p>{% trans "You can attach your OpenID to your existing Google account or use Google account to register for a new OpenID account. In both cases, you will then be able to sign in using your OpenID provider and you won't have to use or remember a separate password for cpedialog. If you register with your OpenID, you can also pre-fill your cpedialog registration information from your OpenID provider, making it the fastest way to get started with cpedialog. To get started, enter your OpenID URL above and click 'Sign in'." %}
-            </p>
         </div>
-        <br>
-
-        <div>
-            <div><strong>{% trans "Other ways to sign in:" %}</strong></div>
-            <img height="16" align="absmiddle" width="16" style="margin-right: 3px;" src="/img/google.gif"/>
-            {% if google_login_status %}
-            <a href="{{google_logout_url}}">{% trans "Sign Out with Google Account" %}</a>
-            {% else %}
-            <a href="{{google_login_url}}">{% trans "Sign in with Google Account" %}</a>
-            {% endif %} <br/>
+        <div class="yui-u">
+            Not a member yet?
+            <span>Sign up now</span>
         </div>
+    </div>
+
+    <br>
+
+    <div>
+        <div><strong>Other ways to sign in:</strong></div>
+        <img height="16" align="absmiddle" width="16" style="margin-right: 3px;" src="/img/openid.gif"/>
+        <a href="/login/openid">Sign in with OpenID</a> <br/>
+        <img height="16" align="absmiddle" width="16" style="margin-right: 3px;" src="/img/google.gif"/>
+        {% if google_login_status %}
+        <a href="{{google_logout_url}}">Sign Out with Google Account</a>
+        {% else %}
+        <a href="{{google_login_url}}">Sign in with Google Account</a>
+        {% endif %} <br/>
     </div>
 </div>
 {% endblock %}
