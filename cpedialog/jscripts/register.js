@@ -318,17 +318,6 @@ function checkConfirm(conservative) {
 /* }}} */
 
 
-function focusOn(elemName) {
-    try {
-        var elem = document.getElementById(elemName);
-        if (elem) {
-            elem.focus();
-            elem.select();
-        }
-    } catch (e) {
-    }
-    ;
-}
 
 function checkData() { /* {{{ */
     var str;

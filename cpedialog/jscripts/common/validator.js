@@ -23,3 +23,36 @@ var handleFailure = function(o) {
         alert("Client RPC Request Error, please retry.");
     }
 }
+
+function focusOn(elemName) {
+    try {
+        var elem = document.getElementById(elemName);
+        if (elem) {
+            elem.focus();
+            elem.select();
+        }
+    } catch (e) {
+    }
+    ;
+}
+
+function selectByValue(selectoId,value){
+    var selectObj = document.getElementById(selectoId);
+    for (var i = 0; i < selectObj.length; i++) {
+        if (selectObj[i].value == value) {
+            selectObj[i].selected = true;
+            break;
+        }
+    }
+}
+
+function clearSelectOptions(selectoId) {
+    var e = document.getElementById(selectoId);
+    if (e == null) {
+        return true;
+    }
+    var length = e.options.length;
+    for (var i = 0; i < length; i++) {
+        e.options[0] = null;
+    }
+}
