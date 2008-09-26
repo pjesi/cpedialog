@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-24 23:15+0800\n"
+"POT-Creation-Date: 2008-09-26 22:21+0800\n"
 "PO-Revision-Date: 2008-09-06 22:04+0800\n"
 "Last-Translator: jiyu <tang.jiyu@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,64 +15,150 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: .\templates\album_main.html.py:20 .\templates\album_photo_view.html.py:11
+#: .\templates\album_view.html.py:12 .\templates\album_view.html.py:14
+msgid "Albums"
+msgstr ""
+
+#: .\templates\album_main.html.py:22
+msgid "Please select a picasaweb user to show the albums."
+msgstr ""
+
+#: .\templates\blog_add.html.py:6 .\templates\blog_add.html.py:186
+#: .\templates\admin\admin_pages.html.py:47
+msgid "Add"
+msgstr ""
+
+#: .\templates\blog_add.html.py:7 .\templates\blog_add.html.py:186
+msgid "Blog"
+msgstr ""
+
+#: .\templates\blog_add.html.py:8 .\templates\blog_add.html.py:186
+msgid "Page"
+msgstr ""
+
+#: .\templates\blog_add.html.py:11 .\templates\blog_add.html.py:189
+#, fuzzy
+msgid "Edit item"
+msgstr "我的档案"
+
+#: .\templates\blog_add.html.py:14 .\templates\blog_add.html.py:192
+msgid "Edit reaction"
+msgstr ""
+
+#: .\templates\blog_add.html.py:199 .\templates\admin\admin_feeds.html.py:9
+#: .\templates\admin\admin_pages.html.py:8
+#: .\templates\admin\admin_pages.html.py:40
+msgid "Title"
+msgstr ""
+
+#: .\templates\blog_add.html.py:199 .\templates\blog_add.html.py:220
+#: .\templates\blog_add.html.py:224 .\templates\blog_view.html.py:107
+#: .\templates\blog_view.html.py:112
+msgid "required"
+msgstr ""
+
+#: .\templates\blog_add.html.py:203 .\templates\blog_main.html.py:18
+#: .\templates\blog_main_month.html.py:18 .\templates\tag.html.py:23
+#: .\templates\tag_delicious.html.py:19
+msgid "Tags"
+msgstr ""
+
+#: .\templates\blog_add.html.py:203
+msgid "comma separated without space"
+msgstr ""
+
+#: .\templates\blog_add.html.py:211 .\templates\admin\admin_pages.html.py:11
+#: .\templates\admin\admin_pages.html.py:41
+msgid "Permalink"
+msgstr ""
+
+#: .\templates\blog_add.html.py:217
+msgid "About the author"
+msgstr ""
+
+#: .\templates\blog_add.html.py:220 .\templates\blog_view.html.py:107
+msgid "Name"
+msgstr ""
+
+#: .\templates\blog_add.html.py:224 .\templates\blog_view.html.py:112
+msgid "Mail"
+msgstr ""
+
+#: .\templates\blog_add.html.py:228 .\templates\blog_view.html.py:116
+msgid "Website"
+msgstr ""
+
+#: .\templates\blog_add.html.py:233
+msgid "Content"
+msgstr ""
+
+#: .\templates\blog_delete.html.py:11 .\templates\blog_delete.html.py:19
+msgid "Delete item"
+msgstr ""
+
+#: .\templates\blog_delete.html.py:14
+msgid "Delete reaction"
+msgstr ""
+
+#: .\templates\blog_delete.html.py:19
+msgid "and all of it's comments?"
+msgstr ""
+
+#: .\templates\blog_delete.html.py:41
+msgid "Address"
+msgstr ""
+
+#: .\templates\blog_main.html.py:27 .\templates\blog_main_month.html.py:27
+#: .\templates\tag.html.py:33
+msgid "comments"
+msgstr ""
+
+#: .\templates\blog_main.html.py:28 .\templates\blog_main_month.html.py:28
+#: .\templates\tag.html.py:34
+msgid "no comments"
+msgstr ""
+
+#: .\templates\blog_main.html.py:35
+msgid "No articles!"
+msgstr ""
+
+#: .\templates\blog_main_month.html.py:34
+msgid "No articles in the month!"
+msgstr ""
+
+#: .\templates\blog_view.html.py:42 .\templates\blog_view.html.py:85
+#: .\templates\admin\admin_pages.html.py:23
+msgid "edit"
+msgstr ""
+
+#: .\templates\blog_view.html.py:43 .\templates\blog_view.html.py:86
+#: .\templates\admin\admin_pages.html.py:24
+msgid "delete"
+msgstr ""
+
+#: .\templates\blog_view.html.py:53
+msgid "Reactions"
+msgstr ""
+
+#: .\templates\blog_view.html.py:100
+msgid "Add a reaction"
+msgstr ""
+
+#: .\templates\blog_view.html.py:103
+msgid "About You"
+msgstr ""
+
+#: .\templates\blog_view.html.py:121
+msgid "Comment"
+msgstr ""
+
 #: .\templates\google_ajax_feed.html.py:33 .\templates\tagclound.html.py:15
 msgid "My"
 msgstr ""
 
 #: .\templates\google_ajax_feed.html.py:34
 msgid "Loading"
-msgstr ""
-
-#: .\templates\login.html.py:17
-msgid "Enter your OpenID URL: "
-msgstr ""
-
-#: .\templates\login.html.py:20
-msgid "e.g."
-msgstr ""
-
-#: .\templates\login.html.py:25
-msgid "What is OpenID"
-msgstr ""
-
-#: .\templates\login.html.py:27
-msgid ""
-"OpenID is a new open standard that lets you sign in to web sites with a "
-"single URL that you own. This URL can be your homepage or blog, or it can be "
-"provided to you by a web site you use. In either case, you only have to sign "
-"in once to your OpenID provider and so you only need to maintain a single "
-"password."
-msgstr ""
-
-#: .\templates\login.html.py:28
-msgid "Learn more."
-msgstr ""
-
-#: .\templates\login.html.py:32
-msgid "How is cpedialog using OpenID?"
-msgstr ""
-
-#: .\templates\login.html.py:34
-msgid ""
-"You can attach your OpenID to your existing Google account or use Google "
-"account to register for a new OpenID account. In both cases, you will then "
-"be able to sign in using your OpenID provider and you won't have to use or "
-"remember a separate password for cpedialog. If you register with your "
-"OpenID, you can also pre-fill your cpedialog registration information from "
-"your OpenID provider, making it the fastest way to get started with "
-"cpedialog. To get started, enter your OpenID URL above and click 'Sign in'."
-msgstr ""
-
-#: .\templates\login.html.py:40
-msgid "Other ways to sign in:"
-msgstr ""
-
-#: .\templates\login.html.py:43
-msgid "Sign Out with Google Account"
-msgstr ""
-
-#: .\templates\login.html.py:45
-msgid "Sign in with Google Account"
 msgstr ""
 
 #: .\templates\main_top.html.py:18
@@ -95,7 +181,7 @@ msgstr "现在加入"
 msgid "Already a user?"
 msgstr ""
 
-#: .\templates\main_top.html.py:26 .\templates\signup.html.py:87
+#: .\templates\main_top.html.py:26
 msgid "Sign in"
 msgstr "登录"
 
@@ -136,77 +222,65 @@ msgstr ""
 msgid "Admin/System Configuration"
 msgstr "系统配置"
 
-#: .\templates\signup.html.py:73
+#: .\templates\signup.html.py:192
 msgid "Sign Up Here (it's free!)"
 msgstr ""
 
-#: .\templates\signup.html.py:78
+#: .\templates\signup.html.py:197
 msgid "E-mail address"
 msgstr ""
 
-#: .\templates\signup.html.py:81
+#: .\templates\signup.html.py:200
 msgid "Example"
 msgstr ""
 
-#: .\templates\signup.html.py:87
+#: .\templates\signup.html.py:206
 msgid "That address has already been registered."
 msgstr ""
 
-#: .\templates\signup.html.py:93
+#: .\templates\signup.html.py:213
 msgid "Create a password"
 msgstr ""
 
-#: .\templates\signup.html.py:98
+#: .\templates\signup.html.py:216
 msgid "at least 6 characters (case sensitive)"
 msgstr ""
 
-#: .\templates\signup.html.py:103
+#: .\templates\signup.html.py:220
 msgid "First Name"
 msgstr ""
 
-#: .\templates\signup.html.py:112
+#: .\templates\signup.html.py:226
 msgid "Last Name"
 msgstr ""
 
-#: .\templates\signup.html.py:120
+#: .\templates\signup.html.py:231
 msgid "Country"
 msgstr ""
 
-#: .\templates\signup.html.py:140
+#: .\templates\signup.html.py:251
 msgid "Birthday"
 msgstr ""
 
-#: .\templates\signup.html.py:190
+#: .\templates\signup.html.py:312
 msgid "Gender"
 msgstr ""
 
-#: .\templates\signup.html.py:194
+#: .\templates\signup.html.py:316
 msgid "Female"
 msgstr ""
 
-#: .\templates\signup.html.py:196
+#: .\templates\signup.html.py:318
 msgid "Male"
 msgstr ""
 
-#: .\templates\signup.html.py:209
+#: .\templates\signup.html.py:331
 msgid ""
 "By clicking 'Sign Up Now' you are indicating you are over 13 years of age"
 msgstr ""
 
 #: .\templates\site_map.html.py:10
 msgid "All the post on the site"
-msgstr ""
-
-#: .\templates\tag.html.py:23 .\templates\tag_delicious.html.py:19
-msgid "Tags"
-msgstr ""
-
-#: .\templates\tag.html.py:33
-msgid "comments"
-msgstr ""
-
-#: .\templates\tag.html.py:34
-msgid "no comments"
 msgstr ""
 
 #: .\templates\tag.html.py:40 .\templates\tag_delicious.html.py:31
@@ -252,6 +326,337 @@ msgstr ""
 
 #: .\templates\user_setting.html.py:28
 msgid "Tab Three Content"
+msgstr ""
+
+#: .\templates\admin\admin_albums.html.py:3
+msgid "Albums Admin"
+msgstr ""
+
+#: .\templates\admin\admin_albums.html.py:5
+msgid "Album List"
+msgstr ""
+
+#: .\templates\admin\admin_albums.html.py:6
+#: .\templates\admin\admin_pages.html.py:35
+msgid ""
+"Tips:you can double-click the 'Add' column in the table header to add a new "
+"record."
+msgstr ""
+
+#: .\templates\admin\admin_albums.html.py:7
+msgid ""
+"You can access your albums from the path:'/albums', so we recommend you to "
+"add a menu of '/albums' in the pages tab."
+msgstr ""
+
+#: .\templates\admin\admin_albums.html.py:11
+msgid "Picasaweb"
+msgstr ""
+
+#: .\templates\admin\admin_albums.html.py:12
+msgid "Access(picasaweb)"
+msgstr ""
+
+#: .\templates\admin\admin_albums.html.py:13
+#: .\templates\admin\admin_feeds.html.py:11
+#: .\templates\admin\admin_pages.html.py:43
+msgid "Order"
+msgstr ""
+
+#: .\templates\admin\admin_albums.html.py:14
+#: .\templates\admin\admin_feeds.html.py:12
+#: .\templates\admin\admin_pages.html.py:44
+msgid "Valid"
+msgstr ""
+
+#: .\templates\admin\admin_albums.html.py:15
+#: .\templates\admin\admin_feeds.html.py:13
+#: .\templates\admin\admin_pages.html.py:45
+msgid "Id"
+msgstr ""
+
+#: .\templates\admin\admin_archives.html.py:3
+msgid "Archives Admin"
+msgstr ""
+
+#: .\templates\admin\admin_archives.html.py:5
+msgid "Archive List"
+msgstr ""
+
+#: .\templates\admin\admin_authsub.html.py:3
+msgid "Session Token Management"
+msgstr ""
+
+#: .\templates\admin\admin_authsub.html.py:5
+msgid "Sesseion Token List"
+msgstr ""
+
+#: .\templates\admin\admin_authsub.html.py:8
+msgid "User Email"
+msgstr ""
+
+#: .\templates\admin\admin_authsub.html.py:9
+msgid "Target Service"
+msgstr ""
+
+#: .\templates\admin\admin_authsub.html.py:10
+msgid "Session Token"
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:3
+msgid "System Cache Management"
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:5
+msgid "Memcache statistics for this application"
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:8
+msgid "hits"
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:10
+msgid "Number of cache get requests resulting in a cache hit."
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:14
+msgid "misses"
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:16
+msgid "Number of cache get requests resulting in a cache miss."
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:20
+msgid "byte_hits"
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:22
+msgid ""
+"Sum of bytes transferred on get requests. Rolls over to zero on overflow."
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:26
+msgid "items"
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:28
+msgid "Number of key/value pairs in the cache."
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:31
+msgid "bytes"
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:33
+msgid "Total size of all items in the cache."
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:36
+msgid "oldest_item_age"
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:38
+msgid ""
+"How long in seconds since the oldest item in the cache was accessed. "
+"Effectively, this indicates how long a new item will survive in the cache "
+"without being accessed. This is _not_ the amount of time that has elapsed "
+"since the item was created."
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:43
+msgid "Refresh Memcache statistics"
+msgstr ""
+
+#: .\templates\admin\admin_cache.html.py:44
+msgid "Flush All the Memcache"
+msgstr ""
+
+#: .\templates\admin\admin_feeds.html.py:3
+msgid "Feeds Admin"
+msgstr ""
+
+#: .\templates\admin\admin_feeds.html.py:5
+msgid ""
+"Feed List:  <small>Tips:you can double-click the 'Add' column in the table "
+"header to add a new record."
+msgstr ""
+
+#: .\templates\admin\admin_feeds.html.py:10
+msgid "Feed"
+msgstr ""
+
+#: .\templates\admin\admin_images.html.py:3
+msgid "Uploaded Images Admin"
+msgstr ""
+
+#: .\templates\admin\admin_images.html.py:5
+msgid "Image List"
+msgstr ""
+
+#: .\templates\admin\admin_pages.html.py:3
+msgid "Pages Admin"
+msgstr ""
+
+#: .\templates\admin\admin_pages.html.py:5
+msgid "Page List"
+msgstr ""
+
+#: .\templates\admin\admin_pages.html.py:9
+#: .\templates\admin\admin_system.html.py:14
+msgid "Author"
+msgstr ""
+
+#: .\templates\admin\admin_pages.html.py:10
+msgid "Date"
+msgstr ""
+
+#: .\templates\admin\admin_pages.html.py:32
+msgid "Menu Admin"
+msgstr ""
+
+#: .\templates\admin\admin_pages.html.py:36
+msgid ""
+"For example: If you want to add a menu '/albums' for system album feature, "
+"just add a new record and then set the valid to true."
+msgstr ""
+
+#: .\templates\admin\admin_pages.html.py:42
+msgid "Target"
+msgstr ""
+
+#: .\templates\admin\admin_pages.html.py:46
+msgid "Delete"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:3
+#, fuzzy
+msgid "System configuration"
+msgstr "系统配置"
+
+#: .\templates\admin\admin_system.html.py:8
+msgid "Blog Title"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:20
+msgid "Email"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:23
+msgid "Get one for free at gravatar.com"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:27
+msgid "Blog Description"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:31
+msgid "Root URL"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:37
+msgid "Time Zone"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:44
+msgid "Logo images"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:48
+msgid ""
+"Separate logo image urls with commas and/or newlines. These images will "
+"randomly display on the site."
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:52
+msgid "Posts num per page"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:55
+msgid "This number is used for the pagination."
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:59
+msgid "Page Cache Time"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:62
+msgid ""
+"Be careful! This value will make your page unchanging for the specified time."
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:66
+msgid "Debug Mode"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:69
+msgid "You can get more detailed log info in appengine when enable debug mode."
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:73
+msgid "Recaptcha enable"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:76
+msgid ""
+"reCAPTCHA is a free CAPTCHA service that helps to enable anti-spam for the "
+"post's comment."
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:77
+msgid "You can get reCAPTCHA for free from"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:81
+msgid "public key"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:87
+msgid "private key"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:93
+msgid "enable"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:96
+msgid "Delicious is a Social Bookmarking service."
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:100
+msgid "username"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:103
+msgid "You can get del.icio.us for free from"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:107
+msgid "Feed control enable"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:110
+msgid "Enable feed control on your site."
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:111
+msgid "You can manage your feeds on the Feeds tab."
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:115
+msgid "Feed control main title"
+msgstr ""
+
+#: .\templates\admin\admin_system.html.py:121
+msgid "Result num per feed"
+msgstr ""
+
+#: .\templates\admin\admin_tags.html.py:3
+msgid "Tags Admin"
+msgstr ""
+
+#: .\templates\admin\admin_tags.html.py:5
+msgid "Tag List"
 msgstr ""
 
 #~ msgid "hello"
