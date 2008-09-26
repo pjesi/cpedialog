@@ -1,15 +1,16 @@
+{% load i18n %}
 <fieldset id="admin_feeds">
-    <legend>Feeds Admin</legend>
+    <legend>{% trans "Feeds Admin" %}</legend>
     <div class="fieldsetdiv">
-        Feed List:  <small>Tips:you can double-click the "Add" column in the table header to add a new record.</small>
+        {% trans "Feed List:  <small>Tips:you can double-click the 'Add' column in the table header to add a new record." %}</small>
         <div id="feeddiv">
         <table id="feedtable">
             <thead><tr>
-                <th>Title</th>
-                <th>Feed</th>
-                <th>Order</th>
-                <th>Valid</th>
-                <th>Id</th>
+                <th>{% trans "Title" %}</th>
+                <th>{% trans "Feed" %}</th>
+                <th>{% trans "Order" %}</th>
+                <th>{% trans "Valid" %}</th>
+                <th>{% trans "Id" %}</th>
                 <th> </th>
                 <th> </th>
             </tr></thead>

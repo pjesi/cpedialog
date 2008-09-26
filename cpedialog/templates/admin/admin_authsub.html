@@ -1,12 +1,13 @@
+{% load i18n %}
 <fieldset id="admin_authsub">
-    <legend>Session Token Management</legend>
+    <legend>{% trans "Session Token Management" %}</legend>
     <div class="fieldsetdiv">
-        Sesseion Token List:
+        {% trans "Sesseion Token List" %}:
         <table id="tokentable">
             <tr>
-                <th>User Email</th>
-                <th>Target Service</th>
-                <th>Session Token</th>
+                <th>{% trans "User Email" %}</th>
+                <th>{% trans "Target Service" %}</th>
+                <th>{% trans "Session Token" %}</th>
                 <th> &nbsp;</th>
             </tr>
             {% for token in session_tokens %}

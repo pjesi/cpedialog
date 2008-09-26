@@ -1,3 +1,4 @@
+{% load i18n %}
 {% extends "main.html" %}
 {% block title %}{{title}} - System Admin{% endblock %}
 {% block blogcontainer %}
@@ -304,7 +305,7 @@
                 var systemTab = new YAHOO.widget.Tab({
                     label: 'System',
                     dataSrc: '/admin/system',
-                    cacheData: true,
+                    cacheData: false,
                     active: true
                 });
                 tabView.addTab(systemTab);
@@ -312,7 +313,7 @@
                 var pagesTab = new YAHOO.widget.Tab({
                     label: 'Pages',
                     dataSrc: '/admin/pages',
-                    cacheData: true
+                    cacheData: false
                 });
                 tabView.addTab(pagesTab);
                 pagesTab.addListener('dataLoadedChange', renderMenuTable);
@@ -320,7 +321,7 @@
                 var albumsTab = new YAHOO.widget.Tab({
                     label: 'Albums',
                     dataSrc: '/admin/albums',
-                    cacheData: true
+                    cacheData: false
                 });
                 tabView.addTab(albumsTab);
                 albumsTab.addListener('dataLoadedChange', renderAlbumTable);
@@ -328,7 +329,7 @@
                 var feedsTab = new YAHOO.widget.Tab({
                     label: 'Feeds',
                     dataSrc: '/admin/feeds',
-                    cacheData: true
+                    cacheData: false
                 });
                 tabView.addTab(feedsTab);
                 feedsTab.addListener('dataLoadedChange', renderFeedTable);
@@ -336,7 +337,7 @@
                 var imagesTab = new YAHOO.widget.Tab({
                     label: 'Images',
                     dataSrc: '/admin/images',
-                    cacheData: true
+                    cacheData: false
                 });
                 tabView.addTab(imagesTab);
                 imagesTab.addListener('dataLoadedChange', renderImageTable);
@@ -344,7 +345,7 @@
                 var tagsTab = new YAHOO.widget.Tab({
                     label: 'Tags',
                     dataSrc: '/admin/tags',
-                    cacheData: true
+                    cacheData: false
                 });
                 tabView.addTab(tagsTab);
                 tagsTab.addListener('dataLoadedChange', renderTagTable);  
@@ -352,7 +353,7 @@
                 var archivesTab = new YAHOO.widget.Tab({
                     label: 'Archives',
                     dataSrc: '/admin/archives',
-                    cacheData: true
+                    cacheData: false
                 });
                 tabView.addTab(archivesTab);
                 archivesTab.addListener('dataLoadedChange', renderArchiveTable);  
@@ -360,21 +361,21 @@
                 var authsubTab = new YAHOO.widget.Tab({
                     label: 'AuthSub',
                     dataSrc: '/admin/authsub',
-                    cacheData: true
+                    cacheData: false
                 });
                 //tabView.addTab(authsubTab);
 
                 var cacheTab = new YAHOO.widget.Tab({
                     label: 'Cache',
                     dataSrc: '/admin/cache',
-                    cacheData: true
+                    cacheData: false
                 });
                 tabView.addTab(cacheTab);
 
                 var userSettingTab = new YAHOO.widget.Tab({
                     label: 'UserSetting',
                     dataSrc: '/admin/usersetting',
-                    cacheData: true
+                    cacheData: false
                 });
                 //tabView.addTab(userSettingTab);
                 //userSettingTab.addListener('dataLoadedChange', renderUserSetting);

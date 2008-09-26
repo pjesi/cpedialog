@@ -1,47 +1,46 @@
+{% load i18n %}
 <fieldset id="admin_cache">
-    <legend>System Cache Management</legend>
+    <legend>{% trans "System Cache Management" %}</legend>
     <div class="fieldsetdiv">
-        Memcache statistics for this application:
+        {% trans "Memcache statistics for this application" %}:
         <table class="noborder_table">
             <tr>
-                <th>hits</th>
+                <th>{% trans "hits" %}</th>
                 <td><span id="cache_stats.hits">{{cache_stats.hits}}</span></td>
-                <td><span class="fieldsetcomment">Number of cache get requests resulting in a cache hit.</span>
+                <td><span class="fieldsetcomment">{% trans "Number of cache get requests resulting in a cache hit." %}</span>
                 </td>
             </tr>
             <tr>
-                <th>misses</th>
+                <th>{% trans "misses" %}</th>
                 <td><span id="cache_stats.misses">{{cache_stats.misses}}</span></td>
-                <td><span class="fieldsetcomment">Number of cache get requests resulting in a cache miss.</span>
+                <td><span class="fieldsetcomment">{% trans "Number of cache get requests resulting in a cache miss." %}</span>
                 </td>
             </tr>
             <tr>
-                <th>byte_hits</th>
+                <th>{% trans "byte_hits" %}</th>
                 <td><span id="cache_stats.byte_hits">{{cache_stats.byte_hits}}</span></td>
-                <td><span class="fieldsetcomment">Sum of bytes transferred on get requests. Rolls over to zero on overflow.</span>
+                <td><span class="fieldsetcomment">{% trans "Sum of bytes transferred on get requests. Rolls over to zero on overflow." %}</span>
                 </td>
             </tr>
             <tr>
-                <th>items</th>
+                <th>{% trans "items" %}</th>
                 <td><span id="cache_stats.items">{{cache_stats.items}}</span></td>
-                <td><span class="fieldsetcomment">Number of key/value pairs in the cache. </span></td>
+                <td><span class="fieldsetcomment">{% trans "Number of key/value pairs in the cache." %} </span></td>
             </tr>
             <tr>
-                <th>bytes</th>
+                <th>{% trans "bytes" %}</th>
                 <td><span id="cache_stats.bytes">{{cache_stats.bytes}}</span></td>
-                <td><span class="fieldsetcomment">Total size of all items in the cache.</span></td>
+                <td><span class="fieldsetcomment">{% trans "Total size of all items in the cache." %}</span></td>
             </tr>
             <tr>
-                <th>oldest_item_age</th>
+                <th>{% trans "oldest_item_age" %}</th>
                 <td><span id="cache_stats.oldest_item_age">{{cache_stats.oldest_item_age}}</span></td>
-                <td><span class="fieldsetcomment">How long in seconds since the oldest item in the cache was accessed.
-                        Effectively, this indicates how long a new item will survive in the cache without being
-                        accessed. This is _not_ the amount of time that has elapsed since the item was created.</span>
+                <td><span class="fieldsetcomment">{% trans "How long in seconds since the oldest item in the cache was accessed. Effectively, this indicates how long a new item will survive in the cache without being accessed. This is _not_ the amount of time that has elapsed since the item was created." %}</span>
                 </td>
             </tr>
         </table>
         <br>
-        <a href="javascript:flushAllMemcache(false);">Refresh Memcache statistics</a> &nbsp; &nbsp;
-        <a href="javascript:flushAllMemcache(true);">Flush All the Memcache</a>
+        <a href="javascript:flushAllMemcache(false);">{% trans "Refresh Memcache statistics" %}</a> &nbsp; &nbsp;
+        <a href="javascript:flushAllMemcache(true);">{% trans "Flush All the Memcache" %}</a>
     </div>
 </fieldset>
