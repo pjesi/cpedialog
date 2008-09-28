@@ -10,6 +10,12 @@ function validatorEmail(email) {
     return filter.test(email);
 }
 
+//username validator;
+function validatorUsername(username) {
+    var filter = /^([-_A-Za-z0-9\.]+)$/;
+    return filter.test(username);
+}
+
 function showError(error_id) {
     document.getElementById(error_id).innerHTML = "&nbsp;<img src=\"/img/ico_cross_org.gif\" width=14 height=14><br />";
 }
@@ -55,4 +61,5 @@ function clearSelectOptions(selectoId) {
     for (var i = 0; i < length; i++) {
         e.options[0] = null;
     }
+    return true;
 }

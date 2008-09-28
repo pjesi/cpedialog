@@ -110,6 +110,35 @@ class Signup(BaseRequestHandler):
         }
         self.generate('signup.html',template_values)
 
+    def post(self, error_msg=None):
+        email = self.request.get("email")
+        username = self.request.get("username")
+        users = User.all().filter('email', email).filter()
+        user = User()
+        user.email = email
+        user.username = username
+        user.fullname = self.request.get("firstname")+" "+self.request.get("lastname")
+        user.birthday = datetime.datetime.strptime(self.request.get("birthday"), '%Y-%m-%d')
+        user.password = self.request.get("password")
+        user.firstname = self.request.get("firstname")
+        user.lastname = self.request.get("lastname")
+        user.country = self.request.get("country")
+        gender = self.request.get("gender")
+        if gender:
+            gender_ = str(gender)[0:1]
+            user.gender = gender_
+        if users.count() == 0:
+            user.put()
+            sessions.Session().login_user(user)
+            self.redirect("/")
+        else:
+            error_msg = "That email address has already been registered."
+        template_values = {
+           "temp_user": user,
+           "error": error_msg
+        }
+        self.generate('signup.html',template_values)
+
 
 class Login(BaseRequestHandler):
     def get(self, error_msg=None):
@@ -117,7 +146,18 @@ class Login(BaseRequestHandler):
            "error": error_msg
         }
         self.generate('login.html',template_values)
-
+        
+    def post(self, error_msg=None):
+        email = self.request.get("email")
+        users = User.all().filter('email', email)
+        if users.count() == 0:
+            pass
+        else:
+            sessions.Session().login_user(user)
+        template_values = {
+           "error": error_msg
+        }
+        self.generate('signup.html',template_values)
 
 class LoginOpenID(BaseRequestHandler):
     def get(self, error_msg=None):
@@ -149,7 +189,7 @@ class LoginOpenID(BaseRequestHandler):
         auth_request.addExtension(sreg_request)
 
         parts = list(urlparse.urlparse(self.request.uri))
-        parts[2] = 'login-finish'
+        parts[2] = '/login/openid/finish/'
         parts[4] = 'session_id=%s' % self.session.sid
         parts[5] = ''
         return_to = urlparse.urlunparse(parts)

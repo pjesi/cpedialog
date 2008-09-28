@@ -227,11 +227,32 @@ class User(EmailUser):
     def set_nickname(self,nickname):
         self.username = nickname
 
+    def get_firstname(self):
+        if self.fullname:
+            return self.fullname.split(" ")[0]
+        else:
+            return None
+
+    def set_firstname(self,firstname):
+        pass
+
+    def get_lastname(self):
+        if self.fullname:
+            names =  self.fullname.split(" ")
+            if(len(names)>1):
+                return names[1]
+        return None
+
+    def set_lastname(self,lastname):
+        pass
+
     #make User object can be adaptable with google user object
     def nickname(self):
         return self.username
     
     nickname = property(get_nickname,set_nickname)
+    firstname = property(get_firstname,set_firstname)
+    lastname = property(get_lastname,set_lastname)
 
 
 class OpenID(db.Model):

@@ -402,6 +402,14 @@ class RPCHandler(webapp.RequestHandler):
       email = request.get("email")
       user = User.gql('WHERE email = :1',email).get()
       if user:
-          return "True"
-      else:
           return "Invalid"
+      else:
+          return "True"
+
+  def IsUsernameAvailable(self,request):
+      username = request.get("username")
+      user = User.gql('WHERE username = :1',username).get()
+      if user:
+          return "Invalid"
+      else:
+          return "True"

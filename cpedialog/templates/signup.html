@@ -6,18 +6,30 @@
 <script src="http://yui.yahooapis.com/2.5.2/build/yahoo/yahoo-min.js"></script>
 <!-- Used for Custom Events and event listener bindings -->
 <script src="http://yui.yahooapis.com/2.5.2/build/event/event-min.js"></script>
+<!-- Source file -->
+<script src="http://yui.yahooapis.com/2.5.2/build/connection/connection-min.js"></script>
+<!-- JSON Utility -->
+<script src="http://yui.yahooapis.com/2.5.2/build/json/json-min.js"></script>
 
 <script type="text/javascript" src="/jscripts/common/constant.js"></script>
 <script type="text/javascript" src="/jscripts/common/validator.js"></script>
 
 <script type="text/javascript">
 var email_unavailable = false;
+var username_unavailable = false;
 function checkData() {
     var str;
     str = checkEmail(false, false);
     if (str != "" || email_unavailable) {
         alert(str);
         focusOn("email");
+        return false;
+    }
+
+    str = checkUsername(false, false);
+    if (str != "" || username_unavailable) {
+        alert(str);
+        focusOn("username");
         return false;
     }
 
@@ -68,7 +80,9 @@ function checkData() {
 }
 
 function register() {
-
+    if(checkData()){
+        document.signupForm.submit();
+    }
 }
 
 function checkEmail(conservative, checkA) {
@@ -83,29 +97,66 @@ function checkEmail(conservative, checkA) {
         return "This e-mail address is invalid or not available";
     }
     if (checkA) {
-        isEmailAvailiable(email);
-    } else if (email_unavailable) {
+        isEmailOrUsernameAvailiable("email",email);
+    }else if (email_unavailable) {
         showError("checkEmailAlert");
         return "This e-mail address is invalid or not available";
+    }else{
+        document.getElementById('email_unavailable_text').style.display = 'none';
+        showCheck("checkEmailAlert")
     }
     return "";
 }
 
-function isEmailAvailiable(email) {
+function checkUsername(conservative, checkA) {
+    var usernameObj = document.getElementById("username");
+    if (!usernameObj) {
+        return "";
+    }
+    var username = usernameObj.value;
+    if (username == "" || !validatorUsername(username)) {
+        if (!conservative) showError("checkUsernameAlert");
+        document.getElementById('username_unavailable_text').style.display = 'none';
+        return "This username is invalid or not available";
+    }
+    if (checkA) {
+        isEmailOrUsernameAvailiable("username",username);
+    }else if (username_unavailable) {
+        showError("checkUsernameAlert");
+        return "This username is invalid or not available";
+    }else{
+        document.getElementById('username_unavailable_text').style.display = 'none';
+        showCheck("checkUsernameAlert");
+    }
+    return "";
+}
+
+function isEmailOrUsernameAvailiable(property,value){
+    var propertyFirstUpperCased = property.substring(0,1).toUpperCase()+property.substring(1);
     var callback = {
         success:function(o) {
             var result = YAHOO.lang.JSON.parse(o.responseText);
             if (result.match(/\s*True\s*/)) {
-                document.getElementById('email_unavailable_text').style.display = 'none';
-                showCheck("checkEmailAlert");
+                document.getElementById(property+'_unavailable_text').style.display = 'none';
+                if (property == "email") {
+                    email_unavailable = false;
+                } else if (property == "username") {
+                    username_unavailable = false;
+                }
+                showCheck("check"+propertyFirstUpperCased+"Alert");
             } else if (result.match(/\s*Invalid\s*/)) {
-                showError("checkEmailAlert");
-                document.getElementById('email_unavailable_text').style.display = '';
+                showError("check"+propertyFirstUpperCased+"Alert");
+                if (property == "email") {
+                    email_unavailable = true;
+                } else if (property == "username") {
+                    username_unavailable = true;
+                }
+                document.getElementById(property+'_unavailable_text').style.display = '';
             }
         },
         failure:handleFailure
     };
-    var req = YAHOO.util.Connect.asyncRequest('POST', '/rpc?action=IsEmailAvailable', callback, 'email=' + email);
+    var req = YAHOO.util.Connect.asyncRequest('POST', '/rpc?action=Is'+propertyFirstUpperCased+'Available', callback, property+'=' + value);
 }
 
 function checkPassword(conservative) {
@@ -148,9 +199,9 @@ function checkLastName(conservative) {
 }
 
 function checkBirthdate() {
-    var month = getObject('-month').value;
-    var day = getObject('-day').value;
-    var year = 1900;
+    var month = document.getElementById('month').value;
+    var day = document.getElementById('day').value;
+    var year = document.getElementById('year').value;
     if (month == 0 || year == 0) {
         return "Please enter your birthdate.";
     }
@@ -165,7 +216,7 @@ function checkBirthdate() {
         /* not yet to my birthday this year */
     }
     /* Set the birthday in a hidden form field, so refreshing/coming back to the page will work */
-    document.getElementById('birthday_hidden').value = "0000-" + getObject('-month').selectedIndex + '-' + getObject('-day').selectedIndex;
+    document.getElementById('birthday').value = year + "-" + month + '-' + day;
     if (age < 13) {
         return 'You must be at least 13 years of age.';
     }
@@ -179,6 +230,11 @@ function checkGender() {
     return "Please select gender.";
 }
 
+function doSigninExisting(property,value) {
+    location.href = '/login?' + property + '='+ encodeURIComponent(value);
+}
+
+
 </script>
 
 <div class="yui-g">
@@ -190,45 +246,57 @@ function checkGender() {
 {% endif %}
 <div>
 {% trans "Sign Up Here (it's free!)" %}
-<form method=post id="signupForm" name="signupForm">
+<form method=post id="signupForm" name="signupForm" action="/signup">
 <table cellspacing="0" class="yui-skin-sam noborder_table">
 <tbody>
 <tr>
     <th><label for="email">{% trans "E-mail address" %}:</label></th>
-    <td><input type="text" onblur="checkEmail(false,true);" id="email" value="" name="email" size="30"/>
-        <span id="checkEmailAlert"/> <br/>
-        <small>{% trans "Example" %}: test@example.com</small>
+    <td><input type="text" onblur="checkEmail(false,true);" id="email" value="{%if temp_user%}{{temp_user.email}}{%endif%}" name="email" size="30"/>
+        <span id="checkEmailAlert"></span>
     </td>
 </tr>
 <tr>
     <th/>
     <td><p style="display: none;" id="email_unavailable_text">
-        {% trans "That address has already been registered." %} <a href="javascript:doSigninExisting();">{% trans "Sign
-        in" %}</a> {% trans "or use a
-        different address." %}
+        {% trans "That address has already been registered." %} <a href="javascript:doSigninExisting('email',document.getElementById('email').value);">
+        {% trans "Sign  in" %}</a> {% trans "or use a different address." %}
     </p>
     </td>
 </tr>
 <tr>
-    <th><label for="password">{% trans "Create a password" %}</label></th>
-    <td><input type="password" onblur="checkPassword(false);" id="password" maxlength="255" name="password" size="30"/>
-        <span id="checkPasswordAlert"/>
-        <div id="password_unavailable_text">{% trans "at least 6 characters (case sensitive)" %}</div>
+    <th><label for="username">{% trans "Username" %}:</label></th>
+    <td><input type="text" onblur="checkUsername(false,true);" id="username" value="{%if temp_user%}{{temp_user.username}}{%endif%}" name="username" size="30"/>
+        <span id="checkUsernameAlert"></span> 
     </td>
 </tr>
 <tr>
-    <th><label for="firstname">{% trans "First Name" %}</label>
+    <th/>
+    <td><p style="display: none;" id="username_unavailable_text">
+        {% trans "That username has already been registered." %} <a href="javascript:doSigninExisting('username',document.getElementById('username').value);">
+        {% trans "Sign  in" %}</a> {% trans "or use a different username." %}
+    </p>
+    </td>
+</tr>
+<tr>
+    <th><label for="password">{% trans "Create a password" %}:</label></th>
+    <td><input type="password" onblur="checkPassword(false);" id="password" maxlength="255" name="password" size="30"/>
+        <span id="checkPasswordAlert"></span>
+        <div id="password_unavailable_text"> {% trans "at least 6 characters (case sensitive)" %} </div>
+    </td>
+</tr>
+<tr>
+    <th><label for="firstname">{% trans "First Name" %}:</label>
     </th>
-    <td><input type="text" onblur="checkFirstName(false);" id="firstname" size="30" value="" name="firstname"/>
+    <td><input type="text" onblur="checkFirstName(false);" id="firstname" size="30" value="{%if temp_user%}{{temp_user.firstname}}{%endif%}" name="firstname"/>
         <span id="checkFirstNameAlert"/></td>
 </tr>
 <tr>
-    <th><label for="lastname">{% trans "Last Name" %}</label></th>
-    <td><input type="text" onblur="checkLastName();" id="lastname" size="30" value="" name="lastname"/>
+    <th><label for="lastname">{% trans "Last Name" %}:</label></th>
+    <td><input type="text" onblur="checkLastName();" id="lastname" size="30" value="{%if temp_user%}{{temp_user.lastname}}{%endif%}" name="lastname"/>
         <span id="checkLastNameAlert"/></td>
 </tr>
 <tr>
-    <th><label for="country">{% trans "Country" %}</label></th>
+    <th><label for="country">{% trans "Country" %}:</label></th>
     <td>
         <select id="country" name="country"/>
         <script type="text/javascript">
@@ -237,8 +305,8 @@ function checkGender() {
                 for (var i = 0; i < countrys.length; i++) {
                     var option = new Option(countrys[i].display, countrys[i].value);
                     country.options[country.options.length] = option;
-                 {%if user and user.country %}
-                    if (countrys[i].value == "{{user.country}}") {
+                 {%if temp_user and temp_user.country %}
+                    if (countrys[i].value == "{{temp_user.country}}") {
                         country.options[country.options.length - 1].selected = true;
                     }
                  {% endif %}
@@ -248,7 +316,7 @@ function checkGender() {
     </td>
 </tr>
 <tr>
-    <th><label for="birthday">{% trans "Birthday" %}</label></th>
+    <th><label for="birthday">{% trans "Birthday" %}:</label></th>
     <td>
         <input name="birthday" id="birthday" type="hidden">
         <select id="year" name="year" style="margin-right:5px"/>
@@ -262,8 +330,8 @@ function checkGender() {
                 for (var i = 0; i < 100; i++) {
                     var option = new Option(current_year, current_year);
                     year.options[year.options.length] = option;
-                 {%if user and user.year%}
-                    if (current_year == {{user.year}}) {
+                 {%if temp_user and temp_user.year%}
+                    if (current_year == {{temp_user.year}}) {
                         year.options[year.options.length - 1].selected = true;
                     }
                  {% endif %}
@@ -276,8 +344,8 @@ function checkGender() {
                 for (var i = 0; i < month_list.length; i++) {
                     var option = new Option(month_list[i].display, month_list[i].value);
                     month.options[month.options.length] = option;
-                 {%if user and user.month%}
-                    if (month_list[i].value == "{{user.month}}") {
+                 {%if temp_user and temp_user.month%}
+                    if (month_list[i].value == "{{temp_user.month}}") {
                         month.options[month.options.length - 1].selected = true;
                     }
                  {% endif %}
@@ -287,7 +355,6 @@ function checkGender() {
                     var selectedMonth = month[month.selectedIndex].value;
                     var day = document.getElementById("day");
                     if(selectedMonth!=""){
-                        day.disabled = false;                        
                         var selectedDay = "";
                         if(day.selectedIndex!=-1){
                             selectedDay = day[day.selectedIndex].value;
@@ -299,8 +366,6 @@ function checkGender() {
                         if(selectedDay!=""){
                             selectByValue("day",selectedDay);
                         }
-                    }else{
-                        day.disabled = true;
                     }
                 }
                 YAHOO.util.Event.addListener(month, "change", fnCallback);
@@ -309,7 +374,7 @@ function checkGender() {
     </td>
 </tr>
 <tr>
-    <th><label>{% trans "Gender" %}</label></th>
+    <th><label>{% trans "Gender" %}:</label></th>
     <td>
         <input type="radio" id="gender_Female"
                value="Female" name="gender"/>
