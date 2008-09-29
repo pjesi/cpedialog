@@ -6,9 +6,9 @@
             <table cellspacing="0" class="yui-skin-sam noborder_table">
                 <tbody>
                     <tr>
-                        <th><label for="email">{% trans "E-mail address" %}:</label></th>
+                        <th><label for="email">{% trans "E-mail Address" %}:</label></th>
                         <td><input type="text" id="email" value="{%if temp_user%}{{temp_user.email}}{%endif%}"
-                                   name="email" size="30"/>
+                                   name="email" size="30" readonly/>
                             <span id="checkEmailAlert"></span>
                         </td>
                     </tr>
@@ -24,7 +24,7 @@
                     <tr>
                         <th><label for="username">{% trans "Username" %}:</label></th>
                         <td><input type="text" id="username" value="{%if temp_user%}{{temp_user.username}}{%endif%}"
-                                   name="username" size="30"/>
+                                   name="username" size="30" readonly/>
                             <span id="checkUsernameAlert"></span>
                         </td>
                     </tr>
@@ -38,7 +38,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="password">{% trans "Create a password" %}:</label></th>
+                        <th><label for="password">{% trans "Create a Password" %}:</label></th>
                         <td><input type="password" id="password" maxlength="255" name="password" size="30"/>
                             <span id="checkPasswordAlert"></span>
 

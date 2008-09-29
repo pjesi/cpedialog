@@ -279,6 +279,7 @@ class EditProfile(BaseRequestHandler):
     @authorized.role("user")
     def get(self, error_msg=None):
         template_values = {
+           "temp_user": sessions.Session().get_current_user(),
            "error": error_msg
         }
         self.generate('user/user_profile.html',template_values)
