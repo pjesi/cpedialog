@@ -161,34 +161,6 @@ class AdminAlbumsPage(BaseRequestHandler):
           }
         self.generate('admin/admin_albums.html',template_values)
 
-class AdminUserSettingPage(BaseRequestHandler):
-    @authorized.role('admin')
-    def get(self):
-        user = self.session.get_current_user()
-        openIDs = OpenID.all().filter('user = ', user).order('valid')
-        util.getLogger(__name__).debug("user email is "+user.email)
-        if user.birthday:
-            user.birthday_str=user.birthday.strftime('%Y/%m/%d')
-        else:
-            user.birthday_str=None
-        template_values = {
-            'openIDs':openIDs,
-            'user':user,
-          }
-        self.generate('admin/admin_usersetting.html',template_values)
-    @authorized.role('admin')
-    def post(self):
-        user = self.session.get_current_user()
-        user.email = self.request.get("email")
-        user.first_name = self.request.get("first_name")
-        user.last_name = self.request.get("last_name")
-        user.username = self.request.get("username")
-        user.country = self.request.get("country")
-        birthday = time.strptime(self.request.get("birthday"),'%Y/%m/%d')
-        user.birthday = datetime.datetime(birthday[0],birthday[1],birthday[2])
-        user.gender = self.request.get('gender')
-        user.put()
-        return True
         
 class AdminFeedsPage(BaseRequestHandler):
   @authorized.role('admin')

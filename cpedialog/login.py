@@ -254,7 +254,7 @@ class LoginOpenIDFinish(BaseRequestHandler):
                     user.username = openid
                 user.put()
                 self.session.login_user(user)
-                self.redirect('/user/usersetting')
+                self.redirect('/user')
             else:
                 user = users[0]
 
@@ -266,11 +266,29 @@ class LoginOpenIDFinish(BaseRequestHandler):
     def post(self):
         self.get()    
 
+class UserMainPage(BaseRequestHandler):
+    @authorized.role("user")
+    def get(self, error_msg=None):
+        template_values = {
+           "error": error_msg
+        }
+        self.generate('user_main.html',template_values)
+
+#edit user profile.
 class EditProfile(BaseRequestHandler):
     @authorized.role("user")
     def get(self, error_msg=None):
         template_values = {
            "error": error_msg
         }
-        self.generate('user_setting.html',template_values)
+        self.generate('user/user_profile.html',template_values)
+
+#edit user social network.
+class EditSocial(BaseRequestHandler):
+    @authorized.role("user")
+    def get(self, error_msg=None):
+        template_values = {
+           "error": error_msg
+        }
+        self.generate('user/user_social.html',template_values)
 

@@ -1,3 +1,8 @@
+String.prototype.trim = function () {
+    return this.replace(/^[\s\,]*/, "").replace(/[\s\,]*$/, ""); //for remove the space and comma at the begining/end of the tag.
+};
+
+
 //passowrd validator;
 function validatorPassword(password) {
     var filter = /^s*[A-Za-z0-9]{4,20}s*$/;
@@ -30,6 +35,7 @@ var handleFailure = function(o) {
     }
 }
 
+//focus on the form element.
 function focusOn(elemName) {
     try {
         var elem = document.getElementById(elemName);
@@ -42,7 +48,8 @@ function focusOn(elemName) {
     ;
 }
 
-function selectByValue(selectoId,value){
+//make the option with specified value to be selected.
+function selectByValue(selectoId, value) {
     var selectObj = document.getElementById(selectoId);
     for (var i = 0; i < selectObj.length; i++) {
         if (selectObj[i].value == value) {
@@ -52,6 +59,7 @@ function selectByValue(selectoId,value){
     }
 }
 
+//clear the options of selector.
 function clearSelectOptions(selectoId) {
     var e = document.getElementById(selectoId);
     if (e == null) {

@@ -1,0 +1,84 @@
+{% load i18n %}
+{% extends "main.html" %}
+{% block title %}{{title}} - User Profile {% endblock %}
+{% block blogcontainer %}
+<!-- Dependency -->
+<script src="http://yui.yahooapis.com/2.5.2/build/yahoo/yahoo-min.js"></script>
+<!-- Used for Custom Events and event listener bindings -->
+<script src="http://yui.yahooapis.com/2.5.2/build/event/event-min.js"></script>
+<!-- Connection Manager -->
+<script src="http://yui.yahooapis.com/2.5.2/build/connection/connection-min.js"></script>
+<!-- JSON Utility -->
+<script src="http://yui.yahooapis.com/2.5.2/build/json/json-min.js"></script>
+
+<!--DataTable-->
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/datatable/assets/skins/sam/datatable.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/tabview/assets/skins/sam/tabview.css" />
+
+
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/element/element-beta-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datasource/datasource-beta-min.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datatable/datatable-beta-min.js"></script>
+
+<!--tabview-->
+<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/tabview/tabview-min.js"></script>
+
+<script type="text/javascript" src="/jscripts/common/constant.js"></script>
+
+<script type="text/javascript">
+    function deleteSessionToken(user_email, target_service) {
+        var sUrl = "/rpc?action=DeleteSessionToken&arg0=\"" + user_email + "\"&arg1=\"" + target_service +
+                   "\"&time=" + new Date().getTime();
+        var deleteSessionTokenSuccess = function(o) {
+            if (o.responseText !== undefined) {
+                var src_obj = document.getElementById(o.argument.user_email + "_" + o.argument.target_service);
+                document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
+                alert("Delete session token successfully.");
+            }
+        }
+        var callback =
+        {
+            success:deleteSessionTokenSuccess,
+            failure:handleFailure,
+            argument:{user_email:user_email,target_service:target_service}
+        };
+        YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+    }
+</script>
+{% block jscript %}
+{% endblock %}
+
+<div class="yui-g">
+    <div id="admincontainer" class=" yui-skin-sam">
+        <div id="usermenu">
+        </div>
+        <script type="text/javascript">
+            (function() {
+                var tabView = new YAHOO.widget.TabView();
+
+                var profileTab = new YAHOO.widget.Tab({
+                    label: 'Profile',
+                    dataSrc: '/user/profile',
+                    cacheData: true,
+                    active: true
+                });
+                tabView.addTab(profileTab);
+
+                var socialTab = new YAHOO.widget.Tab({
+                    label: 'Social Network',
+                    dataSrc: '/user/social',
+                    cacheData: true
+                });
+                tabView.addTab(socialTab);
+
+                YAHOO.util.Event.onContentReady('usermenu', function() {
+                    tabView.appendTo('usermenu');
+                });
+            })();
+        </script>
+
+    </div>
+</div>
+{% endblock %}
+

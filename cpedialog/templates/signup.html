@@ -11,232 +11,9 @@
 <!-- JSON Utility -->
 <script src="http://yui.yahooapis.com/2.5.2/build/json/json-min.js"></script>
 
-<script type="text/javascript" src="/jscripts/common/constant.js"></script>
-<script type="text/javascript" src="/jscripts/common/validator.js"></script>
-
-<script type="text/javascript">
-var email_unavailable = false;
-var username_unavailable = false;
-function checkData() {
-    var str;
-    str = checkEmail(false, false);
-    if (str != "" || email_unavailable) {
-        alert(str);
-        focusOn("email");
-        return false;
-    }
-
-    str = checkUsername(false, false);
-    if (str != "" || username_unavailable) {
-        alert(str);
-        focusOn("username");
-        return false;
-    }
-
-
-    str = checkPassword(false);
-    if (str != "") {
-        alert(str);
-        focusOn("password");
-        return false;
-    }
-
-
-    str = checkFirstName(false);
-    if (str != "") {
-        alert(str);
-        focusOn("firstname");
-        return false;
-    }
-
-    str = checkLastName(false);
-    if (str != "") {
-        alert(str);
-        focusOn("lastname");
-        return false;
-    }
-
-    if (email_unavailable) {
-        alert("e-mail is unavailable");
-        focusOn("email");
-        return false;
-    }
-
-    str = checkBirthdate();
-    if (str != "") {
-        alert(str);
-        focusOn("birthday");
-        return false;
-    }
-
-    str = checkGender();
-    if (str != "") {
-        alert(str);
-        focusOn("");
-        return false;
-    }
-
-    return true;
-}
-
-function register() {
-    if(checkData()){
-        document.signupForm.submit();
-    }
-}
-
-function checkEmail(conservative, checkA) {
-    var emailObj = document.getElementById("email");
-    if (!emailObj) {
-        return "";
-    }
-    var email = emailObj.value;
-    if (email == "" || !validatorEmail(email)) {
-        if (!conservative) showError("checkEmailAlert");
-        document.getElementById('email_unavailable_text').style.display = 'none';
-        return "This e-mail address is invalid or not available";
-    }
-    if (checkA) {
-        isEmailOrUsernameAvailiable("email",email);
-    }else if (email_unavailable) {
-        showError("checkEmailAlert");
-        return "This e-mail address is invalid or not available";
-    }else{
-        document.getElementById('email_unavailable_text').style.display = 'none';
-        showCheck("checkEmailAlert")
-    }
-    return "";
-}
-
-function checkUsername(conservative, checkA) {
-    var usernameObj = document.getElementById("username");
-    if (!usernameObj) {
-        return "";
-    }
-    var username = usernameObj.value;
-    if (username == "" || !validatorUsername(username)) {
-        if (!conservative) showError("checkUsernameAlert");
-        document.getElementById('username_unavailable_text').style.display = 'none';
-        return "This username is invalid or not available";
-    }
-    if (checkA) {
-        isEmailOrUsernameAvailiable("username",username);
-    }else if (username_unavailable) {
-        showError("checkUsernameAlert");
-        return "This username is invalid or not available";
-    }else{
-        document.getElementById('username_unavailable_text').style.display = 'none';
-        showCheck("checkUsernameAlert");
-    }
-    return "";
-}
-
-function isEmailOrUsernameAvailiable(property,value){
-    var propertyFirstUpperCased = property.substring(0,1).toUpperCase()+property.substring(1);
-    var callback = {
-        success:function(o) {
-            var result = YAHOO.lang.JSON.parse(o.responseText);
-            if (result.match(/\s*True\s*/)) {
-                document.getElementById(property+'_unavailable_text').style.display = 'none';
-                if (property == "email") {
-                    email_unavailable = false;
-                } else if (property == "username") {
-                    username_unavailable = false;
-                }
-                showCheck("check"+propertyFirstUpperCased+"Alert");
-            } else if (result.match(/\s*Invalid\s*/)) {
-                showError("check"+propertyFirstUpperCased+"Alert");
-                if (property == "email") {
-                    email_unavailable = true;
-                } else if (property == "username") {
-                    username_unavailable = true;
-                }
-                document.getElementById(property+'_unavailable_text').style.display = '';
-            }
-        },
-        failure:handleFailure
-    };
-    var req = YAHOO.util.Connect.asyncRequest('POST', '/rpc?action=Is'+propertyFirstUpperCased+'Available', callback, property+'=' + value);
-}
-
-function checkPassword(conservative) {
-    var el = document.getElementById("password");
-    if (!el) return '';
-
-    var pass = el.value;
-    if (pass == "") {
-        if (!conservative) showError("checkPasswordAlert");
-        return "Please enter a password";
-    }
-    else if (pass.length > 0 && (pass.length < 6)) {
-        showError("checkPasswordAlert");
-        document.getElementById("password_unavailable_text").style.display = '';
-        return "Please enter a password at least 6 characters long";
-    }
-    document.getElementById("password_unavailable_text").style.display = 'none';    
-    showCheck("checkPasswordAlert");
-    return "";
-}
-
-function checkFirstName(conservative) {
-    var name = document.getElementById("firstname").value;
-    if (name == "") {
-        if (!conservative) showError("checkFirstNameAlert");
-        return "Please enter a first name.";
-    }
-    showCheck("checkFirstNameAlert");
-    return "";
-}
-
-function checkLastName(conservative) {
-    var name = document.getElementById("lastname").value;
-    if (name == "") {
-        if (!conservative) showError("checkLastNameAlert");
-        return "Please enter a last name.";
-    }
-    showCheck("checkLastNameAlert");
-    return "";
-}
-
-function checkBirthdate() {
-    var month = document.getElementById('month').value;
-    var day = document.getElementById('day').value;
-    var year = document.getElementById('year').value;
-    if (month == 0 || year == 0) {
-        return "Please enter your birthdate.";
-    }
-    /* verify user is over 13 years old */
-    var birthDate = new Date(year, month - 1, day);
-    /* (month is 0-based, yeesh) */
-    var today = new Date();
-    var age = today.getFullYear() - birthDate.getFullYear();
-    if (birthDate.getMonth() > today.getMonth() ||
-        (birthDate.getMonth() == today.getMonth() && birthDate.getDate() > today.getDate())) {
-        age -= 1;
-        /* not yet to my birthday this year */
-    }
-    /* Set the birthday in a hidden form field, so refreshing/coming back to the page will work */
-    document.getElementById('birthday').value = year + "-" + month + '-' + day;
-    if (age < 13) {
-        return 'You must be at least 13 years of age.';
-    }
-
-    return "";
-}
-
-function checkGender() {
-    if (document.signupForm.gender[0].checked || document.signupForm.gender[1].checked)
-        return "";
-    return "Please select gender.";
-}
-
-function doSigninExisting(property,value) {
-    location.href = '/login?' + property + '='+ encodeURIComponent(value);
-}
-
-
-</script>
-
+<script type="text/javascript" src="/jscripts/common/constant.js" defer="defer"></script>
+<script type="text/javascript" src="/jscripts/common/utils.js"></script>
+<script type="text/javascript" src="/jscripts/user.form.js"></script>
 <div class="yui-g">
 <div id="logindiv">
 {% if error %}
@@ -246,12 +23,12 @@ function doSigninExisting(property,value) {
 {% endif %}
 <div>
 {% trans "Sign Up Here (it's free!)" %}
-<form method=post id="signupForm" name="signupForm" action="/signup">
+<form method=post id="userForm" name="userForm" action="/signup">
 <table cellspacing="0" class="yui-skin-sam noborder_table">
 <tbody>
 <tr>
     <th><label for="email">{% trans "E-mail address" %}:</label></th>
-    <td><input type="text" onblur="checkEmail(false,true);" id="email" value="{%if temp_user%}{{temp_user.email}}{%endif%}" name="email" size="30"/>
+    <td><input type="text" id="email" value="{%if temp_user%}{{temp_user.email}}{%endif%}" name="email" size="30"/>
         <span id="checkEmailAlert"></span>
     </td>
 </tr>
@@ -265,7 +42,7 @@ function doSigninExisting(property,value) {
 </tr>
 <tr>
     <th><label for="username">{% trans "Username" %}:</label></th>
-    <td><input type="text" onblur="checkUsername(false,true);" id="username" value="{%if temp_user%}{{temp_user.username}}{%endif%}" name="username" size="30"/>
+    <td><input type="text"  id="username" value="{%if temp_user%}{{temp_user.username}}{%endif%}" name="username" size="30"/>
         <span id="checkUsernameAlert"></span> 
     </td>
 </tr>
@@ -279,7 +56,7 @@ function doSigninExisting(property,value) {
 </tr>
 <tr>
     <th><label for="password">{% trans "Create a password" %}:</label></th>
-    <td><input type="password" onblur="checkPassword(false);" id="password" maxlength="255" name="password" size="30"/>
+    <td><input type="password" id="password" maxlength="255" name="password" size="30"/>
         <span id="checkPasswordAlert"></span>
         <div id="password_unavailable_text"> {% trans "at least 6 characters (case sensitive)" %} </div>
     </td>
@@ -287,32 +64,19 @@ function doSigninExisting(property,value) {
 <tr>
     <th><label for="firstname">{% trans "First Name" %}:</label>
     </th>
-    <td><input type="text" onblur="checkFirstName(false);" id="firstname" size="30" value="{%if temp_user%}{{temp_user.firstname}}{%endif%}" name="firstname"/>
-        <span id="checkFirstNameAlert"/></td>
+    <td><input type="text" id="firstname" size="30" value="{%if temp_user%}{{temp_user.firstname}}{%endif%}" name="firstname"/>
+        <span id="checkFirstNameAlert"></span></td>
 </tr>
 <tr>
     <th><label for="lastname">{% trans "Last Name" %}:</label></th>
-    <td><input type="text" onblur="checkLastName();" id="lastname" size="30" value="{%if temp_user%}{{temp_user.lastname}}{%endif%}" name="lastname"/>
+    <td><input type="text" id="lastname" size="30" value="{%if temp_user%}{{temp_user.lastname}}{%endif%}" name="lastname"/>
         <span id="checkLastNameAlert"/></td>
 </tr>
 <tr>
     <th><label for="country">{% trans "Country" %}:</label></th>
     <td>
         <select id="country" name="country"/>
-        <script type="text/javascript">
-            YAHOO.util.Event.onAvailable("country", function() {
-                var country = document.getElementById("country");
-                for (var i = 0; i < countrys.length; i++) {
-                    var option = new Option(countrys[i].display, countrys[i].value);
-                    country.options[country.options.length] = option;
-                 {%if temp_user and temp_user.country %}
-                    if (countrys[i].value == "{{temp_user.country}}") {
-                        country.options[country.options.length - 1].selected = true;
-                    }
-                 {% endif %}
-                }
-             });
-        </script>
+        <input id="country_hidden" value="{%if temp_user and temp_user.country %}{{temp_user.country}}{% endif %}" type="hidden"/>
     </td>
 </tr>
 <tr>
@@ -322,55 +86,6 @@ function doSigninExisting(property,value) {
         <select id="year" name="year" style="margin-right:5px"/>
         <select id="month" name="month" style="margin-right:5px"/>
         <select id="day" name="day"/>
-        <script type="text/javascript">
-            YAHOO.util.Event.onAvailable("year", function() {
-                var year = document.getElementById("year");
-                var current_year = new Date().getFullYear();
-                year.options[0] = new Option('Year','');
-                for (var i = 0; i < 100; i++) {
-                    var option = new Option(current_year, current_year);
-                    year.options[year.options.length] = option;
-                 {%if temp_user and temp_user.year%}
-                    if (current_year == {{temp_user.year}}) {
-                        year.options[year.options.length - 1].selected = true;
-                    }
-                 {% endif %}
-                    current_year--;
-                }
-             });
-
-            YAHOO.util.Event.onAvailable("month", function() {
-                var month = document.getElementById("month");
-                for (var i = 0; i < month_list.length; i++) {
-                    var option = new Option(month_list[i].display, month_list[i].value);
-                    month.options[month.options.length] = option;
-                 {%if temp_user and temp_user.month%}
-                    if (month_list[i].value == "{{temp_user.month}}") {
-                        month.options[month.options.length - 1].selected = true;
-                    }
-                 {% endif %}
-                }
-                function fnCallback(e){
-                    var daysPerMonth = new Array(31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
-                    var selectedMonth = month[month.selectedIndex].value;
-                    var day = document.getElementById("day");
-                    if(selectedMonth!=""){
-                        var selectedDay = "";
-                        if(day.selectedIndex!=-1){
-                            selectedDay = day[day.selectedIndex].value;
-                        }
-                        clearSelectOptions("day");
-                        for(var i=1;i<=daysPerMonth[selectedMonth-1];i++){
-                            day.options[day.options.length] = new Option(i, i);
-                        }
-                        if(selectedDay!=""){
-                            selectByValue("day",selectedDay);
-                        }
-                    }
-                }
-                YAHOO.util.Event.addListener(month, "change", fnCallback);
-             });
-        </script>
     </td>
 </tr>
 <tr>
@@ -386,7 +101,7 @@ function doSigninExisting(property,value) {
 <tr>
     <th/>
     <td>
-        <input type="button" value="Sign Up Now" onclick="register()"/>
+        <input type="submit" value="Sign Up Now"/>
     </td>
 </tr>
 <tr>
@@ -403,5 +118,6 @@ function doSigninExisting(property,value) {
 </div>
 </div>
 </div>
+
 {% endblock %}
 

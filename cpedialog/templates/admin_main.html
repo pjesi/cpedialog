@@ -14,11 +14,6 @@
 <!--DataTable-->
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/datatable/assets/skins/sam/datatable.css" />
 <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/tabview/assets/skins/sam/tabview.css" />
-<!-- Dialog -->
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/button/assets/skins/sam/button.css" />
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/container/assets/skins/sam/container.css" />
-<!-- Calendar -->
-<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.2/build/calendar/assets/skins/sam/calendar.css" /> 
 
         
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/yahoo-dom-event/yahoo-dom-event.js"></script>
@@ -27,12 +22,6 @@
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/datatable/datatable-beta-min.js"></script>
 <!--tabview-->
 <script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/tabview/tabview-min.js"></script>
-<!-- Dialog -->
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/dragdrop/dragdrop-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/button/button-min.js"></script>
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/container/container-min.js"></script>
-<!-- Calendar -->
-<script type="text/javascript" src="http://yui.yahooapis.com/2.5.2/build/calendar/calendar-min.js"></script>
 
 <!--my yui grid render-->
 <script type="text/javascript" src="/jscripts/update.prototype.grid.js"></script>
@@ -42,7 +31,6 @@
 <script type="text/javascript" src="/jscripts/menulist.grid.js"></script>
 <script type="text/javascript" src="/jscripts/taglist.grid.js"></script>
 <script type="text/javascript" src="/jscripts/imagelist.grid.js"></script>
-<script type="text/javascript" src="/jscripts/usersetting.grid.js"></script>
         
 <script type="text/javascript" src="/jscripts/common/constant.js"></script>
 
@@ -242,54 +230,6 @@
         YAHOO.util.Connect.setForm(formObject);
         YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
     }
-    //this functions used in admin_usersetting.html
-    function saveUserInfo(){
-				var email = YAHOO.util.Dom.get("email");
-				if(email.value==""){
-					alert('please input your email');
-					email.focus();
-					return false;
-				}
-				var first_name = YAHOO.util.Dom.get("first_name");
-				if(first_name.value==""){
-					alert('please input your first name');
-					first_name.focus();
-					return false;
-				}
-				var last_name = YAHOO.util.Dom.get("last_name");
-				if(last_name.value==""){
-					alert('please input your last name');
-					last_name.focus();
-					return false;
-				}
-				var username = YAHOO.util.Dom.get("username");
-				if(username.value==""){
-					alert('please input your user name');
-					username.focus();
-					return false;
-				}
-				var country = YAHOO.util.Dom.get("country");
-				if(country.value==""){
-					alert('please input your country');
-					country.focus();
-					return false;
-				}
-				
-				var sUrl = "/admin/usersetting?time=" + new Date().getTime();
-		        var updateUserSettingSuccess = function(o) {
-		            if (o.responseText !== undefined) {
-		                alert("Update User Profile successfully.");
-		            }
-		        }
-		        var callback =
-		        {
-		            success:updateUserSettingSuccess,
-		            failure:handleFailure
-		        };
-		        var formObject = YAHOO.util.Dom.get("userAdminForm");
-		        YAHOO.util.Connect.setForm(formObject);
-		        YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
-			}
 </script>
 {% block jscript %}
 {% endblock %}
@@ -372,14 +312,6 @@
                 });
                 tabView.addTab(cacheTab);
 
-                var userSettingTab = new YAHOO.widget.Tab({
-                    label: 'UserSetting',
-                    dataSrc: '/admin/usersetting',
-                    cacheData: true
-                });
-                //tabView.addTab(userSettingTab);
-                //userSettingTab.addListener('dataLoadedChange', renderUserSetting);
-
                 YAHOO.util.Event.onContentReady('adminmenu', function() {
                     tabView.appendTo('adminmenu');
                 });               
@@ -396,10 +328,6 @@
                 }
             });
         </script>
-
-        {% block admincontainer %}
-        {% endblock %}
-
     </div>
 </div>
 {% endblock %}

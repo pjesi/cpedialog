@@ -267,7 +267,7 @@ var countrys = [
     {"value":"YE","display":"Yemen"},
     {"value":"YU","display":"Yugoslavia"},
     {"value":"ZM","display":"Zambia"},
-    {"value":"ZW","display":"Zimbabwe"},
+    {"value":"ZW","display":"Zimbabwe"}
 ];
 
 
@@ -284,5 +284,5 @@ var month_list = [
     {"value":"9","display":"September"},
     {"value":"10","display":"October"},
     {"value":"11","display":"November"},
-    {"value":"12","display":"December"},
+    {"value":"12","display":"December"}
 ];

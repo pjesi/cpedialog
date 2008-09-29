@@ -14,18 +14,17 @@
         {% if user %}
                 {% if user.email %}
                     <b>{{ user.email }}</b> |
-                {% else %}
-                    <a href="/user/usersetting">{% trans "My Profile" %}</a> |
                 {% endif %}
+                    <a href="/user">{% trans "My Account" %}</a> |
                 {% if user_is_admin %}
                     <a href='/admin'>{% trans "System Configuration" %}</a> |
+                    <a href='http://appengine.google.com/' target="_blank">Appengine</a> |
                 {% endif %}
             <a href="/logout">{% trans "Sign out" %}</a> |
         {% else %}
             <a href="/signup">{% trans "Join now" %}</a> |
             {% trans "Already a user?" %} <a href="/login">{% trans "Sign in" %}</a> |
         {% endif %}
-        <a href='http://appengine.google.com/' target="_blank">Appengine</a> |
         <a href="javascript:toggleLanguageChooser();">
             <img src="/img/globe_icon.png" style="padding-right: 4px;" width="16" align="absmiddle"
                  height="16">

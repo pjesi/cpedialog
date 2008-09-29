@@ -61,9 +61,10 @@ def main():
                                         ('/admin/images/*$', admin.AdminImagesPage),
                                         ('/admin/tags/*$', admin.AdminTagsPage),
                                         ('/admin/archives/*$', admin.AdminArchivesPage),
-                                        ('/admin/usersetting/*$', admin.AdminUserSettingPage),
 
-                                        ('/user/usersetting/*$', login.EditProfile),
+                                        ('/user/*$', login.UserMainPage),
+                                        ('/user/profile/*$', login.EditProfile),
+                                        ('/user/social/*$', login.EditSocial),
 
                                         ('/rpc', rpc.RPCHandler),
                                         ('/rpc/uploadImage', rpc.UploadImage),
