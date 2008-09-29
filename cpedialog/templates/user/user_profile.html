@@ -1,93 +1,133 @@
+{% load i18n %}
 <fieldset>
-    <legend>User Admin</legend>
+    <legend>User Profile</legend>
     <div class="fieldsetdiv">
-      <form method=post id="userAdminForm" name="userAdminForm">
-        <table cellspacing="0" class="yui-skin-sam" id="userAdmin" >
-          <tr>
-            <th><label for="email">Email</label></th>
-            <td>
-              <input id="email"  name="email" size="30" type="text" value="{{user.email}}"/>
-            </td>
-          </tr>
-          <tr>
-            <th><label for="first_name">First Name:</label></th>
-            <td>
-              <input id="first_name"  name="first_name" size="30" type="text" value="{{user.first_name}}" />
-            </td>
-          </tr>
-          <tr>
-            <th><label for="last_name">Last Name:</label></th>
-            <td>
-              <input id="last_name"  name="last_name" size="30" type="text" value="{{user.last_name}}" />
-            </td>
-          </tr>
-          <tr>
-            <th><label for="username">User Name:</label></th>
-            <td>
-              <input id="username"  name="username" size="30" type="text" value="{{user.username}}" />
-            </td>
-          </tr>
-          <tr>
-            <th><label for="country">Country:</label></th>
-            <td>
-              <input id="country"  name="country" size="30" type="text" value="{{user.country}}" />
-            </td>
-          </tr><tr>
-            <th><label for="birthday">Birthday:</label></th>
-            <td>
-            	<div id="datefield">
-	              <input id="birthday"  name="birthday" type="text" size="30" value="{{user.birthday_str}}" readOnly="true"/>
-	              <button type="button" id="show_cal" title="Show Calendar"><img src="/img/calbtn.gif" width="18" height="18" alt="Calendar" /></button>
-	            </div>
-              <div id="container_cal">
-					      <div class="hd">Calendar</div>
-					      <div class="bd">
-					         <div id="cal"></div>
-					      </div>
-					   	</div>
-            </td>
-          </tr><tr>
-            <th><label for="gender">Gender:</label></th>
-            <td>
-              <label for="gender_male">Male</label><input id="gender_male"  name="gender" type="radio" value="M" {% ifequal user.gender "M" %} checked {% endifequal %}/>
-              <label for="gender_female">Female</label><input id="gender_female"  name="gender" type="radio" value="F" {% ifequal user.gender "F" %} checked {% endifequal %} />
-            </td>
-          </tr>
-          <tr>
-            <th> </th>
-            <td><input name="commit" type="button" value="Save" onclick="saveUserInfo()"/></td>
-        </tr>
-        </table>
-      </form>
+        <form method=post id="userForm" name="userForm" action="/signup">
+            <table cellspacing="0" class="yui-skin-sam noborder_table">
+                <tbody>
+                    <tr>
+                        <th><label for="email">{% trans "E-mail address" %}:</label></th>
+                        <td><input type="text" id="email" value="{%if temp_user%}{{temp_user.email}}{%endif%}"
+                                   name="email" size="30"/>
+                            <span id="checkEmailAlert"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th/>
+                        <td><p style="display: none;" id="email_unavailable_text">
+                            {% trans "That address has already been registered." %} <a
+                                href="javascript:doSigninExisting('email',document.getElementById('email').value);">
+                            {% trans "Sign in" %}</a> {% trans "or use a different address." %}
+                        </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="username">{% trans "Username" %}:</label></th>
+                        <td><input type="text" id="username" value="{%if temp_user%}{{temp_user.username}}{%endif%}"
+                                   name="username" size="30"/>
+                            <span id="checkUsernameAlert"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th/>
+                        <td><p style="display: none;" id="username_unavailable_text">
+                            {% trans "That username has already been registered." %} <a
+                                href="javascript:doSigninExisting('username',document.getElementById('username').value);">
+                            {% trans "Sign in" %}</a> {% trans "or use a different username." %}
+                        </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="password">{% trans "Create a password" %}:</label></th>
+                        <td><input type="password" id="password" maxlength="255" name="password" size="30"/>
+                            <span id="checkPasswordAlert"></span>
+
+                            <div id="password_unavailable_text"> {% trans "at least 6 characters (case sensitive)" %}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="firstname">{% trans "First Name" %}:</label>
+                        </th>
+                        <td><input type="text" id="firstname" size="30"
+                                   value="{%if temp_user%}{{temp_user.firstname}}{%endif%}" name="firstname"/>
+                            <span id="checkFirstNameAlert"></span></td>
+                    </tr>
+                    <tr>
+                        <th><label for="lastname">{% trans "Last Name" %}:</label></th>
+                        <td><input type="text" id="lastname" size="30"
+                                   value="{%if temp_user%}{{temp_user.lastname}}{%endif%}" name="lastname"/>
+                            <span id="checkLastNameAlert"/></td>
+                    </tr>
+                    <tr>
+                        <th><label for="country">{% trans "Country" %}:</label></th>
+                        <td>
+                            <select id="country" name="country"/>
+                            <input id="country_hidden"
+                                   value="{%if temp_user and temp_user.country %}{{temp_user.country}}{% endif %}"
+                                   type="hidden"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label for="birthday">{% trans "Birthday" %}:</label></th>
+                        <td>
+                            <input name="birthday" id="birthday" type="hidden" value="{%if temp_user and temp_user.birthday %}{{temp_user.birthday}}{% endif %}">
+                            <select id="year" name="year" style="margin-right:5px"/>
+                            <select id="month" name="month" style="margin-right:5px"/>
+                            <select id="day" name="day"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><label>{% trans "Gender" %}:</label></th>
+                        <td>
+                            <input type="radio" id="gender_Female"
+                                   value="Female" name="gender"/>
+                            <label for="gender_Female">{% trans "Female" %}</label>
+                            <input type="radio" id="gender_Male"
+                                   value="Male" name="gender"/><label for="gender_Male">{% trans "Male" %}</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th/>
+                        <td>
+                            <input type="submit" value="Update Profile"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </form>
     </div>
 </fieldset>
 <fieldset id="admin_openids">
     <legend>OpenID Admin</legend>
     <div class="fieldsetdiv">
         OpenID List:<br>
-        <small>Tips:you can double-click the "Add" column in the table header to add a new record.</small><br />
-        <small>you can attach another openID to your account</small> 
-            <div id="openIDdiv">
+        <small>Tips:you can double-click the "Add" column in the table header to add a new record.</small>
+        <br/>
+        <small>you can attach another openID to your account</small>
+        <div id="openIDdiv">
             <table id="openIDtable">
-                <thead><tr>
-                    <th>openid</th>
-                    <th>valid</th>
-                    <th>id</th>
-                    <th>Delete</th>
-                    <th>Add</th>
-                </tr></thead>
+                <thead>
+                    <tr>
+                        <th>openid</th>
+                        <th>valid</th>
+                        <th>id</th>
+                        <th>Delete</th>
+                        <th>Add</th>
+                    </tr>
+                </thead>
                 <tbody>
-                {% for entry in openIDs %}
-                <tr id="openid_{{entry.key.id}}">
-                    <td>{{entry.openid_url}}</td>
-                    <td>{{entry.valid}}</td>
-                    <td>{{entry.key.id}}</td>
-                    <td> </td>
-                    <td> </td>
-                </tr>
-                {% endfor%}
+                    {% for entry in openIDs %}
+                    <tr id="openid_{{entry.key.id}}">
+                        <td>{{entry.openid_url}}</td>
+                        <td>{{entry.valid}}</td>
+                        <td>{{entry.key.id}}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    {% endfor%}
                 </tbody>
             </table>
-            </div>
-    	</div>
+        </div>
+    </div>
 </fieldset>
