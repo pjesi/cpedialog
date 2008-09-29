@@ -2,6 +2,8 @@ from google.appengine.ext import db
 from string import ascii_letters, digits
 import hashlib, random
 
+UNUSABLE_PASSWORD = '!' # This will never be a valid hash
+
 def gen_hash(password, salt=None, algorithm='sha512'):
     hash = hashlib.new(algorithm)
     hash.update(password)
@@ -17,7 +19,7 @@ class UserTraits(db.Model):
     is_active = db.BooleanProperty(default=False, required=True)
     is_staff = db.BooleanProperty(default=False, required=True)
     is_superuser = db.BooleanProperty(default=False, required=True)
-    password = db.StringProperty()
+    password = db.StringProperty(default=UNUSABLE_PASSWORD)
 
     @property
     def id(self):
@@ -44,6 +46,14 @@ class UserTraits(db.Model):
 
     def set_password(self, password):
         self.password = '$'.join(gen_hash(password))
+        
+    def set_unusable_password(self):
+        # Sets a value that will never be a valid hash
+        self.password = UNUSABLE_PASSWORD
+
+    def has_usable_password(self):
+        return self.password != UNUSABLE_PASSWORD
+
 
     @classmethod
     def make_random_password(self, length=16,

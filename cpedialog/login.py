@@ -113,13 +113,13 @@ class Signup(BaseRequestHandler):
     def post(self, error_msg=None):
         email = self.request.get("email")
         username = self.request.get("username")
-        users = User.all().filter('email', email).filter()
+        users = User.all().filter('email', email)
         user = User()
         user.email = email
         user.username = username
         user.fullname = self.request.get("firstname")+" "+self.request.get("lastname")
         user.birthday = datetime.datetime.strptime(self.request.get("birthday"), '%Y-%m-%d')
-        user.password = self.request.get("password")
+        user.set_password(self.request.get("password")) #set password. need encrypt. 
         user.firstname = self.request.get("firstname")
         user.lastname = self.request.get("lastname")
         user.country = self.request.get("country")
@@ -142,22 +142,34 @@ class Signup(BaseRequestHandler):
 
 class Login(BaseRequestHandler):
     def get(self, error_msg=None):
+        email = self.request.get("email")
         template_values = {
+           "email": email,
            "error": error_msg
         }
         self.generate('login.html',template_values)
         
     def post(self, error_msg=None):
         email = self.request.get("email")
-        users = User.all().filter('email', email)
-        if users.count() == 0:
-            pass
+        password = self.request.get("password")
+        if(email.find('@')!=-1):
+            users = User.all().filter('email', email)
         else:
-            sessions.Session().login_user(user)
+            users = User.all().filter('username', email)
+        if users.count() == 0:
+            error_msg = "You have entered an incorrect e-mail address or username."
+        else:
+            user = users.get()
+            if not user.check_password(password):
+                error_msg = "You have entered an incorrect password."
+            else:
+                sessions.Session().login_user(user)
+                self.redirect("/")
         template_values = {
+           "email": email,
            "error": error_msg
         }
-        self.generate('signup.html',template_values)
+        self.generate('login.html',template_values)
 
 class LoginOpenID(BaseRequestHandler):
     def get(self, error_msg=None):
