@@ -21,6 +21,11 @@
     {{error}}
 </div>
 {% endif %}
+<script type="text/javascript">
+    function doSigninExisting(property, value) {
+        location.href = '/login?' + property + '=' + encodeURIComponent(value);
+    };    
+</script>
 <div>
 {% trans "Sign Up Here (it's free!)" %}
 <form method=post id="userForm" name="userForm" action="/signup">

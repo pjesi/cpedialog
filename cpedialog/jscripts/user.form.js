@@ -208,9 +208,6 @@ YAHOO.util.Event.onDOMReady(function() {
         return "Please select gender.";
     };
 
-    function doSigninExisting(property, value) {
-        location.href = '/login?' + property + '=' + encodeURIComponent(value);
-    };
 
     //binding event to the form element.
     YAHOO.util.Event.addListener('email', 'blur', function(){checkEmail(false, true)});

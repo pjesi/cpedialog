@@ -30,7 +30,7 @@ from google.appengine.api import memcache
 from google.appengine.api import images
 from google.appengine.ext import db
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Greeting,Feeds,OpenID,User
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Greeting,Feeds,User
 
 import authorized
 import util
@@ -146,29 +146,18 @@ class RPCHandler(webapp.RequestHandler):
       menu['key'] = str(menu.key())
       menu['id'] = str(menu.key().id())
       return menu
-  def UpdateOpenID(self,request):
-      openID = OpenID.get_by_id(int(request.get("id")))
-      editColumn = request.get("editColumn")
-      user = self.session.get_current_user()
-      if openID and editColumn:
-        newData = request.get("newData")
-        if editColumn == "openid_url":
-            openID.openid_url = newData
-            user.openids.append(db.Category(newData))
-            user.put()
-        if editColumn == "valid":
-            openID.valid = simplejson.loads(newData)
-        openID.put()
-      return True
+
+
   def DeleteOpenID(self,request):
-      openID = OpenID.get_by_id(int(request.get("id")))
-      user = self.session.get_current_user()
-      for user_openid_url in user.openids:
-        if db.Category(openID.openid_url) == user_openid_url:
-              user.openids.remove(user_openid_url)
-              user.put()
-      openID.delete()
+#      openID = OpenID.get_by_id(int(request.get("id")))
+#      user = self.session.get_current_user()
+#      for user_openid_url in user.openids:
+#        if db.Category(openID.openid_url) == user_openid_url:
+#              user.openids.remove(user_openid_url)
+#              user.put()
+#      openID.delete()
       return True
+
   def AddOpenID(self, request):
       """attach a openID url to an exist user"""
       openID = datastore.Entity("OpenID")

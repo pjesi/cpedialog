@@ -266,11 +266,6 @@ a:hover {
     word-break: break-all;
 }
 
-#greetings {
-    height: 300px;
-    overflow: auto;
-}
-
 #gravatar {
     line-height: 48px;
     overflow: hidden;

@@ -8,42 +8,29 @@
                     <tr>
                         <th><label for="email">{% trans "E-mail Address" %}:</label></th>
                         <td><input type="text" id="email" value="{%if temp_user%}{{temp_user.email}}{%endif%}"
-                                   name="email" size="30" readonly/>
+                                   name="email" size="30"/>
                             <span id="checkEmailAlert"></span>
                         </td>
                     </tr>
                     <tr>
                         <th/>
                         <td><p style="display: none;" id="email_unavailable_text">
-                            {% trans "That address has already been registered." %} <a
-                                href="javascript:doSigninExisting('email',document.getElementById('email').value);">
-                            {% trans "Sign in" %}</a> {% trans "or use a different address." %}
+                            {% trans "That address has already been registered by another user." %}
                         </p>
                         </td>
                     </tr>
                     <tr>
                         <th><label for="username">{% trans "Username" %}:</label></th>
                         <td><input type="text" id="username" value="{%if temp_user%}{{temp_user.username}}{%endif%}"
-                                   name="username" size="30" readonly/>
+                                   name="username" size="30"/>
                             <span id="checkUsernameAlert"></span>
                         </td>
                     </tr>
                     <tr>
                         <th/>
                         <td><p style="display: none;" id="username_unavailable_text">
-                            {% trans "That username has already been registered." %} <a
-                                href="javascript:doSigninExisting('username',document.getElementById('username').value);">
-                            {% trans "Sign in" %}</a> {% trans "or use a different username." %}
+                            {% trans "That username has already been registered by another user." %}
                         </p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th><label for="password">{% trans "Create a Password" %}:</label></th>
-                        <td><input type="password" id="password" maxlength="255" name="password" size="30"/>
-                            <span id="checkPasswordAlert"></span>
-
-                            <div id="password_unavailable_text"> {% trans "at least 6 characters (case sensitive)" %}
-                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -71,7 +58,8 @@
                     <tr>
                         <th><label for="birthday">{% trans "Birthday" %}:</label></th>
                         <td>
-                            <input name="birthday" id="birthday" type="hidden" value="{%if temp_user and temp_user.birthday %}{{temp_user.birthday}}{% endif %}">
+                            <input name="birthday" id="birthday" type="hidden"
+                                   value="{%if temp_user and temp_user.birthday %}{{temp_user.birthday}}{% endif %}">
                             <select id="year" name="year" style="margin-right:5px"/>
                             <select id="month" name="month" style="margin-right:5px"/>
                             <select id="day" name="day"/>
@@ -98,36 +86,62 @@
         </form>
     </div>
 </fieldset>
-<fieldset id="admin_openids">
-    <legend>OpenID Admin</legend>
+<fieldset>
+    <legend>OpenID</legend>
     <div class="fieldsetdiv">
-        OpenID List:<br>
-        <small>Tips:you can double-click the "Add" column in the table header to add a new record.</small>
-        <br/>
-        <small>you can attach another openID to your account</small>
-        <div id="openIDdiv">
-            <table id="openIDtable">
-                <thead>
-                    <tr>
-                        <th>openid</th>
-                        <th>valid</th>
-                        <th>id</th>
-                        <th>Delete</th>
-                        <th>Add</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for entry in openIDs %}
-                    <tr id="openid_{{entry.key.id}}">
-                        <td>{{entry.openid_url}}</td>
-                        <td>{{entry.valid}}</td>
-                        <td>{{entry.key.id}}</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    {% endfor%}
-                </tbody>
+        <form action="">
+            <table cellspacing="0" class="yui-skin-sam noborder_table" id="openIDTable">
+                {%for openid in temp_user.openids%}
+                <tr>
+                    <td>
+                        <a href="{{openid}}" target="_blank">{{openid}}</a>
+                    </td>
+                    <td><a href="deleteOpenid('{{openid}}')" id="{{openid}}" name="deleteOpenID">{% trans "delete" %}</a></td>
+                </tr>
+                {%endfor%}
+                <tr>
+                    <th><label for="openid_identifier">OpenId</label></th>
+                    <td>
+                        <input type="text" name="openid_identifier" id="openid_identifier" size="30"/>
+                    </td>
+                </tr>
+                <tr>
+                    <th/>
+                    <td>
+                        <input type="submit" value="Attach an OpenID"/>
+                    </td>
+                </tr>
             </table>
-        </div>
+        </form>
+    </div>
+</fieldset>
+<fieldset>
+    <legend>{% trans "Change Password" %}</legend>
+    <div class="fieldsetdiv">
+        <form action="">
+            <table cellspacing="0" class="yui-skin-sam noborder_table">
+                <tr>
+                    <th><label for="password">Password</label></th>
+                    <td><input type="password" id="password" maxlength="255" name="password" size="30"/>
+                        <span id="checkPasswordAlert"></span>                        
+                        <div id="password_unavailable_text">
+                            {% trans "at least 6 characters (case sensitive)" %}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <th><label for="password_confirm">Password confirmation</label></th>
+                    <td><input type="password" id="password_confirm" maxlength="255" name="password_confirm" size="30"/>
+                        <span id="checkPassword_confirmAlert"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <th/>
+                    <td>
+                        <input type="submit" value="Change Password"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </div>
 </fieldset>

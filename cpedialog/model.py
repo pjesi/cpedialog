@@ -231,7 +231,7 @@ class User(EmailUser):
         if self.fullname:
             return self.fullname.split(" ")[0]
         else:
-            return None
+            return ""
 
     def set_firstname(self,firstname):
         pass
@@ -241,7 +241,7 @@ class User(EmailUser):
             names =  self.fullname.split(" ")
             if(len(names)>1):
                 return names[1]
-        return None
+        return ""
 
     def set_lastname(self,lastname):
         pass
@@ -253,15 +253,6 @@ class User(EmailUser):
     nickname = property(get_nickname,set_nickname)
     firstname = property(get_firstname,set_firstname)
     lastname = property(get_lastname,set_lastname)
-
-
-class OpenID(db.Model):
-    openid_url = db.StringProperty(required=True, default='http://openidurl')
-    valid = db.BooleanProperty(default=True)
-    user = db.ReferenceProperty(User)   #refer to user.
-    def isDummyUrl(self, dumyyUrl):
-        """check whether given openid url is a dummyUrl"""
-        return 'http://openidurl' == dummyUrl
     
 
 #User session will be control by cpedia.session.sessions

@@ -27,6 +27,8 @@
 <script type="text/javascript" src="/jscripts/common/constant.js" defer="defer"></script>
 <script type="text/javascript" src="/jscripts/common/utils.js"></script>
 <script type="text/javascript" src="/jscripts/user.form.js"></script>
+        
+<script type="text/javascript" src="/jscripts/openid-selector.js"></script>
 
 <script type="text/javascript">
     function deleteSessionToken(user_email, target_service) {
@@ -44,6 +46,25 @@
             success:deleteSessionTokenSuccess,
             failure:handleFailure,
             argument:{user_email:user_email,target_service:target_service}
+        };
+        YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+    }
+
+    function deleteOpenid(openid){
+        var sUrl = "/rpc?action=DeleteOpenID&arg0=\"" + openid +
+                   "\"&time=" + new Date().getTime();
+        var deleteOpenIDSuccess = function(o) {
+            if (o.responseText !== undefined) {
+                var src_obj = document.getElementById(o.argument.openid);
+                document.getElementById("openIDTable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
+                alert("Delete openID successfully.");
+            }
+        }
+        var callback =
+        {
+            success:deleteOpenIDSuccess,
+            failure:handleFailure,
+            argument:{openid:openid}
         };
         YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
     }
