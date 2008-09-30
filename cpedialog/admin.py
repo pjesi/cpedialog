@@ -179,6 +179,12 @@ class AdminImagesPage(BaseRequestHandler):
           }
         self.generate('admin/admin_images.html',template_values)
 
+class AdminCSSPage(BaseRequestHandler):
+  @authorized.role('admin')
+  def get(self):
+        template_values = {
+          }
+        self.generate('admin/admin_css.html',template_values)
 
 class AdminTagsPage(BaseRequestHandler):
   @authorized.role('admin')

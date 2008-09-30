@@ -59,6 +59,7 @@ def main():
                                         ('/admin/albums/*$', admin.AdminAlbumsPage),
                                         ('/admin/feeds/*$', admin.AdminFeedsPage),
                                         ('/admin/images/*$', admin.AdminImagesPage),
+                                        ('/admin/css/*$', admin.AdminCSSPage),
                                         ('/admin/tags/*$', admin.AdminTagsPage),
                                         ('/admin/archives/*$', admin.AdminArchivesPage),
 
@@ -68,7 +69,9 @@ def main():
 
                                         ('/rpc', rpc.RPCHandler),
                                         ('/rpc/uploadImage', rpc.UploadImage),
+                                        ('/rpc/uploadCSS', rpc.UploadCSS),
                                         ('/rpc/img', rpc.Image),
+                                        ('/rpc/css', rpc.CSS),
 
                                         ('/*$', blog.MainPage),
                                         ('/page/(\d*)/*$', blog.PageHandle),

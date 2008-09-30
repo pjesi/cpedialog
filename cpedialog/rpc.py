@@ -30,7 +30,7 @@ from google.appengine.api import memcache
 from google.appengine.api import images
 from google.appengine.ext import db
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Greeting,Feeds,User
+from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Greeting,Feeds,User,CSSFile
 
 import authorized
 import util
@@ -43,6 +43,15 @@ class Image (webapp.RequestHandler):
     if image.image:
       self.response.headers['Content-Type'] = "image/png"
       self.response.out.write(image.image)
+    else:
+      self.response.out.write("No image")
+
+class CSS (webapp.RequestHandler):
+  def get(self):
+    cssfile = db.get(self.request.get("css_id"))
+    if cssfile.contents:
+      self.response.headers['Content-Type'] = "text/css"
+      self.response.out.write(cssfile.contents)
     else:
       self.response.out.write("No image")
 
@@ -62,6 +71,22 @@ class UploadImage (webapp.RequestHandler):
             self.response.out.write( '{status:"An Error Occurred uploading the image."}')
             return
         self.response.out.write('{status:"UPLOADED",image_url:"/rpc/img?img_id=%s"}' % (key))
+
+class UploadCSS (webapp.RequestHandler):
+    @authorized.role('admin')
+    def post(self):
+        cssfile = CSSFile()
+        file = self.request.get("cssfile")
+        if not file:
+            self.response.out.write( '{status:"Please select your file."}')
+            return
+        try:
+            cssfile.contents = db.Text(file)
+            key = cssfile.put()
+        except Exception, e:
+            self.response.out.write( '{status:"An Error Occurred uploading the file."}')
+            return
+        self.response.out.write('{status:"UPLOADED",css_url:"/rpc/css?css_id=%s"}' % (key))
 
 
 # This handler allows the functions defined in the RPCHandler class to

@@ -31,7 +31,7 @@
 <script type="text/javascript" src="/jscripts/menulist.grid.js"></script>
 <script type="text/javascript" src="/jscripts/taglist.grid.js"></script>
 <script type="text/javascript" src="/jscripts/imagelist.grid.js"></script>
-        
+<script type="text/javascript" src="/jscripts/csslist.grid.js"></script>
 <script type="text/javascript" src="/jscripts/common/constant.js"></script>
 
 <script type="text/javascript">
@@ -281,6 +281,15 @@
                 });
                 tabView.addTab(imagesTab);
                 imagesTab.addListener('dataLoadedChange', renderImageTable);
+
+                var cssTab = new YAHOO.widget.Tab({
+                    label: 'CSS Files',
+                    dataSrc: '/admin/css',
+                    cacheData: true
+                });
+                tabView.addTab(cssTab);
+                imagesTab.addListener('dataLoadedChange', renderCSSTable);
+
 
                 var tagsTab = new YAHOO.widget.Tab({
                     label: 'Tags',
