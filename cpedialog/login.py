@@ -180,6 +180,11 @@ class LoginOpenID(BaseRequestHandler):
 
     def post(self):
         openid = self.request.get('openid_identifier')
+        try:
+            del self.session['openid_userid']
+        except:
+            pass
+        userid = self.request.get('userid')
         if not openid:
             self.show_main_page()
             return
@@ -210,7 +215,8 @@ class LoginOpenID(BaseRequestHandler):
         # save the session stuff
         self.session = sessions.Session()
         self.session['openid_stuff'] = pickle.dumps(consumer.session)
-  
+        self.session['openid_userid'] = userid
+
         # send the redirect!  we use a meta because appengine bombs out
         # sometimes with long redirect urls
         redirect_url = auth_request.redirectURL(realm, return_to)
@@ -236,6 +242,14 @@ class LoginOpenIDFinish(BaseRequestHandler):
         auth_response = consumer.complete(args, self.request.uri)
         if auth_response.status == 'success':
             openid = auth_response.getDisplayIdentifier()
+
+            #when user add openid from profile setting, just return status.
+            if self.session['openid_userid']:
+                user = User.get(self.session['openid_userid'])
+                if user:
+                   user.openids += [db.Category(openid.strip().encode('utf8'))]
+                return "successed"
+
             sreg_data = sreg.SRegResponse.fromSuccessResponse(auth_response)
             users = User.all().filter('openids', openid)
             if users.count() == 0:
@@ -261,6 +275,10 @@ class LoginOpenIDFinish(BaseRequestHandler):
             self.session.login_user(user)
             self.redirect('/')
         else:
+            #when user add openid from profile setting, just return status.
+            if self.session['openid_userid']:
+                return "failed"
+
             self.show_main_page('OpenID verification failed.')
 
     def post(self):
@@ -278,8 +296,9 @@ class UserMainPage(BaseRequestHandler):
 class EditProfile(BaseRequestHandler):
     @authorized.role("user")
     def get(self, error_msg=None):
+        user = sessions.Session().get_current_user()
         template_values = {
-           "temp_user": sessions.Session().get_current_user(),
+           "temp_user": User.get(str(user.key())),
            "error": error_msg
         }
         self.generate('user/user_profile.html',template_values)

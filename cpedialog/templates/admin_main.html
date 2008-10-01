@@ -216,14 +216,14 @@
         document.forms["configForm"]["logo_images_space"].value = logo_images_space;
 
         var sUrl = "/admin/system?time=" + new Date().getTime();
-        var deleteSessionTokenSuccess = function(o) {
+        var updateSystemConfigurationSuccess = function(o) {
             if (o.responseText !== undefined) {
                 alert("Update System Configuration successfully.");
             }
         }
         var callback =
         {
-            success:deleteSessionTokenSuccess,
+            success:updateSystemConfigurationSuccess,
             failure:handleFailure
         };
         var formObject = document.getElementById('configForm');

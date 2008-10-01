@@ -2,7 +2,8 @@
 <fieldset>
     <legend>User Profile</legend>
     <div class="fieldsetdiv">
-        <form method=post id="userForm" name="userForm" action="/signup">
+        <form method=post id="userProfileForm" name="userProfileForm">
+            <input type="hidden" value="{%if temp_user%}{{temp_user.id}}{%endif%}" id="userid" name="userid"/>
             <table cellspacing="0" class="yui-skin-sam noborder_table">
                 <tbody>
                     <tr>
@@ -59,7 +60,7 @@
                         <th><label for="birthday">{% trans "Birthday" %}:</label></th>
                         <td>
                             <input name="birthday" id="birthday" type="hidden"
-                                   value="{%if temp_user and temp_user.birthday %}{{temp_user.birthday}}{% endif %}">
+                                   value='{%if temp_user and temp_user.birthday %}{{temp_user.birthday|date:"Y-m-j"}}{% endif %}'>
                             <select id="year" name="year" style="margin-right:5px"/>
                             <select id="month" name="month" style="margin-right:5px"/>
                             <select id="day" name="day"/>
@@ -69,16 +70,19 @@
                         <th><label>{% trans "Gender" %}:</label></th>
                         <td>
                             <input type="radio" id="gender_Female"
-                                   value="Female" name="gender"/>
+                                   value="Female" name="gender"
+                            {%if temp_user and temp_user.gender %}{%ifequal temp_user.gender 'F'%} checked{%endifequal%}{% endif %}/>
                             <label for="gender_Female">{% trans "Female" %}</label>
                             <input type="radio" id="gender_Male"
-                                   value="Male" name="gender"/><label for="gender_Male">{% trans "Male" %}</label>
+                                   value="Male" name="gender"
+                            {%if temp_user and temp_user.gender %}{%ifequal temp_user.gender 'M'%} checked{%endifequal%}{% endif %}/>
+                            <label for="gender_Male">{% trans "Male" %}</label>
                         </td>
                     </tr>
                     <tr>
                         <th/>
                         <td>
-                            <input type="submit" value="Update Profile"/>
+                            <input type="button" id="update_profile_btn" value="Update Profile"/>
                         </td>
                     </tr>
                 </tbody>
@@ -89,8 +93,9 @@
 <fieldset>
     <legend>OpenID</legend>
     <div class="fieldsetdiv">
-        <form action="">
-            <table cellspacing="0" class="yui-skin-sam noborder_table" id="openIDTable">
+        <form method=post id="userOpenIDForm" name="userOpenIDForm" action="/login/openid" target="_blank">
+            <input type="hidden" value="{%if temp_user%}{{temp_user.id}}{%endif%}"  name="userid"/>
+            <table cellspacing="0" class="yui-skin-sam noborder_table" id="openIDTable" style="border:1px">
                 {%for openid in temp_user.openids%}
                 <tr>
                     <td>
@@ -99,7 +104,9 @@
                     <td><a href="deleteOpenid('{{openid}}')" id="{{openid}}" name="deleteOpenID">{% trans "delete" %}</a></td>
                 </tr>
                 {%endfor%}
-                <tr>
+            </table>
+            <table cellspacing="0" class="yui-skin-sam noborder_table">
+                 <tr>
                     <th><label for="openid_identifier">OpenId</label></th>
                     <td>
                         <input type="text" name="openid_identifier" id="openid_identifier" size="30"/>
@@ -118,7 +125,8 @@
 <fieldset>
     <legend>{% trans "Change Password" %}</legend>
     <div class="fieldsetdiv">
-        <form action="">
+        <form method=post id="userPasswordForm" name="userPasswordForm">
+            <input type="hidden" value="{%if temp_user%}{{temp_user.id}}{%endif%}"  name="userid"/>
             <table cellspacing="0" class="yui-skin-sam noborder_table">
                 <tr>
                     <th><label for="password">Password</label></th>
@@ -132,13 +140,16 @@
                 <tr>
                     <th><label for="password_confirm">Password confirmation</label></th>
                     <td><input type="password" id="password_confirm" maxlength="255" name="password_confirm" size="30"/>
-                        <span id="checkPassword_confirmAlert"></span>
+                        <span id="checkPasswordConfirmAlert"></span>
+                         <div id="password_confirm_unavailable_text" style="display:none;">
+                            {% trans "Password doesn't match the confirmation" %}
+                        </div>
                     </td>
                 </tr>
                 <tr>
                     <th/>
                     <td>
-                        <input type="submit" value="Change Password"/>
+                        <input type="button" id="change_password_btn" value="Change Password"/>
                     </td>
                 </tr>
             </table>

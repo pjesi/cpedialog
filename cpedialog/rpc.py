@@ -414,16 +414,52 @@ class RPCHandler(webapp.RequestHandler):
 
   def IsEmailAvailable(self,request):
       email = request.get("email")
+      userid = request.get("userid")
       user = User.gql('WHERE email = :1',email).get()
       if user:
-          return "Invalid"
+          if str(user.key()) == userid:
+            return "True"
+          else:
+            return "Invalid"
       else:
           return "True"
 
   def IsUsernameAvailable(self,request):
       username = request.get("username")
+      userid = request.get("userid")
       user = User.gql('WHERE username = :1',username).get()
       if user:
-          return "Invalid"
+          if str(user.key()) == userid:
+            return "True"
+          else:
+            return "Invalid"
       else:
           return "True"
+
+  @authorized.role('user')
+  def UpdateUserProfile(self,request):
+        userid = request.get("userid")
+        email = self.request.get("email")
+        username = self.request.get("username")
+        user = User.get(userid)
+        user.email = email
+        user.username = username
+        user.fullname = self.request.get("firstname")+" "+self.request.get("lastname")
+        user.birthday = datetime.datetime.strptime(self.request.get("birthday"), '%Y-%m-%d')
+        #user.set_password(self.request.get("password")) #set password. need encrypt.
+        user.country = self.request.get("country")
+        gender = self.request.get("gender")
+        if gender:
+            gender_ = str(gender)[0:1]
+            user.gender = gender_
+        user.put()
+        return True
+
+  @authorized.role('user')
+  def UpdateUserPassword(self,request):
+        userid = request.get("userid")
+        user = User.get(userid)
+        user.set_password(self.request.get("password")) #set password. need encrypt.
+        user.put()
+        return True
+
