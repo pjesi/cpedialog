@@ -173,31 +173,6 @@ class RPCHandler(webapp.RequestHandler):
       menu['id'] = str(menu.key().id())
       return menu
 
-
-  def DeleteOpenID(self,request):
-#      openID = OpenID.get_by_id(int(request.get("id")))
-#      user = self.session.get_current_user()
-#      for user_openid_url in user.openids:
-#        if db.Category(openID.openid_url) == user_openid_url:
-#              user.openids.remove(user_openid_url)
-#              user.put()
-#      openID.delete()
-      return True
-
-  def AddOpenID(self, request):
-      """attach a openID url to an exist user"""
-      openID = datastore.Entity("OpenID")
-      user = self.session.get_current_user()
-      openID["openid_url"] = 'http://'
-      openID["valid"]=True
-      openID["user"] = user.key()
-      datastore.Put(openID)
-      openID["id"]=str(openID.key().id())
-      openID["user"] = None
-      #unatach user to returen back json obj
-      #openID["user"] = None
-      return openID
-      
   @authorized.role('admin')
   def DeleteMenu(self,request):
       menu = Menu.get_by_id(int(request.get("id")))
@@ -464,3 +439,12 @@ class RPCHandler(webapp.RequestHandler):
         user.put()
         return True
 
+  @authorized.role('user')
+  def DeleteOpenID(self,request):
+      openid = request.get("openid")
+      users = User.all().filter('openids', openid)
+      if users.count() != 0:
+          user = users[0]
+          user.openids -= [db.Category(openid.strip().encode('utf8'))]
+          user.put()
+      return True

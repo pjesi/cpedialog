@@ -251,7 +251,13 @@ class LoginOpenIDFinish(BaseRequestHandler):
                     if users.count() == 0:
                         user.openids += [db.Category(openid.strip().encode('utf8'))]
                         user.put()
-                return "successed"
+                    else:
+                        self.generate('user/user_profile_openid_verify.html',
+                                      {"status":"fail","msg":"OpenID had been attached to user.\n OpenID:"+openid})
+                        return
+                self.generate('user/user_profile_openid_verify.html',
+                              {"status":"success","msg":"Attach OpenID to user successfully.\n OpenID:"+openid})
+                return
 
             sreg_data = sreg.SRegResponse.fromSuccessResponse(auth_response)
             users = User.all().filter('openids', openid)
@@ -280,8 +286,9 @@ class LoginOpenIDFinish(BaseRequestHandler):
         else:
             #when user add openid from profile setting, just return status.
             if self.session['openid_userid']:
-                return "failed"
-
+                self.generate('user/user_profile_openid_verify.html',
+                              {"status":"fail","msg":"Attach OpenID to user unsuccessfully.\n OpenID:"+openid})
+                return
             self.show_main_page('OpenID verification failed.')
 
     def post(self):

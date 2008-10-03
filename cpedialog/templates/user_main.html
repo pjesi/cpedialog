@@ -24,6 +24,13 @@
 <!--tabview-->
 <script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/tabview/tabview-min.js"></script>
 
+<!--Resizable panel-->
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/container/assets/skins/sam/container.css" />
+<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/resize/assets/skins/sam/resize.css" />
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/utilities/utilities.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/container/container.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/resize/resize.js"></script>
+
 <script type="text/javascript" src="/jscripts/common/constant.js"></script>
 <script type="text/javascript" src="/jscripts/common/utils.js"></script>
 <script type="text/javascript" src="/jscripts/user.form.js"></script>
@@ -31,27 +38,8 @@
 <script type="text/javascript" src="/jscripts/openid-selector.js"></script>
 
 <script type="text/javascript">
-    function deleteSessionToken(user_email, target_service) {
-        var sUrl = "/rpc?action=DeleteSessionToken&arg0=\"" + user_email + "\"&arg1=\"" + target_service +
-                   "\"&time=" + new Date().getTime();
-        var deleteSessionTokenSuccess = function(o) {
-            if (o.responseText !== undefined) {
-                var src_obj = document.getElementById(o.argument.user_email + "_" + o.argument.target_service);
-                document.getElementById("tokentable").deleteRow(src_obj.parentNode.parentNode.rowIndex);
-                alert("Delete session token successfully.");
-            }
-        }
-        var callback =
-        {
-            success:deleteSessionTokenSuccess,
-            failure:handleFailure,
-            argument:{user_email:user_email,target_service:target_service}
-        };
-        YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
-    }
-
     function deleteOpenid(openid){
-        var sUrl = "/rpc?action=DeleteOpenID&arg0=\"" + openid +
+        var sUrl = "/rpc?action=DeleteOpenID&openid=\"" + openid +
                    "\"&time=" + new Date().getTime();
         var deleteOpenIDSuccess = function(o) {
             if (o.responseText !== undefined) {
@@ -66,7 +54,7 @@
             failure:handleFailure,
             argument:{openid:openid}
         };
-        YAHOO.util.Connect.asyncRequest('GET', sUrl, callback);
+        YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
     }
 </script>
 {% block jscript %}
@@ -100,6 +88,25 @@
                 });
             })();
         </script>
+         <style>
+             #resizablepanel .bd {
+                 overflow:auto;
+                 background-color:fff;
+                 padding:10px;
+             }
+             #resizablepanel .ft {
+                 height:15px;
+                 padding:0;
+             }
+         </style>
+        <div id="resizablepanel">
+            <div class="hd">Attach OpenID</div>
+            <div class="bd">
+               <iframe scrolling="auto" id="verify_openid_frame" name="verify_openid_frame"
+                       width="100%" height="100%" style="border:none">Processing...</iframe>
+            </div>
+            <div class="ft"></div>
+        </div>
 
     </div>
 </div>

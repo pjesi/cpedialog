@@ -101,7 +101,7 @@
                     <td>
                         <a href="{{openid}}" target="_blank" style="text-decoration:underline!important;">{{openid}}</a>
                     </td>
-                    <td><a href="javascript:void(0)" id="{{openid}}" name="deleteOpenID"><b>{% trans "delete" %}</b></a></td>
+                    <td><a href="javascript:deleteOpenid('{{openid}}')" id="{{openid}}" name="deleteOpenID"><b>{% trans "delete" %}</b></a></td>
                 </tr>
                 {%endfor%}
                 <tr><td><br></td></tr>
@@ -158,3 +158,4 @@
         </form>
     </div>
 </fieldset>
+
