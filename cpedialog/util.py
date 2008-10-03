@@ -31,7 +31,8 @@ from cpedia.pagination.GqlQueryPaginator import GqlQueryPaginator,GqlPage
 from cpedia.pagination.paginator import InvalidPage,Paginator
 import cpedia.sessions.sessions
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds,CPediaLog,User,CSSFile
+from model import Archive,Weblog,WeblogReactions,\
+    AuthSubStoredToken,Album,Menu,Tag,DeliciousPost,Feeds,CPediaLog,User,CSSFile
 import simplejson
 import cgi
 import urllib, hashlib

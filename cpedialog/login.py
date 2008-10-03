@@ -247,7 +247,10 @@ class LoginOpenIDFinish(BaseRequestHandler):
             if self.session['openid_userid']:
                 user = User.get(self.session['openid_userid'])
                 if user:
-                   user.openids += [db.Category(openid.strip().encode('utf8'))]
+                    users = User.all().filter('openids', openid)
+                    if users.count() == 0:
+                        user.openids += [db.Category(openid.strip().encode('utf8'))]
+                        user.put()
                 return "successed"
 
             sreg_data = sreg.SRegResponse.fromSuccessResponse(auth_response)

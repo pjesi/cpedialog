@@ -95,16 +95,18 @@
     <div class="fieldsetdiv">
         <form method=post id="userOpenIDForm" name="userOpenIDForm" action="/login/openid" target="_blank">
             <input type="hidden" value="{%if temp_user%}{{temp_user.id}}{%endif%}"  name="userid"/>
-            <table cellspacing="0" class="yui-skin-sam noborder_table" id="openIDTable" style="border:1px">
+            <table cellspacing="0" class="yui-skin-sam noborder_table" id="openIDTable">
                 {%for openid in temp_user.openids%}
                 <tr>
                     <td>
-                        <a href="{{openid}}" target="_blank">{{openid}}</a>
+                        <a href="{{openid}}" target="_blank" style="text-decoration:underline!important;">{{openid}}</a>
                     </td>
-                    <td><a href="deleteOpenid('{{openid}}')" id="{{openid}}" name="deleteOpenID">{% trans "delete" %}</a></td>
+                    <td><a href="javascript:void(0)" id="{{openid}}" name="deleteOpenID"><b>{% trans "delete" %}</b></a></td>
                 </tr>
                 {%endfor%}
+                <tr><td><br></td></tr>
             </table>
+
             <table cellspacing="0" class="yui-skin-sam noborder_table">
                  <tr>
                     <th><label for="openid_identifier">OpenId</label></th>

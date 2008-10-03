@@ -30,7 +30,8 @@ from google.appengine.api import memcache
 from google.appengine.api import images
 from google.appengine.ext import db
 
-from model import Archive,Weblog,WeblogReactions,AuthSubStoredToken,Album,Menu,Images,Tag,Greeting,Feeds,User,CSSFile
+from model import Archive,Weblog,WeblogReactions,\
+    AuthSubStoredToken,Album,Menu,Images,Tag,Greeting,Feeds,User,CSSFile
 
 import authorized
 import util
