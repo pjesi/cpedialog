@@ -445,6 +445,6 @@ class RPCHandler(webapp.RequestHandler):
       users = User.all().filter('openids', openid)
       if users.count() != 0:
           user = users[0]
-          user.openids -= [db.Category(openid.strip().encode('utf8'))]
+          user.openids.remove(db.Category(openid.strip().encode('utf8')))
           user.put()
       return True

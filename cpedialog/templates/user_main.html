@@ -39,8 +39,8 @@
 
 <script type="text/javascript">
     function deleteOpenid(openid){
-        var sUrl = "/rpc?action=DeleteOpenID&openid=\"" + openid +
-                   "\"&time=" + new Date().getTime();
+        var sUrl = "/rpc?action=DeleteOpenID&openid=" + encodeURI(openid) +
+                   "&time=" + new Date().getTime();
         var deleteOpenIDSuccess = function(o) {
             if (o.responseText !== undefined) {
                 var src_obj = document.getElementById(o.argument.openid);
@@ -91,7 +91,7 @@
          <style>
              #resizablepanel .bd {
                  overflow:auto;
-                 background-color:fff;
+                 background-color:#fff;
                  padding:10px;
              }
              #resizablepanel .ft {
@@ -103,7 +103,7 @@
             <div class="hd">Attach OpenID</div>
             <div class="bd">
                <iframe scrolling="auto" id="verify_openid_frame" name="verify_openid_frame"
-                       width="100%" height="100%" style="border:none">Processing...</iframe>
+                       width="100%" height="100%" style="border:none;"></iframe>
             </div>
             <div class="ft"></div>
         </div>

@@ -486,10 +486,9 @@ YAHOO.util.Event.onDOMReady(function() {
 
     YAHOO.util.Event.on("userOpenIDForm", "submit", function() {
         var openid_identifier = document.getElementById("openid_identifier");
+        frames["verify_openid_frame"].location.href = "/login/openid/verify";        
         if (openid_identifier.value != "") {
             document.getElementById("userOpenIDForm").target = "verify_openid_frame";
-            var verify_openid_frame = document.getElementById("verify_openid_frame");
-            verify_openid_frame.src = "";
             document.getElementById("userOpenIDForm").submit();
             panel.show();
         }

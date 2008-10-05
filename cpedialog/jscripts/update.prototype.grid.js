@@ -1,3 +1,4 @@
+//deprecated. Used for old version(v2.5.2) of yui.
 YAHOO.util.Event.addListener(window, "load", function() {
     EnhanceFromMarkup_update = new function() {
         YAHOO.widget.DataTable.prototype.saveCellEditor = function() {

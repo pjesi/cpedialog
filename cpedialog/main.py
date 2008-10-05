@@ -94,6 +94,7 @@ def main():
 
                                         ('/login/*$', login.Login),
                                         ('/login/openid/*$', login.LoginOpenID),
+                                        ('/login/openid/verify/*$', login.VerifyOpenID),
                                         ('/login/openid/finish/*$', login.LoginOpenIDFinish),
                                         ('/logout/*$', login.Logout),
                                         ('/signup/*$', login.Signup),

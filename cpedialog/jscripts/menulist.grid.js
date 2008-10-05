@@ -6,7 +6,7 @@
             {key:"target",label:"Target",sortable:true,editor:"dropdown",editorOptions:{dropdownOptions:["_self","_blank","_parent","_top"]}},
             {key:"order",label:"Order",formatter:YAHOO.widget.DataTable.formatNumber,sortable:true,editor:"textbox",editorOptions:{validator:YAHOO.widget.DataTable.validateNumber}},
             {key:"valid",label:"Valid",sortable:true,editor:"radio",editorOptions:{radioOptions:[true,false],disableBtns:true}},
-            {key:"id",label:"Id",sortable:true,isPrimaryKey:true},
+            {key:"id",label:"Id",sortable:true,isPrimaryKey:true,hidden:true},
             {key:"delete",label:"Delete",action:'delete',formatter:function(elCell) {
                 elCell.innerHTML = '<img src="/img/delete.gif" title="delete row" />';
                 elCell.style.cursor = 'pointer';

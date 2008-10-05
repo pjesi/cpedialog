@@ -171,6 +171,13 @@ class Login(BaseRequestHandler):
         }
         self.generate('login.html',template_values)
 
+class VerifyOpenID(BaseRequestHandler):
+    def get(self, error_msg=None):
+        template_values = {
+           "error": error_msg
+        }
+        self.generate('user/user_profile_openid_verify.html',template_values)
+
 class LoginOpenID(BaseRequestHandler):
     def get(self, error_msg=None):
         template_values = {
@@ -253,10 +260,10 @@ class LoginOpenIDFinish(BaseRequestHandler):
                         user.put()
                     else:
                         self.generate('user/user_profile_openid_verify.html',
-                                      {"status":"fail","msg":"OpenID had been attached to user.\n OpenID:"+openid})
+                                      {"status":"fail","msg":"Attach OpenID to user unsuccessfully: OpenID had been attached to another user."})
                         return
                 self.generate('user/user_profile_openid_verify.html',
-                              {"status":"success","msg":"Attach OpenID to user successfully.\n OpenID:"+openid})
+                              {"status":"success","msg":"Attach OpenID to user successfully."})
                 return
 
             sreg_data = sreg.SRegResponse.fromSuccessResponse(auth_response)
@@ -287,7 +294,7 @@ class LoginOpenIDFinish(BaseRequestHandler):
             #when user add openid from profile setting, just return status.
             if self.session['openid_userid']:
                 self.generate('user/user_profile_openid_verify.html',
-                              {"status":"fail","msg":"Attach OpenID to user unsuccessfully.\n OpenID:"+openid})
+                              {"status":"fail","msg":"Attach OpenID to user unsuccessfully: OpenID verification failed."})
                 return
             self.show_main_page('OpenID verification failed.')
 
