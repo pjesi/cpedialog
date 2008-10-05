@@ -206,3 +206,25 @@ class AdminArchivesPage(BaseRequestHandler):
           }
         self.generate('admin/admin_archives.html',template_values)
 
+        
+class AdminLayoutPage(BaseRequestHandler):
+  @authorized.role('admin')
+  def get(self):
+      pageStr = self.request.get('page')
+      if pageStr:
+          page = int(pageStr)
+      else:
+          page = 1;
+
+      #get blog pagination from cache.
+      obj_page = util.getBlogPagination(page)
+      if obj_page is None:
+          self.redirect('/')
+
+      recentReactions = util.getRecentReactions()
+      template_values = {
+        'page':obj_page,
+        'recentReactions':recentReactions,
+        }
+      self.generate('admin/admin_layout.html',template_values)
+

@@ -62,6 +62,7 @@ def main():
                                         ('/admin/css/*$', admin.AdminCSSPage),
                                         ('/admin/tags/*$', admin.AdminTagsPage),
                                         ('/admin/archives/*$', admin.AdminArchivesPage),
+                                        ('/admin/layout/*$', admin.AdminLayoutPage),
 
                                         ('/user/*$', login.UserMainPage),
                                         ('/user/profile/*$', login.EditProfile),

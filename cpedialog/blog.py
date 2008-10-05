@@ -82,8 +82,6 @@ class MainPage(BaseRequestHandler):
 
     #get blog pagination from cache.
     obj_page = util.getBlogPagination(page)
-    if obj_page is None:
-        self.redirect('/')
 
     recentReactions = util.getRecentReactions()
     template_values = {

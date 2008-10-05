@@ -3,7 +3,7 @@
 {% block title %}{{title}}{% endblock %}
 {% block blog %}
     <div id=bloglist>
-    {% if page.object_list %}
+    {% if page and page.object_list %}
       {% for blog in page.object_list %}
         <H2 class=date-header> {{blog.date|timezone:BLOG.time_zone_offset|date:"l, F m, Y"}} </H2>
         <DIV class="post">
