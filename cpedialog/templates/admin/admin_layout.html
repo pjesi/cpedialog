@@ -12,6 +12,11 @@
     {% endfor %}
     <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0pr1/build/yui/yui-min.js"></script>
     <style type="text/css">
+        #showSlider { position: relative; }
+        #sliderbg { background-image: url( /img/bg-fader.gif ); background-repeat: repeat-x; position: relative; top: 10px; height: 40px; width: 209px; }
+        #sliderthumb { position: absolute; }
+        #custom-doc { margin:auto;text-align:left; }
+        #sliderValue { border: 1px solid #ccc; }
         #toolBoxHolder {
             visibility: hidden;
         }
@@ -58,6 +63,10 @@
 <div id="toolBoxHolder">
     <div class="hd">Toolbox</div>
     <div class="bd">
+        <div id="feeds">
+                <p>Drag a news feed into one of the columns.</p>
+                <ul></ul>
+        </div>
         <form id="grids">
             <fieldset>
                 <legend>Body Size:</legend>
@@ -72,7 +81,6 @@
             <fieldset>
                 <legend>Body Columns:</legend>
                 <select id="which_grid">
-                    <!--<option value="yui-t7">No Columns</option>-->
                     <option value="yui-t1">Sidebar left 160px</option>
                     <option value="yui-t2">Sidebar left 180px</option>
                     <option value="yui-t3">Sidebar left 300px</option>
@@ -84,7 +92,7 @@
             <fieldset>
                 <legend>Split Content:</legend>
                 <span>
-                    <p>Row:<a href="#" class="rowDel" id="gridRowDel0"></a><br>
+                    <p>Row:<br>
                         <select id="splitBody0">
                             <option value="1">1 Column (100)</option>
                             <option value="2">2 Column (50/50)</option>
@@ -92,30 +100,12 @@
                             <option value="8">2 Column (33/66)</option>
                             <option value="9">2 Column (75/25)</option>
                             <option value="10">2 Column (25/75)</option>
-                            <!--
-                                                        <option value="3">3 Column (33/33/33)</option>
-                                                        <option value="5">3 Column (50/25/25)</option>
-                                                        <option value="6">3 Column (25/25/50)</option>
-                                                        <option value="4">4 Column (25/25/25/25)</option>
-                            -->
                         </select>
                     </p>
                 </span>
-                <!--<button type="button" id="addRow">Add Another Row</button>-->
             </fieldset>
-            <!--
-                        <button type="button" id="setHeader">Set Header Content</button><br>
-                        <button type="button" id="setFooter">Set Footer Content</button><br>
-                        <button type="button" id="show_code">Show Code</button><br>
-            -->
             <button type="button" id="saveLayout">Save Current Layout</button>
             <button type="button" id="resetBuilder">Reset</button>
-            <br>
-
-            <div id="feeds">
-                <p>Drag a news feed into one of the columns.</p>
-                <ul></ul>
-            </div>
         </form>
     </div>
     <div class="ft"></div>
@@ -124,7 +114,6 @@
 <script>
     var yuiConfig = {combine: true, timeout: 10000};
 </script>
-<script src="/jscripts/portal.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/utilities/utilities.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/button/button-min.js"></script>
 <script type="text/javascript" src="http://yui.yahooapis.com/2.6.0/build/container/container-min.js"></script>
@@ -151,6 +140,7 @@
         YAHOO.CSSGridBuilder.init();
     });
 </script>
+<script src="/jscripts/portal.js"></script>
 
 </body>
 </html>

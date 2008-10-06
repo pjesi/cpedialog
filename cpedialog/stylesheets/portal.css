@@ -45,6 +45,24 @@ ul.list {
     *height: 500px;    
 }
 
+#list4{
+    background-color:#fbfaef;
+    background-image:url("/img/sidebar.gif");
+    background-repeat:repeat-y;
+}
+
+#list2{
+    background-color:#fbfaf4;
+    background-image:url("/img/bodymain.gif");
+    background-repeat:no-repeat;
+    background-position:center;
+}
+
+#list3{
+    background-color:#fbfafc;
+}
+
+
 .yui-dd-proxy {
     text-align: left;
     padding-left: 20px;
