@@ -1,40 +1,25 @@
 (function() {
     var Dom = YAHOO.util.Dom,
-            Event = YAHOO.util.Event,
-            txt = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sit amet metus. Nunc quam elit, posuere nec, auctor in, rhoncus quis, dui. Aliquam erat volutpat. Ut dignissim, massa sit amet dignissim cursus, quam lacus feugiat.';
+            Event = YAHOO.util.Event;
 
     YAHOO.CSSGridBuilder = {
         init: function() {
             this.type = 'yui-t5';
             this.docType = 'doc2';
-            this.rows = [];
-            this.rows[0] = Dom.get('splitBody0');
             this.sliderData = false;
-
             this.bd = Dom.get('bd');
             this.doc = Dom.get('doc2');
             this.template = Dom.get('which_grid');
-
+            Dom.get('which_doc').options.selectedIndex = 1;  //950px
+            Dom.get('which_grid').options.selectedIndex = 4; //yui-t5
+            Dom.get('splitBody0').options.selectedIndex = 2;  //yui-gc
             Event.on(this.template, 'change', YAHOO.CSSGridBuilder.changeType, YAHOO.CSSGridBuilder, true);
             Event.on('splitBody0', 'change', YAHOO.CSSGridBuilder.splitBody, YAHOO.CSSGridBuilder, true);
             Event.on('which_doc', 'change', YAHOO.CSSGridBuilder.changeDoc, YAHOO.CSSGridBuilder, true);
-
             var reset_button = new YAHOO.widget.Button('resetBuilder');
             reset_button.on('click', YAHOO.CSSGridBuilder.reset, YAHOO.CSSGridBuilder, true);
-
-            var add_button = new YAHOO.widget.Button('addRow');
-            add_button.on('click', YAHOO.CSSGridBuilder.addRow, YAHOO.CSSGridBuilder, true);
         },
         reset: function(ev) {
-            for (var i = 1; i < this.rows.length; i++) {
-                if (this.rows[i]) {
-                    if (Dom.get('splitBody' + i)) {
-                        Dom.get('splitBody' + i).parentNode.parentNode.removeChild(Dom.get('splitBody' + i).parentNode);
-                    }
-                }
-            }
-            this.rows = [];
-            this.rows[0] = Dom.get('splitBody0');
             Dom.get('which_doc').options.selectedIndex = 1;  //950px
             Dom.get('which_grid').options.selectedIndex = 4; //yui-t5
             Dom.get('splitBody0').options.selectedIndex = 2;  //yui-gc
@@ -42,33 +27,6 @@
             this.changeDoc();
             this.changeType();
             this.splitBody();
-            Event.stopEvent(ev);
-        },
-        addRow: function(ev) {
-            var tmp = Dom.get('splitBody0').cloneNode(true);
-            tmp.id = 'splitBody' + this.rows.length;
-            this.rows[this.rows.length] = tmp;
-            this.rowCounter++;
-            var p = document.createElement('p');
-            p.innerHTML = 'Row:<a href="#" class="rowDel" id="gridRowDel' + this.rows.length + '" title="Remove this row">[X]</a><br>';
-            p.appendChild(tmp);
-            Dom.get('splitBody0').parentNode.parentNode.appendChild(p);
-            Event.on(tmp, 'change', YAHOO.CSSGridBuilder.splitBody, YAHOO.CSSGridBuilder, true);
-            Event.on('gridRowDel' + this.rows.length, 'click', YAHOO.CSSGridBuilder.delRow, YAHOO.CSSGridBuilder, true);
-            this.splitBody();
-            Event.stopEvent(ev);
-        },
-        delRow: function(ev) {
-            var tar = Event.getTarget(ev);
-            var id = tar.id.replace('gridRowDel', '');
-            Dom.get('splitBody0').parentNode.parentNode.removeChild(tar.parentNode);
-            this.rows[id] = false;
-            this.splitBody();
-            Event.stopEvent(ev);
-        },
-        changeCustomDoc: function(ev) {
-            var tar = Event.getTarget(ev);
-            this.docType = Dom.get('which_doc').options[Dom.get('which_doc').selectedIndex].value;
             Event.stopEvent(ev);
         },
         changeDoc: function(ev) {
@@ -80,7 +38,6 @@
                 this.doc.style.minWidth = '';
                 this.sliderData = false;
                 this.doc.id = this.docType;
-                this.doTemplate();
             }
             if (ev) {
                 Event.stopEvent(ev);
@@ -89,171 +46,87 @@
         changeType: function() {
             this.type = this.template.options[this.template.selectedIndex].value;
             this.doc.className = this.type;
-            this.doTemplate();
-        },
-        doTemplate: function() {
-            var html = '';
-            var str = '';
-            var navStr = '';
-            if (!this.bodySplit) {
-                this.splitBody();
-            }
-            str = this.bodySplit.replace(/\{0\}/g, '');
-            switch (this.type) {
-                case 'yui-t7':
-                    html = str;
-                    break;
-                default:
-                    html = '<div id="yui-main">' + "\n\t" + '<div class="yui-b">' + str + '</div>' + "\n\t" + '</div>' + "\n\t" + '<div class="yui-b"><ul class="list" id="list4"></ul></div>' + "\n\t";
-                    break;
-            }
-            this.bd.innerHTML = html;
-        },
-        PixelToEmStyle: function(size, prop) {
-            var data = '';
-            var prop = ((prop) ? prop.toLowerCase() : 'width');
-            var sSize = (size / 13);
-            data += prop + ':' + (Math.round(sSize * 100) / 100) + 'em;';
-            data += '*' + prop + ':' + (Math.round((sSize * 0.9759) * 100) / 100) + 'em;';
-            if ((prop == 'width') || (prop == 'height')) {
-                data += 'min-' + prop + ':' + size + 'px;';
-            }
-            return data;
         },
         splitBody: function() {
-            this.bodySplit = '';
-            for (var i = 0; i < this.rows.length; i++) {
-                this.splitBodyTemplate(Dom.get('splitBody' + i));
-            }
-            this.doTemplate();
+            this.splitBodyTemplate(Dom.get('splitBody0'));
         },
         splitBodyTemplate: function(tar) {
+            var mainblock = Dom.get('div_mainblock');
+            var mainblock_sub1 = Dom.get('div_mainblock_sub1');
+            var mainblock_sub2 = Dom.get('div_mainblock_sub2');
+            var list3 = Dom.get('list3').cloneNode(true);
             if (tar) {
                 var bSplit = tar.options[tar.selectedIndex].value;
                 var str = '';
                 switch (bSplit) {
                     case '1':
-                        str += '<div class="yui-g"><ul class="list" id="list2">' + "\n";
-                        str += '{0}';
-                        str += '</ul></div>' + "\n";
+                        mainblock.className = 'yui-g';
+                        mainblock_sub1.className = "";
+                        mainblock_sub2.className = "";
+                        mainblock_sub2.style.display = "none";
                         break;
                     case '2':
-                        str += '<div class="yui-g">' + "\n";
-                        str += '    <div class="yui-u first"><ul class="list" id="list2">' + "\n";
-                        str += '{0}';
-                        str += '    </ul></div>' + "\n";
-                        str += '    <div class="yui-u"><ul class="list" id="list3">' + "\n";
-                        str += '{0}';
-                        str += '    </ul></div>' + "\n";
-                        str += '</div>' + "\n";
+                        mainblock.className = "yui-g";
+                        mainblock_sub1.className = "yui-u first";
+                        mainblock_sub2.className = "yui-u";
+                        mainblock_sub2.style.display = "";
                         break;
                     case '3':
-                        str += '    <div class="yui-gb">' + "\n";
-                        str += '        <div class="yui-u first"><ul class="list" id="list2">' + "\n";
-                        str += '{0}';
-                        str += '        </ul></div>' + "\n";
-                        str += '        <div class="yui-u"><ul class="list" id="list3">' + "\n";
-                        str += '{0}';
-                        str += '        </ul></div>' + "\n";
-                        str += '        <div class="yui-u"><ul class="list" id="list6">' + "\n";
-                        str += '{0}';
-                        str += '        </ul></div>' + "\n";
-                        str += '    </div>' + "\n";
+                        mainblock.className = "yui-gc";
+                        mainblock_sub1.className = "yui-u first";
+                        mainblock_sub2.className = "yui-u";
+                        mainblock_sub2.style.display = "";
                         break;
                     case '4':
-                        str += '<div class="yui-g">' + "\n";
-                        str += '    <div class="yui-g first">' + "\n";
-                        str += '        <div class="yui-u first"><ul class="list" id="list2">' + "\n";
-                        str += '{0}';
-                        str += '        </ul></div>' + "\n";
-                        str += '        <div class="yui-u"><ul class="list" id="list3">' + "\n";
-                        str += '{0}';
-                        str += '        </ul></div>' + "\n";
-                        str += '    </div>' + "\n";
-                        str += '    <div class="yui-g">' + "\n";
-                        str += '        <div class="yui-u first"><ul class="list" id="list6">' + "\n";
-                        str += '{0}';
-                        str += '        </ul></div>' + "\n";
-                        str += '        <div class="yui-u"><ul class="list" id="list7">' + "\n";
-                        str += '{0}';
-                        str += '        </ul></div>' + "\n";
-                        str += '    </div>' + "\n";
-                        str += '</div>' + "\n";
+                        mainblock.className = "yui-gd";
+                        mainblock_sub1.className = "yui-u first";
+                        mainblock_sub2.className = "yui-u";
+                        mainblock_sub2.style.display = "";
                         break;
                     case '5':
-                        str += '<div class="yui-g">' + "\n";
-                        str += '    <div class="yui-u first"><ul class="list" id="list2"> ' + "\n";
-                        str += '{0}';
-                        str += '    </ul></div>' + "\n";
-                        str += '    <div class="yui-g">' + "\n";
-                        str += '        <div class="yui-u first"><ul class="list" id="list3"> ' + "\n";
-                        str += '{0}';
-                        str += '        </ul></div>' + "\n";
-                        str += '        <div class="yui-u"><ul class="list" id="list6"> ' + "\n";
-                        str += '{0}';
-                        str += '        </ul></div>' + "\n";
-                        str += '    </div>' + "\n";
-                        str += '</div>' + "\n";
+                        mainblock.className = "yui-ge";
+                        mainblock_sub1.className = "yui-u first";
+                        mainblock_sub2.className = "yui-u";
+                        mainblock_sub2.style.display = "";
                         break;
                     case '6':
-                        str += '<div class="yui-g">' + "\n";
-                        str += '    <div class="yui-g first">' + "\n";
-                        str += '        <div class="yui-u first"><ul class="list" id="list5">' + "\n";
-                        str += '{0}';
-                        str += '        </ul></div>' + "\n";
-                        str += '        <div class="yui-u"><ul class="list" id="list6">' + "\n";
-                        str += '{0}';
-                        str += '        </ul></div>' + "\n";
-                        str += '    </div>' + "\n";
-                        str += '    <div class="yui-u"><ul class="list" id="list2">' + "\n";
-                        str += '{0}';
-                        str += '    </ul></div>' + "\n";
-                        str += '</div>' + "\n";
-                        break;
-                    case '7':
-                        str += '<div class="yui-gc">' + "\n";
-                        str += '    <div class="yui-u first"><ul class="list" id="list2">' + "\n";
-                        str += '{0}';
-                        str += '    </ul></div>' + "\n";
-                        str += '    <div class="yui-u"><ul class="list" id="list3">' + "\n";
-                        str += '{0}';
-                        str += '    </ul></div>' + "\n";
-                        str += '</div>' + "\n";
-                        break;
-                    case '8':
-                        str += '<div class="yui-gd">' + "\n";
-                        str += '    <div class="yui-u first"><ul class="list" id="list3">' + "\n";
-                        str += '{0}';
-                        str += '    </ul></div>' + "\n";
-                        str += '    <div class="yui-u"><ul class="list" id="list2">' + "\n";
-                        str += '{0}';
-                        str += '    </ul></div>' + "\n";
-                        str += '</div>' + "\n";
-                        break;
-                    case '9':
-                        str += '<div class="yui-ge">' + "\n";
-                        str += '    <div class="yui-u first"><ul class="list" id="list2">' + "\n";
-                        str += '{0}';
-                        str += '    </ul></div>' + "\n";
-                        str += '    <div class="yui-u"><ul class="list" id="list3">' + "\n";
-                        str += '{0}';
-                        str += '    </ul></div>' + "\n";
-                        str += '</div>' + "\n";
-                        break;
-                    case '10':
-                        str += '<div class="yui-gf">' + "\n";
-                        str += '    <div class="yui-u first"><ul class="list" id="list3">' + "\n";
-                        str += '{0}';
-                        str += '    </ul></div>' + "\n";
-                        str += '    <div class="yui-u"><ul class="list" id="list2">' + "\n";
-                        str += '{0}';
-                        str += '    </ul></div>' + "\n";
-                        str += '</div>' + "\n";
+                        mainblock.className = "yui-gf";
+                        mainblock_sub1.className = "yui-u first";
+                        mainblock_sub2.className = "yui-u";
+                        mainblock_sub2.style.display = "";
                         break;
                 }
-                this.bodySplit += '<div id="gridBuilder' + (this.rows.length - 1) + '">' + str + '</div>';
             }
         },
+
+        switchNode:function(n1, n2) {
+        {
+            var tmp1 = [];
+            var tmp2 = [];
+            for (var i = 0; i < n1.childNodes.length; i++)
+            {
+                tmp1.push(n1.childNodes[i].cloneNode(true));
+                n1.removeChild(n1.childNodes[i]);
+            }
+            for (var i = 0; i < n2.childNodes.length; i++)
+            {
+                tmp2.push(n2.childNodes[i].cloneNode(true));
+                n2.removeChild(n2.childNodes[i]);
+
+            }
+            for (var i = 0; i < tmp1.length; i++)
+            {
+                n2.appendChild(tmp1[i]);
+            }
+            for (var i = 0; i < tmp2.length; i++)
+            {
+                n1.appendChild(tmp2[i]);
+            }
+        }
+        },
+
+
+        //show custom body size slider.
         showSlider: function() {
             var handleCancel = function() {
                 showSlider.hide();
@@ -271,21 +144,21 @@
             ];
 
             var showSlider = new YAHOO.widget.Dialog('showSlider', {
-                    close: true,
-                    draggable: true,
-                    modal: true,
-                    visible: true,
-                    fixedcenter: true,
-                    width: '275px',
-                    zindex: 9001,
-                    postmethod: 'none',
-                    buttons: myButtons
-                }
-            );
+                close: true,
+                draggable: true,
+                modal: true,
+                visible: true,
+                fixedcenter: true,
+                width: '275px',
+                zindex: 9001,
+                postmethod: 'none',
+                buttons: myButtons
+            }
+                    );
             showSlider.hideEvent.subscribe(function() {
                 this.destroy();
             }, showSlider, true);
-            showSlider.setHeader('CSSGridBuilder Custom Body Size');
+            showSlider.setHeader('Custom Body Size');
             var body = '<p>Adjust the slider below to adjust your body size or set it manually with the text input. <i>(Be sure to include the % or px in the text input)</i></p>';
             body += '<form name="customBodyForm" method="POST" action="">';
             body += '<p>Current Setting: <input type="text" id="sliderValue" value="100%" size="8" onfocus="this.select()" /></p>';
@@ -299,7 +172,9 @@
 
 
             var handleChange = function(f) {
-                if (typeof f == 'object') { f = slider.getValue(); }
+                if (typeof f == 'object') {
+                    f = slider.getValue();
+                }
                 if (Dom.get('moveTypePercent').checked) {
                     var w = Math.round(f / 2);
                     Dom.get('custom-doc').style.width = w + '%';
@@ -338,7 +213,6 @@
 
             this.doc.id = this.docType;
             this.doc.style.width = '100%';
-            this.doTemplate();
         }
     };
 })();

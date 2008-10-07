@@ -42,17 +42,17 @@
     <div id="bd">
         <div id="yui-main">
             <div class="yui-b">
-                <div class="yui-gc">
-                    <div class="yui-u first">
+                <div class="yui-gc" id="div_mainblock">
+                    <div class="yui-u first" id="div_mainblock_sub1">
                         <ul class="list" id="list2"></ul>
                     </div>
-                    <div class="yui-u">
+                    <div class="yui-u" id="div_mainblock_sub2">
                         <ul class="list" id="list3"></ul>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="yui-b">
+        <div class="yui-b" id="div_sidebar">
             <ul class="list" id="list4"></ul>
         </div>
     </div>
@@ -96,15 +96,15 @@
                         <select id="splitBody0">
                             <option value="1">1 Column (100)</option>
                             <option value="2">2 Column (50/50)</option>
-                            <option value="7">2 Column (66/33)</option>
-                            <option value="8">2 Column (33/66)</option>
-                            <option value="9">2 Column (75/25)</option>
-                            <option value="10">2 Column (25/75)</option>
+                            <option value="3">2 Column (66/33)</option>
+                            <option value="4">2 Column (33/66)</option>
+                            <option value="5">2 Column (75/25)</option>
+                            <option value="6">2 Column (25/75)</option>
                         </select>
                     </p>
                 </span>
             </fieldset>
-            <button type="button" id="saveLayout">Save Current Layout</button>
+            <button type="button" id="saveLayout">Save Current Layout</button> <br>
             <button type="button" id="resetBuilder">Reset</button>
         </form>
     </div>
