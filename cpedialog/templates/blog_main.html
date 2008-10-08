@@ -21,7 +21,7 @@
                 {% endfor %}
             </p><br>
             {% endif %}
-        <H4 class=byline> Posted by {{blog.author}} at 
+        <H4 class=byline> {% blocktrans with blog.author as b_author%}Posted by {{ b_author }} at{% endblocktrans %}
            <A  class=timestamp-link href="/{{blog.relative_permalink}}">{{blog.date|timezone:BLOG.time_zone_offset|date:"H:i A"}}</A>
                      {% if blog.weblogreactions_set.count %}
                     <A class=comment-link href="/{{blog.relative_permalink}}#reactions">{{blog.weblogreactions_set.count}} {% trans "comments" %}</A>

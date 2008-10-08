@@ -281,15 +281,15 @@
             <DIV class=post-footer>
                 {% if blog.tags %}
                 <p>
-                    Tags:
+                    {% trans "Tags" %}:
                     {% for tag in blog.tags %}
                     <a href="/tag/{{ tag|unquote }}">{{ tag|unquote }}</a> {% if not forloop.last %},{% endif %}
                     {% endfor %}
                 </p><br>
                 {% endif %}
                 <P>
-                    <SPAN class=post-author>Posted by {{blog.author}} </SPAN>
-                   <SPAN class=post-timestamp>at
+                    <SPAN class=post-author>{% blocktrans with blog.author as b_author %}Posted by {{ b_author }} at{% endblocktrans %} </SPAN>
+                   <SPAN class=post-timestamp>
                        <A class=timestamp-link href="#">{{blog.date|timezone:BLOG.time_zone_offset|date:"H:i A"}}</A>
                    </SPAN>
                 </P>

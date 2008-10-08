@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-26 22:21+0800\n"
+"POT-Creation-Date: 2008-09-28 17:07+0800\n"
 "PO-Revision-Date: 2008-09-06 22:03+0800\n"
 "Last-Translator: jiyu <tang.jiyu@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,6 +22,21 @@ msgstr ""
 
 #: .\templates\album_main.html.py:22
 msgid "Please select a picasaweb user to show the albums."
+msgstr ""
+
+#: .\templates\album_main.html.py:29
+#, python-format
+msgid "Here are the album list of user %(username)s"
+msgstr ""
+
+#: .\templates\album_view.html.py:16
+#, python-format
+msgid "Shot at: %(album_datatime)s"
+msgstr ""
+
+#: .\templates\album_view.html.py:17
+#, python-format
+msgid "Photos Num: %(album_numphotos)s"
 msgstr ""
 
 #: .\templates\blog_add.html.py:6 .\templates\blog_add.html.py:186
@@ -57,9 +72,9 @@ msgstr ""
 msgid "required"
 msgstr ""
 
-#: .\templates\blog_add.html.py:203 .\templates\blog_main.html.py:18
-#: .\templates\blog_main_month.html.py:18 .\templates\tag.html.py:23
-#: .\templates\tag_delicious.html.py:19
+#: .\templates\blog_add.html.py:203 .\templates\blog_add.html.py:284
+#: .\templates\blog_main.html.py:18 .\templates\blog_main_month.html.py:18
+#: .\templates\tag.html.py:23 .\templates\tag_delicious.html.py:19
 msgid "Tags"
 msgstr ""
 
@@ -90,6 +105,12 @@ msgstr ""
 
 #: .\templates\blog_add.html.py:233
 msgid "Content"
+msgstr ""
+
+#: .\templates\blog_add.html.py:291 .\templates\blog_main.html.py:24
+#: .\templates\blog_main_month.html.py:24 .\templates\blog_view.html.py:35
+#, python-format
+msgid "Posted by %(b_author)s at"
 msgstr ""
 
 #: .\templates\blog_delete.html.py:11 .\templates\blog_delete.html.py:19
@@ -136,8 +157,18 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
+#: .\templates\blog_view.html.py:46
+#, python-format
+msgid "Edited at %(blog_lastModData)s by %(blog_lastModBy)s."
+msgstr ""
+
 #: .\templates\blog_view.html.py:53
 msgid "Reactions"
+msgstr ""
+
+#: .\templates\blog_view.html.py:90
+#, python-format
+msgid "Edited at %(react_lastModData)s by %(react_lastModBy)s."
 msgstr ""
 
 #: .\templates\blog_view.html.py:100
@@ -279,6 +310,15 @@ msgstr ""
 
 #: .\templates\site_map.html.py:10
 msgid "All the post on the site"
+msgstr ""
+
+#: .\templates\tag.html.py:30
+#, python-format
+msgid "Posted by %(blog.author)s"
+msgstr ""
+
+#: .\templates\tag.html.py:30
+msgid "at"
 msgstr ""
 
 #: .\templates\tag.html.py:40 .\templates\tag_delicious.html.py:31

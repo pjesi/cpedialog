@@ -32,8 +32,8 @@
         </p><br>
         {% endif %}
         <P>
-            <SPAN class=post-author>Posted by {{blog.author.nickname}} </SPAN>
-                    <SPAN class=post-timestamp>at
+            <SPAN class=post-author>{% blocktrans with blog.author as b_author%}Posted by {{ b_author }} at{% endblocktrans %}</SPAN>
+                    <SPAN class=post-timestamp>
                         <A class=timestamp-link href="/{{blog.relative_permalink}}">{{blog.date|timezone:BLOG.time_zone_offset|date:"H:i A"}}</A>
                     </SPAN>
         </P>
@@ -42,8 +42,8 @@
         <p style='text-align: right;'>:<a href='/edit/blog/{{blog.key.id}}'>{% trans "edit" %}</a>: :
             <a href='/delete/blog/{{blog.key.id}}'>{% trans "delete" %}</a>:</p>
             {% endif  %}
-        {% ifnotequal reaction.lastModifiedDate Null %}
-        Edited at {{blog.lastModifiedDate}} by {{blog.lastModifiedBy}}.
+        {% ifnotequal blog.lastModifiedDate Null %}
+        {% blocktrans with blog.lastModifiedDate as blog_lastModData and blog.lastModifiedBy as blog_lastModBy %}Edited at {{blog_lastModData}} by {{blog_lastModBy}}.{% endblocktrans %}
         {% endifnotequal %}
     </DIV>
 </div>
@@ -87,7 +87,7 @@
                         {% endif %}
 
                         {% ifnotequal reaction.lastModifiedDate Null %}
-                        Edited at {{reaction.lastModifiedDate}} by {{reaction.lastModifiedBy}}.
+                        {% blocktrans with reaction.lastModifiedDate as react_lastModData and reaction.lastModifiedBy as react_lastModBy %}Edited at {{react_lastModData}} by {{react_lastModBy}}.{% endblocktrans %}
                         {% endifnotequal %}
                     </span>
             </DIV>

@@ -13,8 +13,8 @@
             <p>
             <a href="/albums">{% trans "Albums" %}</a> -> <a href="/albums/{{username}}">{{username}}</a> -> <a href="/albums/{{username}}/{{album.name.text}}">{{album.title.text}}</a>
             <p>
-            Shot at: {{album.datetime|date:"m/d/y"}} <br>
-            Photos Num: {{album.numphotos}}
+            {% blocktrans with album.datetime|date:"m/d/y" as album_datatime %}Shot at: {{ album_datatime }}{% endblocktrans %} <br>
+            {% blocktrans with album.numphotos as album_numphotos %}Photos Num: {{ album_numphotos }}{% endblocktrans %}
         </div>
           {% endif %}
         <p>
