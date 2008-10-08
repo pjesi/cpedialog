@@ -50,12 +50,12 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
     };
 
     //Setup the config for IO to use flash
-	Y.io.transport({
-		id: 'flash',
-		yid: Y.id,
-		src: '/img/io.swf?stamp=' + (new Date()).getTime()
+    Y.io.transport({
+        id: 'flash',
+        yid: Y.id,
+        src: '/img/io.swf?stamp=' + (new Date()).getTime()
     });
-    
+
     //Simple method for stopping event propagation
     //Using this so we can unsubscribe it later
     var stopper = function(e) {
@@ -123,11 +123,11 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             if (a.hasClass('min')) {
                 //Get some node references
                 var ul = div.query('ul'),
-                    h2 = div.query('h2'),
-                h = h2.get('offsetHeight'),
-                hUL = ul.get('offsetHeight'),
-                inner = div.query('div.inner');
-                
+                        h2 = div.query('h2'),
+                        h = h2.get('offsetHeight'),
+                        hUL = ul.get('offsetHeight'),
+                        inner = div.query('div.inner');
+
                 //Create an anim instance on this node.
                 anim = new Y.Anim({
                     node: inner
@@ -172,10 +172,10 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             if (a.hasClass('close')) {
                 //Get some Node references..
                 var li = div.get('parentNode'),
-                    id = li.get('id'),
-                    dd = Y.DD.DDM.getDrag('#' + id),
-                    data = dd.get('data'),
-                    item = Y.Node.get('#' + data.id);
+                        id = li.get('id'),
+                        dd = Y.DD.DDM.getDrag('#' + id),
+                        data = dd.get('data'),
+                        item = Y.Node.get('#' + data.id);
 
                 //Destroy the DD instance.
                 dd.destroy();
@@ -218,20 +218,20 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         }
     };
     /* }}} */
-    
+
     //This creates the module, either from a drag event or from the cookie load
     var setupModDD = function(mod, data, dd) {
         var node = mod;
         //Listen for the click so we can react to the buttons
         node.query('h2').on('click', _nodeClick);
-        
+
         //It's a target
         dd.set('target', true);
         //Remove the event's on the original drag instance
         dd.unsubscribe('drag:start', stopper);
         dd.unsubscribe('drag:end', stopper);
         dd.unsubscribe('drag:drophit', stopper);
-        
+
         //Setup the handles
         dd.addHandle('h2').addInvalid('a');
         //Remove the mouse listeners on this node
@@ -242,78 +242,78 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         dd._prep();
 
         //The Yahoo! Pipes URL
-        var url = 'http:/'+'/pipes.yahooapis.com/pipes/pipe.run?_id=6b7b2c6a32f5a12e7259c36967052387&_render=json&url=http:/'+'/' + data.url;
+        var url = 'http:/' + '/pipes.yahooapis.com/pipes/pipe.run?_id=6b7b2c6a32f5a12e7259c36967052387&_render=json&url=http:/' + '/' + data.url;
         //Start the XDR request
         var id = Y.io(url, {
             method: 'GET',
-            xdr: { 
-			    use:'flash'
-		    },
+            xdr: {
+                use:'flash'
+            },
             //XDR Listeners
-		    on: { 
-			    success: function(id, data) {
+            on: {
+                success: function(id, data) {
                     //On success get the feed data
                     var d = feeds[trans[id]],
-                    //Node reference
-                    inner = d.mod.query('div.inner'),
-                    //Parse the JSON data
-                    oRSS = Y.JSON.parse(data.responseText),
-                    html = '';
-                    
+                        //Node reference
+                            inner = d.mod.query('div.inner'),
+                        //Parse the JSON data
+                            oRSS = Y.JSON.parse(data.responseText),
+                            html = '';
+
                     //Did we get data?
-		            if (oRSS && oRSS.count) {
+                    if (oRSS && oRSS.count) {
                         //Walk the list and create the news list
-			            Y.each(oRSS.value.items, function(v, k) {
+                        Y.each(oRSS.value.items, function(v, k) {
                             if (k < 5) {
                                 html += '<li><a href="' + v.link + '" target="_blank">' + v.title + '</a>';
                             }
                         });
-		            }
+                    }
                     //Set the innerHTML of the module
                     inner.set('innerHTML', '<ul>' + html + '</ul>');
                     if (Y.DD.DDM.activeDrag) {
                         //If we are still dragging, update the proxy element too..
                         var proxy_inner = Y.DD.DDM.activeDrag.get('dragNode').query('div.inner');
                         proxy_inner.set('innerHTML', '<ul>' + html + '</ul>');
-                        
+
                     }
                 },
-			    failure: function(id, data) {
+                failure: function(id, data) {
                     //Something failed..
                     alert('Feed failed to load..' + id + ' :: ' + data);
                 }
-		    }
+            }
         });
         //Keep track of the transaction
         feeds[data.id].trans = id;
         feeds[data.id].mod = mod;
         trans[id.id] = data.id;
     };
-    
+
 
     //Helper method to create the markup for the module..
     var createMod = function(feed) {
         var str = '<li class="item">' +
-                    '<div class="mod">' + 
-                        '<h2><strong>' + feed.title + '</strong> <a title="minimize module" class="min" href="#"> </a>' +
-                        '<a title="close module" class="close" href="#"></a></h2>' +
-                        '<div class="inner">' +
-                        '    <div class="loading">Feed loading, please wait..</div>' + 
-                        '</div>' +
-                    '</div>' +
-                '</li>';
+                  '<div class="mod">' +
+                  '<h2><strong>' + feed.title + '</strong> <a title="minimize module" class="min" href="#"> </a>' +
+                  '<a title="close module" class="close" href="#"></a></h2>' +
+                  '<div class="inner">' +
+                  '    <div class="loading">Feed loading, please wait..</div>' +
+                  '</div>' +
+                  '</div>' +
+                  '</li>';
         return Y.Node.create(str);
     };
-    
+
     //Handle the start Drag event on the left side
     var _handleStart = function(e) {
         //Stop the event
         stopper(e);
         //Some private vars
         var drag = this,
-            list3 = Y.Node.get('#list1'),
-            mod = createMod(drag.get('data'));
-        
+                list3 = Y.Node.get('#list1'),
+                mod = createMod(drag.get('data'));
+
         //Add it to the first list
         list3.appendChild(mod);
         //Set the item on the left column disabled.
@@ -339,7 +339,7 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         //Remove the listener
         this.unsubscribe('drag:start', _handleStart);
     };
-    
+
     //Walk through the feeds list and create the list on the left
     var feedList = Y.Node.get('#feeds ul');
     Y.each(feeds, function(v, k) {
@@ -353,50 +353,50 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
     var _moveMod = function(drag, drop) {
         if (drag.get('node').hasClass('item')) {
             var dragNode = drag.get('node'),
-                dropNode = drop.get('node'),
-                append = false,
-                padding = 30,
-                xy = drag.mouseXY,
-                region = drop.region,
-                middle1 = region.top + ((region.bottom - region.top) / 2),
-                middle2 = region.left + ((region.right - region.left) / 2),
-                dir = false,
-                dir1 = false,
-                dir2 = false;
-                
-                //We could do something a little more fancy here, but we won't ;)
-                if ((xy[1] < (region.top + padding))) {
-                    dir1 = 'top';
-                }
-                if ((region.bottom - padding) < xy[1]) {
-                    dir1 = 'bottom';
-                }
-                if ((region.right - padding) < xy[0]) {
-                    dir2 = 'right';
-                }
-                if ((xy[0] < (region.left + padding))) {
-                    dir2 = 'left';
-                }
-                dir = dir2;
-                if (dir2 === false) {
-                    dir = dir1;
-                }
-                switch (dir) {
-                    case 'top':
-                        var next = dropNode.get('nextSibling');
-                        if (next) {
-                            dropNode = next;
-                        } else {
-                            append = true;
-                        }
-                        break;
-                    case 'bottom':
-                        break;
-                    case 'right':
-                    case 'left':
-                        break;
-                }
-            
+                    dropNode = drop.get('node'),
+                    append = false,
+                    padding = 30,
+                    xy = drag.mouseXY,
+                    region = drop.region,
+                    middle1 = region.top + ((region.bottom - region.top) / 2),
+                    middle2 = region.left + ((region.right - region.left) / 2),
+                    dir = false,
+                    dir1 = false,
+                    dir2 = false;
+
+            //We could do something a little more fancy here, but we won't ;)
+            if ((xy[1] < (region.top + padding))) {
+                dir1 = 'top';
+            }
+            if ((region.bottom - padding) < xy[1]) {
+                dir1 = 'bottom';
+            }
+            if ((region.right - padding) < xy[0]) {
+                dir2 = 'right';
+            }
+            if ((xy[0] < (region.left + padding))) {
+                dir2 = 'left';
+            }
+            dir = dir2;
+            if (dir2 === false) {
+                dir = dir1;
+            }
+            switch (dir) {
+                case 'top':
+                    var next = dropNode.get('nextSibling');
+                    if (next) {
+                        dropNode = next;
+                    } else {
+                        append = true;
+                    }
+                    break;
+                case 'bottom':
+                    break;
+                case 'right':
+                case 'left':
+                    break;
+            }
+
 
             if ((dropNode !== null) && dir) {
                 if (dropNode && dropNode.get('parentNode')) {
@@ -415,10 +415,10 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
     };
 
     /*
-    Handle the drop:enter event
-    Now when we get a drop enter event, we check to see if the target is an LI, then we know it's out module.
-    Here is where we move the module around in the DOM.    
-    */
+     Handle the drop:enter event
+     Now when we get a drop enter event, we check to see if the target is an LI, then we know it's out module.
+     Here is where we move the module around in the DOM.
+     */
     Y.DD.DDM.on('drop:enter', function(e) {
         if (!e.drag || !e.drop || (e.drop !== e.target)) {
             return false;
@@ -443,13 +443,13 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
     });
 
     /*
-    Handle the drop:hit event
-    Now that we have a drop on the target, we check to see if the drop was not on a LI.
-    This means they dropped on the empty space of the UL.
-    */
+     Handle the drop:hit event
+     Now that we have a drop on the target, we check to see if the drop was not on a LI.
+     This means they dropped on the empty space of the UL.
+     */
     Y.DD.DDM.on('drag:drophit', function(e) {
         var drop = e.drop.get('node'),
-            drag = e.drag.get('node');
+                drag = e.drag.get('node');
 
         if (drop.get('tagName').toLowerCase() !== 'li') {
             if (!drop.contains(drag)) {
@@ -466,7 +466,7 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             drag.target.set('locked', true);
         }
         drag.get('dragNode').set('innerHTML', drag.get('node').get('innerHTML'));
-        drag.get('dragNode').setStyle('opacity','.5');
+        drag.get('dragNode').setStyle('opacity', '.5');
         drag.get('node').query('div.mod').setStyle('visibility', 'hidden');
         drag.get('node').addClass('moving');
     });
@@ -484,12 +484,12 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         drag.get('dragNode').set('innerHTML', '');
         _setCookies();
     });
-    
+
 
     //Handle going over a UL, for empty lists
     Y.DD.DDM.on('drop:over', function(e) {
         var drop = e.drop.get('node'),
-            drag = e.drag.get('node');
+                drag = e.drag.get('node');
 
         if (drop.get('tagName').toLowerCase() !== 'li') {
             if (!drop.contains(drag)) {
@@ -509,8 +509,8 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             padding: '20 0'
         });
     });
-    
-    
+
+
     Y.on('io:xdrReady', function() {
         //Get the cookie data
         var cookie = Y.Cookie.getSub('yui', 'portal');
@@ -549,5 +549,232 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             });
         }
     });
+
+    //delete the drags in the specified drop, use for deleting the drags in '#list3' when switch one column body split content. 
+    var deleteDragsInDrop = function(listId){
+        var list_ = Y.Node.get('#' + listId);
+        var lis = Y.all('#' + listId + ' li.item');
+        lis.each(function(v2, k2) {
+            //Get the drag instance for the list item
+            var dd = Y.DD.DDM.getDrag('#' + v2.get('id'));
+            var data = dd.get('data');
+            var item = Y.Node.get('#' + data.id);
+
+            v2.get('parentNode').removeChild(v2);
+            item.removeClass('disabled');
+            
+            //Destroy the DD instance.
+            dd.destroy();
+            _createFeedDD(item, data);
+        });
+        _setCookies();
+    };
+
+
+    //gridbuilder: CSSGridBuilder for the layout reset feature. the part below use yui 2.6.0
+    var Dom = YAHOO.util.Dom,
+            Event = YAHOO.util.Event;
+
+    YAHOO.CSSGridBuilder = {
+        init: function() {
+            this.type = 'yui-t5';
+            this.docType = 'doc2';
+            this.sliderData = false;
+            this.bd = Dom.get('bd');
+            this.doc = Dom.get('doc2');
+            this.template = Dom.get('which_grid');
+            Dom.get('which_doc').options.selectedIndex = 1;  //950px
+            Dom.get('which_grid').options.selectedIndex = 4; //yui-t5
+            Dom.get('splitBody0').options.selectedIndex = 2;  //yui-gc
+            Event.on(this.template, 'change', YAHOO.CSSGridBuilder.changeType, YAHOO.CSSGridBuilder, true);
+            Event.on('splitBody0', 'change', YAHOO.CSSGridBuilder.splitBody, YAHOO.CSSGridBuilder, true);
+            Event.on('which_doc', 'change', YAHOO.CSSGridBuilder.changeDoc, YAHOO.CSSGridBuilder, true);
+            var reset_button = new YAHOO.widget.Button('resetBuilder');
+            reset_button.on('click', YAHOO.CSSGridBuilder.reset, YAHOO.CSSGridBuilder, true);
+        },
+        reset: function(ev) {
+            Dom.get('which_doc').options.selectedIndex = 1;  //950px
+            Dom.get('which_grid').options.selectedIndex = 4; //yui-t5
+            Dom.get('splitBody0').options.selectedIndex = 2;  //yui-gc
+
+            this.changeDoc();
+            this.changeType();
+            this.splitBody();
+            Event.stopEvent(ev);
+        },
+        changeDoc: function(ev) {
+            this.docType = Dom.get('which_doc').options[Dom.get('which_doc').selectedIndex].value;
+            if (this.docType == 'custom-doc') {
+                this.showSlider();
+            } else {
+                this.doc.style.width = '';
+                this.doc.style.minWidth = '';
+                this.sliderData = false;
+                this.doc.id = this.docType;
+            }
+            if (ev) {
+                Event.stopEvent(ev);
+            }
+        },
+        changeType: function() {
+            this.type = this.template.options[this.template.selectedIndex].value;
+            this.doc.className = this.type;
+        },
+        splitBody: function() {
+            this.splitBodyTemplate(Dom.get('splitBody0'));
+        },
+        splitBodyTemplate: function(tar) {
+            var mainblock = Dom.get('div_mainblock');
+            var mainblock_sub1 = Dom.get('div_mainblock_sub1');
+            var mainblock_sub2 = Dom.get('div_mainblock_sub2');
+            var list3 = Dom.get('list3').cloneNode(true);
+            if (tar) {
+                var bSplit = tar.options[tar.selectedIndex].value;
+                var str = '';
+                switch (bSplit) {
+                    case '1':
+                        mainblock.className = 'yui-g';
+                        mainblock_sub1.className = "";
+                        mainblock_sub2.className = "";
+                        mainblock_sub2.style.display = "none";
+                        deleteDragsInDrop("list3");
+                        break;
+                    case '2':
+                        mainblock.className = "yui-g";
+                        mainblock_sub1.className = "yui-u first";
+                        mainblock_sub2.className = "yui-u";
+                        mainblock_sub2.style.display = "";
+                        break;
+                    case '3':
+                        mainblock.className = "yui-gc";
+                        mainblock_sub1.className = "yui-u first";
+                        mainblock_sub2.className = "yui-u";
+                        mainblock_sub2.style.display = "";
+                        break;
+                    case '4':
+                        mainblock.className = "yui-gd";
+                        mainblock_sub1.className = "yui-u first";
+                        mainblock_sub2.className = "yui-u";
+                        mainblock_sub2.style.display = "";
+                        break;
+                    case '5':
+                        mainblock.className = "yui-ge";
+                        mainblock_sub1.className = "yui-u first";
+                        mainblock_sub2.className = "yui-u";
+                        mainblock_sub2.style.display = "";
+                        break;
+                    case '6':
+                        mainblock.className = "yui-gf";
+                        mainblock_sub1.className = "yui-u first";
+                        mainblock_sub2.className = "yui-u";
+                        mainblock_sub2.style.display = "";
+                        break;
+                }
+            }
+        },
+
+        //show custom body size slider.
+        showSlider: function() {
+            var handleCancel = function() {
+                showSlider.hide();
+                return false;
+            }
+            var handleSubmit = function() {
+                YAHOO.CSSGridBuilder.sliderData = Dom.get('sliderValue').value;
+
+                showSlider.hide();
+            }
+
+            var myButtons = [
+                { text:'Save', handler: handleSubmit, isDefault: true },
+                { text:'Cancel', handler: handleCancel }
+            ];
+
+            var showSlider = new YAHOO.widget.Dialog('showSlider', {
+                close: true,
+                draggable: true,
+                modal: true,
+                visible: true,
+                fixedcenter: true,
+                width: '275px',
+                zindex: 9001,
+                postmethod: 'none',
+                buttons: myButtons
+            }
+                    );
+            showSlider.hideEvent.subscribe(function() {
+                this.destroy();
+            }, showSlider, true);
+            showSlider.setHeader('Custom Body Size');
+            var body = '<p>Adjust the slider below to adjust your body size or set it manually with the text input. <i>(Be sure to include the % or px in the text input)</i></p>';
+            body += '<form name="customBodyForm" method="POST" action="">';
+            body += '<p>Current Setting: <input type="text" id="sliderValue" value="100%" size="8" onfocus="this.select()" /></p>';
+            body += '<span>Unit: ';
+            body += '<input type="radio" name="movetype" id="moveTypePercent" value="percent" checked> <label for="moveTypePercent">Percent</label>&nbsp;';
+            body += '<input type="radio" name="movetype" id="moveTypePixel" value="pixel"> <label for="moveTypePixel">Pixel</label></span>';
+            body += '</form>';
+            body += '<div id="sliderbg"><div id="sliderthumb"><img src="/img/thumb-n.gif" /></div>';
+            body += '</div>';
+            showSlider.setBody(body);
+
+
+            var handleChange = function(f) {
+                if (typeof f == 'object') {
+                    f = slider.getValue();
+                }
+                if (Dom.get('moveTypePercent').checked) {
+                    var w = Math.round(f / 2);
+                    Dom.get('custom-doc').style.width = w + '%';
+                    Dom.get('sliderValue').value = w + '%';
+                } else {
+                    var w = Math.round(f / 2);
+                    var pix = Math.round(Dom.getViewportWidth() * (w / 100));
+                    Dom.get('custom-doc').style.width = pix + 'px';
+                    Dom.get('sliderValue').value = pix + 'px';
+                }
+                Dom.get('custom-doc').style.minWidth = '250px';
+            }
+
+            var handleBlur = function() {
+                f = Dom.get('sliderValue').value;
+                if (f.indexOf('%') != -1) {
+                    Dom.get('moveTypePercent').checked = true;
+                    f = (parseInt(f) * 2);
+                } else if (f.indexOf('px') != -1) {
+                    Dom.get('moveTypePixel').checked = true;
+                    f = (((parseInt(f) / Dom.getViewportWidth()) * 100) * 2);
+                } else {
+                    Dom.get('sliderValue').value = '100%';
+                    f = 200;
+                }
+                slider.setValue(f);
+            }
+
+            showSlider.render(document.body);
+            var slider = YAHOO.widget.Slider.getHorizSlider('sliderbg', 'sliderthumb', 0, 200, 1);
+            slider.setValue(200);
+            slider.onChange = handleChange;
+
+            Event.on(['moveTypePercent', 'moveTypePixel'], 'click', handleChange);
+            Event.on('sliderValue', 'blur', handleBlur);
+
+            this.doc.id = this.docType;
+            this.doc.style.width = '100%';
+        }
+    };
+
+    var toolBox = new YAHOO.widget.Dialog('toolBoxHolder', {
+        close: false,
+        visible: false,
+        x: 10,
+        y: 10,
+        zindex: 5000,
+        width: '235px'//,
+        //height: '482px'
+    }
+            );
+    toolBox.render(document.body);
+    toolBox.show();
+    YAHOO.CSSGridBuilder.init();
 
 });
