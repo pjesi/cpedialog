@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>Portal Example</title>
+    <title>{{BLOG.title}} - Layout Management</title>
     <link rel="stylesheet" type="text/css"
           href="http://yui.yahooapis.com/2.6.0/build/reset-fonts-grids/reset-fonts-grids.css"/>
     <link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.6.0/build/assets/skins/sam/skin.css">
@@ -19,7 +19,6 @@
         #sliderValue { border: 1px solid #ccc; }
         #toolBoxHolder {
             visibility: hidden;
-            width:180px!important;
         }
 
         #toolBoxHolder fieldset {
@@ -37,7 +36,9 @@
 <div id="doc2" class="yui-t5">
     <div id="hd">
         <ul class="list" id="list1">
-            {% include "../main_top.html" %}            
+            <div class="div_cpedialog">
+            {% include "../main_top.html" %}
+            </div>
         </ul>
     </div>
     <div id="bd">
@@ -64,6 +65,9 @@
 <div id="toolBoxHolder">
     <div class="hd">Toolbox</div>
     <div class="bd">
+        <div>
+            You can press Ctrl+Y to show the hidden toolbox.
+        </div>
         <div id="feeds">
                 <p>Drag a news feed into one of the columns.</p>
                 <ul></ul>

@@ -764,15 +764,21 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
     };
 
     var toolBox = new YAHOO.widget.Dialog('toolBoxHolder', {
-        close: false,
+        close: true,
         visible: false,
         x: 10,
         y: 10,
         zindex: 5000,
-        width: '235px'//,
+        width: '180px'//,
         //height: '482px'
     }
             );
+    var kl2 = new YAHOO.util.KeyListener(document, { ctrl:true, keys:89 },
+                                                   { fn:toolBox.show,
+                                                     scope:toolBox,
+                                                     correctScope:true } );
+    kl2.enable();
+     
     toolBox.render(document.body);
     toolBox.show();
     YAHOO.CSSGridBuilder.init();
