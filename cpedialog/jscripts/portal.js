@@ -94,7 +94,7 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         //JSON encode the cookie data
         var cookie = Y.JSON.stringify(list);
         //Set the sub-cookie
-        Y.Cookie.setSub('yui', 'portal', cookie);
+        Y.Cookie.setSub('cpedialog', 'portal', cookie);
     };
 
     //Helper method for creating the feed DD on the left
@@ -513,7 +513,7 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
 
     Y.on('io:xdrReady', function() {
         //Get the cookie data
-        var cookie = Y.Cookie.getSub('yui', 'portal');
+        var cookie = Y.Cookie.getSub('cpedialog', 'portal');
         if (cookie) {
             //JSON parse the stored data
             var obj = Y.JSON.parse(cookie);
@@ -551,7 +551,7 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
     });
 
     //delete the drags in the specified drop, use for deleting the drags in '#list3' when switch one column body split content. 
-    var deleteDragsInDrop = function(listId){
+    var deleteDragsInDrop = function(listId) {
         var list_ = Y.Node.get('#' + listId);
         var lis = Y.all('#' + listId + ' li.item');
         lis.each(function(v2, k2) {
@@ -562,7 +562,7 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
 
             v2.get('parentNode').removeChild(v2);
             item.removeClass('disabled');
-            
+
             //Destroy the DD instance.
             dd.destroy();
             _createFeedDD(item, data);
@@ -577,20 +577,35 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
 
     YAHOO.CSSGridBuilder = {
         init: function() {
-            this.type = 'yui-t5';
-            this.docType = 'doc2';
+            var cookie = Y.Cookie.getSub('cpedialog', 'layout');
+            if (cookie) {
+                //JSON parse the stored data
+                var obj = Y.JSON.parse(cookie);
+                Dom.get('which_doc').options.selectedIndex = obj[0];  //950px
+                Dom.get('which_grid').options.selectedIndex = obj[1]; //yui-t5
+                Dom.get('splitBody0').options.selectedIndex = obj[2];  //yui-gc
+            } else {
+                Dom.get('which_doc').options.selectedIndex = 1;  //950px
+                Dom.get('which_grid').options.selectedIndex = 4; //yui-t5
+                Dom.get('splitBody0').options.selectedIndex = 2;  //yui-gc
+            }
+
+            this.type = Dom.get('which_grid').options[Dom.get('which_grid').options.selectedIndex].value;
+            this.docType = Dom.get('which_doc').options[Dom.get('which_doc').options.selectedIndex].value;
             this.sliderData = false;
             this.bd = Dom.get('bd');
-            this.doc = Dom.get('doc2');
+            this.doc = Dom.get("doc2");
             this.template = Dom.get('which_grid');
-            Dom.get('which_doc').options.selectedIndex = 1;  //950px
-            Dom.get('which_grid').options.selectedIndex = 4; //yui-t5
-            Dom.get('splitBody0').options.selectedIndex = 2;  //yui-gc
+
             Event.on(this.template, 'change', YAHOO.CSSGridBuilder.changeType, YAHOO.CSSGridBuilder, true);
             Event.on('splitBody0', 'change', YAHOO.CSSGridBuilder.splitBody, YAHOO.CSSGridBuilder, true);
             Event.on('which_doc', 'change', YAHOO.CSSGridBuilder.changeDoc, YAHOO.CSSGridBuilder, true);
             var reset_button = new YAHOO.widget.Button('resetBuilder');
             reset_button.on('click', YAHOO.CSSGridBuilder.reset, YAHOO.CSSGridBuilder, true);
+            
+            this.changeDoc();
+            this.changeType();
+            this.splitBody();
         },
         reset: function(ev) {
             Dom.get('which_doc').options.selectedIndex = 1;  //950px
@@ -601,6 +616,7 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             this.changeType();
             this.splitBody();
             Event.stopEvent(ev);
+            this.setLayoutCookies();            
         },
         changeDoc: function(ev) {
             this.docType = Dom.get('which_doc').options[Dom.get('which_doc').selectedIndex].value;
@@ -615,13 +631,16 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             if (ev) {
                 Event.stopEvent(ev);
             }
+            this.setLayoutCookies();
         },
         changeType: function() {
             this.type = this.template.options[this.template.selectedIndex].value;
             this.doc.className = this.type;
+            this.setLayoutCookies();
         },
         splitBody: function() {
             this.splitBodyTemplate(Dom.get('splitBody0'));
+            this.setLayoutCookies();
         },
         splitBodyTemplate: function(tar) {
             var mainblock = Dom.get('div_mainblock');
@@ -672,6 +691,22 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
                 }
             }
         },
+
+        //store the layout to cookie
+        setLayoutCookies: function() {
+            var list = {};
+            var which_doc = Dom.get('which_doc').options.selectedIndex;
+            var which_grid = Dom.get('which_grid').options.selectedIndex;
+            var splitBody0 = Dom.get('splitBody0').options.selectedIndex;
+            list[0] = which_doc;
+            list[1] = which_grid;
+            list[2] = splitBody0;
+            //JSON encode the cookie data
+            var cookie = Y.JSON.stringify(list);
+            //Set the sub-cookie
+            Y.Cookie.setSub('cpedialog', 'layout', cookie);
+        },
+
 
         //show custom body size slider.
         showSlider: function() {
@@ -774,11 +809,11 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
     }
             );
     var kl2 = new YAHOO.util.KeyListener(document, { ctrl:true, keys:89 },
-                                                   { fn:toolBox.show,
-                                                     scope:toolBox,
-                                                     correctScope:true } );
+    { fn:toolBox.show,
+        scope:toolBox,
+        correctScope:true });
     kl2.enable();
-     
+
     toolBox.render(document.body);
     toolBox.show();
     YAHOO.CSSGridBuilder.init();
