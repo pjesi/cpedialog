@@ -1,11 +1,10 @@
 {% load i18n %}
+{% if BLOG.google_ajax_feed_enable %}
 <div id="ajaxfeed">
-
     <script src="http://www.google.com/jsapi/?key={{BLOG.google_ajax_feed_key}}"
             type="text/javascript"></script>
     <script src="http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.js"
             type="text/javascript"></script>
-
     <style type="text/css">
         @import url( "http://www.google.com/uds/solutions/dynamicfeed/gfdynamicfeedcontrol.css" );
     </style>
@@ -33,3 +32,4 @@
     <h3>&nbsp;{% trans "My Feeds" %} </h3>
     <div id="feedControl"> </div>
 </div>
+{% endif %}

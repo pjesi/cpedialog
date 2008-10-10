@@ -1,0 +1,11 @@
+{% load i18n %}
+<div id="comments">
+    <h2>{% trans "Recent comments" %}</h2>
+    <ul>
+        {% for blog in recentReactions %}
+        <li>
+            <a href="/{{blog.relative_permalink}}#reactions"> {{blog.title}}</A>
+        </li>
+        {% endfor %}
+    </ul>
+</div>

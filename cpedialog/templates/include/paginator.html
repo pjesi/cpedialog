@@ -1,5 +1,4 @@
-{% if page %}
-{% if page.number %}
+{% if page and page.number %}
 <div id="pagination">
 <div class="p_bar"><a class="p_total">&nbsp;{{page.paginator.count}} &nbsp;</a><a class="p_pages">
     &nbsp;{{page.number}}/{{page.real_pages}} &nbsp;</a></div>
@@ -20,5 +19,4 @@
 
 {% if page.show_last %} <a href="/page/{{ page.real_pages }}" class="p_redirect">&rsaquo;|</a> {% endif %}
 </div>
- {% endif %}
  {% endif %}

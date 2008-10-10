@@ -1,0 +1,18 @@
+{% load i18n %}
+<DIV id=login>
+    <H3>{% trans "Login" %}</H3>
+
+    <div id="gravatar">
+        <img src="{{user_gravatar_url}}"> <b> {{user_nickname}} </b>
+    </div>
+    <UL>
+        {% if user_is_admin %}
+        <LI><a href='/create/blog' onclick="this.blur()">{% trans "Add New Blog" %}</a>
+        <LI><a href='/create/page' onclick="this.blur()">{% trans "Add New Page" %}</a>
+        <LI><a href='/admin' onclick="this.blur()">{% trans "Admin/System Configuration" %}</a>
+        <LI><a href='/admin/layout' onclick="this.blur()">{% trans "Admin/Layout Management" %}</a>
+            {% endif %}
+        <LI><a href="{{ url }}" onclick="this.blur()">{{ url_linktext }}</a>
+        </LI>
+    </UL>
+</DIV>

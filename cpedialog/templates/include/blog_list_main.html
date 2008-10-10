@@ -1,0 +1,34 @@
+{% load i18n %}
+<div id=bloglist>
+    {% if page and page.object_list %}
+      {% for blog in page.object_list %}
+        <H2 class=date-header> {{blog.date|timezone:BLOG.time_zone_offset|date:"l, F m, Y"}} </H2>
+        <DIV class="post">
+        <H3 class=post-title>
+            <a href="/{{blog.relative_permalink}}">{{blog.title}}</a>
+        </H3>
+        <DIV class=post-body>
+         {{blog.content}}
+         </DIV>
+            {% if blog.tags %}
+            <p>
+                {% trans "Tags" %}:
+                {% for tag in blog.tags %}
+                <a href="/tag/{{ tag|unquote }}">{{ tag|unquote }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </p><br>
+            {% endif %}
+        <H4 class=byline> {% blocktrans with blog.author as b_author%}Posted by {{ b_author }} at{% endblocktrans %}
+           <A  class=timestamp-link href="/{{blog.relative_permalink}}">{{blog.date|timezone:BLOG.time_zone_offset|date:"H:i A"}}</A>
+                     {% if blog.weblogreactions_set.count %}
+                    <A class=comment-link href="/{{blog.relative_permalink}}#reactions">{{blog.weblogreactions_set.count}} {% trans "comments" %}</A>
+                    {% else %}<A class=comment-link href="/{{blog.relative_permalink}}#addreaction">{% trans "no comments" %}</A>{% endif %}
+        </H4>
+        </DIV>
+      {% endfor %}
+    {% else %}
+       <div>
+       {% trans "No articles!" %}
+       </div>
+    {% endif %}
+    </div>

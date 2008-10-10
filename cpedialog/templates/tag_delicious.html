@@ -1,12 +1,8 @@
 {% load i18n %}
 {% extends "main.html" %}
-
 {% block title %}{{title}} - {{tag}}{% endblock %}
-
-
 {% block blog %}
     <div id=bloglist>
-
     {% if posts %}
       {% for post in posts %}
         <DIV class="post">
@@ -22,7 +18,6 @@
                 {% endfor %}
             </p><br>
             {% endif %}
-            
         </DIV>
         <br><br>
         {% endfor %}
@@ -36,8 +31,6 @@
             </div>
         </div>
      {% endif %}
-
     </div>
-
 {% endblock %}
 
