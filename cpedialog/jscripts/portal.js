@@ -6,46 +6,13 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
     var goingUp = false, lastY = 0, trans = {};
 
     //The list of feeds that we are going to use
+    var drag_divs = Y.all("div.div_cpedialog");
+    
     var feeds = {
         'ynews': {
             id: 'ynews',
             title: 'Yahoo! US News',
             url: 'rss.news.yahoo.com/rss/us'
-        },
-        'yui': {
-            id: 'yui',
-            title: 'YUI Blog',
-            url: 'feeds.yuiblog.com/YahooUserInterfaceBlog'
-        },
-        'slashdot': {
-            id: 'slashdot',
-            title: 'Slashdot',
-            url: 'rss.slashdot.org/Slashdot/slashdot'
-        },
-        'ajaxian': {
-            id: 'ajaxian',
-            title: 'Ajaxian',
-            url: 'feeds.feedburner.com/ajaxian'
-        },
-        'daringfireball': {
-            id: 'daringfireball',
-            title: 'Daring Fireball',
-            url: 'daringfireball.net/index.xml'
-        },
-        'wiredtech': {
-            id: 'wiredtech',
-            title: 'Wire: Tech Biz',
-            url: 'www.wired.com/rss/techbiz.xml'
-        },
-        'techcrunch': {
-            id: 'techcrunch',
-            title: 'TechCrunch',
-            url: 'feedproxy.google.com/Techcrunch'
-        },
-        'smashing': {
-            id: 'smashing',
-            title: 'Smashing Magazine',
-            url: 'www.smashingmagazine.com/wp-rss.php'
         }
     };
 
@@ -109,6 +76,22 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         });
         //Setup some stopper events
         dd.on('drag:start', _handleStart);
+        dd.on('drag:end', stopper);
+        dd.on('drag:drophit', stopper);
+    };
+
+    //Helper method for creating the feed DD on the left
+    var _createDivDD = function(node, div) {
+        //Create the DD instance
+        var dd = new Y.DD.Drag({
+            node: node,
+            proxy: true,
+            moveOnEnd: false,
+            borderStyle: 'none',
+            data: div
+        });
+        //Setup some stopper events
+        dd.on('drag:start', _handleDivStart);
         dd.on('drag:end', stopper);
         dd.on('drag:drophit', stopper);
     };
@@ -290,6 +273,59 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         trans[id.id] = data.id;
     };
 
+    //This creates the module, either from a drag event or from the cookie load
+    var setupModDivDD = function(mod, data, dd) {
+        var node = mod;
+        //Listen for the click so we can react to the buttons
+        node.query('h2').on('click', _nodeClick);
+
+        //It's a target
+        dd.set('target', true);
+        //Remove the event's on the original drag instance
+        dd.unsubscribe('drag:start', stopper);
+        dd.unsubscribe('drag:end', stopper);
+        dd.unsubscribe('drag:drophit', stopper);
+
+        //Setup the handles
+        dd.addHandle('h2').addInvalid('a');
+        //Remove the mouse listeners on this node
+        dd._unprep();
+        //Update a new node
+        dd.set('node', mod);
+        //Reset the mouse handlers
+        dd._prep();
+
+        var d = feeds[trans[id]],
+            //Node reference
+                inner = d.mod.query('div.inner'),
+            //Parse the JSON data
+                oRSS = Y.JSON.parse(data.responseText),
+                html = '';
+
+        //Did we get data?
+        if (oRSS && oRSS.count) {
+            //Walk the list and create the news list
+            Y.each(oRSS.value.items, function(v, k) {
+                if (k < 5) {
+                    html += '<li><a href="' + v.link + '" target="_blank">' + v.title + '</a>';
+                }
+            });
+        }
+        //Set the innerHTML of the module
+        inner.set('innerHTML', '<ul>' + html + '</ul>');
+        if (Y.DD.DDM.activeDrag) {
+            //If we are still dragging, update the proxy element too..
+            var proxy_inner = Y.DD.DDM.activeDrag.get('dragNode').query('div.inner');
+            proxy_inner.set('innerHTML', '<ul>' + html + '</ul>');
+
+        }
+        
+        //Keep track of the transaction
+        feeds[data.id].trans = id;
+        feeds[data.id].mod = mod;
+        trans[id.id] = data.id;
+    };
+
 
     //Helper method to create the markup for the module..
     var createMod = function(feed) {
@@ -340,6 +376,42 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         this.unsubscribe('drag:start', _handleStart);
     };
 
+
+    //Handle the start Drag event on the left side
+    var _handleDivStart = function(e) {
+        //Stop the event
+        stopper(e);
+        //Some private vars
+        var drag = this,
+                list3 = Y.Node.get('#list1'),
+                mod = createMod(drag.get('data'));
+
+        //Add it to the first list
+        list3.appendChild(mod);
+        //Set the item on the left column disabled.
+        drag.get('node').addClass('disabled');
+        //Set the node on the instance
+        drag.set('node', mod);
+        //Add some styles to the proxy node.
+        drag.get('dragNode').setStyles({
+            opacity: '.5',
+            borderStyle: 'none',
+            width: '320px',
+            height: '61px'
+        });
+        //Update the innerHTML of the proxy with the innerHTML of the module
+        drag.get('dragNode').set('innerHTML', drag.get('node').get('innerHTML'));
+        //set the inner module to hidden
+        drag.get('node').query('div.mod').setStyle('visibility', 'hidden');
+        //add a class for styling
+        drag.get('node').addClass('moving');
+        //Setup the DD instance
+        //setupModDivDD(mod, drag.get('data'), drag);
+
+        //Remove the listener
+        this.unsubscribe('drag:start', _handleDivStart);
+    };
+
     //Walk through the feeds list and create the list on the left
     var feedList = Y.Node.get('#feeds ul');
     Y.each(feeds, function(v, k) {
@@ -347,6 +419,14 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         feedList.appendChild(li);
         //Create the DD instance for this item
         _createFeedDD(li, v);
+    });
+    
+    Y.each(drag_divs, function(v, k,items) {
+        var div_ = items.item(k);
+        var li = Y.Node.create('<li id="' + div_.get("id") + '">' + div_.get("title") + '</li>');
+        feedList.appendChild(li);
+        //Create the DD instance for this item
+        _createDivDD(li, div_);
     });
 
     //This does the calculations for when and where to move a module
