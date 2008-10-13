@@ -7,13 +7,15 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
 
     //The list of feeds that we are going to use
     var drag_divs = Y.all("div.div_cpedialog");
-    
+
     var feeds = {
+/*
         'ynews': {
             id: 'ynews',
             title: 'Yahoo! US News',
             url: 'rss.news.yahoo.com/rss/us'
         }
+*/
     };
 
     //Setup the config for IO to use flash
@@ -55,7 +57,16 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
                 //Is it minimized
                 var min = (mod.hasClass('minned')) ? true : false;
                 //Setup the cookie data
-                list[k][list[k].length] = { id: dd.get('data').id, min: min };
+
+                var data = dd.get('data');
+                var dataId;
+                if (typeof(data.id) != "undefined") {
+                    dataId = data.id;
+                } else {
+                    dataId = data.get('id');
+                }
+
+                list[k][list[k].length] = { id: dataId, min: min };
             });
         });
         //JSON encode the cookie data
@@ -80,21 +91,6 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         dd.on('drag:drophit', stopper);
     };
 
-    //Helper method for creating the feed DD on the left
-    var _createDivDD = function(node, div) {
-        //Create the DD instance
-        var dd = new Y.DD.Drag({
-            node: node,
-            proxy: true,
-            moveOnEnd: false,
-            borderStyle: 'none',
-            data: div
-        });
-        //Setup some stopper events
-        dd.on('drag:start', _handleDivStart);
-        dd.on('drag:end', stopper);
-        dd.on('drag:drophit', stopper);
-    };
 
     //Handle the node:click event
     /* {{{ */
@@ -157,8 +153,14 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
                 var li = div.get('parentNode'),
                         id = li.get('id'),
                         dd = Y.DD.DDM.getDrag('#' + id),
-                        data = dd.get('data'),
-                        item = Y.Node.get('#' + data.id);
+                        data = dd.get('data');
+                var dataId;
+                if (typeof(data.id) != "undefined") {
+                    dataId = data.id;
+                } else {
+                    dataId = data.get('id');
+                }
+                var item = Y.Node.get('#' + dataId);
 
                 //Destroy the DD instance.
                 dd.destroy();
@@ -224,117 +226,74 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         //Reset the mouse handlers
         dd._prep();
 
-        //The Yahoo! Pipes URL
-        var url = 'http:/' + '/pipes.yahooapis.com/pipes/pipe.run?_id=6b7b2c6a32f5a12e7259c36967052387&_render=json&url=http:/' + '/' + data.url;
-        //Start the XDR request
-        var id = Y.io(url, {
-            method: 'GET',
-            xdr: {
-                use:'flash'
-            },
-            //XDR Listeners
-            on: {
-                success: function(id, data) {
-                    //On success get the feed data
-                    var d = feeds[trans[id]],
-                        //Node reference
-                            inner = d.mod.query('div.inner'),
-                        //Parse the JSON data
-                            oRSS = Y.JSON.parse(data.responseText),
-                            html = '';
-
-                    //Did we get data?
-                    if (oRSS && oRSS.count) {
-                        //Walk the list and create the news list
-                        Y.each(oRSS.value.items, function(v, k) {
-                            if (k < 5) {
-                                html += '<li><a href="' + v.link + '" target="_blank">' + v.title + '</a>';
-                            }
-                        });
-                    }
-                    //Set the innerHTML of the module
-                    inner.set('innerHTML', '<ul>' + html + '</ul>');
-                    if (Y.DD.DDM.activeDrag) {
-                        //If we are still dragging, update the proxy element too..
-                        var proxy_inner = Y.DD.DDM.activeDrag.get('dragNode').query('div.inner');
-                        proxy_inner.set('innerHTML', '<ul>' + html + '</ul>');
-
-                    }
+        //only queue for the feed drag.
+        if (typeof(data.title) != "undefined") {
+            //The Yahoo! Pipes URL
+            var url = 'http:/' + '/pipes.yahooapis.com/pipes/pipe.run?_id=6b7b2c6a32f5a12e7259c36967052387&_render=json&url=http:/' + '/' + data.url;
+            //Start the XDR request
+            var id = Y.io(url, {
+                method: 'GET',
+                xdr: {
+                    use:'flash'
                 },
-                failure: function(id, data) {
-                    //Something failed..
-                    alert('Feed failed to load..' + id + ' :: ' + data);
-                }
-            }
-        });
-        //Keep track of the transaction
-        feeds[data.id].trans = id;
-        feeds[data.id].mod = mod;
-        trans[id.id] = data.id;
-    };
+                //XDR Listeners
+                on: {
+                    success: function(id, data) {
+                        //On success get the feed data
+                        var d = feeds[trans[id]],
+                            //Node reference
+                                inner = d.mod.query('div.inner'),
+                            //Parse the JSON data
+                                oRSS = Y.JSON.parse(data.responseText),
+                                html = '';
 
-    //This creates the module, either from a drag event or from the cookie load
-    var setupModDivDD = function(mod, data, dd) {
-        var node = mod;
-        //Listen for the click so we can react to the buttons
-        node.query('h2').on('click', _nodeClick);
+                        //Did we get data?
+                        if (oRSS && oRSS.count) {
+                            //Walk the list and create the news list
+                            Y.each(oRSS.value.items, function(v, k) {
+                                if (k < 5) {
+                                    html += '<li><a href="' + v.link + '" target="_blank">' + v.title + '</a>';
+                                }
+                            });
+                        }
+                        //Set the innerHTML of the module
+                        inner.set('innerHTML', '<ul>' + html + '</ul>');
+                        if (Y.DD.DDM.activeDrag) {
+                            //If we are still dragging, update the proxy element too..
+                            var proxy_inner = Y.DD.DDM.activeDrag.get('dragNode').query('div.inner');
+                            proxy_inner.set('innerHTML', '<ul>' + html + '</ul>');
 
-        //It's a target
-        dd.set('target', true);
-        //Remove the event's on the original drag instance
-        dd.unsubscribe('drag:start', stopper);
-        dd.unsubscribe('drag:end', stopper);
-        dd.unsubscribe('drag:drophit', stopper);
-
-        //Setup the handles
-        dd.addHandle('h2').addInvalid('a');
-        //Remove the mouse listeners on this node
-        dd._unprep();
-        //Update a new node
-        dd.set('node', mod);
-        //Reset the mouse handlers
-        dd._prep();
-
-        var d = feeds[trans[id]],
-            //Node reference
-                inner = d.mod.query('div.inner'),
-            //Parse the JSON data
-                oRSS = Y.JSON.parse(data.responseText),
-                html = '';
-
-        //Did we get data?
-        if (oRSS && oRSS.count) {
-            //Walk the list and create the news list
-            Y.each(oRSS.value.items, function(v, k) {
-                if (k < 5) {
-                    html += '<li><a href="' + v.link + '" target="_blank">' + v.title + '</a>';
+                        }
+                    },
+                    failure: function(id, data) {
+                        //Something failed..
+                        alert('Feed failed to load..' + id + ' :: ' + data);
+                    }
                 }
             });
+            //Keep track of the transaction
+            feeds[data.id].trans = id;
+            feeds[data.id].mod = mod;
+            trans[id.id] = data.id;
         }
-        //Set the innerHTML of the module
-        inner.set('innerHTML', '<ul>' + html + '</ul>');
-        if (Y.DD.DDM.activeDrag) {
-            //If we are still dragging, update the proxy element too..
-            var proxy_inner = Y.DD.DDM.activeDrag.get('dragNode').query('div.inner');
-            proxy_inner.set('innerHTML', '<ul>' + html + '</ul>');
-
-        }
-        
-        //Keep track of the transaction
-        feeds[data.id].trans = id;
-        feeds[data.id].mod = mod;
-        trans[id.id] = data.id;
     };
 
 
     //Helper method to create the markup for the module..
-    var createMod = function(feed) {
+    var createMod = function(data) {
+        var title = "";
+        var content = '<div class="loading">Feed loading, please wait..</div>';
+        if (typeof(data.title) != "undefined") {  //for feed mod.
+            title = data.title;
+        } else {
+            title = data.get('title');  //for div mod.
+            content = data.get('innerHTML');
+        }
         var str = '<li class="item">' +
                   '<div class="mod">' +
-                  '<h2><strong>' + feed.title + '</strong> <a title="minimize module" class="min" href="#"> </a>' +
+                  '<h2><strong>' + title + '</strong> <a title="minimize module" class="min" href="#"> </a>' +
                   '<a title="close module" class="close" href="#"></a></h2>' +
-                  '<div class="inner">' +
-                  '    <div class="loading">Feed loading, please wait..</div>' +
+                  '<div class="inner">' +  content +
                   '</div>' +
                   '</div>' +
                   '</li>';
@@ -377,41 +336,6 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
     };
 
 
-    //Handle the start Drag event on the left side
-    var _handleDivStart = function(e) {
-        //Stop the event
-        stopper(e);
-        //Some private vars
-        var drag = this,
-                list3 = Y.Node.get('#list1'),
-                mod = createMod(drag.get('data'));
-
-        //Add it to the first list
-        list3.appendChild(mod);
-        //Set the item on the left column disabled.
-        drag.get('node').addClass('disabled');
-        //Set the node on the instance
-        drag.set('node', mod);
-        //Add some styles to the proxy node.
-        drag.get('dragNode').setStyles({
-            opacity: '.5',
-            borderStyle: 'none',
-            width: '320px',
-            height: '61px'
-        });
-        //Update the innerHTML of the proxy with the innerHTML of the module
-        drag.get('dragNode').set('innerHTML', drag.get('node').get('innerHTML'));
-        //set the inner module to hidden
-        drag.get('node').query('div.mod').setStyle('visibility', 'hidden');
-        //add a class for styling
-        drag.get('node').addClass('moving');
-        //Setup the DD instance
-        //setupModDivDD(mod, drag.get('data'), drag);
-
-        //Remove the listener
-        this.unsubscribe('drag:start', _handleDivStart);
-    };
-
     //Walk through the feeds list and create the list on the left
     var feedList = Y.Node.get('#feeds ul');
     Y.each(feeds, function(v, k) {
@@ -420,13 +344,14 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         //Create the DD instance for this item
         _createFeedDD(li, v);
     });
-    
-    Y.each(drag_divs, function(v, k,items) {
+
+    Y.each(drag_divs, function(v, k, items) {
         var div_ = items.item(k);
         var li = Y.Node.create('<li id="' + div_.get("id") + '">' + div_.get("title") + '</li>');
         feedList.appendChild(li);
         //Create the DD instance for this item
-        _createDivDD(li, div_);
+        div_.setAttribute("id",div_.get("id"));
+        _createFeedDD(li, div_);
     });
 
     //This does the calculations for when and where to move a module
@@ -638,7 +563,13 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             //Get the drag instance for the list item
             var dd = Y.DD.DDM.getDrag('#' + v2.get('id'));
             var data = dd.get('data');
-            var item = Y.Node.get('#' + data.id);
+            var dataId;
+            if (typeof(data.id) != "undefined") {
+                dataId = data.id;
+            } else {
+                dataId = data.get('id');
+            }
+            var item = Y.Node.get('#' + dataId);
 
             v2.get('parentNode').removeChild(v2);
             item.removeClass('disabled');
@@ -682,7 +613,7 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             Event.on('which_doc', 'change', YAHOO.CSSGridBuilder.changeDoc, YAHOO.CSSGridBuilder, true);
             var reset_button = new YAHOO.widget.Button('resetBuilder');
             reset_button.on('click', YAHOO.CSSGridBuilder.reset, YAHOO.CSSGridBuilder, true);
-            
+
             this.changeDoc();
             this.changeType();
             this.splitBody();
@@ -696,7 +627,7 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             this.changeType();
             this.splitBody();
             Event.stopEvent(ev);
-            this.setLayoutCookies();            
+            this.setLayoutCookies();
         },
         changeDoc: function(ev) {
             this.docType = Dom.get('which_doc').options[Dom.get('which_doc').selectedIndex].value;
