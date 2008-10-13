@@ -31,8 +31,13 @@
             padding-bottom: .25em
         }
     </style>
-</head>
+    <base target="_blank"/>
+</head>    
 <body class="yui-skin-sam">
+<div>
+   You can press <b>Ctrl+Y</b> to show the hidden toolbox.  <a href="/" target="_blank">Preview</a><br>
+    All the change will store in Cookie, when you click "Save Current Layout" button, the setting in Cookie will persistence to DB.
+</div>
 <div id="doc2" class="yui-t5">
     <div id="hd">
         <ul class="list" id="list1">
@@ -90,18 +95,12 @@
     <div id="drag_tagclound" class="div_cpedialog" title="Tag Clound">
     {% include "../include/tagclound.html" %}
     </div>
-    <div id="drag_js" class="div_cpedialog" title="JS test">
-        <script type="text/javascript" src="http://www.douban.com/service/badge/cpedia/?show=collection&amp;n=8&amp;columns=2" ></script>
-    </div>
 </div>
 <div id="toolBoxHolder">
     <div class="hd">Toolbox</div>
     <div class="bd">
-        <div>
-            You can press <b>Ctrl+Y</b> to show the hidden toolbox.
-        </div>
         <div id="feeds">
-                <p>Drag a news feed into one of the columns.</p>
+                <p>Drag a div into one of the columns.</p>
                 <ul></ul>
         </div>
         <form id="grids">
@@ -141,8 +140,9 @@
                     </p>
                 </span>
             </fieldset>
-            <button type="button" id="saveLayout">Save Current Layout</button> <br>
-            <button type="button" id="resetBuilder">Reset</button>
+            <button type="button" id="addDiv">Add new DIV</button> <br><br>
+            <button type="button" id="saveLayout">Save Current Layout</button> <br><br>
+            <button type="button" id="resetBuilder">Reset System Default</button>
         </form>
     </div>
     <div class="ft"></div>

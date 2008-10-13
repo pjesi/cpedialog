@@ -102,7 +102,7 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             if (a.hasClass('min')) {
                 //Get some node references
                 var ul = div.query('ul'),
-                        h2 = div.query('h2'),
+                        h2 = div.query('div_cpedialog'),
                         h = h2.get('offsetHeight'),
                         hUL = ul.get('offsetHeight'),
                         inner = div.query('div.inner');
@@ -287,7 +287,8 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             title = data.title;
         } else {
             title = data.get('title');  //for div mod.
-            //content = data.get('innerHTML').replace(/<script.*?>.*?<\/script>/ig, ''); ;
+            content = data.get('innerHTML') ;
+            //todo:
             while(content.indexOf('<script')!=-1){
              content = content.replace('<script','<!--script');
             }
@@ -618,11 +619,22 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             Event.on('splitBody0', 'change', YAHOO.CSSGridBuilder.splitBody, YAHOO.CSSGridBuilder, true);
             Event.on('which_doc', 'change', YAHOO.CSSGridBuilder.changeDoc, YAHOO.CSSGridBuilder, true);
             var reset_button = new YAHOO.widget.Button('resetBuilder');
+            var save_button = new YAHOO.widget.Button('saveLayout');
             reset_button.on('click', YAHOO.CSSGridBuilder.reset, YAHOO.CSSGridBuilder, true);
+            save_button.on('click', YAHOO.CSSGridBuilder.save, YAHOO.CSSGridBuilder, true);
 
-            this.changeDoc();
+            //this.changeDoc();
             this.changeType();
             this.splitBody();
+            if (this.docType == 'custom-doc') {
+                this.doc.id = this.docType;
+                this.doc.style.width = obj[3];
+            }else{
+                this.doc.style.width = '';
+                this.doc.style.minWidth = '';
+                this.sliderData = false;
+                this.doc.id = this.docType;
+            }
         },
         reset: function(ev) {
             Dom.get('which_doc').options.selectedIndex = 1;  //950px
@@ -634,6 +646,11 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             this.splitBody();
             Event.stopEvent(ev);
             this.setLayoutCookies();
+        },
+        save: function(ev) {
+            var cookie_dd = Y.Cookie.getSub('cpedialog', 'portal');
+            var cookie_grid = Y.Cookie.getSub('cpedialog', 'layout');
+            //todo: save the layout into db.
         },
         changeDoc: function(ev) {
             this.docType = Dom.get('which_doc').options[Dom.get('which_doc').selectedIndex].value;
@@ -718,6 +735,9 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             list[0] = which_doc;
             list[1] = which_grid;
             list[2] = splitBody0;
+            if(which_doc==4){
+                list[3] = this.doc.style.width;
+            }
             //JSON encode the cookie data
             var cookie = Y.JSON.stringify(list);
             //Set the sub-cookie
@@ -785,6 +805,7 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
                     Dom.get('sliderValue').value = pix + 'px';
                 }
                 Dom.get('custom-doc').style.minWidth = '250px';
+                YAHOO.CSSGridBuilder.setLayoutCookies();
             }
 
             var handleBlur = function() {

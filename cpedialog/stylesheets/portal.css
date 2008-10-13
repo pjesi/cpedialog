@@ -6,14 +6,14 @@
 
 #feeds {
     background-color: #B3D4FF;
-    margin-top: .75em;
+    /*margin-top: .75em;*/
     border: 1px solid #CDCDCD;
     padding: .5em;
     position: relative;
 }
 
 #feeds ul li {
-    background-image: url(http://us.i1.yimg.com/us.yimg.com/i/tb/iconsgif/rss_1.gif);
+    background-image: url(/img/text_block.png);
     background-repeat: no-repeat;
     background-color: #B3D4FF;
     padding-left: 25px;
@@ -139,7 +139,7 @@ div.mod h2 {
 
 div.mod h2 strong {
     font-weight: bold;
-    background-image: url(http://us.i1.yimg.com/us.yimg.com/i/tb/iconsgif/rss_1.gif);
+    background-image: url(/img/text_block.png);
     background-repeat: no-repeat;
     padding-left: 25px;
 }
