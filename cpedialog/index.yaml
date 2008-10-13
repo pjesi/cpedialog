@@ -17,13 +17,13 @@ indexes:
   - name: order
     direction: desc
 
-# Used 54 times in query history.
+# Used 55 times in query history.
 - kind: Archive
   properties:
   - name: date
     direction: desc
 
-# Used 257 times in query history.
+# Used 276 times in query history.
 - kind: Feeds
   properties:
   - name: valid
@@ -47,7 +47,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 484 times in query history.
+# Used 503 times in query history.
 - kind: Menu
   properties:
   - name: valid
@@ -65,7 +65,7 @@ indexes:
   - name: entrycount
     direction: desc
 
-# Used 256 times in query history.
+# Used 275 times in query history.
 - kind: Tag
   properties:
   - name: valid
@@ -91,7 +91,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 75 times in query history.
+# Used 77 times in query history.
 - kind: Weblog
   properties:
   - name: entrytype
@@ -106,7 +106,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 32 times in query history.
+# Used 33 times in query history.
 - kind: Weblog
   properties:
   - name: lastCommentedDate

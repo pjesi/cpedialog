@@ -287,7 +287,13 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             title = data.title;
         } else {
             title = data.get('title');  //for div mod.
-            content = data.get('innerHTML');
+            //content = data.get('innerHTML').replace(/<script.*?>.*?<\/script>/ig, ''); ;
+            while(content.indexOf('<script')!=-1){
+             content = content.replace('<script','<!--script');
+            }
+            while(content.indexOf('</script>')!=-1){
+            content = content.replace('</script>','</script-->');
+            }
         }
         var str = '<li class="item">' +
                   '<div class="mod">' +

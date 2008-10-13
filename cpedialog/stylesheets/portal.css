@@ -101,6 +101,7 @@ div.mod div.inner div.loading {
 div.mod div.inner ul li a {
     color: #000;
 }
+
 div.mod h2 {
     position: relative;
     zoom: 1;
@@ -112,6 +113,28 @@ div.mod h2 {
     background-image: url(/img/sprite.png);
     background-position: 0 -1300px;
     zoom: 1;
+}
+
+#bloglist h2, #comments h2 {
+    position: relative;
+    zoom: 1;
+    margin: 0;
+    border-bottom: none;
+    cursor: auto;
+    padding: 0px;
+    color: #333;
+    background-image: none;
+    background-position: 0 0;
+    zoom: 1;
+}
+
+#comments h2{
+    color: #963;
+    font: italic 12px / 1.2 georgia, 'times new roman', serif;
+    letter-spacing: 3px;
+    margin: 0px 0px 8px;
+    text-decoration: none;
+    text-transform: uppercase;    
 }
 
 div.mod h2 strong {
