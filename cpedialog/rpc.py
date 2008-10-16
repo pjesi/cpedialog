@@ -448,3 +448,11 @@ class RPCHandler(webapp.RequestHandler):
           user.openids.remove(db.Category(openid.strip().encode('utf8')))
           user.put()
       return True
+
+  @authorized.role('admin')
+  def UpdateLayout(self,request):
+      dd = request.get("dd")
+      grid = request.get("grid")
+      
+      
+

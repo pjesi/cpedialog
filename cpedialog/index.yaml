@@ -10,20 +10,20 @@ indexes:
 # automatically uploaded to the admin console when you next deploy
 # your application using appcfg.py.
 
-# Used 11 times in query history.
+# Used 2 times in query history.
 - kind: Album
   properties:
   - name: valid
   - name: order
     direction: desc
 
-# Used 119 times in query history.
+# Used 60 times in query history.
 - kind: Archive
   properties:
   - name: date
     direction: desc
 
-# Used 477 times in query history.
+# Used 293 times in query history.
 - kind: Feeds
   properties:
   - name: valid
@@ -41,13 +41,13 @@ indexes:
   - name: -date
     direction: desc
 
-# Used 6 times in query history.
+# Used 10 times in query history.
 - kind: Images
   properties:
   - name: date
     direction: desc
 
-# Used 500 times in query history.
+# Used 520 times in query history.
 - kind: Menu
   properties:
   - name: valid
@@ -65,13 +65,13 @@ indexes:
   - name: entrycount
     direction: desc
 
-# Used 473 times in query history.
+# Used 292 times in query history.
 - kind: Tag
   properties:
   - name: valid
   - name: tag
 
-# Used 38 times in query history.
+# Used once in query history.
 - kind: UsedNonce
   properties:
   - name: salt
@@ -91,7 +91,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 131 times in query history.
+# Used 89 times in query history.
 - kind: Weblog
   properties:
   - name: entrytype
@@ -106,7 +106,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 48 times in query history.
+# Used 39 times in query history.
 - kind: Weblog
   properties:
   - name: lastCommentedDate
@@ -119,7 +119,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 4 times in query history.
+# Used once in query history.
 - kind: Weblog
   properties:
   - name: permalink
@@ -138,7 +138,7 @@ indexes:
   - name: date
     direction: desc
 
-# Used 12 times in query history.
+# Used 2 times in query history.
 - kind: WeblogReactions
   properties:
   - name: weblog

@@ -650,7 +650,19 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
         save: function(ev) {
             var cookie_dd = Y.Cookie.getSub('cpedialog', 'portal');
             var cookie_grid = Y.Cookie.getSub('cpedialog', 'layout');
-            //todo: save the layout into db.
+            var sUrl = "/rpc?action=UpdateLayout&dd=" + encodeURIComponent(cookie_dd) + "&grid=" + encodeURIComponent(cookie_grid) +
+                       "&time=" + new Date().getTime();
+            var updateLayoutSuccess = function(o) {
+                if (o.responseText !== undefined) {
+                    alert("Update Layout successfully.");
+                }
+            }
+            var callback =
+            {
+                success:updateLayoutSuccess,
+                failure:handleFailure
+            };
+            YAHOO.util.Connect.asyncRequest('POST', sUrl, callback);
         },
         changeDoc: function(ev) {
             this.docType = Dom.get('which_doc').options[Dom.get('which_doc').selectedIndex].value;
@@ -680,10 +692,8 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             var mainblock = Dom.get('div_mainblock');
             var mainblock_sub1 = Dom.get('div_mainblock_sub1');
             var mainblock_sub2 = Dom.get('div_mainblock_sub2');
-            var list3 = Dom.get('list3').cloneNode(true);
             if (tar) {
                 var bSplit = tar.options[tar.selectedIndex].value;
-                var str = '';
                 switch (bSplit) {
                     case '1':
                         mainblock.className = 'yui-g';
