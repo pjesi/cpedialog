@@ -451,8 +451,10 @@ class RPCHandler(webapp.RequestHandler):
 
   @authorized.role('admin')
   def UpdateLayout(self,request):
-      dd = request.get("dd")
-      grid = request.get("grid")
+      dd = simplejson.loads(request.get("dd"))
+      grid = simplejson.loads(request.get("grid"))
+      
+      
       
       
 

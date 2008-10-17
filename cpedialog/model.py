@@ -188,8 +188,7 @@ class CPediaLog(db.Model):
     def get_logo_images_list(self):
         '''space delimted list of tags'''
         if not self.logo_images:
-            logog_images_ =  ["http://cpedialog.appspot.com/img/logo/logo1.gif",
-                    "http://cpedialog.appspot.com/img/logo/logo2.gif"]
+            logog_images_ =  [self.root_url + "/img/logo/logo1.gif", self.root_url + "/img/logo/logo2.gif"]
             return logog_images_
         else:
             return self.logo_images
@@ -197,17 +196,29 @@ class CPediaLog(db.Model):
     def get_logo_images(self):
         '''space delimted list of tags'''
         if not self.logo_images:
-            logog_images_ =  ["http://cpedialog.appspot.com/img/logo/logo1.gif",
-                    "http://cpedialog.appspot.com/img/logo/logo2.gif"]
+            logog_images_ =  [self.root_url + "/img/logo/logo1.gif", self.root_url + "/img/logo/logo2.gif"]
             self.logo_images = [db.Category(logo_image.strip().encode('utf8')) for logo_image in logog_images_]
         return ' '.join([urllib.unquote(logo_image) for logo_image in self.logo_images])
 
     def set_logo_images(self, logo_images):
         if not logo_images:
-            logo_images =  "http://cpedialog.appspot.com/img/logo/logo1.gif http://cpedialog.appspot.com/img/logo/logo2.gif"
+            logo_images =  self.root_url + "/img/logo/logo1.gif " + self.root_url + "/img/logo/logo2.gif"
         self.logo_images = [db.Category(logo_image.strip().encode('utf8')) for logo_image in logo_images.split(' ')]
 
     logo_images_space = property(get_logo_images,set_logo_images)
+
+
+class Portal(db.Model):
+    page_title = db.StringProperty(default='Main')
+    page_url = db.StringProperty()
+    body_size = db.StringProperty()
+    sidebar = db.StringProperty()
+    body_split = db.StringProperty()
+    weblog = db.ReferenceProperty(Weblog)
+
+
+class Portlet(db.Model):
+    title = db.StringProperty(multiline=False)
 
 
 class User(EmailUser):
