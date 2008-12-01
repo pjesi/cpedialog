@@ -290,7 +290,7 @@ YUI(yuiConfig).use('dd', 'anim', 'anim-easing', 'io', 'cookie', 'json', function
             content = data.get('innerHTML') ;
             //todo:
             while(content.indexOf('<script')!=-1){
-             content = content.replace('<script','<!--script');
+             content = content.replace()('<script','<!--script');
             }
             while(content.indexOf('</script>')!=-1){
             content = content.replace('</script>','</script-->');

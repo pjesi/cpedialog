@@ -1,5 +1,5 @@
 application: pchen
-version: 1
+version: 2
 runtime: python
 api_version: 1
 skip_files: |
@@ -37,3 +37,11 @@ handlers:
 
 - url: /.*
   script: main.py
+
+- url: /canvas.html
+  static_files: jscripts/friendconnect/canvas.html
+  upload: jscripts/friendconnect/canvas.html
+
+- url: /rpc_relay.html
+  static_files: jscripts/friendconnect/rpc_relay.html
+  upload: jscripts/friendconnect/rpc_relay.html

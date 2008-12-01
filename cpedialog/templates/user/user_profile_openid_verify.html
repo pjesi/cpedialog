@@ -5,6 +5,7 @@
 {% if msg %}
    <script>
     alert("{{msg}}");
+    opener.location.reload(); 
     window.close();
    </script>
 {% else %}

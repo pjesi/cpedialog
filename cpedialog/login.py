@@ -259,8 +259,11 @@ class LoginOpenIDFinish(BaseRequestHandler):
                         user.openids += [db.Category(openid.strip().encode('utf8'))]
                         user.put()
                     else:
+                        msg = "OpenID had already been attached to another user."
+                        if users.count()==1 and users.get() == user:
+                            msg = "OpenID had already been attached to you."
                         self.generate('user/user_profile_openid_verify.html',
-                                      {"status":"fail","msg":"Attach OpenID to user unsuccessfully: OpenID had been attached to another user."})
+                                      {"status":"fail","msg":msg})
                         return
                 self.generate('user/user_profile_openid_verify.html',
                               {"status":"success","msg":"Attach OpenID to user successfully."})

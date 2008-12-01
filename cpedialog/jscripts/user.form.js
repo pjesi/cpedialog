@@ -342,13 +342,13 @@ YAHOO.util.Event.onDOMReady(function() {
             year_ = parseInt(birth_nums[0], 10);
             month_ = parseInt(birth_nums[1], 10);
             day_ = parseInt(birth_nums[2], 10);
-        }
-        if (id == 0) {
-            return year_;
-        } else if (id == 1) {
-            return month_;
-        } else if (id == 2) {
-            return day_;
+            if (id == 0) {
+                return year_;
+            } else if (id == 1) {
+                return month_;
+            } else if (id == 2) {
+                return day_;
+            }
         }
         return null;
     }
@@ -430,69 +430,15 @@ YAHOO.util.Event.onDOMReady(function() {
         }
     });
 
-
-    // Create a panel Instance, from the 'resizablepanel' DIV standard module markup
-    var panel = new YAHOO.widget.Panel("resizablepanel", {
-        draggable: true,
-        width: "800px",
-        height: "400px",
-        visible:false,
-        fixedcenter:true,
-        autofillheight: "body", // default value, specified here to highlight its use in the example
-        constraintoviewport:true,
-        context: ["showbtn", "tl", "bl"]
-    });
-    panel.render();
-
-    // Create Resize instance, binding it to the 'resizablepanel' DIV
-    var resize = new YAHOO.util.Resize("resizablepanel", {
-        handles: ["br"],
-        autoRatio: false,
-        minWidth: 300,
-        minHeight: 100,
-        status: false
-    });
-
-    // Setup startResize handler, to constrain the resize width/height
-    // if the constraintoviewport configuration property is enabled.
-    resize.on("startResize", function(args) {
-
-        if (this.cfg.getProperty("constraintoviewport")) {
-            var D = YAHOO.util.Dom;
-
-            var clientRegion = D.getClientRegion();
-            var elRegion = D.getRegion(this.element);
-
-            resize.set("maxWidth", clientRegion.right - elRegion.left - YAHOO.widget.Overlay.VIEWPORT_OFFSET);
-            resize.set("maxHeight", clientRegion.bottom - elRegion.top - YAHOO.widget.Overlay.VIEWPORT_OFFSET);
-        } else {
-            resize.set("maxWidth", null);
-            resize.set("maxHeight", null);
-        }
-
-    }, panel, true);
-
-    // Setup resize handler to update the Panel's 'height' configuration property
-    // whenever the size of the 'resizablepanel' DIV changes.
-
-    // Setting the height configuration property will result in the
-    // body of the Panel being resized to fill the new height (based on the
-    // autofillheight property introduced in 2.6.0) and the iframe shim and
-    // shadow being resized also if required (for IE6 and IE7 quirks mode).
-    resize.on("resize", function(args) {
-        var panelHeight = args.height;
-        this.cfg.setProperty("height", panelHeight + "px");
-    }, panel, true);
-
-    YAHOO.util.Event.on("userOpenIDForm", "submit", function() {
+    YAHOO.util.Event.on("attach_open_id", "click", function() {
         var openid_identifier = document.getElementById("openid_identifier");
-        frames["verify_openid_frame"].location.href = "/login/openid/verify";        
         if (openid_identifier.value != "") {
-            document.getElementById("userOpenIDForm").target = "verify_openid_frame";
-            document.getElementById("userOpenIDForm").submit();
-            panel.show();
+            window.open("/login/openid/verify/","verify_openid","modal=yes,width=800,height=600,resizable=yes,scrollbars=yes");
+            var userOpenIDForm = document.getElementById("userOpenIDForm");
+            userOpenIDForm.target = "verify_openid";
+            userOpenIDForm.submit();
         }
-    },panel,true);
+    },true);
     ;
 
 });

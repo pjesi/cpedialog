@@ -117,7 +117,7 @@
                 <tr>
                     <th/>
                     <td>
-                        <input type="submit" value="Attach an OpenID"/>
+                        <input type="button" value="Attach an OpenID" id="attach_open_id"/>
                     </td>
                 </tr>
             </table>
@@ -131,9 +131,9 @@
             <input type="hidden" value="{%if temp_user%}{{temp_user.id}}{%endif%}"  name="userid"/>
             <table cellspacing="0" class="yui-skin-sam noborder_table">
                 <tr>
-                    <th><label for="password">Password</label></th>
+                    <th><label for="password">New Password</label></th>
                     <td><input type="password" id="password" maxlength="255" name="password" size="30"/>
-                        <span id="checkPasswordAlert"></span>                        
+                        <span id="checkPasswordAlert"></span>
                         <div id="password_unavailable_text">
                             {% trans "at least 6 characters (case sensitive)" %}
                         </div>
