@@ -172,8 +172,8 @@ class FeedHandler(BaseRequestHandler):
         useralbums = {}
         for user_ in usernames:
             try:
-                albums = gd_client.GetUserFeed(user=user_.album_username)
-                useralbums[user_.album_username] = albums
+                feed = self.getAlbumFeedEntry(user_.album_username)
+                useralbums[user_.album_username] = feed.entry
             except Exception:
                 pass
         self.response.headers['Content-Type'] = 'application/atom+xml'
