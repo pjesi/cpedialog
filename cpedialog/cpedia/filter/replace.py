@@ -54,6 +54,8 @@ def escape ( str ):
 
 @register.filter
 def timezone ( date, time_zone_offset ):
+        if time_zone_offset is None:
+           time_zone_offset = 0 
         offset = datetime.timedelta(hours=time_zone_offset)
         return date+offset
 

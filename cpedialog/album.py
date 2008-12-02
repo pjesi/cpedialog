@@ -94,7 +94,7 @@ class MainPage(BaseRequestHandler):
     if usernames:
         defaultAlbum = usernames[0]
         album_username = defaultAlbum.album_username
-        feed = self.getAlbumFeedEntry(defaultAlbum.album_username)
+        feed = self.getAlbumFeedEntry(album_username)
         template_values = self.validatorFeedAndReturnTemplate(feed,album_username,usernames)
     else:
         template_values ={
@@ -177,7 +177,7 @@ class FeedHandler(BaseRequestHandler):
             except Exception:
                 pass
         self.response.headers['Content-Type'] = 'application/atom+xml'
-        self.generate('atom_albums.xml',{'albums':useralbums.iteritems()})
+        self.generate('atom_albums.xml',{'useralbums':useralbums.iteritems()})
 
 
 #deprecated

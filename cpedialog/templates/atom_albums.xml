@@ -2,9 +2,9 @@
 <rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/"
     xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
-        {% for user in users %}
-         {% for album in user.albums %}
-        <atom:link rel="{{album.title.text}}" href="http://picasaweb.google.com/data/feed/projection/user/{{user}}/albumid/{{album.name.text}}?kind=photo" />
+        {% for item in useralbums %}
+         {% for album in item.1 %}
+        <atom:link rel="alternate" href="http://picasaweb.google.com/data/feed/projection/user/{{item.0}}/albumid/{{album.name.text}}?kind=photo" />
          {% endfor %}
         {% endfor %}
     </channel>
