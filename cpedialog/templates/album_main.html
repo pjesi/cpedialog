@@ -2,9 +2,9 @@
 {% extends "main.html" %}
 {% block title %}{{title}} - Albums - {{username}}{% endblock %}
 
-{% block head %}
-<link rel="alternate" href="/atom/albums" type="application/rss+xml" title="{{ BLOG.title }} Album Feeds"/>
+{% block header %}
 <script type="text/javascript" src="http://lite.piclens.com/current/piclens.js"></script>
+<link rel="alternate" href="/atom/albums" type="application/rss+xml" title="{{ BLOG.title }}"/>
 {% endblock %}
 
 {% block blogcontainer %}
@@ -34,6 +34,7 @@
         <p>
             {% blocktrans %}Here are the album list of user {{username}}{% endblocktrans %}.
         <br>
+        <a href="javascript:PicLensLite.start();">Start slideshow of photos</a>
     </div>
     <div id="albums">
         {% for album in albums %}

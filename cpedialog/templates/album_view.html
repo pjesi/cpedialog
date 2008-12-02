@@ -1,10 +1,12 @@
 {% load i18n %}
 {% extends "main.html" %}
 {% block title %}{{title}} - Albums - {% if album %}{{album.title.text}}{% endif %}{% endblock %}
-{% block head %}
-<link rel="alternate" href="/atom/albums" type="application/rss+xml" title="{{ BLOG.title }} Album Feeds"/>
+
+{% block header %}
 <script type="text/javascript" src="http://lite.piclens.com/current/piclens.js"></script>
+<link rel="alternate" href="/atom/albums" type="application/rss+xml" title="{{ BLOG.title }}"/>
 {% endblock %}
+        
 {% block blogcontainer %}
 <script type="text/javascript" src="/jscripts/lightbox2.04/js/prototype.js"></script>
 <script type="text/javascript" src="/jscripts/lightbox2.04/js/scriptaculous.js?load=effects,builder"></script>
@@ -19,6 +21,8 @@
             <p>
             {% blocktrans with album.datetime|date:"m/d/y" as album_datatime %}Shot at: {{ album_datatime }}{% endblocktrans %} <br>
             {% blocktrans with album.numphotos as album_numphotos %}Photos Num: {{ album_numphotos }}{% endblocktrans %}
+            <br>
+            <a href="javascript:PicLensLite.start();">Start slideshow of photos</a>
         </div>
         {% endif %}
         <p>
