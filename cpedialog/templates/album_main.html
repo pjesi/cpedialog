@@ -1,12 +1,10 @@
 {% load i18n %}
 {% extends "main.html" %}
 {% block title %}{{title}} - Albums - {{username}}{% endblock %}
-
 {% block header %}
-<script type="text/javascript" src="http://lite.piclens.com/current/piclens.js"></script>
-<link rel="alternate" href="/atom/albums" type="application/rss+xml" title="{{ BLOG.title }}"/>
+    <script type="text/javascript" src="http://lite.piclens.com/current/piclens.js"></script>
+    <link rel="alternate" href="/atom/albums" type="application/rss+xml" title="{{ BLOG.title }}"/>
 {% endblock %}
-
 {% block blogcontainer %}
 <script type="text/javascript">
     function showAlbumByUser(obj){
@@ -21,7 +19,7 @@
        {{error}}
    </div>
     {% endif %}
-   {% if albums %}
+
     <div id="albuminfo">
         <H3>{% trans "Albums" %}</H3>
         <p>
@@ -36,6 +34,7 @@
         <br>
         <a href="javascript:PicLensLite.start();">Start slideshow of photos</a>
     </div>
+   {% if albums %}
     <div id="albums">
         {% for album in albums %}
           <div class="album_thumbnail">
@@ -46,12 +45,17 @@
                 {% endif %}
                 {% endfor %}
            </div>
-            <div class="album_thumbnail_title"><b>{{album.media.title}} </b>({{album.numphotos.text}})  <br>
+            <div class="album_thumbnail_title"><b>{{album.media.title|unquote}} </b>({{album.numphotos.text}})  <br>
                {{album.datetime|date:"m/d/y"}}
             </div>
          </div>
         {% endfor %}
     </div>
-    {%endif %}
+   {% else %}
+       <div>
+       {% trans "No albums for this picasaweb user." %}
+       </div>
+    {% endif %}
+
 </div>
 {% endblock %}

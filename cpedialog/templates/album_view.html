@@ -1,12 +1,10 @@
 {% load i18n %}
 {% extends "main.html" %}
 {% block title %}{{title}} - Albums - {% if album %}{{album.title.text}}{% endif %}{% endblock %}
-
 {% block header %}
-<script type="text/javascript" src="http://lite.piclens.com/current/piclens.js"></script>
-<link rel="alternate" href="/atom/albums" type="application/rss+xml" title="{{ BLOG.title }}"/>
+    <script type="text/javascript" src="http://lite.piclens.com/current/piclens.js"></script>
+    <link rel="alternate" href="/atom/albums" type="application/rss+xml" title="{{ BLOG.title }}"/>
 {% endblock %}
-        
 {% block blogcontainer %}
 <script type="text/javascript" src="/jscripts/lightbox2.04/js/prototype.js"></script>
 <script type="text/javascript" src="/jscripts/lightbox2.04/js/scriptaculous.js?load=effects,builder"></script>
