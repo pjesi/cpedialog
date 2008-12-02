@@ -97,7 +97,7 @@ class Logout(BaseRequestHandler):
            "error": error_msg
         }
         self.session = sessions.Session()
-        self.session.delete()
+        self.session.flush()
         if users.get_current_user():
             self.redirect(users.create_logout_url(self.request.uri))
             return

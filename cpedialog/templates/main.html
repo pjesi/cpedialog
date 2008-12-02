@@ -10,6 +10,7 @@
     <meta name="author" content="cpedia, Ping Chen, http://blog.cpedia.com" />
     <meta name="copyright" content="2008 http://cpedia.com" />
     <title>{% block title %}{{title}}{% endblock %}</title>
+    {% block head %} {% endblock %}
     <link rel="alternate" type="application/atom+xml" title="{{ BLOG.title }}" href="{{ BLOG.root_url }}/atom" />
     {% for sheet in stylesheets %}
         <link type="text/css" rel="stylesheet" href="{{ sheet.filename }}"/>

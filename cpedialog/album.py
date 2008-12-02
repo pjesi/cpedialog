@@ -164,6 +164,22 @@ class AlbumHandler(BaseRequestHandler):
           }
         self.generate('album_view.html',template_values)
 
+
+class FeedHandler(BaseRequestHandler):
+    def get(self,tags=None):
+        usernames = util.getAlbumList()
+        gd_client = gdata.photos.service.PhotosService()
+        useralbums = {}
+        for user_ in usernames:
+            try:
+                albums = gd_client.GetUserFeed(user=user_.album_username)
+                useralbums[user_.album_username] = albums
+            except Exception:
+                pass
+        self.response.headers['Content-Type'] = 'application/atom+xml'
+        self.generate('atom_albums.xml',{'albums':useralbums.iteritems()})
+
+
 #deprecated
 class PhotoHandler(BaseRequestHandler):
     def get(self, username, album_name, photoId):

@@ -84,6 +84,7 @@ def main():
                                         ('/tag/(.*)', blog.TagHandler),
                                         ('/delicious/(.*)', blog.DeliciousHandler),
                                         ('/atom/*$', blog.FeedHandler),
+                                        ('/atom/albums/*$', album.FeedHandler),
                                         ('/sitemap/*$', blog.SiteMapHandler),  #for live.com SEO
                                         ('(/css/.*)', blog.CSSHandler),
 

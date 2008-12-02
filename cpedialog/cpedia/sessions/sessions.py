@@ -439,6 +439,16 @@ class Session(object):
         memcache.set('sid-'+str(self.session.key()), data, \
             self.session_expire_time)
 
+    def cycle_key(self):
+        self.sid = self.new_sid()
+        if len(self.session.sid) > 2:
+            self.session.sid.remove(self.session.sid[0])
+        self.session.sid.append(self.sid)
+
+    def flush(self):
+        self._delete_session()
+        self.__init__()
+
 
 
 #add for cpedialog        
