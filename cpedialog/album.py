@@ -90,6 +90,21 @@ class BaseRequestHandler(webapp.RequestHandler):
              }
       return template_values
 
+  def getPhotoFeed(self, username, album_name):
+       gd_client = gdata.photos.service.PhotosService()
+
+       key_photos = "photos_"+username+"_"+album_name
+       try:
+           feed_photos = memcache.get(key_photos)
+       except Exception:
+           feed_photos = None
+       if not feed_photos:
+           feed_photos = gd_client.GetFeed(
+               '/data/feed/api/user/%s/album/%s?kind=photo' % (
+                   username, album_name))
+           memcache.add(key=key_photos, value=feed_photos, time=3600)
+       return feed_photos
+
 class MainPage(BaseRequestHandler):
   def get(self):
     usernames = util.getAlbumList()
@@ -130,18 +145,7 @@ class UserPrivateHandler(BaseRequestHandler):
 class AlbumHandler(BaseRequestHandler):
     #@authorized.authSub('albums')
     def get(self, username, album_name):
-        gd_client = gdata.photos.service.PhotosService()
-
-        key_photos = "photos_"+username+"_"+album_name
-        try:
-            feed_photos = memcache.get(key_photos)
-        except Exception:
-            feed_photos = None
-        if not feed_photos:
-            feed_photos = gd_client.GetFeed(
-                '/data/feed/api/user/%s/album/%s?kind=photo' % (
-                    username, album_name))
-            memcache.add(key=key_photos, value=feed_photos, time=3600)
+        feed_photos = self.getPhotoFeed(username,album_name)
 
         key_albums = "albums_"+ username
         try:
@@ -149,6 +153,7 @@ class AlbumHandler(BaseRequestHandler):
         except Exception:
             feed_albums = None    
         if not feed_albums:
+            gd_client = gdata.photos.service.PhotosService()
             feed_albums = gd_client.GetUserFeed(user=username)
             memcache.add(key=key_albums, value=feed_albums, time=3600)
 
@@ -181,6 +186,13 @@ class FeedHandler(BaseRequestHandler):
                 pass
         self.response.headers['Content-Type'] = 'application/atom+xml'
         self.generate('atom_albums.xml',{'useralbums':useralbums.iteritems()})
+        
+
+class AlbumFeedHandler(BaseRequestHandler):
+    def get(self,username, album_name):
+        feed_photos = self.getPhotoFeed(username,album_name)
+        self.response.headers['Content-Type'] = 'application/atom+xml'
+        self.generate('atom_albums_photos.xml',{'photos': feed_photos.entry})
 
 
 #deprecated
