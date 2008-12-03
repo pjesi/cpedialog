@@ -91,19 +91,18 @@ class BaseRequestHandler(webapp.RequestHandler):
       return template_values
 
   def getPhotoFeed(self, username, album_name):
-       gd_client = gdata.photos.service.PhotosService()
-
-       key_photos = "photos_"+username+"_"+album_name
-       try:
-           feed_photos = memcache.get(key_photos)
-       except Exception:
-           feed_photos = None
-       if not feed_photos:
-           feed_photos = gd_client.GetFeed(
-               '/data/feed/api/user/%s/album/%s?kind=photo' % (
-                   username, album_name))
-           memcache.add(key=key_photos, value=feed_photos, time=3600)
-       return feed_photos
+      gd_client = gdata.photos.service.PhotosService()    
+      key_photos = "photos_"+username+"_"+album_name
+      try:
+          feed_photos = memcache.get(key_photos)
+      except Exception:
+          feed_photos = None
+      if not feed_photos:
+          feed_photos = gd_client.GetFeed(
+              '/data/feed/api/user/%s/album/%s?kind=photo' % (
+                  username, album_name))
+          memcache.add(key=key_photos, value=feed_photos, time=3600)
+      return feed_photos
 
 class MainPage(BaseRequestHandler):
   def get(self):

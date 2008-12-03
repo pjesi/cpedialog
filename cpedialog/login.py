@@ -129,6 +129,7 @@ class Signup(BaseRequestHandler):
             user.gender = gender_
         if users.count() == 0:
             user.put()
+            #init() the session
             sessions.Session().login_user(user)
             self.redirect("/")
         else:

@@ -93,6 +93,7 @@ class Session(object):
         """
         self.cache = {}
         self.sid = None
+        self.uid = None   #user id.
         string_cookie = os.environ.get('HTTP_COOKIE', '')
         self.cookie = Cookie.SimpleCookie()
         self.cookie.load(string_cookie)
