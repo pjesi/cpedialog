@@ -52,10 +52,6 @@ def quote ( str ):
         return urllib.quote(str)
 
 @register.filter
-def unicode ( str ):
-        return util.u(str,'utf-8').encode("utf-8")
-
-@register.filter
 def escape ( str ):
         return cgi.escape(str)
 
