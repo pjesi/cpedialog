@@ -14,7 +14,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# -*- coding: utf-8 -*-
 
 __author__ = 'Ping Chen'
 
@@ -70,7 +69,7 @@ class BaseRequestHandler(webapp.RequestHandler):
       if not feed:
           gd_client = gdata.photos.service.PhotosService()
           try:
-              feed = gd_client.GetUserFeed(user= album_username)
+              feed = gd_client.GetUserFeed(user= album_username,encoding='UTF-8')
           except Exception:
               return None
           memcache.add(key=key_albums, value=feed, time=3600)
