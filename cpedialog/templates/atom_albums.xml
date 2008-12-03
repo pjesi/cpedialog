@@ -4,7 +4,7 @@
     <channel>
         {% for item in useralbums %}
          {% for album in item.1 %}
-         <atom:link rel="{{album.gphoto_id.text}}" href="http://photos.googleapis.com/data/feed/base/user/{{item.0}}/albumid/{{album.gphoto_id.text}}?kind=photo&amp;imgmax=800" />
+        <atom:link rel="alternate" href="http://picasaweb.google.com/data/feed/projection/user/{{item.0}}/albumid/{{album.name.text}}?kind=photo" />
          {% endfor %}
         {% endfor %}
     </channel>
