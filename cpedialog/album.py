@@ -109,7 +109,7 @@ class UserHandler(BaseRequestHandler):
   def get(self, username):
     usernames = util.getAlbumList()
     album = db.Query(Album).filter('album_username =',username).get()
-    if album is None:
+    if album is None or len(album)== 0:
         self.redirect("/albums")
     feed = self.getAlbumFeedEntry(album.album_username)
     template_values = self.validatorFeedAndReturnTemplate(feed,album.album_username,usernames)
