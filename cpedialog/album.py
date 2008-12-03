@@ -175,7 +175,8 @@ class FeedHandler(BaseRequestHandler):
         for user_ in usernames:
             try:
                 feed = self.getAlbumFeedEntry(user_.album_username)
-                useralbums[user_.album_username] = feed.entry
+                if feed is not None:
+                    useralbums[user_.album_username] = feed.entry
             except Exception:
                 pass
         self.response.headers['Content-Type'] = 'application/atom+xml'
