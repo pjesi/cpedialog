@@ -25,6 +25,8 @@ import re
 import cgi
 import datetime
 
+import util
+
 
 
 register = webapp.template.create_template_register()
@@ -47,6 +49,10 @@ def unquote ( str ):
 @register.filter
 def quote ( str ):
         return urllib.quote(str)
+
+@register.filter
+def unicode ( str ):
+        return util.u(str,'utf-8')
 
 @register.filter
 def escape ( str ):
