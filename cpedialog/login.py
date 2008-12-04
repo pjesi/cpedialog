@@ -97,7 +97,7 @@ class Logout(BaseRequestHandler):
            "error": error_msg
         }
         self.session = sessions.Session()
-        self.session.flush()
+        self.session.logout_user()
         if users.get_current_user():
             self.redirect(users.create_logout_url(self.request.uri))
             return
@@ -304,6 +304,32 @@ class LoginOpenIDFinish(BaseRequestHandler):
 
     def post(self):
         self.get()    
+
+class LostPassword(BaseRequestHandler):
+    def get(self, error_msg=None):
+        template_values = {
+           "error": error_msg
+        }
+        self.generate('login_lost_password.html',template_values)
+
+    def post(self):
+        email = self.request.get('email')
+        error_msg = None
+        email_sent_msg = None
+        if(email.find('@')!=-1):
+            user = db.GqlQuery("select * from User where email =:1", email).get()
+        else:
+            user = db.GqlQuery("select * from User where username =:1", email).get()
+        if user is None:
+            error_msg = "There are no Accounts currently registered to the email/username "+email+"."
+        else:
+            user.email_user("", "", "noreply")
+            email_sent_msg = "Your password have been sent to "+email+", please check your email."
+        template_values = {
+           "error": error_msg,
+           "email_sent_msg": email_sent_msg
+        }
+        self.generate('login_lost_password.html',template_values)
 
 class UserMainPage(BaseRequestHandler):
     @authorized.role("user")

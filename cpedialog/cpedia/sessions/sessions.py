@@ -25,7 +25,7 @@ COOKIE_NAME = 'appengine-cpedia-session-sid'
 DEFAULT_COOKIE_PATH = '/'
 SESSION_EXPIRE_TIME = 7200 # sessions are valid for 7200 seconds (2 hours)
 CLEAN_CHECK_PERCENT = 15 # 15% of all requests will clean the database
-INTEGRATE_FLASH = True # integrate functionality from flash module?
+INTEGRATE_FLASH = False # integrate functionality from flash module?
 CHECK_IP = True # validate sessions by IP
 CHECK_USER_AGENT = True # validate sessions by user agent
 SET_COOKIE_EXPIRES = True # Set to True to add expiration field to cookie
@@ -109,6 +109,7 @@ class Session(object):
                 self.session.ua = os.environ['HTTP_USER_AGENT']
                 self.session.ip = os.environ['REMOTE_ADDR']
                 self.session.sid = [self.sid]
+                self.session.uid = None
                 self.cookie[cookie_name] = self.sid
                 self.cookie[cookie_name]['path'] = cookie_path
                 if set_cookie_expires:
@@ -126,6 +127,7 @@ class Session(object):
                     self.session.sid.append(self.sid)
                 else:
                     self.sid = self.session.sid[-1]
+                    self.session.login = False #set current user logout
                 self.cookie[cookie_name] = self.sid
                 self.cookie[cookie_name]['path'] = cookie_path
                 if set_cookie_expires:
@@ -457,9 +459,9 @@ class Session(object):
         """
          associate the sesion object with user.
         """
-        session = self.session
-        session.user = user
-        session.put()
+        self.session.user = user
+        self.session.login = True
+        self.session.put()
 
     def logout_user(self):
         """
@@ -467,6 +469,7 @@ class Session(object):
         """
         session = self.session
         session.user = None
+        self.session.login = False        
         session.put()
 
 

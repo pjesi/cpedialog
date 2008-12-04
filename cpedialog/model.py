@@ -277,6 +277,7 @@ class UserSession(db.Model):
     ua = db.StringProperty()
     last_activity = db.DateTimeProperty(auto_now=True)
     user = db.ReferenceProperty(User)   #refer to user.
+    login = db.BooleanProperty(default = False) #whether user login or logout
 
 #for store session data.
 class UserSessionData(db.Model):

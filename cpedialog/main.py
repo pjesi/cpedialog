@@ -101,6 +101,7 @@ def main():
                                         ('/login/openid/finish/*$', login.LoginOpenIDFinish),
                                         ('/logout/*$', login.Logout),
                                         ('/signup/*$', login.Signup),
+                                        ('/lost_password/*$', login.LostPassword),
 
                                         ('/([-\w]+)/*$', blog.PageHandler),                                        
                                        ],
