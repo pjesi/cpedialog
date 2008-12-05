@@ -27,6 +27,7 @@ import wsgiref.handlers
 import pickle
 
 from google.appengine.api import users
+from google.appengine.api import mail
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
@@ -43,6 +44,9 @@ from cpedia.sessions import sessions
 from model import User
 import view
 import authorized
+import util
+import datetime
+import urllib
 
   
 class BaseRequestHandler(webapp.RequestHandler):
@@ -316,20 +320,63 @@ class LostPassword(BaseRequestHandler):
         email = self.request.get('email')
         error_msg = None
         email_sent_msg = None
-        if(email.find('@')!=-1):
+        if(email.find('@')==-1):
+            email = email+"@gmail.com"
+        if not mail.is_email_valid(email):
+            error_msg = "Please input valid email address."
+        else:
             user = db.GqlQuery("select * from User where email =:1", email).get()
-        else:
-            user = db.GqlQuery("select * from User where username =:1", email).get()
-        if user is None:
-            error_msg = "There are no Accounts currently registered to the email/username "+email+"."
-        else:
-            user.email_user("", "", "noreply")
-            email_sent_msg = "Your password have been sent to "+email+", please check your email."
+            if user is None:
+                error_msg = "There are no Accounts currently registered to the email "+email+"."
+            else:
+                cpedialog = util.getCPedialog()
+                message = mail.EmailMessage(sender="noreply",
+                                            subject = cpedialog.title + " Password Assistance")
+
+                message.to = user.fullname + " <"+user.email+">"
+                message.body = """
+                Dear %s,
+
+                A request has been made to reset the password for your %s account. If you do not wish to reset your password, please ignore this message.
+
+                To choose a new password, click on the link below.
+
+                %s/reset_password?u=%s&uk=%s&t=%s&email=%s
+
+                If clicking does not work, you can copy and paste the address into your browser's address window.
+                This link will be invalid after 24 hours. After that you need to reset your password again.
+                
+                Thank you.
+
+                %s team
+                %s
+
+                Do not reply to this e-mail. This was an automated system message from %s.
+                """ % user.firstname % cpedialog.title % cpedialog.root_url % user.key() % user.password % datetime.datetime.now  % urllib.urlencode(user.email) \
+                % cpedialog.title % cpedialog.root_url % cpedialog.title
+
+                message.send()
+                email_sent_msg = "Your password have been sent to "+email+", please check your email."
         template_values = {
            "error": error_msg,
            "email_sent_msg": email_sent_msg
         }
         self.generate('login_lost_password.html',template_values)
+
+class ResetPassword(BaseRequestHandler):
+    def get(self, error_msg=None):
+        template_values = {
+           "error": error_msg
+        }
+        self.generate('login_reset_password.html',template_values)
+
+    def post(self):
+        userid = self.request.get("userid")
+        user = User.get(userid)
+        user.set_password(self.request.get("password")) #set password. need encrypt.
+        user.put()
+        return True
+
 
 class UserMainPage(BaseRequestHandler):
     @authorized.role("user")

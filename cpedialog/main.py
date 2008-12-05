@@ -102,6 +102,7 @@ def main():
                                         ('/logout/*$', login.Logout),
                                         ('/signup/*$', login.Signup),
                                         ('/lost_password/*$', login.LostPassword),
+                                        ('/reset_password/*$', login.ResetPassword),
 
                                         ('/([-\w]+)/*$', blog.PageHandler),                                        
                                        ],
