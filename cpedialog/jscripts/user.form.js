@@ -384,7 +384,7 @@ YAHOO.util.Event.onDOMReady(function() {
         selectDayOption()
     });
 
-    YAHOO.util.Event.on('userForm', 'submit', function(e) {
+    YAHOO.util.Event.on('signupBtn', 'click', function(e) {
         if (checkData(true)) {
             document.getElementById('userForm').submit();
         }
