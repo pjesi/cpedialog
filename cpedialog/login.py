@@ -337,28 +337,31 @@ class LostPassword(BaseRequestHandler):
 
                 message.to = user.fullname + " <"+user.email+">"
                 message.body = """
-                Dear %s,
+                    Dear %s,
 
-                A request has been made to reset the password for your %s account. If you do not wish to reset your password, please ignore this message.
+                    A request has been made to reset the password for your %s account. If you do not wish to reset your password, please ignore this message.
 
-                To choose a new password, click on the link below.
+                    To choose a new password, click on the link below.
 
-                %s/reset_password?u=%s&uk=%s&t=%s&email=%s
+                    %s/reset_password?u=%s&uk=%s&t=%s&email=%s
 
-                If clicking does not work, you can copy and paste the address into your browser's address window.
-                This link will be invalid after 24 hours. After that you need to reset your password again.
-                
-                Thank you.
+                    If clicking does not work, you can copy and paste the address into your browser's address window.
+                    This link will be invalid after 24 hours. After that you need to reset your password again.
 
-                %s team
-                %s
+                    Thank you.
 
-                Do not reply to this e-mail. This was an automated system message from %s.
+                    %s team
+                    %s
+
+                    Do not reply to this e-mail. This was an automated system message from %s.
                 """ % user.firstname % cpedialog.title % cpedialog.root_url % user.key() % user.password % datetime.datetime.now  % urllib.urlencode(user.email) \
-                % cpedialog.title % cpedialog.root_url % cpedialog.title
+                    % cpedialog.title % cpedialog.root_url % cpedialog.title
 
                 message.send()
-                email_sent_msg = "Your password have been sent to "+email+", please check your email."
+                email_sent_msg = """
+                    We've sent an email to %s with the following subject line:" +cpedialog.title + " \"Password Assistance\"
+
+                    Click the link in the email to be taken to a page where you can create your new password.""" % email
         template_values = {
            "error": error_msg,
            "email_sent_msg": email_sent_msg
