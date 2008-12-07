@@ -328,6 +328,8 @@ class LostPassword(BaseRequestHandler):
             user = db.GqlQuery("select * from User where email =:1", email).get()
             if user is None:
                 error_msg = "There are no Accounts currently registered to the email "+email+"."
+            elif not user.has_usable_password():
+                error_msg = "This account has not set the password in the internal system yet, maybe you need to login with Google or OpenID."                
             else:
                 cpedialog = util.getCPedialog()
                 message = mail.EmailMessage(sender="noreply",
@@ -372,6 +374,7 @@ class ResetPassword(BaseRequestHandler):
 
     def post(self):
         userid = self.request.get("userid")
+        password = self.request.get("userid")
         user = User.get(userid)
         user.set_password(self.request.get("password")) #set password. need encrypt.
         user.put()

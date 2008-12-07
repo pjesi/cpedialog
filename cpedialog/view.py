@@ -49,7 +49,8 @@ class ViewPage(object):
     def full_render(self, handler,template_file, params={}):
             #scheme, netloc, path, query, fragment = urlparse.urlsplit(handler.request.uri)
             session = sessions.Session()
-            session.login_google_user()
+            if(handler.request.uri.find('logout')==-1):  #if the page from logout, then don't need to append the google account to session.
+                session.login_google_user()
             if not session.get_current_user():
                 url = "/login"
                 url_linktext = 'Sign in'
